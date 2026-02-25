@@ -1,0 +1,19 @@
+# Dependency folders
+node_modules/
+dist/
+build/
+
+# Environment variables (Cực kỳ quan trọng để không lộ mật khẩu AWS/DB)
+.env
+.env.local
+
+# Docker
+.data/                # Nếu bạn cấu hình lưu dữ liệu Postgres ra máy thật
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/

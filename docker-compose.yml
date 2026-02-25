@@ -1,0 +1,13 @@
+imoprt .env.example .env
+
+version: '3.8'
+services:
+  database:
+    image: postgres:15
+    container_name: apart_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: apart_booking
+    ports:
+      - "5432:5432"
