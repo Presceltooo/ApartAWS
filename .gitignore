@@ -2,18 +2,47 @@
 node_modules/
 dist/
 build/
+# Thêm file lock của các package manager khác nếu bạn không dùng
+yarn-error.log
+pnpm-debug.log*
 
-# Environment variables (Cực kỳ quan trọng để không lộ mật khẩu AWS/DB)
+# Environment variables
 .env
 .env.local
+.env.development.local
+.env.test.local
+.env.production.local
+# Quan trọng: Không commit các file chứa secret của AWS/DB
+.env.*
+
+# NestJS specific
+# Thêm dòng này nếu bạn dùng Nest CLI ở chế độ Monorepo
+# Nó giúp tránh commit các file build tạm của Nest
+*.tsbuildinfo
+
+# Testing
+coverage/
+.nyc_output
 
 # Docker
-.data/                # Nếu bạn cấu hình lưu dữ liệu Postgres ra máy thật
+.data/
+docker-compose.override.yml
 
 # OS files
 .DS_Store
 Thumbs.db
+*.swp
 
 # IDE files
 .vscode/
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs
+*.log
+npm-debug.log*
