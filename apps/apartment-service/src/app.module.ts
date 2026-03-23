@@ -7,11 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'user',
-      password: 'password',
-      database: 'apart_booking',
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
+      username: process.env.DB_USERNAME || 'user',
+      password: process.env.DB_PASSWORD || 'password',
+      database: process.env.DB_NAME || 'apart_booking',
       autoLoadEntities: true,
       synchronize: true, // Chỉ dùng khi dev, nó sẽ tự tạo bảng trong DB cho bạn
     }),
