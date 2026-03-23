@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url      = env("DATABASE_URL")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model Apartment {
+  id            String    @id @default(uuid())
+  title         String    @db.VarChar(255)
+  description   String?   @db.Text
+  pricePerNight Decimal   @db.Decimal(10, 2)
+  location      String
+  amenities     String[]  // Simple array in TypeORM -> String array in Prisma
+  images        String[]
+  isActive      Boolean   @default(true)
+  ownerId       String?   // Cognito/Auth User ID
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relation: One Apartment can have Many Bookings
+  bookings      Booking[]
+
+  @@map("apartments")
+}
+
+model Booking {
+  id            String        @id @default(uuid())
+  startDate     DateTime      @db.Date
+  endDate       DateTime      @db.Date
+  totalPrice    Decimal       @db.Decimal(10, 2)
+  status        BookingStatus @default(PENDING)
+  tenantId      String        // User ID from Cognito who made the booking
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relation: Many Bookings belong to One Apartment
+  apartment     Apartment     @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+  apartmentId   String
+
+  @@map("bookings")
+}
