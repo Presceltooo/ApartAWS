@@ -30,6 +30,7 @@ services:
       DB_USERNAME: user
       DB_PASSWORD: password
       DB_NAME: apart_booking
+      DATABASE_URL: postgresql://user:password@database:5432/apart_booking
     depends_on:
       - database
     networks:
