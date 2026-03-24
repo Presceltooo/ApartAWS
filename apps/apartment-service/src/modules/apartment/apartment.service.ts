@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
-import { CreateApartmentDto } from './dto/create-apartment.dto';
+import { CreateApartmentDto, UpdateApartmentDto } from './dto';
 
 @Injectable()
 export class ApartmentsService {
@@ -11,6 +11,7 @@ export class ApartmentsService {
     return this.prisma.apartment.findMany();
   }
 
+  // Lấy chi tiết căn hộ
   findById(id: string) {
     return this.prisma.apartment.findUnique({
       where: { id },
@@ -24,6 +25,15 @@ export class ApartmentsService {
     });
   }
 
+  // Chỉnh sửa thông tin căn 
+  update(id: string, updateApartmentDto: UpdateApartmentDto) {
+    return this.prisma.apartment.update({
+      where: { id },
+      data: updateApartmentDto,
+    });
+  }
+
+  // Lấy danh sách căn hộ
   findListing() {
     return this.prisma.apartment.findMany({
       where: {
