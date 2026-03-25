@@ -1,10 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors(); // Thêm dòng này để cho phép React gọi API
+  app.enableCors(); 
+
+  // Ap dung Interceptor cho moi API
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   // Cấu hình Swagger
   const config = new DocumentBuilder()
@@ -15,7 +19,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document); // Đường dẫn truy cập: localhost:3000/api/docs
+  SwaggerModule.setup('api/docs', app, document); 
 
   await app.listen(process.env.PORT ?? 3000);
 }
