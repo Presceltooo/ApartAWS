@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, HttpCode } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { ApartmentsService } from './apartment.service';
 import { CreateApartmentDto, UpdateApartmentDto } from './dto';
@@ -27,6 +27,7 @@ export class ApartmentsController {
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Lưu căn hộ mới vào CSDL' })
   @ApiResponse({ status: 201, description: 'Căn hộ đã được tạo và lưu' })
   create(@Body() createApartmentDto: CreateApartmentDto) {
