@@ -16,24 +16,29 @@ enum BookingStatus {
   COMPLETED
 }
 
+enum Role {
+  ADMIN
+  OWNER
+  TENANT
+}
 model Apartment {
   id            String    @id @default(uuid())
   title         String    @db.VarChar(255)
   description   String?   @db.Text
   pricePerNight Decimal   @db.Decimal(10, 2)
   location      String
-  amenities     String[]  // Simple array in TypeORM -> String array in Prisma
+  amenities     String[]
   images        String[]
   isActive      Boolean   @default(true)
-  ownerId       String?   // Cognito/Auth User ID
+  ownerId       String?
+  owner         User?     @relation(fields: [ownerId], references: [id])
   
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  // Relation: One Apartment can have Many Bookings
   bookings      Booking[]
 
-  @@map("apartments")
+  @@map("Apartments")
 }
 
 model Booking {
@@ -42,14 +47,28 @@ model Booking {
   endDate       DateTime      @db.Date
   totalPrice    Decimal       @db.Decimal(10, 2)
   status        BookingStatus @default(PENDING)
-  tenantId      String        // User ID from Cognito who made the booking
+  tenantId      String
+  tenant        User          @relation(fields: [tenantId], references: [id])
   
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
-  // Relation: Many Bookings belong to One Apartment
   apartment     Apartment     @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
   apartmentId   String
 
-  @@map("bookings")
+  @@map("Bookings")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  fullName  String?
+  role      Role     @default(TENANT)
+  createdAt DateTime @default(now())
+  
+  apartments Apartment[]
+  bookings   Booking[]
+
+    @@map("Users")
 }
