@@ -7,17 +7,12 @@ export class TransformInterceptor<T> implements NestInterceptor<T, any> {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             map(result => {
-                // Check if result is already an ApiResponse
-                if (result && result.data && result.data.metaDate) {
-                    return {
-                        code: 0,
-                        success: true,
-                        message: 'Success',
-                        data: result.data,
-                        metaDate: result.data.metaDate,
-                    };
+                // Nếu result đã là chuẩn ApiResponse (có success và code), trả về luôn
+                if (result && typeof result === 'object' && 'success' in result && 'code' in result) {
+                    return result;
                 }
-                // Mặc đinh bọc lại đơn giản
+
+                // Mặc định bọc lại đơn giản
                 return {
                     code: 0,
                     success: true,

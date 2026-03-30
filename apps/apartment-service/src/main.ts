@@ -14,8 +14,8 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Apartment Management API')
     .setDescription('Hệ thống quản lý căn hộ - Cloud Native AWS')
+    .addBearerAuth() 
     .setVersion('1.0')
-    .addTag('apartments')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

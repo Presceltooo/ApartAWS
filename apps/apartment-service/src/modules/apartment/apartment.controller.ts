@@ -1,16 +1,21 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, HttpCode } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiHeader } from '@nestjs/swagger';
 import { ApartmentsService } from './apartment.service';
 import { CreateApartmentDto, UpdateApartmentDto } from './dto';
+import { CurrentUser, GatewayUser } from '../../common/decorators/user.decorator';
 
-@ApiTags('apartments')
-@Controller('apartments')
+const GatewayHeaders = [
+  ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của user (do Gateway forward)' }),
+  ApiHeader({ name: 'x-user-role', required: true, description: 'Role của user (do Gateway forward)' }),
+];
+
+@ApiTags('Apartments')
+@Controller('Apartments')
 export class ApartmentsController {
   constructor(private readonly apartmentsService: ApartmentsService) {}
 
-  
   @Get()
-  @ApiOperation({ summary: 'Lấy danh sách tất cả căn hộ từ CSDL' })
+  @ApiOperation({ summary: 'Lấy danh sách tất cả căn hộ' })
   @ApiResponse({ status: 200, description: 'Trả về mảng các căn hộ thực tế' })
   @ApiQuery({ name: 'Keyword', required: false, type: String })
   @ApiQuery({ name: 'Page', required: false, type: String })
@@ -19,8 +24,18 @@ export class ApartmentsController {
     return this.apartmentsService.findAll(Keyword, Page ? +Page : 1, PageSize ? +PageSize : 10);
   }
 
+  @Get('listing')
+  @ApiOperation({ summary: 'Lấy danh sách căn hộ active (public)' })
+  @ApiResponse({ status: 200, description: 'Trả về danh sách căn hộ active' })
+  @ApiQuery({ name: 'Keyword', required: false, type: String })
+  @ApiQuery({ name: 'Page', required: false, type: String })
+  @ApiQuery({ name: 'PageSize', required: false, type: String })
+  findListing(@Query('Keyword') keyword?: string, @Query('Page') page?: string, @Query('PageSize') pageSize?: string) {
+    return this.apartmentsService.findListing(keyword, page ? +page : 1, pageSize ? +pageSize : 10);
+  }
+
   @Get(':id')
-  @ApiOperation({ summary: 'Lấy chi tiết căn hộ từ CSDL' })
+  @ApiOperation({ summary: 'Lấy chi tiết căn hộ' })
   @ApiResponse({ status: 200, description: 'Trả về thông tin chi tiết căn hộ' })
   findById(@Param('id') id: string) {
     return this.apartmentsService.findById(id);
@@ -28,33 +43,30 @@ export class ApartmentsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Lưu căn hộ mới vào CSDL' })
+  @ApiOperation({ summary: 'Tạo căn hộ mới — yêu cầu header x-user-id (Gateway)' })
   @ApiResponse({ status: 201, description: 'Căn hộ đã được tạo và lưu' })
-  create(@Body() createApartmentDto: CreateApartmentDto) {
-    return this.apartmentsService.create(createApartmentDto);
+  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của owner (do Gateway forward)' })
+  create(@Body() dto: CreateApartmentDto, @CurrentUser('userId') userId: string) {
+    return this.apartmentsService.create(dto, userId);
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Cập nhật thông tin căn hộ' })
+  @ApiOperation({ summary: 'Cập nhật thông tin căn hộ — yêu cầu header x-user-id (Gateway)' })
   @ApiResponse({ status: 200, description: 'Căn hộ đã được cập nhật' })
-  update(@Param('id') id: string, @Body() updateApartmentDto: UpdateApartmentDto) {
-    return this.apartmentsService.update(id, updateApartmentDto);
+  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của owner (do Gateway forward)' })
+  update(
+    @Param('id') id: string,
+    @Body() dto: UpdateApartmentDto,
+    @CurrentUser('userId') userId: string,
+  ) {
+    return this.apartmentsService.update(id, dto, userId);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Xoá căn hộ' })
+  @ApiOperation({ summary: 'Xoá căn hộ — yêu cầu header x-user-id (Gateway)' })
   @ApiResponse({ status: 200, description: 'Căn hộ đã được xoá' })
-  remove(@Param('id') id: string) {
-    return this.apartmentsService.remove(id);
-  }
-
-  @Get('listing')
-  @ApiOperation({ summary: 'Lấy danh sách căn hộ active' })
-  @ApiResponse({ status: 200, description: 'Trả về danh sách căn hộ active' })
-  @ApiQuery({ name: 'Keyword', required: false, type: String })
-  @ApiQuery({ name: 'Page', required: false, type: String })
-  @ApiQuery({ name: 'PageSize', required: false, type: String })
-  findListing(@Query('Keyword') keyword?: string, @Query('Page') page?: string, @Query('PageSize') pageSize?: string) {
-    return this.apartmentsService.findListing(keyword, page ? +page : 1, pageSize ? +pageSize : 10);
+  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của owner (do Gateway forward)' })
+  remove(@Param('id') id: string, @CurrentUser('userId') userId: string) {
+    return this.apartmentsService.remove(id, userId);
   }
 }
