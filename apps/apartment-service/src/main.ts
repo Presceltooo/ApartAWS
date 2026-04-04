@@ -14,7 +14,9 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Apartment Management API')
     .setDescription('Hệ thống quản lý căn hộ - Cloud Native AWS')
-    .addBearerAuth() 
+    .addBearerAuth()
+    .addApiKey({ type: 'apiKey', in: 'header', name: 'x-user-id', description: 'User ID từ Gateway' }, 'x-user-id')
+    .addApiKey({ type: 'apiKey', in: 'header', name: 'x-user-role', description: 'Role từ Gateway (ADMIN | OWNER | TENANT)' }, 'x-user-role')
     .setVersion('1.0')
     .build();
 

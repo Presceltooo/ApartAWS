@@ -1,15 +1,12 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, HttpCode } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiHeader } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiSecurity } from '@nestjs/swagger';
 import { ApartmentsService } from './apartment.service';
 import { CreateApartmentDto, UpdateApartmentDto } from './dto';
-import { CurrentUser, GatewayUser } from '../../common/decorators/user.decorator';
-
-const GatewayHeaders = [
-  ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của user (do Gateway forward)' }),
-  ApiHeader({ name: 'x-user-role', required: true, description: 'Role của user (do Gateway forward)' }),
-];
+import { CurrentUser } from '../../common/decorators/user.decorator';
 
 @ApiTags('Apartments')
+@ApiSecurity('x-user-id')
+@ApiSecurity('x-user-role')
 @Controller('Apartments')
 export class ApartmentsController {
   constructor(private readonly apartmentsService: ApartmentsService) {}
@@ -43,17 +40,15 @@ export class ApartmentsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Tạo căn hộ mới — yêu cầu header x-user-id (Gateway)' })
+  @ApiOperation({ summary: 'Tạo căn hộ mới' })
   @ApiResponse({ status: 201, description: 'Căn hộ đã được tạo và lưu' })
-  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của owner (do Gateway forward)' })
   create(@Body() dto: CreateApartmentDto, @CurrentUser('userId') userId: string) {
     return this.apartmentsService.create(dto, userId);
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Cập nhật thông tin căn hộ — yêu cầu header x-user-id (Gateway)' })
+  @ApiOperation({ summary: 'Cập nhật thông tin căn hộ' })
   @ApiResponse({ status: 200, description: 'Căn hộ đã được cập nhật' })
-  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của owner (do Gateway forward)' })
   update(
     @Param('id') id: string,
     @Body() dto: UpdateApartmentDto,
@@ -63,9 +58,8 @@ export class ApartmentsController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Xoá căn hộ — yêu cầu header x-user-id (Gateway)' })
+  @ApiOperation({ summary: 'Xoá căn hộ' })
   @ApiResponse({ status: 200, description: 'Căn hộ đã được xoá' })
-  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của owner (do Gateway forward)' })
   remove(@Param('id') id: string, @CurrentUser('userId') userId: string) {
     return this.apartmentsService.remove(id, userId);
   }

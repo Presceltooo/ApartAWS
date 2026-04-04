@@ -1,10 +1,12 @@
 import { Controller, Get, Post, Body, Param, Query, Patch, HttpCode, HttpStatus, NotFoundException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam, ApiHeader } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam, ApiHeader, ApiSecurity } from '@nestjs/swagger';
 import { BookingsService } from './booking.service';
 import { CreateBookingDto, CancelBookingDto } from './dto';
 import { CurrentUser } from '../../common/decorators/user.decorator';
 
 @ApiTags('Bookings')
+@ApiSecurity('x-user-id')
+@ApiSecurity('x-user-role')
 @Controller('Bookings')
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}

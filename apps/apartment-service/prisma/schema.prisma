@@ -69,8 +69,21 @@ model User {
   role      Role     @default(TENANT)
   createdAt DateTime @default(now())
   
-  apartments Apartment[]
-  bookings   Booking[]
+  apartments    Apartment[]
+  bookings      Booking[]
+  refreshTokens RefreshToken[]
 
-    @@map("Users")
+  @@map("Users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique       // SHA-256 hash của raw token
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  isRevoked Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("RefreshTokens")
 }
