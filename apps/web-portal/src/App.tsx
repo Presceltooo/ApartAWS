@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react'
+import { 
+  useLayoutEffect 
+} from 'react';
+// import { MIN_DEVICE_WIDTH } from "@/constants"
+// import { getZoomRatio } from '@utils/getZoomRatio';
+import { RouterProvider } from '@tanstack/react-router'
+import router from '@/Route';
 
 function App() {
-  const [apartments, setApartments] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:3000/apartments')
-      .then(res => res.json())
-      .then(data => setApartments(data));
+  //Auto zoom to fit the screen
+  useLayoutEffect(() => {
+    // if (window.screen.width < MIN_DEVICE_WIDTH) {
+    //   const zoom = getZoomRatio();
+    //   document.documentElement.style.setProperty('--zoom', zoom.toString());
+    // }
   }, []);
 
   return (
-    <div>
-      <h1>Danh sách căn hộ (Cloud-Native App)</h1>
-      <ul>
-        {apartments.map((apt: any) => (
-          <li key={apt.id}>{apt.name} - {apt.price} VNĐ</li>
-        ))}
-      </ul>
-    </div>
+    <RouterProvider router={router} />
   )
 }
+
 export default App
