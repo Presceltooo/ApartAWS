@@ -47,12 +47,25 @@ const FORGOT_IMAGE =
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Forgot password for:', email);
-    setSubmitted(true);
-    // TODO: gọi API quên mật khẩu
+    /**
+     * TODO: Tích hợp API quên mật khẩu khi BE sẵn sàng.
+     * Gợi ý: POST /Auth/forgot-password { email }
+     * Ví dụ:
+     *   forgotPasswordMutate({ email }, {
+     *     onSuccess: () => setSubmitted(true),
+     *     onError: (err) => notification.error({...}),
+     *   });
+     */
+    setIsPending(true);
+    // Simulate delay (bỏ khi có API thật)
+    setTimeout(() => {
+      setIsPending(false);
+      setSubmitted(true);
+    }, 800);
   };
 
   return (
@@ -114,9 +127,15 @@ const ForgotPassword: React.FC = () => {
                     </div>
 
                     <div>
-                      <ForgotSubmitBtn type="submit">
-                        <span>Gửi liên kết đặt lại</span>
-                        <span>→</span>
+                      <ForgotSubmitBtn type="submit" disabled={isPending}>
+                        {isPending ? (
+                          <span>Đang gửi…</span>
+                        ) : (
+                          <>
+                            <span>Gửi liên kết đặt lại</span>
+                            <span>→</span>
+                          </>
+                        )}
                       </ForgotSubmitBtn>
                     </div>
                   </ForgotForm>

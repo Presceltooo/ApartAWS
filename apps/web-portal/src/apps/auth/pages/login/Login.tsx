@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { FORGOT_PASSWORD_ROUTE, REGISTER_ROUTE } from '../../constants';
+import { useHandleLogin } from '../../hooks/useHandleLogin';
 import {
   UserLoginMain,
   UserLoginBgWrapper,
@@ -41,11 +42,11 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const { handleLogin, isPending } = useHandleLogin();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login:', { email, password, rememberMe });
-    // TODO: gọi API đăng nhập
+    handleLogin({ email, password });
   };
 
   return (
@@ -118,8 +119,8 @@ const Login: React.FC = () => {
             </UserRememberRow>
 
             {/* Submit */}
-            <UserLoginSubmitBtn type="submit">
-              Đăng nhập <span>→</span>
+            <UserLoginSubmitBtn type="submit" disabled={isPending}>
+              {isPending ? 'Đang đăng nhập…' : <span>Đăng nhập <span>→</span></span>}
             </UserLoginSubmitBtn>
           </form>
 

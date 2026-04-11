@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { LOGIN_ROUTE } from '../../constants';
+import { App } from 'antd';
+import { useRegister } from '../../services';
+import { useRouter } from '@tanstack/react-router';
 import {
   RegisterMain,
   RegisterImageSection,
@@ -43,11 +46,17 @@ import {
 const REGISTER_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7eu7ijF98UJXv68h7fid0Jwy6Pza0T6Z4VvXKdoG93O_FVRxJylEBl-VXcc3rQq6Y1i3nCczL2EG33sj8I8ZktShQ23na0y_J5NrWiy_BZ7Gi5oMPRnJ2iTOMkMDQSV9ZfRGOK6dmtlSBnQ38ldBRYB9seZEsNzGkK8pIPL80tcOUwmAe1xQjrZZGVG7YRE362ck2Z_CNsRo3PrSmd4HE4VdPY8dwPxQjgVIHTX85hR3AJLAnI_5a6x7mXPOXMYUvQJSSEBM87yLO';
 
 const Register: React.FC = () => {
+  const { notification } = App.useApp();
+  const router = useRouter();
+  const { mutate: registerMutate, isPending } = useRegister();
+
   const [form, setForm] = useState({
     fullName: '',
     email: '',
     password: '',
     confirm: '',
+    phone: '',
+    address: '',
     agreed: false,
   });
 
@@ -57,12 +66,39 @@ const Register: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.password !== form.confirm) {
-      alert('Mật khẩu xác nhận không khớp!');
+    if (!form.agreed) {
+      notification.warning({ message: 'Bạn cần đồng ý với Điều khoản dịch vụ!' });
       return;
     }
-    console.log('Register:', form);
-    // TODO: gọi API đăng ký
+    if (form.password !== form.confirm) {
+      notification.error({ message: 'Mật khẩu xác nhận không khớp!' });
+      return;
+    }
+    registerMutate(
+      {
+        email: form.email,
+        password: form.password,
+        fullName: form.fullName,
+        phone: form.phone || '',
+        address: form.address || '',
+        role: 'TENANT',
+      },
+      {
+        onSuccess: (res: any) => {
+          notification.success({
+            message: 'Đăng ký thành công!',
+            description: 'Tài khoản đã được tạo. Vui lòng đăng nhập.',
+          });
+          router.navigate({ to: LOGIN_ROUTE });
+        },
+        onError: (err: any) => {
+          notification.error({
+            message: 'Đăng ký thất bại',
+            description: err?.data?.message || err?.message || 'Đã có lỗi xảy ra.',
+          });
+        },
+      }
+    );
   };
 
   return (
@@ -191,8 +227,8 @@ const Register: React.FC = () => {
           </RegisterTermsRow>
 
           {/* Submit */}
-          <RegisterSubmitBtn type="submit">
-            Tạo tài khoản <span>→</span>
+          <RegisterSubmitBtn type="submit" disabled={isPending}>
+            {isPending ? 'Đang xử lý…' : <span>Tạo tài khoản <span>→</span></span>}
           </RegisterSubmitBtn>
         </RegisterForm>
 
