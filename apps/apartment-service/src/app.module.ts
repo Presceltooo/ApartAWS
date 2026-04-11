@@ -11,7 +11,10 @@ import { PrismaModule } from './common/prisma/prisma.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: [
+        `.env.${process.env.NODE_ENV || 'development'}`, // .env.development | .env.production
+        '.env',                                          // fallback
+      ],
     }),
     PrismaModule,
     ApartmentsModule,

@@ -5,7 +5,10 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors(); 
+  app.enableCors();
+
+  // Global prefix: tất cả API sẽ có dạng /api/...
+  app.setGlobalPrefix('api');
 
   // Ap dung Interceptor cho moi API
   app.useGlobalInterceptors(new TransformInterceptor());
@@ -21,7 +24,8 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document); 
+  // Swagger UI tại: http://localhost:PORT/api/docs
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }

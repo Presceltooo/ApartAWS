@@ -35,12 +35,17 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# dotenv environment variable files
+# dotenv environment variable files (chứa thông tin nhạy cảm – KHÔNG commit)
 .env
+.env.development
+.env.production
+.env.staging
 .env.development.local
 .env.test.local
 .env.production.local
 .env.local
+# Chỉ commit file template này:
+!.env.example
 
 # temp directory
 .temp
