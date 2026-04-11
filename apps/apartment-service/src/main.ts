@@ -24,8 +24,8 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  // Swagger UI tại: http://localhost:PORT/api/docs
-  SwaggerModule.setup('docs', app, document);
+  // Swagger UI sẽ chạy tại: http://localhost:PORT/api/docs
+  SwaggerModule.setup('api/docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }
