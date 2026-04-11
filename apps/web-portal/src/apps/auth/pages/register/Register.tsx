@@ -84,7 +84,7 @@ const Register: React.FC = () => {
         role: 'TENANT',
       },
       {
-        onSuccess: (res: any) => {
+        onSuccess: () => {
           notification.success({
             message: 'Đăng ký thành công!',
             description: 'Tài khoản đã được tạo. Vui lòng đăng nhập.',
