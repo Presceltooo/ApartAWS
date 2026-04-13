@@ -27,23 +27,48 @@ services:
     ports:
       - "3000:3000"
     environment:
-      APARTMENT_SERVICE_URL: http://backend:3000
+      AUTH_SERVICE_URL: http://auth-service:3001
+      APARTMENT_SERVICE_URL: http://apartment-service:3002
     depends_on:
-      - backend
+      - auth-service
+      - apartment-service
     networks:
       - apart-network
 
-  # Backend NestJS (Chạy dev mode với hot-reload)
-  backend:
+  # Auth Service
+  auth-service:
     image: node:20-alpine
-    container_name: apart-backend
+    container_name: apart-auth
+    working_dir: /app
+    volumes:
+      - ./apps/auth-service:/app
+    command: sh -c "npm install && npx prisma generate && npx prisma db push --accept-data-loss && npm run start:dev"
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=auth
+      JWT_SECRET: your-dev-secret-key
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_SECRET: your-dev-refresh-secret
+      JWT_REFRESH_EXPIRES_IN: 7d
+    depends_on:
+      - database
+    networks:
+      - apart-network
+
+  # Apartment Service (Monolith cũ đã tỉa bớt Auth)
+  apartment-service:
+    image: node:20-alpine
+    container_name: apart-service
     working_dir: /app
     volumes:
       - ./apps/apartment-service:/app
-    command: sh -c "npm install && npx prisma migrate deploy && npm run start:dev"
+    command: sh -c "npm install && npx prisma generate && npx prisma db push --accept-data-loss && npm run start:dev"
     ports:
-      - "3001:3000"
+      - "3002:3002"
     environment:
+      PORT: 3002
       DB_HOST: database
       DB_PORT: 5432
       DB_USERNAME: user
@@ -55,7 +80,7 @@ services:
     networks:
       - apart-network
 
-  # Frontend React Vite (Chạy dev mode với hot-reload)
+  # Frontend React Vite
   frontend:
     image: node:20-alpine
     container_name: apart-frontend
@@ -67,7 +92,7 @@ services:
       - "5174:5173"
     depends_on:
       - api-gateway
-      - backend
+      - apartment-service
     networks:
       - apart-network
 

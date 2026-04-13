@@ -16,11 +16,6 @@ enum BookingStatus {
   COMPLETED
 }
 
-enum Role {
-  ADMIN
-  OWNER
-  TENANT
-}
 model Apartment {
   id            String    @id @default(uuid())
   title         String    @db.VarChar(255)
@@ -31,7 +26,6 @@ model Apartment {
   images        String[]
   isActive      Boolean   @default(true)
   ownerId       String?
-  owner         User?     @relation(fields: [ownerId], references: [id])
   
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -48,7 +42,6 @@ model Booking {
   totalPrice    Decimal       @db.Decimal(10, 2)
   status        BookingStatus @default(PENDING)
   tenantId      String
-  tenant        User          @relation(fields: [tenantId], references: [id])
   
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
@@ -57,33 +50,4 @@ model Booking {
   apartmentId   String
 
   @@map("Bookings")
-}
-
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  phone     String? @unique
-  address   String?
-  fullName  String?
-  role      Role     @default(TENANT)
-  createdAt DateTime @default(now())
-  
-  apartments    Apartment[]
-  bookings      Booking[]
-  refreshTokens RefreshToken[]
-
-  @@map("Users")
-}
-
-model RefreshToken {
-  id        String   @id @default(uuid())
-  token     String   @unique       // SHA-256 hash của raw token
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime
-  isRevoked Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  @@map("RefreshTokens")
 }

@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["auth"]
+}
+
+enum Role {
+  ADMIN
+  OWNER
+  TENANT
+  @@schema("auth")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  phone     String?  @unique
+  address   String?
+  fullName  String?
+  role      Role     @default(TENANT)
+  createdAt DateTime @default(now())
+
+  refreshTokens RefreshToken[]
+
+  @@map("Users")
+  @@schema("auth")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique // SHA-256 hash của raw token
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  isRevoked Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("RefreshTokens")
+  @@schema("auth")
+}

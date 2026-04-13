@@ -7,8 +7,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
-import { PrismaService } from '../../common/prisma/prisma.service';
-import { ApiResponse } from '../../common/dto/response.dto';
+import { PrismaService } from '../common/prisma/prisma.service';
+import { ApiResponse } from '../common/dto/response.dto';
 import { CreateUserDto, ChangePasswordDto, LoginDto, VerifyDto, RefreshTokenDto } from './dto';
 
 // Thời gian sống của Refresh Token: 7 ngày (ms)

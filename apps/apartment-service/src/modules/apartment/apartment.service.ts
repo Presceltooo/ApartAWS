@@ -25,8 +25,7 @@ export class ApartmentsService {
   // Lấy chi tiết căn hộ
   async findById(id: string) {
     const apartment = await this.prisma.apartment.findUnique({
-      where: { id },
-      include: { owner: { select: { id: true, email: true, fullName: true } } }
+      where: { id }
     });
     
     if (!apartment) throw new NotFoundException('Không tìm thấy căn hộ');

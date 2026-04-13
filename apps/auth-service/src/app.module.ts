@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ApartmentsModule } from './modules/apartment/apartment.module';
-import { BookingModule } from './modules/booking/booking.module';
-import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './common/prisma/prisma.module';
 
 @Module({
@@ -16,8 +15,7 @@ import { PrismaModule } from './common/prisma/prisma.module';
       ],
     }),
     PrismaModule,
-    ApartmentsModule,
-    BookingModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
