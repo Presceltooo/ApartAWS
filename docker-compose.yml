@@ -11,6 +11,25 @@ services:
       POSTGRES_DB: apart_booking
     ports:
       - "5432:5432"
+    volumes:
+      - ./init-schemas.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - apart-network
+
+  # API Gateway
+  api-gateway:
+    image: node:20-alpine
+    container_name: apart-gateway
+    working_dir: /app
+    volumes:
+      - ./apps/api-gateway:/app
+    command: sh -c "npm install && npm run start:dev"
+    ports:
+      - "3000:3000"
+    environment:
+      APARTMENT_SERVICE_URL: http://backend:3000
+    depends_on:
+      - backend
     networks:
       - apart-network
 
@@ -47,6 +66,7 @@ services:
     ports:
       - "5174:5173"
     depends_on:
+      - api-gateway
       - backend
     networks:
       - apart-network
