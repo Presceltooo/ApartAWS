@@ -8,7 +8,7 @@ on:
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}  # VD: 123456789.dkr.ecr.ap-southeast-1.amazonaws.com
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }} # VD: 123456789.dkr.ecr.ap-southeast-1.amazonaws.com
 
 jobs:
   # ─────────────────────────────────────────────────────
@@ -24,27 +24,27 @@ jobs:
           - name: api-gateway
             context: ./apps/api-gateway
             dockerfile: ./apps/api-gateway/Dockerfile
-            ecr_repo: apps/api-gateway
+            ecr_repo: apartaws/api-gateway
 
           - name: auth-service
             context: ./apps/auth-service
             dockerfile: ./apps/auth-service/Dockerfile
-            ecr_repo: apps/auth-service
+            ecr_repo: apartaws/auth-service
 
           - name: apartment-service
             context: ./apps/apartment-service
             dockerfile: ./apps/apartment-service/Dockerfile
-            ecr_repo: apps/apartment-service
+            ecr_repo: apartaws/apartment-service
 
           - name: booking-service
             context: ./apps/booking-service
             dockerfile: ./apps/booking-service/Dockerfile
-            ecr_repo: apps/booking-service
+            ecr_repo: apartaws/booking-service
 
           - name: web-portal
             context: ./apps/web-portal
             dockerfile: ./apps/web-portal/Dockerfile
-            ecr_repo: apps/web-portal
+            ecr_repo: apartaws/web-portal
 
     steps:
       - name: Checkout code
