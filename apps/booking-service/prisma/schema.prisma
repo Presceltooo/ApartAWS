@@ -1,0 +1,36 @@
+// This is your Prisma schema file — Booking Service
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["booking"]
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+
+  @@schema("booking")
+}
+
+model Booking {
+  id          String        @id @default(uuid())
+  startDate   DateTime      @db.Date
+  endDate     DateTime      @db.Date
+  totalPrice  Decimal       @db.Decimal(10, 2)
+  status      BookingStatus @default(PENDING)
+  tenantId    String        // Chỉ lưu ID, không FK sang User
+  apartmentId String        // Chỉ lưu ID, không FK sang Apartment
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("Bookings")
+  @@schema("booking")
+}

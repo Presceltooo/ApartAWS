@@ -1,0 +1,118 @@
+# docker-compose.prod.yml
+# Dùng cho môi trường PRODUCTION trên EC2
+# Images được kéo từ Amazon ECR (build bởi GitHub Actions)
+
+version: '3.8'
+
+services:
+  # ── Database ──────────────────────────────────────────
+  database:
+    image: postgres:15
+    container_name: apart-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-schemas.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - apart-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Auth Service ──────────────────────────────────────
+  auth-service:
+    image: ${ECR_REGISTRY}/apart/auth-service:${IMAGE_TAG:-latest}
+    container_name: apart-auth
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=auth
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-15m}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN:-7d}
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - apart-network
+
+  # ── Apartment Service ─────────────────────────────────
+  apartment-service:
+    image: ${ECR_REGISTRY}/apart/apartment-service:${IMAGE_TAG:-latest}
+    container_name: apart-service
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=apartment
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - apart-network
+
+  # ── Booking Service ───────────────────────────────────
+  booking-service:
+    image: ${ECR_REGISTRY}/apart/booking-service:${IMAGE_TAG:-latest}
+    container_name: apart-booking
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=booking
+      APARTMENT_SERVICE_URL: http://apartment-service:3002
+    depends_on:
+      database:
+        condition: service_healthy
+      apartment-service:
+        condition: service_started
+    networks:
+      - apart-network
+
+  # ── API Gateway ───────────────────────────────────────
+  api-gateway:
+    image: ${ECR_REGISTRY}/apart/api-gateway:${IMAGE_TAG:-latest}
+    container_name: apart-gateway
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:3001
+      APARTMENT_SERVICE_URL: http://apartment-service:3002
+      BOOKING_SERVICE_URL: http://booking-service:3003
+    depends_on:
+      - auth-service
+      - apartment-service
+      - booking-service
+    networks:
+      - apart-network
+
+  # ── Frontend (Web Portal) ─────────────────────────────
+  web-portal:
+    image: ${ECR_REGISTRY}/apart/web-portal:${IMAGE_TAG:-latest}
+    container_name: apart-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"      # Nginx phục vụ tĩnh, port 80
+    depends_on:
+      - api-gateway
+    networks:
+      - apart-network
+
+volumes:
+  postgres_data:
+
+networks:
+  apart-network:
+    driver: bridge

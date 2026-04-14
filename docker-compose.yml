@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  # Database PostgreSQL
+  database:
+    image: postgres:15
+    container_name: apart-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: apart_booking
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-schemas.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - apart-network
+
+  # API Gateway
+  api-gateway:
+    image: node:20-alpine
+    container_name: apart-gateway
+    working_dir: /app
+    volumes:
+      - ./apps/api-gateway:/app
+    command: sh -c "npm install && npm run start:dev"
+    ports:
+      - "3000:3000"
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:3001
+      APARTMENT_SERVICE_URL: http://apartment-service:3002
+      BOOKING_SERVICE_URL: http://booking-service:3003
+    depends_on:
+      - auth-service
+      - apartment-service
+      - booking-service
+    networks:
+      - apart-network
+
+  # Auth Service
+  auth-service:
+    image: node:20-alpine
+    container_name: apart-auth
+    working_dir: /app
+    volumes:
+      - ./apps/auth-service:/app
+    command: sh -c "npm install && npx prisma generate && npx prisma db push --accept-data-loss && npm run start:dev"
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=auth
+      JWT_SECRET: your-dev-secret-key
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_SECRET: your-dev-refresh-secret
+      JWT_REFRESH_EXPIRES_IN: 7d
+    depends_on:
+      - database
+    networks:
+      - apart-network
+
+  # Apartment Service (Monolith cũ đã tỉa bớt Auth)
+  apartment-service:
+    image: node:20-alpine
+    container_name: apart-service
+    working_dir: /app
+    volumes:
+      - ./apps/apartment-service:/app
+    command: sh -c "npm install && npx prisma generate && npx prisma db push --accept-data-loss && npm run start:dev"
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=apartment
+    depends_on:
+      - database
+    networks:
+      - apart-network
+
+  # Booking Service
+  booking-service:
+    image: node:20-alpine
+    container_name: apart-booking
+    working_dir: /app
+    volumes:
+      - ./apps/booking-service:/app
+    command: sh -c "npm install --legacy-peer-deps && npx prisma generate && npx prisma db push --accept-data-loss && npm run start:dev"
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=booking
+      APARTMENT_SERVICE_URL: http://apartment-service:3002
+    depends_on:
+      - database
+      - apartment-service
+    networks:
+      - apart-network
+
+  # Frontend React Vite
+  frontend:
+    image: node:20-alpine
+    container_name: apart-frontend
+    working_dir: /app
+    volumes:
+      - ./apps/web-portal:/app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    ports:
+      - "5174:5173"
+    depends_on:
+      - api-gateway
+    networks:
+      - apart-network
+
+networks:
+  apart-network:
+    driver: bridge
+
+# Note: Hai file Dockerfile bạn vừa tạo là dành cho môi trường PRODUCTION (Khi chạy thực tế / deploy server). 
+# Ở môi trường DEV code hằng ngày, thay vì dùng Dockerfile để build tĩnh, mình dùng cấu hình 'volumes' ở trên 
+# để copy trực tiếp code từ máy bạn vào Docker container, khi bạn code bằng VSCode, server mới tự load lại (hot-reload).
