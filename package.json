@@ -9,6 +9,3 @@
     "build:web": "npm run build --prefix apps/web-portal"
   }
 }
-
-// # Build image cho Apartment Service
-// docker build -t apartment-service:latest ./apps/apartment-service
