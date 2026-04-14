@@ -24,27 +24,27 @@ jobs:
           - name: api-gateway
             context: ./apps/api-gateway
             dockerfile: ./apps/api-gateway/Dockerfile
-            ecr_repo: /api-gateway
+            ecr_repo: api-gateway
 
           - name: auth-service
             context: ./apps/auth-service
             dockerfile: ./apps/auth-service/Dockerfile
-            ecr_repo: /auth-service
+            ecr_repo: auth-service
 
           - name: apartment-service
             context: ./apps/apartment-service
             dockerfile: ./apps/apartment-service/Dockerfile
-            ecr_repo: /apartment-service
+            ecr_repo: apartment-service
 
           - name: booking-service
             context: ./apps/booking-service
             dockerfile: ./apps/booking-service/Dockerfile
-            ecr_repo: /booking-service
+            ecr_repo: booking-service
 
           - name: web-portal
             context: ./apps/web-portal
             dockerfile: ./apps/web-portal/Dockerfile
-            ecr_repo: /web-portal
+            ecr_repo: web-portal
 
     steps:
       - name: Checkout code
