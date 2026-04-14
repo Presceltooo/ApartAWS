@@ -3,21 +3,31 @@ import { HttpService } from '@nestjs/axios';
 import type { Request, Response } from 'express';
 import { firstValueFrom } from 'rxjs';
 
+// Routing map: path prefix → service base URL (env var)
+const SERVICE_MAP: { prefix: string; envKey: string; default: string }[] = [
+  { prefix: '/api/Auth',       envKey: 'AUTH_SERVICE_URL',      default: 'http://auth-service:3001' },
+  { prefix: '/api/Bookings',   envKey: 'BOOKING_SERVICE_URL',   default: 'http://booking-service:3003' },
+  { prefix: '/api/Apartments', envKey: 'APARTMENT_SERVICE_URL', default: 'http://apartment-service:3002' },
+];
+
+function resolveTarget(path: string): string {
+  for (const rule of SERVICE_MAP) {
+    if (path.startsWith(rule.prefix)) {
+      return process.env[rule.envKey] || rule.default;
+    }
+  }
+  // Default fallback → apartment-service
+  return process.env.APARTMENT_SERVICE_URL || 'http://apartment-service:3002';
+}
+
 @Controller('api')
 export class ProxyController {
   constructor(private httpService: HttpService) {}
 
   @All('*')
   async proxy(@Req() req: Request, @Res() res: Response) {
-    // Determine the target URL. 
-    // In Phase 1, we only have the monolith (apartment-service).
-    // In later phases, we will route based on the path.
     const path = req.originalUrl;
-    
-    // Default monolith url (e.g. apartment-service internally in docker)
-    let targetBaseUrl = process.env.APARTMENT_SERVICE_URL || 'http://localhost:3001';
-
-    // Phase 1 just proxies everything to the monolith.
+    const targetBaseUrl = resolveTarget(path);
     const targetUrl = `${targetBaseUrl}${path}`;
 
     try {
@@ -26,10 +36,9 @@ export class ProxyController {
           url: targetUrl,
           method: req.method,
           data: req.body,
-          headers: { 
-            ...req.headers, 
+          headers: {
+            ...req.headers,
             host: undefined, // remove host header to avoid conflicts
-            // 'x-user-id' and 'x-user-role' are injected by AuthMiddleware
           },
         }),
       );
@@ -38,7 +47,7 @@ export class ProxyController {
       for (const [key, value] of Object.entries(response.headers)) {
         res.setHeader(key, value as string | string[]);
       }
-      
+
       res.status(response.status).send(response.data);
     } catch (error: any) {
       if (error.response) {

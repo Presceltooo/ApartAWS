@@ -2,18 +2,13 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
-}
-
-enum BookingStatus {
-  PENDING
-  CONFIRMED
-  CANCELLED
-  COMPLETED
+  schemas  = ["apartment"]
 }
 
 model Apartment {
@@ -25,29 +20,12 @@ model Apartment {
   amenities     String[]
   images        String[]
   isActive      Boolean   @default(true)
-  ownerId       String?
-  
+  ownerId       String?   // Chỉ lưu ID, không có FK relation sang User
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  bookings      Booking[]
-
   @@map("Apartments")
+  @@schema("apartment")
 }
 
-model Booking {
-  id            String        @id @default(uuid())
-  startDate     DateTime      @db.Date
-  endDate       DateTime      @db.Date
-  totalPrice    Decimal       @db.Decimal(10, 2)
-  status        BookingStatus @default(PENDING)
-  tenantId      String
-  
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-
-  apartment     Apartment     @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
-  apartmentId   String
-
-  @@map("Bookings")
-}

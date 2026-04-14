@@ -1,0 +1,14 @@
+{
+  "name": "apart-aws-root",
+  "scripts": {
+    "build:all": "npm run build --prefix apps/auth-service && npm run build --prefix apps/apartment-service && npm run build --prefix apps/api-gateway && npm run build --prefix apps/booking-service && npm run build --prefix apps/web-portal",
+    "build:auth": "npm run build --prefix apps/auth-service",
+    "build:apt": "npm run build --prefix apps/apartment-service",
+    "build:gate": "npm run build --prefix apps/api-gateway",
+    "build:book": "npm run build --prefix apps/booking-service",
+    "build:web": "npm run build --prefix apps/web-portal"
+  }
+}
+
+// # Build image cho Apartment Service
+// docker build -t apartment-service:latest ./apps/apartment-service

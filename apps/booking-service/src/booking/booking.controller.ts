@@ -1,8 +1,27 @@
-import { Controller, Get, Post, Body, Param, Query, Patch, HttpCode, HttpStatus, NotFoundException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiParam, ApiHeader, ApiSecurity } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  Patch,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiQuery,
+  ApiParam,
+  ApiHeader,
+  ApiSecurity,
+} from '@nestjs/swagger';
 import { BookingsService } from './booking.service';
 import { CreateBookingDto, CancelBookingDto } from './dto';
-import { CurrentUser } from '../../common/decorators/user.decorator';
+import { CurrentUser } from '../common/decorators/user.decorator';
 
 @ApiTags('Bookings')
 @ApiSecurity('x-user-id')
@@ -15,19 +34,20 @@ export class BookingsController {
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Tạo đơn đặt phòng — yêu cầu header x-user-id (Gateway)' })
   @ApiResponse({ status: 201, description: 'Đơn đặt phòng đã được tạo thành công' })
+  @ApiResponse({ status: 404, description: 'Căn hộ không tồn tại' })
   @ApiResponse({ status: 409, description: 'Căn hộ đã được đặt trong khoảng thời gian này' })
   @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của tenant (do Gateway forward)' })
-  create(@Body() createBookingDto: CreateBookingDto, @CurrentUser('userId') userId: string) {
-    return this.bookingsService.create(createBookingDto, userId);
+  create(@Body() dto: CreateBookingDto, @CurrentUser('userId') userId: string) {
+    return this.bookingsService.create(dto, userId);
   }
 
   @Get('my-bookings')
-  @ApiOperation({ summary: 'Khách thuê xem lịch sử đặt phòng của mình — yêu cầu header x-user-id' })
-  @ApiResponse({ status: 200, description: 'Trả về danh sách đơn đặt phòng (có phân trang)' })
-  @ApiQuery({ name: 'Keyword', required: false, type: String, description: 'Tìm theo tên căn hộ' })
+  @ApiOperation({ summary: 'Khách thuê xem lịch sử đặt phòng của mình' })
+  @ApiResponse({ status: 200, description: 'Danh sách đặt phòng (phân trang)' })
+  @ApiQuery({ name: 'Keyword', required: false, type: String })
   @ApiQuery({ name: 'Page', required: false, type: Number })
   @ApiQuery({ name: 'PageSize', required: false, type: Number })
-  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của tenant (do Gateway forward)' })
+  @ApiHeader({ name: 'x-user-id', required: true })
   findMyBookings(
     @CurrentUser('userId') userId: string,
     @Query('Keyword') keyword?: string,
@@ -38,12 +58,12 @@ export class BookingsController {
   }
 
   @Get('owner')
-  @ApiOperation({ summary: 'Chủ nhà xem danh sách booking của các căn hộ mình sở hữu — yêu cầu header x-user-id' })
-  @ApiResponse({ status: 200, description: 'Trả về danh sách đơn đặt phòng (có phân trang)' })
-  @ApiQuery({ name: 'Keyword', required: false, type: String, description: 'Tìm theo tên căn hộ' })
+  @ApiOperation({ summary: 'Chủ nhà xem danh sách booking của căn hộ mình sở hữu' })
+  @ApiResponse({ status: 200, description: 'Danh sách booking (phân trang)' })
+  @ApiQuery({ name: 'Keyword', required: false, type: String })
   @ApiQuery({ name: 'Page', required: false, type: Number })
   @ApiQuery({ name: 'PageSize', required: false, type: Number })
-  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của owner (do Gateway forward)' })
+  @ApiHeader({ name: 'x-user-id', required: true })
   findByOwner(
     @CurrentUser('userId') userId: string,
     @Query('Keyword') keyword?: string,
@@ -67,11 +87,11 @@ export class BookingsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Xem chi tiết một đơn đặt phòng — yêu cầu header x-user-id' })
-  @ApiResponse({ status: 200, description: 'Trả về thông tin chi tiết đơn đặt phòng' })
+  @ApiOperation({ summary: 'Xem chi tiết một đơn đặt phòng' })
+  @ApiResponse({ status: 200, description: 'Chi tiết đơn đặt phòng' })
   @ApiResponse({ status: 404, description: 'Không tìm thấy đơn đặt phòng' })
   @ApiParam({ name: 'id', type: String })
-  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của user (do Gateway forward)' })
+  @ApiHeader({ name: 'x-user-id', required: true })
   async findById(@Param('id') id: string, @CurrentUser('userId') userId: string) {
     const booking = await this.bookingsService.findById(id, userId);
     if (!booking) throw new NotFoundException(`Booking with id "${id}" not found`);
@@ -79,10 +99,10 @@ export class BookingsController {
   }
 
   @Patch(':id/cancel')
-  @ApiOperation({ summary: 'Hủy đơn đặt phòng — yêu cầu header x-user-id' })
-  @ApiResponse({ status: 200, description: 'Đơn đặt phòng đã được hủy' })
+  @ApiOperation({ summary: 'Hủy đơn đặt phòng' })
+  @ApiResponse({ status: 200, description: 'Đã hủy thành công' })
   @ApiParam({ name: 'id', type: String })
-  @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của user (do Gateway forward)' })
+  @ApiHeader({ name: 'x-user-id', required: true })
   cancel(
     @Param('id') id: string,
     @Body() cancelBookingDto: CancelBookingDto,

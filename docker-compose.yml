@@ -29,9 +29,11 @@ services:
     environment:
       AUTH_SERVICE_URL: http://auth-service:3001
       APARTMENT_SERVICE_URL: http://apartment-service:3002
+      BOOKING_SERVICE_URL: http://booking-service:3003
     depends_on:
       - auth-service
       - apartment-service
+      - booking-service
     networks:
       - apart-network
 
@@ -69,14 +71,29 @@ services:
       - "3002:3002"
     environment:
       PORT: 3002
-      DB_HOST: database
-      DB_PORT: 5432
-      DB_USERNAME: user
-      DB_PASSWORD: password
-      DB_NAME: apart_booking
-      DATABASE_URL: postgresql://user:password@database:5432/apart_booking
+      DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=apartment
     depends_on:
       - database
+    networks:
+      - apart-network
+
+  # Booking Service
+  booking-service:
+    image: node:20-alpine
+    container_name: apart-booking
+    working_dir: /app
+    volumes:
+      - ./apps/booking-service:/app
+    command: sh -c "npm install --legacy-peer-deps && npx prisma generate && npx prisma db push --accept-data-loss && npm run start:dev"
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=booking
+      APARTMENT_SERVICE_URL: http://apartment-service:3002
+    depends_on:
+      - database
+      - apartment-service
     networks:
       - apart-network
 
@@ -92,7 +109,6 @@ services:
       - "5174:5173"
     depends_on:
       - api-gateway
-      - apartment-service
     networks:
       - apart-network
 
