@@ -27,7 +27,7 @@ services:
 
   # ── Auth Service ──────────────────────────────────────
   auth-service:
-    image: ${ECR_REGISTRY}/apart/auth-service:${IMAGE_TAG:-latest}
+    image: ${ECR_REGISTRY}/auth-service:${IMAGE_TAG:-latest}
     container_name: apart-auth
     restart: unless-stopped
     ports:
@@ -47,7 +47,7 @@ services:
 
   # ── Apartment Service ─────────────────────────────────
   apartment-service:
-    image: ${ECR_REGISTRY}/apart/apartment-service:${IMAGE_TAG:-latest}
+    image: ${ECR_REGISTRY}/apartment-service:${IMAGE_TAG:-latest}
     container_name: apart-service
     restart: unless-stopped
     ports:
@@ -63,7 +63,7 @@ services:
 
   # ── Booking Service ───────────────────────────────────
   booking-service:
-    image: ${ECR_REGISTRY}/apart/booking-service:${IMAGE_TAG:-latest}
+    image: ${ECR_REGISTRY}/booking-service:${IMAGE_TAG:-latest}
     container_name: apart-booking
     restart: unless-stopped
     ports:
@@ -82,7 +82,7 @@ services:
 
   # ── API Gateway ───────────────────────────────────────
   api-gateway:
-    image: ${ECR_REGISTRY}/apart/api-gateway:${IMAGE_TAG:-latest}
+    image: ${ECR_REGISTRY}/api-gateway:${IMAGE_TAG:-latest}
     container_name: apart-gateway
     restart: unless-stopped
     ports:
@@ -100,7 +100,7 @@ services:
 
   # ── Frontend (Web Portal) ─────────────────────────────
   web-portal:
-    image: ${ECR_REGISTRY}/apart/web-portal:${IMAGE_TAG:-latest}
+    image: ${ECR_REGISTRY}/web-portal:${IMAGE_TAG:-latest}
     container_name: apart-frontend
     restart: unless-stopped
     ports:
