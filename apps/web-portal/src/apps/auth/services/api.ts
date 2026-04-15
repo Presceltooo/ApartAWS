@@ -16,33 +16,33 @@ import type {
 export const login = (
   payload: TLoginPayload,
 ): Promise<IResponse<ILoginRespone>> => {
-  return axiosClient.post("/Auth/login", payload);
+  return axiosClient.post("Auth/login", payload);
 };
 
 export const register = (
   payload: TRegisterPayload,
 ): Promise<IResponse<any>> => {
-  return axiosClient.post("/Auth/register", payload);
+  return axiosClient.post("Auth/register", payload);
 };
 
 export const refreshTokens = (
   payload: TRefreshTokenPayload,
 ): Promise<IResponse<ILoginRespone>> => {
-  return axiosClient.post("/Auth/refresh", payload); 
+  return axiosClient.post("Auth/refresh", payload); 
 };
 
 export const logout = (
   payload: TRefreshTokenPayload,
 ): Promise<IResponse<any>> => {
-  return axiosClient.post("/Auth/logout", payload); 
+  return axiosClient.post("Auth/logout", payload); 
 };
 
 export const getMe = (): Promise<IResponse<IUser>> => {
-  return axiosClient.get("/Auth/me");
+  return axiosClient.get("Auth/me");
 };
 
 export const changePassword = (
   payload: TChangePasswordPayload,
 ): Promise<IResponse<any>> => {
-  return axiosClient.patch("/Auth/change-password", payload);
+  return axiosClient.patch("Auth/change-password", payload);
 };
