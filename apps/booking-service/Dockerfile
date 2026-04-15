@@ -14,7 +14,11 @@ RUN npx prisma generate
 
 COPY . .
 RUN npm run build
-RUN npm ci --omit=dev --legacy-peer-deps && npx prisma generate
+RUN cp -R node_modules/@prisma node_modules/.prisma /tmp/ && \
+    npm ci --omit=dev --legacy-peer-deps && \
+    rm -rf node_modules/@prisma node_modules/.prisma && \
+    cp -R /tmp/@prisma node_modules/ && \
+    cp -R /tmp/.prisma node_modules/
 
 # Stage 2: Production
 FROM node:20-alpine
