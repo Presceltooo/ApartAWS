@@ -27,4 +27,4 @@ COPY --from=builder --chown=node:node /app/package*.json ./
 COPY --from=builder --chown=node:node /app/prisma ./prisma
 
 EXPOSE 3001
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main"]

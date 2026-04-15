@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Database PostgreSQL
@@ -116,6 +116,6 @@ networks:
   apart-network:
     driver: bridge
 
-# Note: Hai file Dockerfile bạn vừa tạo là dành cho môi trường PRODUCTION (Khi chạy thực tế / deploy server). 
-# Ở môi trường DEV code hằng ngày, thay vì dùng Dockerfile để build tĩnh, mình dùng cấu hình 'volumes' ở trên 
+# Note: Hai file Dockerfile bạn vừa tạo là dành cho môi trường PRODUCTION (Khi chạy thực tế / deploy server).
+# Ở môi trường DEV code hằng ngày, thay vì dùng Dockerfile để build tĩnh, mình dùng cấu hình 'volumes' ở trên
 # để copy trực tiếp code từ máy bạn vào Docker container, khi bạn code bằng VSCode, server mới tự load lại (hot-reload).
