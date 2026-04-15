@@ -13,6 +13,7 @@ RUN npx prisma generate
 
 COPY . .
 RUN npm run build
+RUN npm ci --omit=dev && npx prisma generate
 
 # Stage 2: Production
 FROM node:20-alpine

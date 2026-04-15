@@ -5,6 +5,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
+RUN npm ci --omit=dev
 
 # Stage 2: Production
 FROM node:20-alpine
