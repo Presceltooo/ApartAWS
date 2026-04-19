@@ -79,8 +79,8 @@ const Register: React.FC = () => {
         email: form.email,
         password: form.password,
         fullName: form.fullName,
-        phone: form.phone || '',
-        address: form.address || '',
+        phone: form.phone || undefined,
+        address: form.address || undefined,
         role: 'TENANT',
       },
       {

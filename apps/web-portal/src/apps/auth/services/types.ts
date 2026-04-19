@@ -10,8 +10,8 @@ export type TRegisterPayload = {
   email: string;
   password: string;
   fullName: string;
-  phone: string;
-  address: string;
+  phone?: string;
+  address?: string;
   role: 'ADMIN' | 'OWNER' | 'TENANT';
 };
 

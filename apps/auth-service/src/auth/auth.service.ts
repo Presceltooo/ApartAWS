@@ -12,7 +12,7 @@ import { ApiResponse } from '../common/dto/response.dto';
 import { CreateUserDto, ChangePasswordDto, LoginDto, VerifyDto, RefreshTokenDto } from './dto';
 
 // Thời gian sống của Refresh Token: 7 ngày (ms)
-const REFRESH_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+const REFRESH_TOKEN_TTL_MS = 1 * 24 * 60 * 60 * 1000;
 
 @Injectable()
 export class AuthService {

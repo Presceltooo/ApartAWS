@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 import { Role } from '../../common/constants/role.enum';
 
 export class CreateUserDto {
@@ -17,15 +17,15 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Họ và tên không được để trống' })
   fullName: string;
 
-  @ApiProperty({ description: 'Số điện thoại', example: '0123456789' })
+  @ApiProperty({ description: 'Số điện thoại', example: '0123456789', required: false })
   @IsString()
-  @IsNotEmpty()
-  phone: string;
+  @IsOptional()
+  phone?: string;
 
-  @ApiProperty({ description: 'Địa chỉ', example: 'Quận 1, TP.HCM' })
+  @ApiProperty({ description: 'Địa chỉ', example: 'Quận 1, TP.HCM', required: false })
   @IsString()
-  @IsNotEmpty()
-  address: string;
+  @IsOptional()
+  address?: string;
 
   @ApiProperty({ description: 'Vai trò', enum: Role, example: Role.OWNER })
   @IsEnum(Role, { message: 'Vai trò không hợp lệ (ADMIN | OWNER | TENANT)' })
