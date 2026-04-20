@@ -1,0 +1,12 @@
+.ant-picker {
+  height: 4rem;
+  .ant-picker-input > input {
+    font-size: 1.4rem;
+  }
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected:not(.ant-picker-cell-disabled) .ant-picker-cell-inner {
+  color: #178fe2;
+  background: #FFF; 
+  font-weight: 600;
+}

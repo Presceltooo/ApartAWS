@@ -36,7 +36,7 @@ import {
   UserSupportBtn,
   UserFixedSupportWrapper,
 } from '../../styled';
-import auraBg from '@/assets/aura_bg.png';
+import auraBg from '@/assets/images/aura_bg.png';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');

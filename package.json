@@ -7,5 +7,8 @@
     "build:gate": "npm run build --prefix apps/api-gateway",
     "build:book": "npm run build --prefix apps/booking-service",
     "build:web": "npm run build --prefix apps/web-portal"
+  },
+  "dependencies": {
+    "react-detect-offline": "^2.4.5"
   }
 }

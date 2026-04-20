@@ -1,0 +1,46 @@
+input.ant-input,
+.ant-picker,
+.ant-input-affix-wrapper,
+.ant-select.ant-select-in-form-item,
+.ant-input-number {
+  max-width: 100%;
+  width: var(--base-input-width);
+}
+
+.ant-input,
+.ant-input-number-input {
+  font-size: 1.4rem;
+  line-height: 2.8rem;
+  height: 4rem;
+}
+
+.ant-form-item-label
+  > label.ant-form-item-required:not(.ant-form-item-required-mark-optional):before {
+  order: 1;
+  position: relative;
+  right: 4px;
+  bottom: 4px;
+}
+
+.ant-form-vertical {
+  .ant-form-item-label
+    > label.ant-form-item-required:not(.ant-form-item-required-mark-optional):before {
+    right: -4px;
+  }
+}
+
+.ant-input-affix-wrapper {
+  height: 4rem;
+
+  .ant-input {
+    height: auto;
+  }
+}
+
+.ant-input-number-handler-wrap {
+  display: none;
+}
+
+// .ant-input[disabled]::placeholder {
+//   color: var(--text-primary);
+// }

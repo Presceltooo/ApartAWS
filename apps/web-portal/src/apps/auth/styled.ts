@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Card, Button, Typography } from 'antd';
-import bgImageAdmin from '@/assets/anhnenNaraka.jpg';
+import bgImageAdmin from '@/assets/images/anhnenNaraka.jpg';
 
 
 // ============================================================

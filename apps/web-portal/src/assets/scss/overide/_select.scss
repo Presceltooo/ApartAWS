@@ -1,0 +1,30 @@
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector::after,
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input)
+  .ant-select-selector
+  .ant-select-selection-item,
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input)
+  .ant-select-selector
+  .ant-select-selection-placeholder {
+  line-height: 4.2rem;
+}
+
+.ant-select-selection-placeholder,
+.ant-select-selection-item {
+  font-size: 1.4rem;
+  line-height: 4rem;
+  height: 4rem;
+}
+
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  color: var(--text-primary);
+}
+
+.ant-select-selector {
+  height: 4rem !important;
+  align-items: center;
+}
+
+.ant-select-multiple .ant-select-selector {
+  height: auto !important;
+  align-items: center;
+}

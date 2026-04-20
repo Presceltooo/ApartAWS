@@ -1,0 +1,84 @@
+.ant-btn {
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
+  line-height: 1;
+}
+
+.ant-btn-primary {
+  &:hover,
+  &:focus {
+    border-color: var(--btn-hover-primary);
+    background: var(--btn-hover-primary);
+  }
+
+  .anticon-loading {
+    color: var(--white);
+  }
+}
+
+.ant-btn-secondary {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--white);
+
+  &:hover,
+  &:focus {
+    border-color: var(--btn-hover-primary);
+    color: var(--btn-hover-primary);
+    background: var(--white);
+  }
+}
+
+.ant-btn-default {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--white);
+
+  .anticon {
+    transition: all 0.25s linear;
+  }
+
+  &:hover,
+  &:focus {
+    border-color: var(--btn-hover-primary);
+    color: var(--btn-hover-primary);
+    background: var(--white);
+
+    .anticon {
+      color: var(--btn-hover-primary) !important;
+    }
+  }
+}
+
+.ant-btn-tag {
+  cursor: default;
+  pointer-events: none;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+
+  &:hover,
+  &:focus {
+    border-color: unset;
+    color: unset;
+    background: unset;
+  }
+}
+
+.ant-btn-color-link.ant-btn-link {
+  color: inherit;
+}
+
+.ant-btn-circle {
+  &.--active {
+    background-color: var(--hover-primary);
+
+    svg {
+      color: var(--primary);
+    }
+  }
+}
+
+.ant-btn.ant-btn-circle.ant-btn-link:hover {
+  background-color: var(--hover-primary);
+  color: var(--primary);
+}

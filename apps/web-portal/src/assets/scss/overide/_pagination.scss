@@ -1,0 +1,52 @@
+.ant-pagination-next,
+.ant-pagination-prev,
+.ant-pagination-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  white-space: nowrap;
+}
+
+.ant-pagination-options {
+  position: absolute;
+  right: 0;
+}
+
+.ant-pagination-total-text {
+  line-height: 4rem;
+  height: 4rem;
+  position: absolute;
+  left: 0;
+}
+
+.ant-table-pagination.ant-pagination {
+  justify-content: center;
+}
+
+.ant-select-single.ant-select-show-arrow .ant-select-selection-item,
+.ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+  line-height: 4rem;
+}
+
+.ant-pagination-prev,
+.ant-pagination-next,
+.ant-pagination-jump-prev,
+.ant-pagination-jump-next {
+  height: 4rem;
+  min-width: 4rem;
+  line-height: 4rem;
+}
+
+.ant-pagination.ant-table-pagination {
+  height: 6.4rem;
+  margin: 0 !important;
+  padding: 1.2rem 0;
+  align-items: center;
+  background-color: var(--bg-secondary);
+}
+
+.ant-pagination-options .ant-select-single {
+  height: 4rem;
+}

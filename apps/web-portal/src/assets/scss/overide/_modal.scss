@@ -1,0 +1,67 @@
+.ant-modal {
+  .ant-modal-content,
+  .ant-modal-container {
+    padding: 0 !important;
+  }
+
+  .ant-modal-footer {
+    padding: 1.6rem !important;
+    background-color: var(--bg-primary) !important;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    margin-top: 0;
+
+    .ant-btn .anticon {
+      display: flex;
+    }
+  }
+
+  &.fullScreen {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 -1.6rem;
+
+    .ant-modal-content {
+      height: 100vh;
+    }
+
+    .ant-modal-body {
+      max-height: 100vh !important;
+    }
+
+    .modal-body {
+      max-height: calc(100vh - 6rem) !important;
+      overflow-y: auto;
+      padding: 0;
+    }
+  }
+}
+
+.custom-confirm-modal .ant-modal-confirm {
+  .ant-modal-body {
+    padding: 0;
+
+    .anticon-exclamation-circle {
+      display: none;
+    }
+
+    .ant-modal-confirm-paragraph {
+      max-width: 100%;
+    }
+  }
+
+  .ant-modal-confirm-btns {
+    padding: 1.6rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+.ant-modal-confirm-body .ant-modal-confirm-content {
+  margin-top: 0;
+}
+
+.ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
+  margin-left: 1.2rem;
+}

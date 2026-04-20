@@ -12,15 +12,15 @@ import queryClient from '@configs/reactQuery';
 
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 // import './assets/scss/index.scss';
-// import ErrorBoundary from '@/shared/components/error-boundary/ErrorBoundary.tsx';
-// import { Detector } from 'react-detect-offline';
-// import { 
-//   OfflineNotification, 
-//   OnlineNotification 
-// } from '@/shared/components/online-offline';
+import ErrorBoundary from '@/shared/components/error-boundary/ErrorBoundary.tsx';
+import { Detector } from 'react-detect-offline';
+import { 
+  OfflineNotification, 
+  OnlineNotification 
+} from '@/shared/components/online-offline';
 
 const PX_2_REM = px2remTransformer({ rootValue: 10 });
-// const SHOW_DETECTOR_INTERNET = false;
+const SHOW_DETECTOR_INTERNET = false;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -28,14 +28,14 @@ createRoot(document.getElementById('root')!).render(
       <AntdConfigProvider {...antdDefaultConfig}>
         <AntdApp>
           <StyleProvider transformers={[PX_2_REM]}>
-            {/* <ErrorBoundary> */}
+            <ErrorBoundary>
               <App />
-            {/* </ErrorBoundary> */}
+            </ErrorBoundary>
           </StyleProvider>
         </AntdApp>
       </AntdConfigProvider>
     </QueryClientProvider>
-    {/*
+    {
       SHOW_DETECTOR_INTERNET &&
       <Detector
         polling={false}
@@ -45,6 +45,6 @@ createRoot(document.getElementById('root')!).render(
             : <OfflineNotification />;
         }}
       />
-    */}
+    }
   </StrictMode>,
 )

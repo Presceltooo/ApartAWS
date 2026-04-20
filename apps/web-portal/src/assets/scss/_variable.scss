@@ -1,0 +1,85 @@
+:root {
+  --zoom: 1;
+  --device-height: calc(100vh / var(--zoom));
+
+  --primary: #b01316;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f2f2f2;
+  --bg-thirt: rgba(242, 242, 242, 0.4);
+
+  --bg-disabled: #e7e7e7;
+  --bg-hover-primary: #e2f2fd;
+
+  --bg-success: rgba(21, 181, 74, 0.1);
+  --bg-danger: rgba(230, 50, 50, 0.1);
+  --bg-warning: rgba(179, 190, 18, 0.473);
+
+  --text-primary: #202426;
+  --text-secondary: #636567;
+  --text-ternary: #a4a5a6;
+  --text-disabled: #bcbebe;
+
+  --text-success: #34c759;
+  --text-warning: #ff9500;
+  --text-error: #ff3b30;
+
+  --btn-hover-primary: #197bc1;
+  --hover-primary: #e2f2fd;
+
+  --tab-bg-color: #e7e7e7;
+
+  --table-header-bg: #e7e7e7;
+  --table-row-hover-color: #e2f2fd;
+  --table-row-disabled: #e7e7e7;
+
+  --icon-primary: #636567;
+  --icon-secondary: #bcbebe;
+  --icon-gray: #b3b5b5;
+
+  --border-primary: #bcbebe;
+  --border-secondary: #e7e7e7;
+
+  --border-success: rgba(21, 181, 74, 0.5);
+  --border-danger: rgba(230, 50, 50, 0.5);
+  --border-warning: #ff9500;
+
+  --white: #ffffff;
+  --error: #e63232;
+  --hover-error: rgb(255, 79, 79);
+  --info: #178fe2;
+  --yellow: #ffcc00;
+  --warning: #ff9500;
+  --purple: #af52de;
+  --success: #34c759;
+
+  --container: 132rem;
+  --sidebar-width: 32rem;
+  --tree-map-width: 34.2rem;
+  --table-row-height: 4.8rem;
+  --header-height: 4.8rem;
+  --footer-height: 19.6rem;
+  --modal-width-lg: 107rem;
+  --modal-header-height: 4.8rem;
+  --modal-tabs-height: 5.2rem;
+  --modal-max-height: calc(95vh - 7.2rem); //Trừ đi footer height
+  --modal-medium-height: 72rem;
+  --modal-low-height: 30rem;
+  --base-input-width: 31.2rem;
+  --breadcrumb-height: 6.4rem;
+  --screen-header-height: 6.4rem;
+  --pagination-height: 6.4rem;
+
+  --table-body-height-default: calc(var(--device-height) - (6.4rem * 3) - (4.8rem * 2));
+
+  --table-tree: calc(var(--device-height) - (4.8rem + 6.4rem + 8.2rem + 11.4rem));
+
+  // --shadow: rgba(0, 0, 0, 0.2);
+  --shadow: 0px 2px 8px 1px #00000024;
+
+  //chart
+  --chart-green: #34c759;
+  --chart-yellow: #ffcc00;
+  --chart-orange: #ff9500;
+  --chart-red: #ff3b30;
+}
