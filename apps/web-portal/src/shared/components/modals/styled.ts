@@ -35,6 +35,17 @@ export const ModalHeaderButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 `;
 
 export const PrintButton = styled.button`

@@ -3,19 +3,14 @@ import {
   createRootRoute,
   createRouter,
 } from '@tanstack/react-router'
-// import NotFound404 from '@shared/components/404'
+import NotFound404 from '@/shared/components/404'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-//route
-// import dashboardRoute from '@apps/dashboard/Route';
 import authdRoute, { adminAuthRoute } from '@apps/auth/Route';
-// import userRoute from '@apps/user/Route';
-//constant
-// import { LOGIN_ROUTE } from '@/constants';
-// import tokenManager from '@utils/tokenManager';
+import portalRoute from '@apps/portal/Route';
 
 export const rootRoute = createRootRoute({
   component: RootComponent,
-  // notFoundComponent: NotFound404,
+  notFoundComponent: NotFound404,
   // Hook chạy trước khi load bất kỳ route con nào
   beforeLoad: async () => {
     // Tạm comment để vào được view Auth
@@ -45,10 +40,9 @@ function RootComponent() {
 }
 
 export const routeTree = rootRoute.addChildren([
-  // dashboardRoute,
   authdRoute,
   adminAuthRoute,
-  // userRoute
+  portalRoute
 ])
 
 // Set up a Router instance

@@ -26,7 +26,7 @@ export const AuthContainer = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(13, 13, 26, 0.6);
+    background: rgba(74, 27, 12, 0.4); // Ink Brown base for warm overlay
     z-index: 1;
   }
 `;
@@ -39,11 +39,11 @@ export const AuthWrapper = styled.div`
 `;
 
 export const AuthCard = styled(Card)`
-  background: rgba(26, 24, 48, 0.85) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(175, 169, 236, 0.2) !important;
+  border: 1px solid rgba(216, 90, 48, 0.1) !important;
   border-radius: 12px !important;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(74, 27, 12, 0.1);
 
   .ant-card-body {
     padding: 32px 32px 24px;
@@ -53,7 +53,7 @@ export const AuthCard = styled(Card)`
 export const AuthTitle = styled(Typography.Title)`
   text-align: center;
   margin-bottom: 32px !important;
-  color: #afa9ec !important;
+  color: #D85A30 !important; // Terracotta
   font-weight: 600 !important;
 `;
 
@@ -71,22 +71,22 @@ export const FooterLinks = styled.div`
   font-size: 14px;
 
   a {
-    color: #7f77dd;
+    color: #D85A30;
     transition: color 0.3s;
 
     &:hover {
-      color: #afa9ec;
+      color: #993C1D;
     }
   }
 `;
 
 export const ActionLink = styled.a`
-  color: #7f77dd !important;
+  color: #D85A30 !important;
   font-weight: 500;
   cursor: pointer;
 
   &:hover {
-    color: #afa9ec !important;
+    color: #993C1D !important;
     text-decoration: underline;
   }
 `;
@@ -94,7 +94,7 @@ export const ActionLink = styled.a`
 export const CenteredText = styled.div`
   text-align: center;
   margin-top: 16px;
-  color: #cecbf6;
+  color: #8C7169;
   font-size: 14px;
 `;
 
@@ -103,15 +103,15 @@ export const CenteredText = styled.div`
 // ============================================================
 
 // --- Shared tokens ---
-const PRIMARY = '#a5360d';
-const PRIMARY_DARK = '#c74d24';
-const SURFACE = '#fcf9f4';
-const SURFACE_HIGH = '#ebe8e3';
-const SURFACE_LOW = '#f6f3ee';
-const ON_SURFACE = '#1c1c19';
-const ON_SURFACE_VARIANT = '#58423b';
-const OUTLINE = '#8c7169';
-const OUTLINE_VARIANT_ALPHA = 'rgba(224,192,182,0.3)';
+const PRIMARY = '#D85A30';      // Terracotta
+const PRIMARY_DARK = '#993C1D'; // Terracotta Dk
+const SURFACE = '#F5F0EA';      // Cream
+const SURFACE_HIGH = '#FAEEDA'; // Amber Lt
+const SURFACE_LOW = '#FAEEDA'; 
+const ON_SURFACE = '#4A1B0C';   // Ink Brown
+const ON_SURFACE_VARIANT = '#8C7169';
+const OUTLINE = '#993C1D';
+const OUTLINE_VARIANT_ALPHA = 'rgba(153, 60, 29, 0.2)';
 
 // --- Login page ---
 export const UserLoginMain = styled.main`
@@ -209,7 +209,7 @@ export const UserLoginCard = styled.div`
   -webkit-backdrop-filter: blur(24px);
   padding: 3rem;
   border-radius: 0.75rem;
-  box-shadow: 0 20px 40px rgba(88, 66, 59, 0.1);
+  box-shadow: 0 20px 40px rgba(74, 27, 12, 0.1);
   border: 1px solid rgba(224, 192, 182, 0.2);
 `;
 
@@ -270,7 +270,7 @@ export const UserTextInput = styled.input`
   transition: box-shadow 0.2s, background 0.2s;
 
   &::placeholder {
-    color: rgba(88, 66, 59, 0.4);
+    color: rgba(74, 27, 12, 0.4);
   }
 
   &:focus {
@@ -327,7 +327,7 @@ export const UserLoginSubmitBtn = styled.button`
   cursor: pointer;
   font-size: 0.9375rem;
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 15px rgba(165, 54, 13, 0.35);
+  box-shadow: 0 4px 15px rgba(216, 90, 48, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -755,7 +755,7 @@ export const RegisterSubmitBtn = styled.button`
   cursor: pointer;
   font-size: 0.9375rem;
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 15px rgba(165, 54, 13, 0.3);
+  box-shadow: 0 4px 15px rgba(216, 90, 48, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -790,7 +790,7 @@ export const RegisterHelpBtn = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid rgba(165, 54, 13, 0.1);
+  border: 1px solid rgba(216, 90, 48, 0.1);
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   font-size: 1.25rem;
@@ -864,7 +864,7 @@ export const ForgotContentGrid = styled.div`
   grid-template-columns: 1fr;
   border-radius: 0.75rem;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(88, 66, 59, 0.06);
+  box-shadow: 0 20px 40px rgba(74, 27, 12, 0.06);
   background: #ffffff;
 
   @media (min-width: 1024px) {
@@ -893,7 +893,7 @@ export const ForgotImageCover = styled.img`
 export const ForgotImageOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(165, 54, 13, 0.4), transparent);
+  background: linear-gradient(to top, rgba(216, 90, 48, 0.4), transparent);
 `;
 
 export const ForgotImageText = styled.div`
@@ -1011,7 +1011,7 @@ export const ForgotEmailInput = styled.input`
   transition: box-shadow 0.2s;
 
   &::placeholder {
-    color: rgba(88, 66, 59, 0.4);
+    color: rgba(74, 27, 12, 0.4);
   }
 
   &:focus {
@@ -1030,7 +1030,7 @@ export const ForgotSubmitBtn = styled.button`
   cursor: pointer;
   font-size: 0.9375rem;
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 15px rgba(165, 54, 13, 0.3);
+  box-shadow: 0 4px 15px rgba(216, 90, 48, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1064,7 +1064,7 @@ export const ForgotFooterArea = styled.div`
     color: ${PRIMARY};
     font-weight: 600;
     text-decoration: underline;
-    text-decoration-color: rgba(165, 54, 13, 0.3);
+    text-decoration-color: rgba(216, 90, 48, 0.3);
     text-underline-offset: 4px;
   }
 `;
@@ -1108,7 +1108,7 @@ export const ForgotSuccessIcon = styled.div`
   border-radius: 9999px;
   font-size: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(165, 54, 13, 0.3);
+  box-shadow: 0 4px 20px rgba(216, 90, 48, 0.3);
 `;
 
 export const ForgotSuccessTitle = styled.h2`

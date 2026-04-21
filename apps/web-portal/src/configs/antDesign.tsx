@@ -2,39 +2,34 @@ import { Empty, notification } from "antd";
 import locale from "antd/es/locale/vi_VN";
 import type { ConfigProviderProps } from "antd/lib/config-provider";
 
-// Mapping màu từ design — Theme B: Dark Violet (Admin / Dashboard)
+// Mapping màu từ design — Theme A: Terracotta + Warm (User-facing & Admin Unified)
 export const colors = {
-  // === Nền ===
-  pageBg: "#0D0D1A",        // Void — Page background
-  cardBg: "#1A1830",        // Deep Navy — Card background
-  sidebarActive: "#26215C", // Dark Purple — Sidebar active
+  // === Nền (Backgrounds) ===
+  pageBg: "#F5F0EA",        // Cream — Page background
+  cardBg: "#FFFFFF",        // White — Card background (standard for light theme)
+  sidebarActive: "#FAEEDA", // Amber Lt — Sidebar active / highlight
 
-  // === Primary & Accent ===
-  primary: "#534AB7",       // Violet — Primary CTA
-  primarySub: "#7F77DD",    // Violet Lt — Accent, icon (hover state)
-  primaryLight: "#AFA9EC",  // Lavender — Body text
-  primaryMuted: "#CECBF6",  // Ghost — Muted text
-
+  // === Primary & Terracotta ===
+  primary: "#D85A30",       // Terracotta — Primary CTA
+  primaryHover: "#F0997B",  // Terracotta Lt — Hover state
+  primaryActive: "#993C1D", // Terracotta Dk — Pressed state
+  
   // === Semantic ===
-  success: "#1D9E75",       // Teal — Success / up
-  warning: "#EF9F27",       // Amber — Warning
-  error: "#E24B4A",         // Red — Error / alert
+  success: "#639922",       // Green — Success
+  successBg: "#EAF3DE",     // Sage Green — Success background
+  warning: "#BA7517",       // Amber — Warning
+  warningBg: "#FAEEDA",     // Amber Lt — Warning background
+  error: "#712B13",         // Rust — Error / Booked
+  errorBg: "#FFDBCF",       // Subtle red for error backgrounds
 
   // === Text ===
-  primaryText: "#CECBF6",   // Ghost — General body text on dark bg
-  primaryTitle: "#AFA9EC",  // Lavender — Heading / label text
-  primarySubtitle: "#7F77DD", // Violet Lt — Secondary text
+  textPrimary: "#4A1B0C",   // Ink Brown — Main headings / title
+  textSecondary: "#8C7169", // Muted terracotta-brown for subtext
+  textPlaceholder: "rgba(74, 27, 12, 0.45)",
 
   // === Border & UI ===
-  primaryBorder: "rgba(175, 169, 236, 0.2)", // Subtle violet border
-  primaryBg: "#0D0D1A",     // Page bg alias
-  primaryBgSub: "#1A1830",  // Card bg alias (table header, panel)
-  bgHover: "#26215C",       // Dark Purple — Hover background
-  bgHighlight: "#534AB7",   // Violet — Highlight
-
-  // === Misc ===
-  disabled: "#26215C",      // Dark Purple — Disabled background
-  textDisabled: "rgba(175, 169, 236, 0.4)",
+  border: "#993C1D",        // Terracotta Dk for active borders
+  borderSubtle: "rgba(153, 60, 29, 0.15)", // Subtle terracotta border
   white: "#ffffff",
 };
 
@@ -51,107 +46,64 @@ const antdDefaultConfig: ConfigProviderProps = {
   ),
   theme: {
     token: {
-      fontSize: 14, // Giảm xuống 14px chuẩn UI hiện đại (16px hơi to thô), nếu cần to dùng fontSizeLG
+      fontSize: 14,
       fontSizeLG: 16,
       fontFamily: "Roboto, sans-serif",
 
-      // Màu chủ đạo
+      // Theme colors
       colorPrimary: colors.primary,
       colorInfo: colors.primary,
       colorLink: colors.primary,
+      colorSuccess: colors.success,
+      colorWarning: colors.warning,
+      colorError: colors.error,
 
-      // Màu nền và viền
+      // Layout colors
       colorBgBase: colors.white,
-      colorBorder: colors.primaryBorder,
-      colorText: colors.primaryTitle,
-      colorTextSecondary: colors.primarySubtitle,
-      colorTextPlaceholder: "rgba(0, 0, 0, 0.35)", // Placeholder rõ hơn chút
+      colorBgLayout: colors.pageBg,
+      colorBorder: colors.borderSubtle,
+      colorText: colors.textPrimary,
+      colorTextSecondary: colors.textSecondary,
+      colorTextPlaceholder: colors.textPlaceholder,
 
-      // Disabled
-      colorBgContainerDisabled: colors.disabled,
-      colorTextDisabled: colors.textDisabled,
-
-      borderRadius: 6, // Tăng nhẹ bo góc cho mềm mại (4px hơi cứng)
-      controlHeight: 40, // Đảm bảo size large đồng bộ
+      borderRadius: 8, // Thể hiện sự mềm mại của theme Warm
+      controlHeight: 40,
     },
     components: {
       Input: {
         activeBorderColor: colors.primary,
-        hoverBorderColor: colors.primarySub,
-        colorBgContainerDisabled: colors.disabled,
-        colorTextDisabled: colors.textDisabled,
-        controlOutline: "rgba(83, 74, 183, 0.2)", // Hiệu ứng glow tím nhẹ khi focus
-      },
-      InputNumber: {
-        activeBorderColor: colors.primary,
-        hoverBorderColor: colors.primarySub,
-        controlOutline: "rgba(83, 74, 183, 0.2)",
-      },
-      Select: {
-        colorPrimary: colors.primary,
-        optionSelectedColor: colors.primary,
-        optionSelectedBg: colors.bgHover, // Nền item đã chọn
-        controlOutline: "rgba(83, 74, 183, 0.2)",
-      },
-      DatePicker: {
-        colorPrimary: colors.primary,
-        cellActiveWithRangeBg: colors.bgHover,
-        cellHoverWithRangeBg: colors.bgHover,
-      },
-      Table: {
-        headerBg: colors.primaryBgSub, // Dùng màu hồng phấn nhạt thay vì xám chết -> Tone-sur-tone
-        headerColor: colors.primaryTitle,
-        headerBorderRadius: 6,
-        borderColor: colors.primaryBorder,
-        rowHoverBg: colors.primaryBg,
-        rowExpandedBg: colors.primaryBg,
-      },
-      Badge: {
-        colorError: colors.primary,
-        colorPrimary: colors.primary,
-      },
-      Tooltip: {
-        colorBgSpotlight: colors.primarySub, // Tooltip đậm hơn chút cho dễ đọc
-      },
-      Collapse: {
-        headerBg: colors.primaryBgSub, // Header collapse đồng bộ với table
-        contentBg: colors.white,
-        borderRadiusLG: 6,
+        hoverBorderColor: colors.primaryHover,
+        controlOutline: "rgba(216, 90, 48, 0.1)", // Terracotta glow
       },
       Button: {
-        // Primary Button
         colorPrimary: colors.primary,
-        colorPrimaryHover: colors.primarySub,
-        colorPrimaryActive: colors.primarySub,
-        primaryShadow: "0 2px 0 rgba(83, 74, 183, 0.2)", // Shadow tím nhẹ
-
-        // Default Button
-        defaultColor: colors.primaryTitle,
-        defaultBorderColor: colors.primaryBorder,
-        defaultHoverBorderColor: colors.primary,
-        defaultHoverColor: colors.primary,
+        colorPrimaryHover: colors.primaryHover,
+        colorPrimaryActive: colors.primaryActive,
+        primaryShadow: "0 2px 0 rgba(216, 90, 48, 0.1)",
       },
-      Checkbox: {
-        colorPrimary: colors.primary,
-        colorPrimaryHover: colors.primary,
+      Table: {
+        headerBg: colors.sidebarActive, // Dùng Amber Lt cho header table
+        headerColor: colors.textPrimary,
+        headerBorderRadius: 8,
+        borderColor: colors.borderSubtle,
+        rowHoverBg: colors.pageBg,
       },
-      Radio: {
-        colorPrimary: colors.primary,
-        buttonSolidCheckedBg: colors.primary,
+      Menu: {
+        itemSelectedBg: colors.sidebarActive,
+        itemSelectedColor: colors.primary,
       },
       Tabs: {
-        itemColor: colors.primarySubtitle,
         itemSelectedColor: colors.primary,
-        itemHoverColor: colors.primarySub,
         inkBarColor: colors.primary,
-      },
-      Pagination: {
-        itemActiveBg: colors.white,
-        colorPrimary: colors.primary,
+        itemHoverColor: colors.primaryHover,
       },
       Modal: {
         titleFontSize: 18,
         headerBg: colors.white,
+        paddingContentHorizontal: 0,
+        paddingContentVertical: 0,
+        padding: 0,
+
       },
     },
   },
@@ -164,89 +116,3 @@ notification.config({
 
 export default antdDefaultConfig;
 
-// Mapping màu từ design — Theme User: Orange / Yellow (Cam / Vàng)
-export const userColors = {
-  // === Nền ===
-  pageBg: "#1A0D00",        // Rất tối cam
-  cardBg: "#30180A",        // Nền card nâu tối
-  sidebarActive: "#5C2B0B", // Nâu xám
-
-  // === Primary & Accent ===
-  primary: "#FA8C16",       // Volcano 6 (Cam) — Primary CTA
-  primarySub: "#FF9C6E",    // Volcano 4 — Accent
-  primaryLight: "#FFD666",  // Vàng sáng — Body text / Title
-  primaryMuted: "#FFE7BA",  // Vàng nhạt — Muted text
-
-  // === Semantic ===
-  success: "#1D9E75",       // Teal — Success / up
-  warning: "#EF9F27",       // Amber — Warning
-  error: "#E24B4A",         // Red — Error / alert
-
-  // === Text ===
-  primaryText: "#FFE7BA",   
-  primaryTitle: "#FFD666",  
-  primarySubtitle: "#FF9C6E", 
-
-  // === Border & UI ===
-  primaryBorder: "rgba(250, 140, 22, 0.2)", // Subtle orange border
-  primaryBg: "#1A0D00",     
-  primaryBgSub: "#30180A",  
-  bgHover: "#5C2B0B",       
-  bgHighlight: "#FA8C16",   
-
-  // === Misc ===
-  disabled: "#5C2B0B",      
-  textDisabled: "rgba(250, 140, 22, 0.4)",
-  white: "#ffffff",
-};
-
-export const userAntdConfig: ConfigProviderProps = {
-  locale: locale,
-  componentSize: "large",
-  form: { colon: false },
-  space: { size: 12 },
-  renderEmpty: () => (
-    <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description="Không có dữ liệu"
-    />
-  ),
-  theme: {
-    token: {
-      fontSize: 14, 
-      fontSizeLG: 16,
-      fontFamily: "Roboto, sans-serif",
-      colorPrimary: userColors.primary,
-      colorInfo: userColors.primary,
-      colorLink: userColors.primary,
-      colorBgBase: userColors.white,
-      colorBorder: userColors.primaryBorder,
-      colorText: userColors.primaryTitle,
-      colorTextSecondary: userColors.primarySubtitle,
-      colorTextPlaceholder: "rgba(0, 0, 0, 0.35)", 
-      colorBgContainerDisabled: userColors.disabled,
-      colorTextDisabled: userColors.textDisabled,
-      borderRadius: 6, 
-      controlHeight: 40, 
-    },
-    components: {
-      Input: {
-        activeBorderColor: userColors.primary,
-        hoverBorderColor: userColors.primarySub,
-        colorBgContainerDisabled: userColors.disabled,
-        colorTextDisabled: userColors.textDisabled,
-        controlOutline: "rgba(250, 140, 22, 0.2)", 
-      },
-      Button: {
-        colorPrimary: userColors.primary,
-        colorPrimaryHover: userColors.primarySub,
-        colorPrimaryActive: userColors.primarySub,
-        primaryShadow: "0 2px 0 rgba(250, 140, 22, 0.2)", 
-        defaultColor: userColors.primaryTitle,
-        defaultBorderColor: userColors.primaryBorder,
-        defaultHoverBorderColor: userColors.primary,
-        defaultHoverColor: userColors.primary,
-      },
-    },
-  },
-};

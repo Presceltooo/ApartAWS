@@ -18,6 +18,7 @@ import {
   OfflineNotification, 
   OnlineNotification 
 } from '@/shared/components/online-offline';
+import { GlobalStyles } from '@/shared/components/global-styled/GlobalStyles';
 
 const PX_2_REM = px2remTransformer({ rootValue: 10 });
 const SHOW_DETECTOR_INTERNET = false;
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <AntdConfigProvider {...antdDefaultConfig}>
         <AntdApp>
+          <GlobalStyles />
           <StyleProvider transformers={[PX_2_REM]}>
             <ErrorBoundary>
               <App />

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
   width: ${({ collapsed }) => (collapsed ? "6rem" : "var(--sidebar-width)")};
   height: 100%;
-  background-color: var(--design-primary-text);
+  background-color: #4A1B0C; /* Ink Brown - Warm dark for sidebar */
   transition: width 0.2s ease;
   position: fixed;
   left: 0;
@@ -11,7 +11,7 @@ export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
   z-index: 99;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--design-primary-border);
+  border-right: 1px solid rgba(216, 90, 48, 0.2);
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -45,7 +45,7 @@ export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
   .sidebar-header {
     height: 4.2rem;
     padding: 0 22px;
-    border-bottom: 1px solid var(--design-primary-border);
+    border-bottom: 1px solid rgba(216, 90, 48, 0.2);
     /* background-color: var(--design-primary-bg-sub); */
     display: flex;
     align-items: center;
@@ -61,10 +61,10 @@ export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
       gap: 8px;
 
       /* Logo icon khi collapsed */
-      .logo-icon {
+        .logo-icon {
         width: 32px;
         height: 32px;
-        background: linear-gradient(135deg, #1677ff, #69c0ff);
+        background: linear-gradient(135deg, #D85A30, #F0997B);
         border-radius: 8px;
         display: flex;
         align-items: center;
@@ -81,7 +81,7 @@ export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
     }
 
     .collapse-btn {
-      color: var(--design-primary-title);
+      color: #FAEEDA;
       margin-left: -3px;
       display: flex;
       align-items: center;
@@ -89,7 +89,7 @@ export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
 
       &:hover {
         background-color: var(--design-primary-border);
-        color: var(--design-primary);
+        color: #D85A30;
       }
     }
 
@@ -97,7 +97,7 @@ export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
       font-weight: 500;
       font-size: 1.8rem;
       text-transform: uppercase;
-      color: var(--design-primary);
+      color: #D85A30;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -175,7 +175,7 @@ export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
         background-color: var(--design-primary-bg-hover);
 
         .ant-menu-item-icon {
-          color: var(--design-primary);
+          color: #D85A30;
         }
       }
     }
@@ -184,7 +184,7 @@ export const SidebarWrapper = styled.div<{ collapsed: boolean }>`
       background-color: var(--design-primary-bg-hover);
 
       .ant-menu-item-icon {
-        color: var(--design-primary);
+        color: #D85A30;
       }
     }
   }
@@ -232,7 +232,7 @@ export const PopoverMenuWrapper = styled.div`
   .popover-item {
     padding: 10px 16px;
     border-radius: 6px;
-    color: var(--design-primary-title);
+    color: #FAEEDA;
     display: flex;
     gap: 10px;
     font-size: 1.4rem;
@@ -245,10 +245,10 @@ export const PopoverMenuWrapper = styled.div`
 
     &:hover {
       background-color: var(--design-primary-bg-hover);
-      color: var(--design-primary);
+      color: #D85A30;
 
       .anticon {
-        color: var(--design-primary);
+        color: #D85A30;
       }
     }
   }
@@ -256,7 +256,7 @@ export const PopoverMenuWrapper = styled.div`
   .popover-header {
     padding: 10px 16px;
     font-weight: 600;
-    color: var(--design-primary);
+    color: #D85A30;
     border-bottom: 1px solid var(--design-primary-border);
     font-size: 1.4rem;
   }
@@ -269,7 +269,7 @@ export const PopoverMenuWrapper = styled.div`
 
     &:hover {
       background-color: var(--design-primary-bg-hover);
-      color: var(--design-primary);
+      color: #D85A30;
     }
   }
 `;
