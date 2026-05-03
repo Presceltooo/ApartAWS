@@ -100,10 +100,6 @@ const antdDefaultConfig: ConfigProviderProps = {
       Modal: {
         titleFontSize: 18,
         headerBg: colors.white,
-        paddingContentHorizontal: 0,
-        paddingContentVertical: 0,
-        padding: 0,
-
       },
     },
   },
