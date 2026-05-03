@@ -15,8 +15,8 @@ export class AuthMiddleware implements NestMiddleware {
     }
 
     try {
-      // In Phase 1, the verify endpoint is on the monolith Auth module
-      const targetBaseUrl = process.env.APARTMENT_SERVICE_URL || 'http://localhost:3001';
+      // Use AUTH_SERVICE_URL or fallback to docker service name
+      const targetBaseUrl = process.env.AUTH_SERVICE_URL || 'http://auth-service:3001';
       
       const { data } = await firstValueFrom(
         this.httpService.post(`${targetBaseUrl}/api/Auth/verify`, { token })

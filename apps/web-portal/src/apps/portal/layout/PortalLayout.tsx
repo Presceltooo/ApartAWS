@@ -3,8 +3,13 @@ import { Outlet, Link, useRouterState } from '@tanstack/react-router';
 import { 
   SearchOutlined, 
   UserOutlined, 
-  MenuOutlined 
+  MenuOutlined,
+  LogoutOutlined 
 } from '@ant-design/icons';
+import { Dropdown, Menu } from 'antd';
+import { useNavigate } from '@tanstack/react-router';
+import { useLogout } from '@apps/auth/services/mutation';
+import tokenManager from '@shared/utils/tokenManager';
 import {
   PortalLayoutWrapper,
   PortalHeaderNav,
@@ -26,6 +31,8 @@ import {
 const PortalLayout: React.FC = () => {
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
+  const navigate = useNavigate();
+  const { mutate: logoutMutate } = useLogout();
 
   return (
     <PortalLayoutWrapper>
@@ -55,10 +62,42 @@ const PortalLayout: React.FC = () => {
             <PortalIconButton>
               <SearchOutlined />
             </PortalIconButton>
-            <PortalProfileBtn>
-              <UserOutlined />
-              <span className="hidden md:inline">Profile</span>
-            </PortalProfileBtn>
+            
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: 'profile',
+                    icon: <UserOutlined />,
+                    label: 'Profile',
+                  },
+                  {
+                    type: 'divider',
+                  },
+                  {
+                    key: 'logout',
+                    danger: true,
+                    icon: <LogoutOutlined />,
+                    label: 'Logout',
+                    onClick: () => {
+                      const refreshToken = tokenManager.getRefreshToken();
+                      if (refreshToken) logoutMutate({ refreshToken });
+                      tokenManager.removeAccessToken();
+                      tokenManager.removeRefreshToken();
+                      navigate({ to: '/' });
+                    },
+                  },
+                ],
+              }}
+              trigger={['click']}
+            >
+              <span style={{ cursor: 'pointer' }}>
+                <PortalProfileBtn>
+                  <UserOutlined />
+                  <span className="hidden md:inline">Profile</span>
+                </PortalProfileBtn>
+              </span>
+            </Dropdown>
             {/* Mobile menu button */}
             <PortalIconButton className="md:hidden" style={{ display: 'none' }}>
               <MenuOutlined />

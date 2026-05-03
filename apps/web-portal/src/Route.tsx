@@ -7,6 +7,7 @@ import NotFound404 from '@/shared/components/404'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import authdRoute, { adminAuthRoute } from '@apps/auth/Route';
 import portalRoute from '@apps/portal/Route';
+import adminRoute from '@apps/admin/Route';
 
 export const rootRoute = createRootRoute({
   component: RootComponent,
@@ -42,7 +43,8 @@ function RootComponent() {
 export const routeTree = rootRoute.addChildren([
   authdRoute,
   adminAuthRoute,
-  portalRoute
+  portalRoute,
+  adminRoute
 ])
 
 // Set up a Router instance

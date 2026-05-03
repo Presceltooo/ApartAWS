@@ -18,24 +18,31 @@ export interface Booking {
   id: string;
   property: string;
   location: string;
-  status: string;
+  status: 'upcoming' | 'completed' | 'cancelled';
   checkIn: string;
   checkOut: string;
   guests: number;
   totalPrice: number;
   imageUrl: string;
+  rawStatus?: string;
+  bookingId?: string;
 }
 
 interface BookingCardProps {
   booking: Booking;
+  onViewDetail?: (id: string) => void;
 }
 
-const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
+const BookingCard: React.FC<BookingCardProps> = ({ booking, onViewDetail }) => {
+  const handleViewDetail = () => {
+    if (onViewDetail) onViewDetail(booking.id);
+  };
+
   return (
     <StyledCard>
       <BookingImgWrapper>
         <img src={booking.imageUrl} alt={booking.property} />
-        <StatusBadge $status={booking.status as any}>{booking.status}</StatusBadge>
+        <StatusBadge $status={booking.status}>{booking.rawStatus ?? booking.status}</StatusBadge>
       </BookingImgWrapper>
       <BookingContent>
         <BookingHeader>
@@ -43,9 +50,9 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
             <PropertyName>{booking.property}</PropertyName>
             <LocationText>{booking.location}</LocationText>
           </div>
-          <BookingCode>{booking.id}</BookingCode>
+          <BookingCode>{booking.id.slice(0, 12).toUpperCase()}</BookingCode>
         </BookingHeader>
-        
+
         <DetailsGrid>
           <DetailItem>
             <label>Check In</label>
@@ -66,14 +73,12 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking }) => {
         </DetailsGrid>
 
         <BookingActions>
+          <ActionBtn onClick={handleViewDetail}>View Details</ActionBtn>
           {booking.status === 'upcoming' && (
-             <>
-               <ActionBtn>Modify Dates</ActionBtn>
-               <ActionBtn $primary>Contact Concierge</ActionBtn>
-             </>
+            <ActionBtn $primary>Contact Concierge</ActionBtn>
           )}
           {booking.status === 'completed' && (
-             <ActionBtn $primary>Book Again</ActionBtn>
+            <ActionBtn $primary>Book Again</ActionBtn>
           )}
         </BookingActions>
       </BookingContent>

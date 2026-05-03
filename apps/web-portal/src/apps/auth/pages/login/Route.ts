@@ -17,7 +17,7 @@ export const loginRoute = createRoute({
     // Đã login thì không cho vào trang login
     if (accessToken) {
       throw redirect({
-        to: '/admin',
+        to: '/',
       });
     }
   },

@@ -1,19 +1,19 @@
 import React from 'react';
+import { Link } from '@tanstack/react-router';
 import BookingModal from './modals/BookingModal';
-import { 
-  ArrowLeftOutlined, 
-  StarFilled, 
-  EnvironmentOutlined, 
-  CalendarOutlined, 
-  HomeOutlined, 
+import {
+  ArrowLeftOutlined,
+  StarFilled,
+  EnvironmentOutlined,
+  CalendarOutlined,
+  HomeOutlined,
   LockOutlined,
   ArrowRightOutlined,
   WifiOutlined,
-  FireOutlined,
-  CoffeeOutlined,
   AppstoreOutlined,
-  SmileOutlined
+  SmileOutlined,
 } from '@ant-design/icons';
+import { Skeleton, Tag } from 'antd';
 import {
   DetailSection,
   TopBarWrapper,
@@ -28,10 +28,8 @@ import {
   RightColumn,
   BentoGrid,
   BentoBox,
-  BentoBoxGroupFlex,
   BentoLabel,
   BentoValue,
-  BentoSubValue,
   SectionTitle,
   SectionText,
   AmenitiesChipsRow,
@@ -48,13 +46,33 @@ import {
 import { useData } from './hooks/useData';
 import { useActions } from './hooks/useActions';
 
+const FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80',
+  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80',
+];
+
 const ApartmentDetails: React.FC = () => {
-  const { apartment, isLoading } = useData();
+  const { apartment, isLoading, isError } = useData();
   const { modalOpen, openModal, closeModal } = useActions();
 
   if (isLoading) {
-    return <div>Gathering details...</div>;
+    return (
+      <DetailSection style={{ padding: '2rem' }}>
+        <Skeleton active paragraph={{ rows: 6 }} />
+      </DetailSection>
+    );
   }
+
+  if (isError || !apartment) {
+    return (
+      <DetailSection style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Unable to load property details. <Link to="/can-ho">Browse all properties</Link></p>
+      </DetailSection>
+    );
+  }
+
+  const imageUrl = apartment.images?.[0] ?? FALLBACK_IMAGES[0];
+  const pricePerNight = apartment.pricePerNight;
 
   return (
     <>
@@ -73,7 +91,13 @@ const ApartmentDetails: React.FC = () => {
         <PropertyTitle>{apartment.title}</PropertyTitle>
 
         <HeroImageWrapper>
-          <HeroImage src={apartment.imageUrl} alt={apartment.title} />
+          <HeroImage
+            src={imageUrl}
+            alt={apartment.title}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = FALLBACK_IMAGES[0];
+            }}
+          />
           <LocationFloatBadge>
             <EnvironmentOutlined />
             <span>{apartment.location}</span>
@@ -84,123 +108,126 @@ const ApartmentDetails: React.FC = () => {
       <DetailSection>
         <ContentGrid>
           <LeftColumn>
+            {/* Quick info bento */}
             <BentoGrid>
-              <BentoBoxGroupFlex $colSpan={2}>
+              <BentoBox $colSpan={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <BentoLabel>Curated Dates</BentoLabel>
-                  <BentoValue>Oct 12 — Oct 26</BentoValue>
-                  <BentoSubValue>14 Nights</BentoSubValue>
+                  <BentoLabel>Price per Night</BentoLabel>
+                  <BentoValue>${pricePerNight.toLocaleString()}</BentoValue>
                 </div>
-                <CalendarOutlined />
-              </BentoBoxGroupFlex>
-
-              <BentoBox>
-                <BentoLabel>Guests</BentoLabel>
-                <BentoValue>2 Guests</BentoValue>
+                <CalendarOutlined style={{ fontSize: '1.875rem', color: 'rgba(153,60,29,0.2)' }} />
               </BentoBox>
 
               <BentoBox>
-                <BentoLabel>Configuration</BentoLabel>
-                <BentoValue>1 Bed, 1.5 Bath</BentoValue>
+                <BentoLabel>Status</BentoLabel>
+                <BentoValue>
+                  <Tag color={apartment.isActive ? 'success' : 'default'}>
+                    {apartment.isActive ? 'Available' : 'Unavailable'}
+                  </Tag>
+                </BentoValue>
+              </BentoBox>
+
+              <BentoBox>
+                <BentoLabel>Category</BentoLabel>
+                <BentoValue>
+                  <HomeOutlined style={{ marginRight: 6 }} />
+                  Apartment
+                </BentoValue>
               </BentoBox>
             </BentoGrid>
 
-            <div>
-              <SectionTitle>The Architecture</SectionTitle>
-              <SectionText>
-                Suspended above the valley floor, this transparent pavilion blurs the boundaries between shelter and nature. Meticulously engineered structural glass walls disappear into the canopy, while rough-hewn concrete anchors the structure to the hillside. The interiors feature curated mid-century pieces set against a backdrop of ancient oaks.
-              </SectionText>
-              <SectionText>
-                Every element has been considered—from the placement of the morning sun across the terrazzo floors to the acoustic dampening of the cedar ceilings.
-              </SectionText>
-            </div>
+            {/* Description */}
+            {apartment.description && (
+              <div>
+                <SectionTitle>The Architecture</SectionTitle>
+                <SectionText>{apartment.description}</SectionText>
+              </div>
+            )}
 
-            <div>
-              <SectionTitle>Signatures</SectionTitle>
-              <AmenitiesChipsRow>
-                <AmenityChip $highlight>
-                  <SmileOutlined /> Private Trail Access
-                </AmenityChip>
-                <AmenityChip $highlight>
-                  <SmileOutlined /> Cedar Soaking Tub
-                </AmenityChip>
-                <AmenityChip>
-                  <WifiOutlined /> High-Speed Fiber
-                </AmenityChip>
-                <AmenityChip>
-                  <AppstoreOutlined /> Chef's Kitchen
-                </AmenityChip>
-                <AmenityChip>
-                  <FireOutlined /> Floating Hearth
-                </AmenityChip>
-                <AmenityChip>
-                  <CoffeeOutlined /> Wine Fridge
-                </AmenityChip>
-              </AmenitiesChipsRow>
-            </div>
+            {/* Amenities */}
+            {apartment.amenities?.length > 0 && (
+              <div>
+                <SectionTitle>Signatures</SectionTitle>
+                <AmenitiesChipsRow>
+                  {apartment.amenities.map((am, i) => (
+                    <AmenityChip key={am} $highlight={i < 2}>
+                      {i === 0 ? <SmileOutlined /> : i === 1 ? <WifiOutlined /> : <AppstoreOutlined />}
+                      {am}
+                    </AmenityChip>
+                  ))}
+                </AmenitiesChipsRow>
+              </div>
+            )}
 
+            {/* Location */}
             <div>
               <SectionTitle>Location</SectionTitle>
               <MapWrapper>
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3_JszN5T_lQnQn7P0W0Zf2sDkPnvwS2jE5B5Z_Z1wKqR2fPZ_P9kR45Z-R_vT8nK51fH0M-bX1rIuR_V_W4iZ1vMmMz7R_v2J0g0Oa8Wq6Fh5vJvM7wN_1M7nN8wN2aC82gG02g0wW_1v9Z5kK1o_2J0wB8iW4iW3Q-T5aI7W_e0G2jQ_lJ30D3yV40_wV_C6oI9V84" alt="Map Location" /> 
                 <div className="pin-wrapper">
                   <div className="pin-circle">
-                     <HomeOutlined />
+                    <HomeOutlined />
                   </div>
                 </div>
               </MapWrapper>
-              <MapDisclaimer>Exact location provided post-booking to preserve the privacy of the sanctuary.</MapDisclaimer>
+              <MapDisclaimer>
+                {apartment.location} — Exact address provided after booking.
+              </MapDisclaimer>
             </div>
           </LeftColumn>
 
           <RightColumn>
             <StickyWidgetContainer>
               <WidgetTitle>Reservation</WidgetTitle>
-              
+
               <SummaryRow>
-                <span>${apartment.price} × 14 nights</span>
-                <span className="price">${(apartment.price * 14).toLocaleString()}</span>
+                <span>Price per night</span>
+                <span className="price">${pricePerNight.toLocaleString()}</span>
               </SummaryRow>
               <SummaryRow>
-                <span>Curator Fee</span>
-                <span className="price">$250</span>
+                <span>Cleaning fee</span>
+                <span className="price">$120</span>
               </SummaryRow>
               <SummaryRow>
-                <span>Taxes & Local Fees</span>
-                <span className="price">$850</span>
+                <span>Service fee</span>
+                <span className="price">$85</span>
               </SummaryRow>
-              
+
               <SummaryRow $isTotal>
-                <span>Total (USD)</span>
-                <span className="price">${((apartment.price * 14) + 250 + 850).toLocaleString()}</span>
+                <span>Starting from</span>
+                <span className="price">${(pricePerNight + 205).toLocaleString()}</span>
               </SummaryRow>
 
               <PaymentSuccessCard>
                 <LockOutlined />
                 <div>
                   <p className="title">Secure Reserve</p>
-                  <p className="desc">Your reservation will be held securely. No charge until confirmed.</p>
+                  <p className="desc">No charge until confirmed.</p>
                 </div>
               </PaymentSuccessCard>
 
-              <WidgetPrimaryBtn onClick={openModal}>
-                Initialize Booking
-                <ArrowRightOutlined />
+              <WidgetPrimaryBtn
+                id={`book-apartment-${apartment.id}`}
+                onClick={openModal}
+                disabled={!apartment.isActive}
+              >
+                {apartment.isActive ? 'Initialize Booking' : 'Not Available'}
+                {apartment.isActive && <ArrowRightOutlined />}
               </WidgetPrimaryBtn>
 
-              <WidgetSecondaryBtn>
-                Contact Concierge
+              <WidgetSecondaryBtn onClick={() => window.history.back()}>
+                Back to Collection
               </WidgetSecondaryBtn>
             </StickyWidgetContainer>
           </RightColumn>
         </ContentGrid>
       </DetailSection>
 
-      <BookingModal 
-        open={modalOpen} 
-        onClose={closeModal} 
-        propertyName={apartment.title} 
-        pricePerNight={apartment.price} 
+      <BookingModal
+        open={modalOpen}
+        onClose={closeModal}
+        apartmentId={apartment.id}
+        propertyName={apartment.title}
+        pricePerNight={pricePerNight}
       />
     </>
   );

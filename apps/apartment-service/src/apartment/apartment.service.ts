@@ -1,18 +1,20 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { PrismaService } from '../../common/prisma/prisma.service';
-import { ApiResponse } from '../../common/dto/response.dto';
+import { PrismaService } from '../common/prisma/prisma.service';
+import { ApiResponse } from '../common/dto/response.dto';
 import { CreateApartmentDto, UpdateApartmentDto } from './dto';
-import { paginate } from '../../common/utils/prisma-paginator';
+import { paginate } from '../common/utils/prisma-paginator';
 
 @Injectable()
 export class ApartmentsService {
   constructor(private prisma: PrismaService) {}
 
-  // Lấy tất cả căn hộ
-  async findAll(keyword?: string, page: number = 1, pageSize: number = 10) {
-    const where = keyword?.trim() 
-      ? { title: { contains: keyword.trim(), mode: 'insensitive' as const } } 
-      : {};
+  // Lấy danh sách căn hộ của một Owner
+  async findAll(ownerId: string, keyword?: string, page: number = 1, pageSize: number = 10) {
+    const where: any = { ownerId };
+    
+    if (keyword?.trim()) {
+      where.title = { contains: keyword.trim(), mode: 'insensitive' as const };
+    }
 
     const result = await paginate(this.prisma.apartment, { page, pageSize }, {
       where,

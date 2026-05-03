@@ -2,23 +2,32 @@ import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, Htt
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiSecurity } from '@nestjs/swagger';
 import { ApartmentsService } from './apartment.service';
 import { CreateApartmentDto, UpdateApartmentDto } from './dto';
-import { CurrentUser } from '../../common/decorators/user.decorator';
+import { S3Service } from '../common/s3/s3.service';
+import { CurrentUser } from '../common/decorators/user.decorator';
 
 @ApiTags('Apartments')
 @ApiSecurity('x-user-id')
 @ApiSecurity('x-user-role')
 @Controller('Apartments')
 export class ApartmentsController {
-  constructor(private readonly apartmentsService: ApartmentsService) {}
+  constructor(
+    private readonly apartmentsService: ApartmentsService,
+    private readonly s3Service: S3Service,
+  ) {}
 
   @Get()
-  @ApiOperation({ summary: 'Lấy danh sách tất cả căn hộ' })
-  @ApiResponse({ status: 200, description: 'Trả về mảng các căn hộ thực tế' })
+  @ApiOperation({ summary: 'Lấy danh sách căn hộ của Owner hiện tại' })
+  @ApiResponse({ status: 200, description: 'Trả về mảng các căn hộ của owner' })
   @ApiQuery({ name: 'Keyword', required: false, type: String })
   @ApiQuery({ name: 'Page', required: false, type: String })
   @ApiQuery({ name: 'PageSize', required: false, type: String })
-  findAll(@Query('Keyword') Keyword?: string, @Query('Page') Page?: string, @Query('PageSize') PageSize?: string) {
-    return this.apartmentsService.findAll(Keyword, Page ? +Page : 1, PageSize ? +PageSize : 10);
+  findAll(
+    @CurrentUser('userId') userId: string,
+    @Query('Keyword') Keyword?: string, 
+    @Query('Page') Page?: string, 
+    @Query('PageSize') PageSize?: string
+  ) {
+    return this.apartmentsService.findAll(userId, Keyword, Page ? +Page : 1, PageSize ? +PageSize : 10);
   }
 
   @Get('listing')
@@ -62,5 +71,14 @@ export class ApartmentsController {
   @ApiResponse({ status: 200, description: 'Căn hộ đã được xoá' })
   remove(@Param('id') id: string, @CurrentUser('userId') userId: string) {
     return this.apartmentsService.remove(id, userId);
+  }
+
+  @Post('presigned-url')
+  @ApiOperation({ summary: 'Lấy presigned URL để upload ảnh lên S3' })
+  @ApiResponse({ status: 201, description: 'Trả về uploadUrl và publicUrl' })
+  getPresignedUrl(
+    @Body() body: { fileName: string; contentType: string; fileSize?: number },
+  ) {
+    return this.s3Service.generatePresignedUrl(body.fileName, body.contentType, body.fileSize);
   }
 }

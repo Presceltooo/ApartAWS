@@ -3,6 +3,7 @@ import { rootRoute } from "@/Route";
 import PortalLayout from './layout/PortalLayout';
 import dashboardRoute from './pages/dashboard/Route';
 import bookingsRoute from './pages/bookings/Route';
+import bookingDetailRoute from './pages/bookings/DetailRoute';
 import apartmentDetailsRoute from './pages/apartment-details/Route';
 import apartmentListRoute from './pages/can-ho/Route';
 
@@ -24,6 +25,7 @@ portalRoute.addChildren([
   homeRoute,
   dashboardRoute,
   bookingsRoute,
+  bookingDetailRoute,
   apartmentDetailsRoute,
   apartmentListRoute,
 ]);

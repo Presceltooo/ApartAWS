@@ -57,6 +57,7 @@ const Register: React.FC = () => {
     confirm: '',
     phone: '',
     address: '',
+    role: 'TENANT',
     agreed: false,
   });
 
@@ -81,7 +82,7 @@ const Register: React.FC = () => {
         fullName: form.fullName,
         phone: form.phone || undefined,
         address: form.address || undefined,
-        role: 'TENANT',
+        role: form.role as 'TENANT' | 'OWNER',
       },
       {
         onSuccess: () => {
@@ -185,6 +186,32 @@ const Register: React.FC = () => {
                 onChange={(e) => handleChange('email', e.target.value)}
               />
               <RegisterInputIcon>@</RegisterInputIcon>
+            </RegisterInputWrapper>
+          </RegisterFieldGroup>
+          {/* Role Selection */}
+          <RegisterFieldGroup>
+            <RegisterFieldLabel>Bạn đăng ký với tư cách</RegisterFieldLabel>
+            <RegisterInputWrapper>
+              <select
+                value={form.role}
+                onChange={(e) => handleChange('role', e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '12px 16px 12px 40px',
+                  borderRadius: '12px',
+                  border: '1.5px solid #eee',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  appearance: 'none',
+                  backgroundColor: '#fff',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                <option value="TENANT">Khách thuê (Tenant)</option>
+                <option value="OWNER">Chủ căn hộ (Owner)</option>
+              </select>
+              <RegisterInputIcon>🎭</RegisterInputIcon>
             </RegisterInputWrapper>
           </RegisterFieldGroup>
 
