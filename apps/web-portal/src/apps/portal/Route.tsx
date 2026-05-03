@@ -4,6 +4,7 @@ import PortalLayout from './layout/PortalLayout';
 import dashboardRoute from './pages/dashboard/Route';
 import bookingsRoute from './pages/bookings/Route';
 import apartmentDetailsRoute from './pages/apartment-details/Route';
+import apartmentListRoute from './pages/can-ho/Route';
 
 import TrangChu from './TrangChu';
 
@@ -24,6 +25,7 @@ portalRoute.addChildren([
   dashboardRoute,
   bookingsRoute,
   apartmentDetailsRoute,
+  apartmentListRoute,
 ]);
 
 export default portalRoute;

@@ -7,16 +7,11 @@ export interface IPagination<T> {
 }
 
 export interface IResponse<T> {
-  code: string;
-  data: T;
-  message: string;
-}
-
-export interface IResponse<T> {
   success: boolean;
   data: T;
   message: string;
-  error :any;
+  error?: any;
+  code?: string;
 }
 
 export interface IResponsePagination<T> extends IResponse<IPagination<T>> {}

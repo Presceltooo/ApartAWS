@@ -1,0 +1,102 @@
+import React from 'react';
+import { Input, Pagination, Empty, Skeleton } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
+import {
+  PageWrapper,
+  PageHeader,
+  PageTitle,
+  PageSubtitle,
+  SearchRow,
+  Grid,
+  PaginationWrapper,
+  ResultsCount,
+} from './styles/styled';
+import ApartmentCard from './components/ApartmentCard';
+import { useData } from './hooks/useData';
+import { useActions } from './hooks/useActions';
+
+const PAGE_SIZE = 9;
+
+const ApartmentList: React.FC = () => {
+  const {
+    keyword,
+    searchInput,
+    setSearchInput,
+    page,
+    handleSearch,
+    handleView,
+    handlePageChange,
+  } = useActions();
+
+  const { apartments, total, isLoading, isError } = useData({
+    keyword,
+    page,
+    pageSize: PAGE_SIZE,
+  });
+
+  return (
+    <PageWrapper>
+      <PageHeader>
+        <PageTitle>All Sanctuaries</PageTitle>
+        <PageSubtitle>Browse our curated collection of premium properties.</PageSubtitle>
+      </PageHeader>
+
+      <SearchRow>
+        <Input
+          id="apartment-search-input"
+          size="large"
+          placeholder="Search by name, location…"
+          prefix={<SearchOutlined />}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onPressEnter={handleSearch}
+          style={{ maxWidth: 480 }}
+          allowClear
+        />
+      </SearchRow>
+
+      {!isLoading && !isError && (
+        <ResultsCount>
+          {total > 0
+            ? `Showing ${apartments.length} of ${total} properties`
+            : 'No properties found'}
+        </ResultsCount>
+      )}
+
+      {isLoading ? (
+        <Grid>
+          {Array.from({ length: PAGE_SIZE }).map((_, i) => (
+            <Skeleton key={i} active paragraph={{ rows: 4 }} />
+          ))}
+        </Grid>
+      ) : isError ? (
+        <Empty
+          description="Unable to load properties. Please try again."
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+        />
+      ) : apartments.length === 0 ? (
+        <Empty description="No properties match your search." image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      ) : (
+        <Grid>
+          {apartments.map((apt, idx) => (
+            <ApartmentCard key={apt.id} apartment={apt} index={idx} onView={handleView} />
+          ))}
+        </Grid>
+      )}
+
+      {total > PAGE_SIZE && (
+        <PaginationWrapper>
+          <Pagination
+            current={page}
+            total={total}
+            pageSize={PAGE_SIZE}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
+        </PaginationWrapper>
+      )}
+    </PageWrapper>
+  );
+};
+
+export default ApartmentList;

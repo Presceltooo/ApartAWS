@@ -1,50 +1,66 @@
 /**
- * Form data & Payload gửi lên API BE
+ * Portal Service Types
+ * Khớp với Prisma schema của apartment-service & booking-service
  */
-export type TLoginPayload = {
-  email: string;
-  password: string;
-};
 
-export type TRegisterPayload = {
-  email: string;
-  password: string;
-  fullName: string;
-  phone?: string;
-  address?: string;
-  role: 'ADMIN' | 'OWNER' | 'TENANT';
-};
+// ─── Apartment ────────────────────────────────────────────────────────────────
 
-export type TRefreshTokenPayload = {
-  refreshToken: string;
-};
-
-export type TChangePasswordPayload = {
-  oldPassword: string;
-  newPassword: string;
-};
-
-/**
- * Response từ API Backend
- */
-export interface IUser {
-  userId: string;
-  email: string;
-  fullName: string;
-  phone: string;
-  address: string;
-  role: string;
+export interface IApartment {
+  id: string;
+  title: string;
+  description?: string;
+  pricePerNight: number;
+  location: string;
+  amenities: string[];
+  images: string[];
+  isActive: boolean;
+  ownerId?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export interface IAuthResponse {
-  accessToken: string;
-  refreshToken: string;
+export interface IApartmentQuery {
+  Keyword?: string;
+  Page?: number;
+  PageSize?: number;
 }
 
-export interface ILoginRespone extends IAuthResponse {
-  accessExpiresAt?: string;
-  refreshExpiresAt?: string;
-  roles?: string[];
-  metaData?: any;
-  user?: IUser;
+// ─── Booking ──────────────────────────────────────────────────────────────────
+
+export type BookingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'COMPLETED';
+
+export interface IBooking {
+  id: string;
+  apartmentId: string;
+  tenantId: string;
+  startDate: string;
+  endDate: string;
+  totalPrice: number;
+  status: BookingStatus;
+  createdAt: string;
+  updatedAt: string;
+  apartment?: IApartment;
+}
+
+export interface ICreateBookingPayload {
+  apartmentId: string;
+  startDate: string; // ISO 8601
+  endDate: string;   // ISO 8601
+}
+
+export interface ICheckAvailabilityQuery {
+  apartmentId: string;
+  startDate: string;
+  endDate: string;
+}
+
+export interface ICheckAvailabilityResponse {
+  available: boolean;
+  conflictingDates?: string[];
+}
+
+export interface IBookingQuery {
+  Page?: number;
+  PageSize?: number;
+  Status?: BookingStatus;
 }

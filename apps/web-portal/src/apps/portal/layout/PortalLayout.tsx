@@ -38,6 +38,9 @@ const PortalLayout: React.FC = () => {
             <Link to="/" activeProps={{ className: 'active' }}>
               {({ isActive }) => <PortalNavLink as="div" $active={isActive || currentPath === '/'}>Listings</PortalNavLink>}
             </Link>
+            <Link to="/can-ho" activeProps={{ className: 'active' }}>
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Apartments</PortalNavLink>}
+            </Link>
             <Link to="/bookings" activeProps={{ className: 'active' }}>
               {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Bookings</PortalNavLink>}
             </Link>

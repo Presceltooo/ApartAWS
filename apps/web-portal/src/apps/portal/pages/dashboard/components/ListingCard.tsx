@@ -20,7 +20,7 @@ import {
 } from '../styles/styled';
 
 export interface Listing {
-  id: number;
+  id: string;
   title: string;
   location: string;
   price: number;
@@ -37,7 +37,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing }) => {
   const navigate = useNavigate();
 
   const handleViewDetails = () => {
-    navigate({ to: `/apartment/$id`, params: { id: listing.id.toString() } });
+    navigate({ to: `/apartment/$id`, params: { id: listing.id } });
   };
 
   return (

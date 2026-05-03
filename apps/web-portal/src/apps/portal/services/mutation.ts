@@ -1,37 +1,33 @@
-import { useMutation } from "@tanstack/react-query";
-import { login, register, refreshTokens, logout, changePassword } from "./api";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createBooking, cancelBooking } from './api';
+
+// ─── Booking Mutations ─────────────────────────────────────────────────────────
 
 /**
- * Hook sử dụng API đăng nhập
+ * Hook tạo đặt phòng mới
+ * Tự động invalidate cache my-bookings sau khi tạo thành công
  */
-export const useLogin = () => {
-  return useMutation({ mutationFn: login });
+export const useCreateBooking = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createBooking,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['bookings', 'my'] });
+    },
+  });
 };
 
 /**
- * Hook sử dụng API đăng ký
+ * Hook huỷ booking
+ * Tự động invalidate cache my-bookings và chi tiết booking
  */
-export const useRegister = () => {
-  return useMutation({ mutationFn: register });
-};
-
-/**
- * Hook sử dụng API làm mới token
- */
-export const useRefreshTokens = () => {
-  return useMutation({ mutationFn: refreshTokens });
-};
-
-/**
- * Hook sử dụng API đăng xuất
- */
-export const useLogout = () => {
-  return useMutation({ mutationFn: logout });
-};
-
-/**
- * Hook sử dụng API đổi mật khẩu
- */
-export const useChangePassword = () => {
-  return useMutation({ mutationFn: changePassword });
+export const useCancelBooking = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => cancelBooking(id),
+    onSuccess: (_data, id) => {
+      queryClient.invalidateQueries({ queryKey: ['bookings', 'my'] });
+      queryClient.invalidateQueries({ queryKey: ['bookings', id] });
+    },
+  });
 };
