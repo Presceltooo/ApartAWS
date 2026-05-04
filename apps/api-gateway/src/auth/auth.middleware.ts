@@ -26,6 +26,7 @@ export class AuthMiddleware implements NestMiddleware {
       // Inject user info into headers so that the downstream services can read it
       req.headers['x-user-id'] = data.data.userId;
       req.headers['x-user-role'] = data.data.role;
+      req.headers['x-user-email'] = data.data.email;
       next();
     } catch (error) {
       throw new UnauthorizedException('Invalid or expired token');

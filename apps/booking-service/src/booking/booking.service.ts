@@ -9,6 +9,7 @@ import { firstValueFrom } from 'rxjs';
 import { PrismaService } from '../common/prisma/prisma.service';
 import { ApiResponse } from '../common/dto/response.dto';
 import { paginate } from '../common/utils/prisma-paginator';
+import { MailService } from '../common/mail/mail.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Injectable()
@@ -16,13 +17,14 @@ export class BookingsService {
   constructor(
     private prisma: PrismaService,
     private httpService: HttpService,
+    private mailService: MailService,
   ) {}
 
   // ===========================================================================
   // Tạo đơn đặt phòng
   // Gọi HTTP sang Apartment Service để kiểm tra căn hộ có tồn tại & còn active
   // ===========================================================================
-  async create(dto: CreateBookingDto, tenantId: string) {
+  async create(dto: CreateBookingDto, tenantId: string, tenantEmail?: string) {
     if (!tenantId) {
       throw new ForbiddenException('Bạn phải đăng nhập để đặt phòng');
     }
@@ -67,6 +69,22 @@ export class BookingsService {
           endDate: end,
         },
       });
+
+      // Gửi email thông báo (bất đồng bộ, không block luồng)
+      if (tenantEmail) {
+        const htmlBody = `
+          <h3>Cảm ơn bạn đã đặt phòng tại Aura Heritage!</h3>
+          <p>Thông tin đặt phòng của bạn:</p>
+          <ul>
+            <li><strong>Căn hộ:</strong> ${apartment.title}</li>
+            <li><strong>Nhận phòng:</strong> ${start.toLocaleDateString('vi-VN')}</li>
+            <li><strong>Trả phòng:</strong> ${end.toLocaleDateString('vi-VN')}</li>
+            <li><strong>Tổng tiền:</strong> $${totalPrice}</li>
+          </ul>
+          <p>Trạng thái hiện tại: <strong>Chờ xác nhận</strong></p>
+        `;
+        this.mailService.sendEmail(tenantEmail, 'Xác nhận yêu cầu đặt phòng', htmlBody).catch(console.error);
+      }
 
       // 4. Merge thông tin apartment vào response (Convert Decimal -> number cho frontend)
       return new ApiResponse(

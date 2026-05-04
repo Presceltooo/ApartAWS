@@ -5,6 +5,7 @@ import loginRoute from "@apps/auth/pages/login/Route";
 import { createRoute } from "@tanstack/react-router";
 
 import forgotPasswordRoute from "@apps/auth/pages/forgot-password/Route";
+import resetPasswordRoute from "@apps/auth/pages/reset-password/Route";
 import loginAdminRoute from "./pages/login-admin/Route";
 import registerRoute from "./pages/register/Route";
 
@@ -24,7 +25,7 @@ export const adminAuthRoute = createRoute({
   component: AuthAdminLayout,
 });
 
-authdRoute.addChildren([loginRoute, forgotPasswordRoute, registerRoute]);
+authdRoute.addChildren([loginRoute, forgotPasswordRoute, resetPasswordRoute, registerRoute]);
 adminAuthRoute.addChildren([loginAdminRoute]);
 
 export default authdRoute;

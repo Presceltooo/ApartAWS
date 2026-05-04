@@ -37,8 +37,8 @@ export class BookingsController {
   @ApiResponse({ status: 404, description: 'Căn hộ không tồn tại' })
   @ApiResponse({ status: 409, description: 'Căn hộ đã được đặt trong khoảng thời gian này' })
   @ApiHeader({ name: 'x-user-id', required: true, description: 'UUID của tenant (do Gateway forward)' })
-  create(@Body() dto: CreateBookingDto, @CurrentUser('userId') userId: string) {
-    return this.bookingsService.create(dto, userId);
+  create(@Body() dto: CreateBookingDto, @CurrentUser() user: any) {
+    return this.bookingsService.create(dto, user.userId, user.email);
   }
 
   @Get('my-bookings')

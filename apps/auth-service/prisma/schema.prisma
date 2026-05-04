@@ -26,9 +26,11 @@ model User {
   address       String?
   fullName      String?
   role          Role           @default(TENANT)
-  createdAt     DateTime       @default(now())
-  isActive      Boolean        @default(true)
-  refreshTokens RefreshToken[]
+  createdAt          DateTime       @default(now())
+  isActive           Boolean        @default(true)
+  resetToken         String?
+  resetTokenExpires  DateTime?
+  refreshTokens      RefreshToken[]
 
   @@map("Users")
   @@schema("auth")

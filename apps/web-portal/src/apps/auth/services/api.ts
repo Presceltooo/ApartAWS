@@ -53,3 +53,15 @@ export const updateProfile = (
 ): Promise<IResponse<any>> => {
   return axiosClient.patch("Auth/profile", payload);
 };
+
+export const forgotPassword = (
+  payload: { email: string },
+): Promise<IResponse<any>> => {
+  return axiosClient.post("Auth/forgot-password", payload);
+};
+
+export const resetPassword = (
+  payload: any,
+): Promise<IResponse<any>> => {
+  return axiosClient.post("Auth/reset-password", payload);
+};

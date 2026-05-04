@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
+import { MailModule } from '../common/mail/mail.module';
 import { BookingsController } from './booking.controller';
 import { BookingsService } from './booking.service';
 
@@ -9,6 +10,7 @@ import { BookingsService } from './booking.service';
       timeout: 5000,
       maxRedirects: 3,
     }),
+    MailModule,
   ],
   controllers: [BookingsController],
   providers: [BookingsService],

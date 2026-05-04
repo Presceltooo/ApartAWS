@@ -10,7 +10,8 @@ import * as crypto from 'crypto';
 import { PrismaService } from '../common/prisma/prisma.service';
 import { ApiResponse } from '../common/dto/response.dto';
 import { PaginationMetaDTO } from '../common/dto/pagination-meta.dto';
-import { CreateUserDto, ChangePasswordDto, LoginDto, VerifyDto, RefreshTokenDto } from './dto';
+import { CreateUserDto, ChangePasswordDto, LoginDto, VerifyDto, RefreshTokenDto, ForgotPasswordDto, ResetPasswordDto } from './dto';
+import { MailService } from '../common/mail/mail.service';
 
 // Thời gian sống của Refresh Token: 7 ngày (ms)
 const REFRESH_TOKEN_TTL_MS = 1 * 24 * 60 * 60 * 1000;
@@ -20,6 +21,7 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
   // Private helpers
@@ -42,7 +44,7 @@ export class AuthService {
     oldTokenId?: string,
   ) {
     // 1. Cấp accessToken (JWT, ngắn hạn)
-    const accessToken = this.jwtService.sign({ sub: userId, role });
+    const accessToken = this.jwtService.sign({ sub: userId, role, email: (await this.prisma.user.findUnique({where:{id:userId}}))?.email });
 
     // 2. Decode để lấy thời hạn thực tế của accessToken
     const decoded = this.jwtService.decode(accessToken) as { exp: number };
@@ -180,7 +182,7 @@ export class AuthService {
     try {
       const payload = this.jwtService.verify(verifyDto.token);
       return new ApiResponse(
-        { userId: payload.sub, role: payload.role },
+        { userId: payload.sub, role: payload.role, email: payload.email },
         'Token hợp lệ',
       );
     } catch {
@@ -221,6 +223,80 @@ export class AuthService {
     });
 
     return new ApiResponse(null, 'Đổi mật khẩu thành công');
+  }
+
+  // Quên mật khẩu
+  async forgotPassword(dto: ForgotPasswordDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+    
+    // Luôn trả về thành công để tránh dò quét email
+    if (!user || !user.isActive) {
+      return new ApiResponse(null, 'Nếu email tồn tại, một đường dẫn đặt lại mật khẩu đã được gửi.');
+    }
+
+    // Tạo token đặt lại ngẫu nhiên
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+    
+    // Hết hạn sau 1 giờ
+    const resetTokenExpires = new Date(Date.now() + 60 * 60 * 1000);
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { resetToken: resetTokenHash, resetTokenExpires },
+    });
+
+    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/auth/dat-lai-mat-khau?token=${resetToken}`;
+    
+    const htmlBody = `
+      <h3>Xin chào ${user.fullName || user.email},</h3>
+      <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản Aura Heritage của mình.</p>
+      <p>Vui lòng click vào đường dẫn bên dưới để đặt lại mật khẩu (có hiệu lực trong 1 giờ):</p>
+      <a href="${resetLink}" style="display:inline-block;padding:10px 20px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:4px;">Đặt lại mật khẩu</a>
+      <p>Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>
+    `;
+
+    await this.mailService.sendEmail(
+      user.email,
+      'Aura Heritage - Đặt lại mật khẩu',
+      htmlBody,
+    );
+
+    return new ApiResponse(null, 'Nếu email tồn tại, một đường dẫn đặt lại mật khẩu đã được gửi.');
+  }
+
+  // Đặt lại mật khẩu
+  async resetPassword(dto: ResetPasswordDto) {
+    const resetTokenHash = crypto.createHash('sha256').update(dto.token).digest('hex');
+    
+    const user = await this.prisma.user.findFirst({
+      where: {
+        resetToken: resetTokenHash,
+        resetTokenExpires: { gt: new Date() },
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Token không hợp lệ hoặc đã hết hạn');
+    }
+
+    const hashedPassword = await bcrypt.hash(dto.newPassword, 10);
+    
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { 
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpires: null,
+      },
+    });
+
+    // Revoke tất cả Refresh Tokens để buộc đăng nhập lại
+    await this.prisma.refreshToken.deleteMany({ where: { userId: user.id } });
+
+    return new ApiResponse(null, 'Đặt lại mật khẩu thành công');
   }
 
   // Cập nhật thông tin profile

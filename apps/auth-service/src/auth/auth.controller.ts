@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
-import { CreateUserDto, LoginDto, VerifyDto, ChangePasswordDto, RefreshTokenDto, UpdateProfileDto } from './dto';
+import { CreateUserDto, LoginDto, VerifyDto, ChangePasswordDto, RefreshTokenDto, UpdateProfileDto, ForgotPasswordDto, ResetPasswordDto } from './dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('Auth')
@@ -104,6 +104,22 @@ export class AuthController {
     @Req() req: Request & { user: { userId: string } },
   ) {
     return this.authService.changePassword(changePasswordDto, req.user.userId);
+  }
+
+  @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Quên mật khẩu (gửi email)' })
+  @ApiResponse({ status: 200, description: 'Đã gửi email đặt lại mật khẩu' })
+  forgotPassword(@Body() dto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(dto);
+  }
+
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Đặt lại mật khẩu' })
+  @ApiResponse({ status: 200, description: 'Đặt lại mật khẩu thành công' })
+  resetPassword(@Body() dto: ResetPasswordDto) {
+    return this.authService.resetPassword(dto);
   }
 
   @Patch('profile')

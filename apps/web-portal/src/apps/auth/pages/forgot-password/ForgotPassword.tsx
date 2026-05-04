@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { LOGIN_ROUTE } from '../../constants';
+import { useForgotPassword } from '../../services/mutation';
+import { notification } from 'antd';
 import {
   ForgotPageWrapper,
   ForgotHeader,
@@ -49,23 +51,23 @@ const ForgotPassword: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { mutateAsync: forgotPasswordMutate } = useForgotPassword();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    /**
-     * TODO: Tích hợp API quên mật khẩu khi BE sẵn sàng.
-     * Gợi ý: POST /Auth/forgot-password { email }
-     * Ví dụ:
-     *   forgotPasswordMutate({ email }, {
-     *     onSuccess: () => setSubmitted(true),
-     *     onError: (err) => notification.error({...}),
-     *   });
-     */
     setIsPending(true);
-    // Simulate delay (bỏ khi có API thật)
-    setTimeout(() => {
-      setIsPending(false);
+    
+    try {
+      await forgotPasswordMutate({ email });
       setSubmitted(true);
-    }, 800);
+    } catch (error: any) {
+      notification.error({
+        message: 'Lỗi gửi yêu cầu',
+        description: error.response?.data?.message || 'Không thể gửi email đặt lại mật khẩu',
+      });
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (

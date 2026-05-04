@@ -9,6 +9,7 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 export interface GatewayUser {
   userId: string;
   role: string;
+  email: string;
 }
 
 export const CurrentUser = createParamDecorator(
@@ -17,6 +18,7 @@ export const CurrentUser = createParamDecorator(
     const user: GatewayUser = {
       userId: request.headers['x-user-id'] as string,
       role: request.headers['x-user-role'] as string,
+      email: request.headers['x-user-email'] as string,
     };
     return field ? user[field] : user;
   },
