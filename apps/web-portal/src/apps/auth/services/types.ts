@@ -24,6 +24,12 @@ export type TChangePasswordPayload = {
   newPassword: string;
 };
 
+export type TUpdateProfilePayload = {
+  fullName?: string;
+  phone?: string;
+  address?: string;
+};
+
 /**
  * Response từ API Backend
  */

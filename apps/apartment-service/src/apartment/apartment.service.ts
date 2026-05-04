@@ -75,13 +75,33 @@ export class ApartmentsService {
     return new ApiResponse(null, 'Xoá căn hộ thành công');
   }
 
-  // Lấy danh sách căn hộ active (Dành cho khách xem)
-  async findListing(Keyword?: string, Page: number = 1, PageSize: number = 10) {
+  // Lấy danh sách căn hộ active (Dành cho khách xem) có hỗ trợ filter
+  async findListing(
+    Keyword?: string, 
+    Page: number = 1, 
+    PageSize: number = 10,
+    MinPrice?: number,
+    MaxPrice?: number,
+    Location?: string
+  ) {
+    const where: any = { isActive: true };
+
+    if (Keyword?.trim()) {
+      where.title = { contains: Keyword.trim(), mode: 'insensitive' as const };
+    }
+
+    if (Location?.trim()) {
+      where.location = { contains: Location.trim(), mode: 'insensitive' as const };
+    }
+
+    if (MinPrice !== undefined || MaxPrice !== undefined) {
+      where.pricePerNight = {};
+      if (MinPrice !== undefined) where.pricePerNight.gte = MinPrice;
+      if (MaxPrice !== undefined) where.pricePerNight.lte = MaxPrice;
+    }
+
     const result = await paginate(this.prisma.apartment, { page: Page, pageSize: PageSize }, {
-      where: {
-        isActive: true,
-        title: Keyword?.trim() ? { contains: Keyword.trim(), mode: 'insensitive' as const } : undefined,
-      },
+      where,
       orderBy: { createdAt: 'desc' },
     });
 

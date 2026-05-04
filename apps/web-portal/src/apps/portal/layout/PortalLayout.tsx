@@ -76,7 +76,11 @@ const PortalLayout: React.FC = () => {
                     {
                       key: 'profile',
                       icon: <UserOutlined />,
-                      label: 'Profile',
+                      label: (
+                        <Link to="/profile" >
+                          Profile
+                        </Link>
+                      ),
                     },
                     {
                       type: 'divider',

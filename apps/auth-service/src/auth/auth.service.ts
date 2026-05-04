@@ -221,4 +221,20 @@ export class AuthService {
 
     return new ApiResponse(null, 'Đổi mật khẩu thành công');
   }
+
+  // Cập nhật thông tin profile
+  async updateProfile(userId: string, dto: any) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('Không tìm thấy người dùng');
+    }
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id: userId },
+      data: dto,
+      select: { id: true, email: true, fullName: true, phone: true, address: true, role: true, createdAt: true },
+    });
+
+    return new ApiResponse(updatedUser, 'Cập nhật hồ sơ thành công');
+  }
 }

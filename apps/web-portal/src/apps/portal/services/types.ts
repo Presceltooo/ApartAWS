@@ -23,6 +23,9 @@ export interface IApartmentQuery {
   Keyword?: string;
   Page?: number;
   PageSize?: number;
+  MinPrice?: number;
+  MaxPrice?: number;
+  Location?: string;
 }
 
 // ─── Booking ──────────────────────────────────────────────────────────────────

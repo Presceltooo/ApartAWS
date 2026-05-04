@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { login, register, refreshTokens, logout, changePassword } from "./api";
+import { login, register, refreshTokens, logout, changePassword, updateProfile } from "./api";
 
 /**
  * Hook sử dụng API đăng nhập
@@ -34,4 +34,11 @@ export const useLogout = () => {
  */
 export const useChangePassword = () => {
   return useMutation({ mutationFn: changePassword });
+};
+
+/**
+ * Hook sử dụng API cập nhật hồ sơ
+ */
+export const useUpdateProfile = () => {
+  return useMutation({ mutationFn: updateProfile });
 };

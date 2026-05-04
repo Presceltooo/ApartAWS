@@ -17,7 +17,7 @@ import {
 } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
-import { CreateUserDto, LoginDto, VerifyDto, ChangePasswordDto, RefreshTokenDto } from './dto';
+import { CreateUserDto, LoginDto, VerifyDto, ChangePasswordDto, RefreshTokenDto, UpdateProfileDto } from './dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('Auth')
@@ -100,5 +100,18 @@ export class AuthController {
     @Req() req: Request & { user: { userId: string } },
   ) {
     return this.authService.changePassword(changePasswordDto, req.user.userId);
+  }
+
+  @Patch('profile')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Cập nhật thông tin người dùng' })
+  @ApiResponse({ status: 200, description: 'Cập nhật thành công' })
+  updateProfile(
+    @Body() updateProfileDto: UpdateProfileDto,
+    @Req() req: Request & { user: { userId: string } },
+  ) {
+    return this.authService.updateProfile(req.user.userId, updateProfileDto);
   }
 }

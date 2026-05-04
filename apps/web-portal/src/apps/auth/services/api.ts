@@ -5,6 +5,7 @@ import type {
   TRegisterPayload,
   TRefreshTokenPayload,
   TChangePasswordPayload,
+  TUpdateProfilePayload,
   ILoginRespone,
   IUser,
 } from "./types";
@@ -45,4 +46,10 @@ export const changePassword = (
   payload: TChangePasswordPayload,
 ): Promise<IResponse<any>> => {
   return axiosClient.patch("Auth/change-password", payload);
+};
+
+export const updateProfile = (
+  payload: TUpdateProfilePayload,
+): Promise<IResponse<any>> => {
+  return axiosClient.patch("Auth/profile", payload);
 };

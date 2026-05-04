@@ -35,9 +35,25 @@ export class ApartmentsController {
   @ApiResponse({ status: 200, description: 'Trả về danh sách căn hộ active' })
   @ApiQuery({ name: 'Keyword', required: false, type: String })
   @ApiQuery({ name: 'Page', required: false, type: String })
-  @ApiQuery({ name: 'PageSize', required: false, type: String })
-  findListing(@Query('Keyword') keyword?: string, @Query('Page') page?: string, @Query('PageSize') pageSize?: string) {
-    return this.apartmentsService.findListing(keyword, page ? +page : 1, pageSize ? +pageSize : 10);
+  @ApiQuery({ name: 'MinPrice', required: false, type: Number })
+  @ApiQuery({ name: 'MaxPrice', required: false, type: Number })
+  @ApiQuery({ name: 'Location', required: false, type: String })
+  findListing(
+    @Query('Keyword') keyword?: string, 
+    @Query('Page') page?: string, 
+    @Query('PageSize') pageSize?: string,
+    @Query('MinPrice') minPrice?: string,
+    @Query('MaxPrice') maxPrice?: string,
+    @Query('Location') location?: string
+  ) {
+    return this.apartmentsService.findListing(
+      keyword, 
+      page ? +page : 1, 
+      pageSize ? +pageSize : 10,
+      minPrice ? +minPrice : undefined,
+      maxPrice ? +maxPrice : undefined,
+      location
+    );
   }
 
   @Get(':id')

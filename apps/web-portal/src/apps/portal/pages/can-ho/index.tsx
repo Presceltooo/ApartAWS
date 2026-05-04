@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Pagination, Empty, Skeleton } from 'antd';
+import { Input, Pagination, Empty, Skeleton, InputNumber, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import {
   PageWrapper,
@@ -23,6 +23,15 @@ const ApartmentList: React.FC = () => {
     searchInput,
     setSearchInput,
     page,
+    location,
+    setLocation,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
+    appliedLocation,
+    appliedMinPrice,
+    appliedMaxPrice,
     handleSearch,
     handleView,
     handlePageChange,
@@ -30,6 +39,9 @@ const ApartmentList: React.FC = () => {
 
   const { apartments, total, isLoading, isError } = useData({
     keyword,
+    location: appliedLocation,
+    minPrice: appliedMinPrice,
+    maxPrice: appliedMaxPrice,
     page,
     pageSize: PAGE_SIZE,
   });
@@ -41,18 +53,46 @@ const ApartmentList: React.FC = () => {
         <PageSubtitle>Browse our curated collection of premium properties.</PageSubtitle>
       </PageHeader>
 
-      <SearchRow>
+      <SearchRow style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
         <Input
           id="apartment-search-input"
           size="large"
-          placeholder="Search by name, location…"
+          placeholder="Keyword..."
           prefix={<SearchOutlined />}
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           onPressEnter={handleSearch}
-          style={{ maxWidth: 480 }}
+          style={{ width: 240 }}
           allowClear
         />
+        <Input
+          size="large"
+          placeholder="Location..."
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          onPressEnter={handleSearch}
+          style={{ width: 200 }}
+          allowClear
+        />
+        <InputNumber
+          size="large"
+          placeholder="Min Price ($)"
+          value={minPrice}
+          onChange={(val) => setMinPrice(val as number)}
+          onPressEnter={handleSearch}
+          style={{ width: 140 }}
+        />
+        <InputNumber
+          size="large"
+          placeholder="Max Price ($)"
+          value={maxPrice}
+          onChange={(val) => setMaxPrice(val as number)}
+          onPressEnter={handleSearch}
+          style={{ width: 140 }}
+        />
+        <Button type="primary" size="large" onClick={handleSearch} icon={<SearchOutlined />}>
+          Search
+        </Button>
       </SearchRow>
 
       {!isLoading && !isError && (
