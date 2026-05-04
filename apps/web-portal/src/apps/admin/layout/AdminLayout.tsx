@@ -69,16 +69,36 @@ const AdminLayout: React.FC = () => {
   // If user is ADMIN, prepend the Dashboard menu item
   const { data: userData } = useGetMe();
   if (userData?.data?.role === 'ADMIN') {
-    menuItems.unshift({
-      key: '/quan-ly/dashboard',
-      icon: <AppstoreOutlined />,
-      label: <Link to="/quan-ly/dashboard">System Dashboard</Link>,
-    });
+    menuItems.unshift(
+      {
+        key: '/quan-ly/dashboard',
+        icon: <AppstoreOutlined />,
+        label: <Link to="/quan-ly/dashboard">System Dashboard</Link>,
+      },
+      {
+        key: '/quan-ly/system-users',
+        icon: <AppstoreOutlined />,
+        label: <Link to="/quan-ly/system-users">System Users</Link>,
+      },
+      {
+        key: '/quan-ly/system-apartments',
+        icon: <AppstoreOutlined />,
+        label: <Link to="/quan-ly/system-apartments">System Apartments</Link>,
+      },
+      {
+        key: '/quan-ly/system-bookings',
+        icon: <CalendarOutlined />,
+        label: <Link to="/quan-ly/system-bookings">System Bookings</Link>,
+      }
+    );
   }
 
   // Determine active menu key based on current path
   const getActiveKey = () => {
     if (currentPath.startsWith('/quan-ly/dashboard')) return '/quan-ly/dashboard';
+    if (currentPath.startsWith('/quan-ly/system-users')) return '/quan-ly/system-users';
+    if (currentPath.startsWith('/quan-ly/system-apartments')) return '/quan-ly/system-apartments';
+    if (currentPath.startsWith('/quan-ly/system-bookings')) return '/quan-ly/system-bookings';
     if (currentPath.startsWith('/quan-ly/can-ho/tao-moi')) return '/quan-ly/can-ho/tao-moi';
     if (currentPath.startsWith('/quan-ly/can-ho/sua')) return '/quan-ly/can-ho';
     if (currentPath.startsWith('/quan-ly/can-ho')) return '/quan-ly/can-ho';

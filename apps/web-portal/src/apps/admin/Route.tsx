@@ -5,6 +5,9 @@ import myApartmentsRoute from './pages/my-apartments/Route';
 import { apartmentFormCreateRoute, apartmentFormEditRoute } from './pages/apartment-form/Route';
 import ownerBookingsRoute from './pages/owner-bookings/Route';
 import dashboardRoute from './pages/dashboard/Route';
+import systemUsersRoute from './pages/system-users/Route';
+import systemApartmentsRoute from './pages/system-apartments/Route';
+import systemBookingsRoute from './pages/system-bookings/Route';
 
 export const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -27,6 +30,9 @@ adminRoute.addChildren([
   apartmentFormEditRoute,
   ownerBookingsRoute,
   dashboardRoute,
+  systemUsersRoute,
+  systemApartmentsRoute,
+  systemBookingsRoute,
 ]);
 
 export default adminRoute;

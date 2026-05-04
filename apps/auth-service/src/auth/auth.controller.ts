@@ -8,12 +8,16 @@ import {
   Patch,
   UseGuards,
   Req,
+  Query,
+  Param,
 } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
+  ApiQuery,
+  ApiParam,
 } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
@@ -120,5 +124,27 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Trả về thống kê' })
   getStats() {
     return this.authService.getStats();
+  }
+
+  @Get('users')
+  @ApiOperation({ summary: 'Danh sách người dùng (Admin)' })
+  @ApiQuery({ name: 'Keyword', required: false, type: String })
+  @ApiQuery({ name: 'Role', required: false, type: String })
+  @ApiQuery({ name: 'Page', required: false, type: Number })
+  @ApiQuery({ name: 'PageSize', required: false, type: Number })
+  getUsers(
+    @Query('Keyword') keyword?: string,
+    @Query('Role') role?: string,
+    @Query('Page') page?: string,
+    @Query('PageSize') pageSize?: string,
+  ) {
+    return this.authService.getUsers(keyword, role, page ? +page : 1, pageSize ? +pageSize : 10);
+  }
+
+  @Patch('users/:id/status')
+  @ApiOperation({ summary: 'Khóa / Mở khóa người dùng (Admin)' })
+  @ApiParam({ name: 'id', type: String })
+  toggleUserStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+    return this.authService.toggleUserStatus(id, body.isActive);
   }
 }

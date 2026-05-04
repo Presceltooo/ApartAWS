@@ -299,4 +299,30 @@ export class BookingsService {
 
     return new ApiResponse({ totalBookings, pendingBookings, totalRevenue }, 'Thống kê đơn đặt phòng');
   }
+
+  // ===========================================================================
+  // Quản lý Đặt phòng (Dành cho System Admin)
+  // ===========================================================================
+  async findAllSystem(keyword?: string, page: number = 1, pageSize: number = 10) {
+    const result = await paginate(this.prisma.booking, { page, pageSize }, {
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const enriched = await this.enrichBookingsWithApartment(result.data, keyword);
+    return new ApiResponse(enriched, 'Lấy danh sách toàn bộ đặt phòng thành công', 0, result.metaData);
+  }
+
+  async updateBookingStatusSystem(id: string, status: any) {
+    const booking = await this.prisma.booking.findUnique({ where: { id } });
+    if (!booking) throw new NotFoundException('Không tìm thấy đơn đặt phòng');
+
+    const updated = await this.prisma.booking.update({
+      where: { id },
+      data: { status },
+    });
+
+    const apartment = await this.getApartment(booking.apartmentId);
+
+    return new ApiResponse({ ...updated, apartment }, 'Cập nhật trạng thái đặt phòng (Admin) thành công');
+  }
 }

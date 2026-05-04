@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, HttpCode, Patch } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiSecurity } from '@nestjs/swagger';
 import { ApartmentsService } from './apartment.service';
 import { CreateApartmentDto, UpdateApartmentDto } from './dto';
@@ -102,5 +102,25 @@ export class ApartmentsController {
   @ApiResponse({ status: 200, description: 'Trả về thống kê' })
   getStats() {
     return this.apartmentsService.getStats();
+  }
+
+  @Get('system/all')
+  @ApiOperation({ summary: 'Lấy tất cả danh sách căn hộ (Admin)' })
+  @ApiQuery({ name: 'Keyword', required: false, type: String })
+  @ApiQuery({ name: 'Page', required: false, type: String })
+  @ApiQuery({ name: 'PageSize', required: false, type: String })
+  findAllSystem(
+    @Query('Keyword') keyword?: string,
+    @Query('Page') page?: string,
+    @Query('PageSize') pageSize?: string,
+  ) {
+    return this.apartmentsService.findAllSystem(keyword, page ? +page : 1, pageSize ? +pageSize : 10);
+  }
+
+  @Patch(':id/status')
+  @ApiOperation({ summary: 'Duyệt / Ẩn căn hộ (Admin)' })
+  @ApiResponse({ status: 200, description: 'Cập nhật trạng thái thành công' })
+  toggleApartmentStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+    return this.apartmentsService.toggleApartmentStatus(id, body.isActive);
   }
 }

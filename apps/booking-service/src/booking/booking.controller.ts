@@ -135,4 +135,24 @@ export class BookingsController {
   getStats() {
     return this.bookingsService.getStats();
   }
+
+  @Get('system/all')
+  @ApiOperation({ summary: 'Lấy danh sách toàn bộ đơn đặt phòng (Admin)' })
+  @ApiQuery({ name: 'Keyword', required: false, type: String })
+  @ApiQuery({ name: 'Page', required: false, type: Number })
+  @ApiQuery({ name: 'PageSize', required: false, type: Number })
+  findAllSystem(
+    @Query('Keyword') keyword?: string,
+    @Query('Page') page?: string,
+    @Query('PageSize') pageSize?: string,
+  ) {
+    return this.bookingsService.findAllSystem(keyword, page ? +page : 1, pageSize ? +pageSize : 10);
+  }
+
+  @Patch('system/:id/status')
+  @ApiOperation({ summary: 'Cập nhật trạng thái đơn đặt phòng (Admin)' })
+  @ApiParam({ name: 'id', type: String })
+  updateBookingStatusSystem(@Param('id') id: string, @Body() body: { status: string }) {
+    return this.bookingsService.updateBookingStatusSystem(id, body.status as any);
+  }
 }

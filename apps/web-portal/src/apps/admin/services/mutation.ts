@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createApartment, updateApartment, deleteApartment, confirmBooking, completeBooking, cancelBooking } from './api';
+import { createApartment, updateApartment, deleteApartment, confirmBooking, completeBooking, cancelBooking, toggleUserStatus, toggleApartmentStatus, updateSystemBookingStatus } from './api';
 import type { ICreateApartmentPayload, IUpdateApartmentPayload } from './types';
 import { notification } from 'antd';
 
@@ -112,3 +112,53 @@ export const useCancelBooking = () => {
   });
 };
 
+export const useToggleUserStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, isActive }: { id: string; isActive: boolean }) => toggleUserStatus(id, isActive),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'system-users'] });
+      notification.success({ message: 'User status updated successfully' });
+    },
+    onError: (error: any) => {
+      notification.error({
+        message: 'Failed to update user status',
+        description: error.response?.data?.message || error.message,
+      });
+    },
+  });
+};
+
+export const useToggleApartmentStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, isActive }: { id: string; isActive: boolean }) => toggleApartmentStatus(id, isActive),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'system-apartments'] });
+      notification.success({ message: 'Apartment status updated successfully' });
+    },
+    onError: (error: any) => {
+      notification.error({
+        message: 'Failed to update apartment status',
+        description: error.response?.data?.message || error.message,
+      });
+    },
+  });
+};
+
+export const useUpdateSystemBookingStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) => updateSystemBookingStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'system-bookings'] });
+      notification.success({ message: 'Booking status updated successfully' });
+    },
+    onError: (error: any) => {
+      notification.error({
+        message: 'Failed to update booking status',
+        description: error.response?.data?.message || error.message,
+      });
+    },
+  });
+};

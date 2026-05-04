@@ -115,4 +115,33 @@ export class ApartmentsService {
 
     return new ApiResponse({ totalApartments, activeApartments }, 'Thống kê căn hộ');
   }
+
+  // ===========================================================================
+  // Quản lý Căn hộ (Dành cho System Admin)
+  // ===========================================================================
+  async findAllSystem(keyword?: string, page: number = 1, pageSize: number = 10) {
+    const where: any = {};
+    if (keyword?.trim()) {
+      where.title = { contains: keyword.trim(), mode: 'insensitive' as const };
+    }
+
+    const result = await paginate(this.prisma.apartment, { page, pageSize }, {
+      where,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return new ApiResponse(result.data, 'Lấy danh sách căn hộ (System) thành công', 0, result.metaData);
+  }
+
+  async toggleApartmentStatus(id: string, isActive: boolean) {
+    const apartment = await this.prisma.apartment.findUnique({ where: { id } });
+    if (!apartment) throw new NotFoundException('Không tìm thấy căn hộ');
+
+    const updated = await this.prisma.apartment.update({
+      where: { id },
+      data: { isActive },
+    });
+
+    return new ApiResponse(updated, isActive ? 'Đã phê duyệt (Active) căn hộ' : 'Đã ẩn (Inactive) căn hộ');
+  }
 }

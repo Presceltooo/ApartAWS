@@ -64,6 +64,7 @@ export interface ICheckAvailabilityResponse {
 }
 
 export interface IBookingQuery {
+  Keyword?: string;
   Page?: number;
   PageSize?: number;
   Status?: BookingStatus;

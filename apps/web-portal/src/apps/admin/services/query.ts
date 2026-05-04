@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
-import { getMyApartments, getOwnerBookings, getAuthStats, getApartmentStats, getBookingStats } from './api';
+import { getMyApartments, getOwnerBookings, getAuthStats, getApartmentStats, getBookingStats, getSystemUsers, getSystemApartments, getSystemBookings } from './api';
 import type { IResponsePagination } from '@/shared/types/response.type';
 import type { IApartment, IApartmentQuery, IBooking, IBookingQuery } from './types';
 
@@ -43,6 +43,30 @@ export const useSystemStats = (options?: Partial<UseQueryOptions<any>>) => {
         booking: booking.data,
       };
     },
+    ...options,
+  });
+};
+
+export const useSystemUsers = (params?: any, options?: Partial<UseQueryOptions<IResponsePagination<any>>>) => {
+  return useQuery({
+    queryKey: ['admin', 'system-users', params],
+    queryFn: () => getSystemUsers(params),
+    ...options,
+  });
+};
+
+export const useSystemApartments = (params?: IApartmentQuery, options?: Partial<UseQueryOptions<IResponsePagination<IApartment>>>) => {
+  return useQuery({
+    queryKey: ['admin', 'system-apartments', params],
+    queryFn: () => getSystemApartments(params),
+    ...options,
+  });
+};
+
+export const useSystemBookings = (params?: IBookingQuery, options?: Partial<UseQueryOptions<IResponsePagination<IBooking>>>) => {
+  return useQuery({
+    queryKey: ['admin', 'system-bookings', params],
+    queryFn: () => getSystemBookings(params),
     ...options,
   });
 };

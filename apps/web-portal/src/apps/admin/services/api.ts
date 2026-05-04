@@ -80,6 +80,32 @@ export const getBookingStats = (): Promise<IResponse<any>> => {
   return axiosClient.get('Bookings/system/stats');
 };
 
+// ─── System Management APIs (Admin only) ─────────────────────────────────────
+
+export const getSystemUsers = (params?: any): Promise<IResponsePagination<any>> => {
+  return axiosClient.get('Auth/users', { params });
+};
+
+export const toggleUserStatus = (id: string, isActive: boolean): Promise<IResponse<any>> => {
+  return axiosClient.patch(`Auth/users/${id}/status`, { isActive });
+};
+
+export const getSystemApartments = (params?: IApartmentQuery): Promise<IResponsePagination<IApartment>> => {
+  return axiosClient.get('Apartments/system/all', { params });
+};
+
+export const toggleApartmentStatus = (id: string, isActive: boolean): Promise<IResponse<IApartment>> => {
+  return axiosClient.patch(`Apartments/${id}/status`, { isActive });
+};
+
+export const getSystemBookings = (params?: IBookingQuery): Promise<IResponsePagination<IBooking>> => {
+  return axiosClient.get('Bookings/system/all', { params });
+};
+
+export const updateSystemBookingStatus = (id: string, status: string): Promise<IResponse<IBooking>> => {
+  return axiosClient.patch(`Bookings/system/${id}/status`, { status });
+};
+
 export const uploadToS3 = async (presignedUrl: string, file: File): Promise<void> => {
   await axios.put(presignedUrl, file, {
     headers: {

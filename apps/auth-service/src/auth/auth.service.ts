@@ -9,6 +9,7 @@ import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { PrismaService } from '../common/prisma/prisma.service';
 import { ApiResponse } from '../common/dto/response.dto';
+import { PaginationMetaDTO } from '../common/dto/pagination-meta.dto';
 import { CreateUserDto, ChangePasswordDto, LoginDto, VerifyDto, RefreshTokenDto } from './dto';
 
 // Thời gian sống của Refresh Token: 7 ngày (ms)
@@ -245,5 +246,58 @@ export class AuthService {
     const totalTenants = await this.prisma.user.count({ where: { role: 'TENANT' } });
 
     return new ApiResponse({ totalUsers, totalOwners, totalTenants }, 'Thống kê người dùng');
+  }
+
+  // ===========================================================================
+  // Quản lý người dùng (Dành cho System Admin)
+  // ===========================================================================
+  async getUsers(keyword?: string, role?: string, page: number = 1, pageSize: number = 10) {
+    const where: any = {};
+    if (keyword?.trim()) {
+      where.OR = [
+        { email: { contains: keyword.trim(), mode: 'insensitive' } },
+        { fullName: { contains: keyword.trim(), mode: 'insensitive' } },
+      ];
+    }
+    if (role) {
+      where.role = role;
+    }
+
+    const skip = (page - 1) * pageSize;
+    const [users, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        skip,
+        take: pageSize,
+        select: { id: true, email: true, fullName: true, phone: true, role: true, isActive: true, createdAt: true },
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    return new ApiResponse(users, 'Lấy danh sách người dùng thành công', 0, new PaginationMetaDTO(page, pageSize, total));
+  }
+
+  async toggleUserStatus(id: string, isActive: boolean) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) throw new NotFoundException('Không tìm thấy người dùng');
+    
+    // Không cho phép Admin tự khóa chính mình
+    if (user.role === 'ADMIN') {
+      throw new ConflictException('Không thể thay đổi trạng thái của Admin');
+    }
+
+    const updated = await this.prisma.user.update({
+      where: { id },
+      data: { isActive },
+      select: { id: true, email: true, fullName: true, role: true, isActive: true },
+    });
+
+    // Nếu block (isActive = false), revoke tất cả token của user này
+    if (!isActive) {
+      await this.prisma.refreshToken.deleteMany({ where: { userId: id } });
+    }
+
+    return new ApiResponse(updated, isActive ? 'Đã mở khóa tài khoản' : 'Đã khóa tài khoản');
   }
 }
