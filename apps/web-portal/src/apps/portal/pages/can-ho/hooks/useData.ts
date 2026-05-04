@@ -14,8 +14,8 @@ export const useData = ({ keyword, page, pageSize }: UseDataProps) => {
     PageSize: pageSize,
   });
 
-  const apartments: IApartment[] = response?.data?.records ?? [];
-  const total: number = response?.data?.totalRecords ?? 0;
+  const apartments: IApartment[] = response?.data ?? [];
+  const total: number = response?.metaData?.total ?? 0;
 
   return {
     apartments,

@@ -9,7 +9,7 @@ const { Title } = Typography;
 const OwnerBookings: React.FC = () => {
   const { data: response, isLoading, isError } = useOwnerBookings({ PageSize: 50 });
 
-  const bookings = response?.data?.records ?? [];
+  const bookings = response?.data ?? [];
 
   const columns = [
     {

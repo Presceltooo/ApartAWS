@@ -8,7 +8,7 @@ export const useBookingsData = () => {
     isError,
   } = useMyBookings({ Page: 1, PageSize: 20 });
 
-  const bookings: IBooking[] = response?.data?.records ?? [];
+  const bookings: IBooking[] = response?.data ?? [];
 
   return {
     bookings,

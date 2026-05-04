@@ -6,7 +6,7 @@ import {
   MenuOutlined,
   LogoutOutlined 
 } from '@ant-design/icons';
-import { Dropdown, Menu } from 'antd';
+import { Dropdown } from 'antd';
 import { useNavigate } from '@tanstack/react-router';
 import { useLogout } from '@apps/auth/services/mutation';
 import tokenManager from '@shared/utils/tokenManager';
