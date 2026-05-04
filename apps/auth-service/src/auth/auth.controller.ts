@@ -114,4 +114,11 @@ export class AuthController {
   ) {
     return this.authService.updateProfile(req.user.userId, updateProfileDto);
   }
+
+  @Get('stats')
+  @ApiOperation({ summary: 'Lấy thống kê hệ thống (Admin)' })
+  @ApiResponse({ status: 200, description: 'Trả về thống kê' })
+  getStats() {
+    return this.authService.getStats();
+  }
 }

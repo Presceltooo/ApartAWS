@@ -66,6 +66,20 @@ export const getPresignedUrl = (
   return axiosClient.post('Apartments/presigned-url', { fileName, contentType, fileSize });
 };
 
+// ─── System Stats APIs (Admin only) ──────────────────────────────────────────
+
+export const getAuthStats = (): Promise<IResponse<any>> => {
+  return axiosClient.get('Auth/stats');
+};
+
+export const getApartmentStats = (): Promise<IResponse<any>> => {
+  return axiosClient.get('Apartments/stats');
+};
+
+export const getBookingStats = (): Promise<IResponse<any>> => {
+  return axiosClient.get('Bookings/system/stats');
+};
+
 export const uploadToS3 = async (presignedUrl: string, file: File): Promise<void> => {
   await axios.put(presignedUrl, file, {
     headers: {

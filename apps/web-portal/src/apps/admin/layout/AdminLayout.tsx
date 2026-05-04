@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useLogout } from '@apps/auth/services/mutation';
+import { useGetMe } from '@apps/auth/services/query';
 import tokenManager from '@shared/utils/tokenManager';
 
 const { Header, Sider, Content } = Layout;
@@ -65,8 +66,19 @@ const AdminLayout: React.FC = () => {
     },
   ];
 
+  // If user is ADMIN, prepend the Dashboard menu item
+  const { data: userData } = useGetMe();
+  if (userData?.data?.role === 'ADMIN') {
+    menuItems.unshift({
+      key: '/quan-ly/dashboard',
+      icon: <AppstoreOutlined />,
+      label: <Link to="/quan-ly/dashboard">System Dashboard</Link>,
+    });
+  }
+
   // Determine active menu key based on current path
   const getActiveKey = () => {
+    if (currentPath.startsWith('/quan-ly/dashboard')) return '/quan-ly/dashboard';
     if (currentPath.startsWith('/quan-ly/can-ho/tao-moi')) return '/quan-ly/can-ho/tao-moi';
     if (currentPath.startsWith('/quan-ly/can-ho/sua')) return '/quan-ly/can-ho';
     if (currentPath.startsWith('/quan-ly/can-ho')) return '/quan-ly/can-ho';

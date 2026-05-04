@@ -97,4 +97,10 @@ export class ApartmentsController {
   ) {
     return this.s3Service.generatePresignedUrl(body.fileName, body.contentType, body.fileSize);
   }
+  @Get('stats')
+  @ApiOperation({ summary: 'Lấy thống kê hệ thống (Admin)' })
+  @ApiResponse({ status: 200, description: 'Trả về thống kê' })
+  getStats() {
+    return this.apartmentsService.getStats();
+  }
 }

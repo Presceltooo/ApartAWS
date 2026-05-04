@@ -281,4 +281,22 @@ export class BookingsService {
     }
     return enriched;
   }
+
+  // ===========================================================================
+  // Thống kê dành cho Admin
+  // ===========================================================================
+  async getStats() {
+    const totalBookings = await this.prisma.booking.count();
+    const pendingBookings = await this.prisma.booking.count({ where: { status: 'PENDING' } });
+    
+    // Tính tổng doanh thu (chỉ tính những booking đã CONFIRMED hoặc COMPLETED)
+    const revenueResult = await this.prisma.booking.aggregate({
+      _sum: { totalPrice: true },
+      where: { status: { in: ['CONFIRMED', 'COMPLETED'] } },
+    });
+    
+    const totalRevenue = revenueResult._sum.totalPrice ? Number(revenueResult._sum.totalPrice) : 0;
+
+    return new ApiResponse({ totalBookings, pendingBookings, totalRevenue }, 'Thống kê đơn đặt phòng');
+  }
 }

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
-import { getMyApartments, getOwnerBookings } from './api';
+import { getMyApartments, getOwnerBookings, getAuthStats, getApartmentStats, getBookingStats } from './api';
 import type { IResponsePagination } from '@/shared/types/response.type';
 import type { IApartment, IApartmentQuery, IBooking, IBookingQuery } from './types';
 
@@ -24,6 +24,25 @@ export const useOwnerBookings = (
     queryKey: ['admin', 'bookings', params],
     queryFn: () => getOwnerBookings(params),
     staleTime: 1000 * 60 * 2,
+    ...options,
+  });
+};
+
+export const useSystemStats = (options?: Partial<UseQueryOptions<any>>) => {
+  return useQuery({
+    queryKey: ['admin', 'system-stats'],
+    queryFn: async () => {
+      const [auth, apt, booking] = await Promise.all([
+        getAuthStats(),
+        getApartmentStats(),
+        getBookingStats(),
+      ]);
+      return {
+        auth: auth.data,
+        apartment: apt.data,
+        booking: booking.data,
+      };
+    },
     ...options,
   });
 };

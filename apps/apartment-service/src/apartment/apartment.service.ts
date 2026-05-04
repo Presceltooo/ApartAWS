@@ -107,4 +107,12 @@ export class ApartmentsService {
 
     return new ApiResponse(result.data, 'Lấy danh sách listing thành công', 0, result.metaData);
   }
+
+  // Thống kê dành cho Admin
+  async getStats() {
+    const totalApartments = await this.prisma.apartment.count();
+    const activeApartments = await this.prisma.apartment.count({ where: { isActive: true } });
+
+    return new ApiResponse({ totalApartments, activeApartments }, 'Thống kê căn hộ');
+  }
 }

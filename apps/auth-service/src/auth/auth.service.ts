@@ -237,4 +237,13 @@ export class AuthService {
 
     return new ApiResponse(updatedUser, 'Cập nhật hồ sơ thành công');
   }
+
+  // Thống kê dành cho Admin
+  async getStats() {
+    const totalUsers = await this.prisma.user.count();
+    const totalOwners = await this.prisma.user.count({ where: { role: 'OWNER' } });
+    const totalTenants = await this.prisma.user.count({ where: { role: 'TENANT' } });
+
+    return new ApiResponse({ totalUsers, totalOwners, totalTenants }, 'Thống kê người dùng');
+  }
 }

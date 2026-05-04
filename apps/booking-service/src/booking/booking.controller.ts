@@ -128,4 +128,11 @@ export class BookingsController {
   complete(@Param('id') id: string, @CurrentUser('userId') userId: string) {
     return this.bookingsService.complete(id, userId);
   }
+
+  @Get('system/stats')
+  @ApiOperation({ summary: 'Lấy thống kê hệ thống (Admin)' })
+  @ApiResponse({ status: 200, description: 'Trả về thống kê' })
+  getStats() {
+    return this.bookingsService.getStats();
+  }
 }
