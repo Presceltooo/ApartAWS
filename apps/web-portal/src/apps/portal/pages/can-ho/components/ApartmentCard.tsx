@@ -25,11 +25,10 @@ import image404 from '@assets/images/404.png';
 
 interface ApartmentCardProps {
   apartment: IApartment;
-  index: number;
   onView: (id: string) => void;
 }
 
-const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, index, onView }) => {
+const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onView }) => {
   const imageUrl = apartment.images?.[0] ?? image404;
   const priceLabel = `$${apartment.pricePerNight.toLocaleString()} / night`;
 

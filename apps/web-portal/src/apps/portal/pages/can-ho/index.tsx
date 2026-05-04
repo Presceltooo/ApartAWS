@@ -78,8 +78,8 @@ const ApartmentList: React.FC = () => {
         <Empty description="No properties match your search." image={Empty.PRESENTED_IMAGE_SIMPLE} />
       ) : (
         <Grid>
-          {apartments.map((apt, idx) => (
-            <ApartmentCard key={apt.id} apartment={apt} index={idx} onView={handleView} />
+          {apartments.map((apt) => (
+            <ApartmentCard key={apt.id} apartment={apt} onView={handleView} />
           ))}
         </Grid>
       )}
