@@ -26,7 +26,7 @@ export const useApartmentListing = (
   return useQuery<IResponsePagination<IApartment>>({
     queryKey: ['apartments', 'listing', params],
     queryFn: () => getApartmentListing(params),
-    staleTime: 1000 * 60 * 5,
+    // staleTime: 1000 * 60 * 5,
     ...options,
   });
 };
@@ -39,7 +39,7 @@ export const useApartmentDetail = (
     queryKey: ['apartments', id],
     queryFn: () => getApartmentById(id),
     enabled: !!id,
-    staleTime: 1000 * 60 * 5,
+    // staleTime: 1000 * 60 * 5,
     ...options,
   });
 };
@@ -53,7 +53,7 @@ export const useMyBookings = (
   return useQuery<IResponsePagination<IBooking>>({
     queryKey: ['bookings', 'my', params],
     queryFn: () => getMyBookings(params),
-    staleTime: 1000 * 60 * 2,
+    // staleTime: 1000 * 60 * 2,
     ...options,
   });
 };

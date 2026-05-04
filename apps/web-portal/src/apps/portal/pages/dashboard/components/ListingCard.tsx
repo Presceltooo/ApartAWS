@@ -18,6 +18,7 @@ import {
   PriceAmount,
   ViewDetailsBtn,
 } from '../styles/styled';
+import image404 from '@assets/images/404.png';
 
 export interface Listing {
   id: string;
@@ -43,7 +44,14 @@ const ListingCard: React.FC<ListingCardProps> = ({ listing }) => {
   return (
     <StyledCard onClick={handleViewDetails}>
       <ListingImgWrapper>
-        <ListingImg className="listing-img" src={listing.imageUrl} alt={listing.title} />
+        <ListingImg 
+          className="listing-img" 
+          src={listing.imageUrl} 
+          alt={listing.title} 
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = image404;
+          }}
+        />
         <FavoriteBtn>
           <HeartOutlined />
         </FavoriteBtn>

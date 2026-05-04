@@ -8,6 +8,7 @@ import {
   CalendarOutlined,
   CheckCircleOutlined,
 } from '@ant-design/icons';
+import image404 from '@assets/images/404.png';
 import { Skeleton } from 'antd';
 import styled from 'styled-components';
 import {
@@ -101,22 +102,13 @@ const ErrorBanner = styled.div`
 
 // ─── Adapter: IApartment → Listing (card interface) ───────────────────────────
 
-const PLACEHOLDER_IMAGES = [
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80',
-  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80',
-  'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80',
-  'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&q=80',
-  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
-  'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=600&q=80',
-];
-
-const toListingCard = (apt: any, idx: number): Listing => ({
+const toListingCard = (apt: any): Listing => ({
   id: apt.id,
   title: apt.title,
   location: apt.location,
   price: apt.pricePerNight,
   rating: 4.8 + Math.round(Math.random() * 2) / 10, // placeholder cho đến khi BE có rating
-  imageUrl: apt.images?.[0] ?? PLACEHOLDER_IMAGES[idx % PLACEHOLDER_IMAGES.length],
+  imageUrl: apt.images?.[0] ?? image404,
   isExclusive: apt.pricePerNight > 500,
 });
 

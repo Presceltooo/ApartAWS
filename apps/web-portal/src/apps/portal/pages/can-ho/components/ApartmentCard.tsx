@@ -21,14 +21,7 @@ import {
   RatingInfo,
   ViewBtn,
 } from '../styles/styled';
-
-const FALLBACK_IMAGES = [
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80',
-  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80',
-  'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80',
-  'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&q=80',
-  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80',
-];
+import image404 from '@assets/images/404.png';
 
 interface ApartmentCardProps {
   apartment: IApartment;
@@ -37,7 +30,7 @@ interface ApartmentCardProps {
 }
 
 const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, index, onView }) => {
-  const imageUrl = apartment.images?.[0] ?? FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
+  const imageUrl = apartment.images?.[0] ?? image404;
   const priceLabel = `$${apartment.pricePerNight.toLocaleString()} / night`;
 
   return (
@@ -49,7 +42,8 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, index, onView 
             src={imageUrl}
             alt={apartment.title}
             onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
+              const target = e.currentTarget as HTMLImageElement;
+              target.src = image404;
             }}
           />
         ) : (

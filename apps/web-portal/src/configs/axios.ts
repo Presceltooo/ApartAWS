@@ -24,9 +24,6 @@ const handleRequestError = (error: AxiosError): Promise<AxiosError> => {
 };
 
 const handleResponse = (response: AxiosResponse) => {
-  //Trả thẳng về data trong trường hợp là phương thức là GET
-  if (response.config.method === 'get') return response.data.data;
-
   return response.data;
 };
 
