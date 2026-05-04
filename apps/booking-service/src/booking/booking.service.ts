@@ -23,6 +23,10 @@ export class BookingsService {
   // Gọi HTTP sang Apartment Service để kiểm tra căn hộ có tồn tại & còn active
   // ===========================================================================
   async create(dto: CreateBookingDto, tenantId: string) {
+    if (!tenantId) {
+      throw new ForbiddenException('Bạn phải đăng nhập để đặt phòng');
+    }
+
     // 1. Kiểm tra apartment tồn tại (gọi inter-service HTTP)
     const apartment = await this.getApartment(dto.apartmentId);
     if (!apartment) {
@@ -42,18 +46,30 @@ export class BookingsService {
       throw new ConflictException('Căn hộ đã được đặt trong khoảng thời gian này');
     }
 
-    // 3. Tạo booking
-    const booking = await this.prisma.booking.create({
-      data: {
-        ...dto,
-        tenantId,
-        startDate: new Date(dto.startDate),
-        endDate: new Date(dto.endDate),
-      },
-    });
+    try {
+      // 3. Tạo booking
+      const booking = await this.prisma.booking.create({
+        data: {
+          ...dto,
+          tenantId,
+          startDate: new Date(dto.startDate),
+          endDate: new Date(dto.endDate),
+        },
+      });
 
-    // 4. Merge thông tin apartment vào response
-    return new ApiResponse({ ...booking, apartment }, 'Đặt phòng thành công');
+      // 4. Merge thông tin apartment vào response (Convert Decimal -> number cho frontend)
+      return new ApiResponse(
+        { 
+          ...booking, 
+          totalPrice: Number(booking.totalPrice),
+          apartment 
+        }, 
+        'Đặt phòng thành công'
+      );
+    } catch (error) {
+      console.error('Create booking error:', error);
+      throw error; // Rethrow to let NestJS handle it, but now we've logged it (if we could see logs)
+    }
   }
 
   // ===========================================================================

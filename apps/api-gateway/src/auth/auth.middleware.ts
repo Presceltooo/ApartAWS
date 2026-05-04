@@ -9,9 +9,10 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.replace('Bearer ', '');
-    // If there is no token, let it pass to proxy (it might be a public route that we didn't exclude, and the backend service will reject it)
+    // If there is no token, and it's not an excluded route, we should reject it.
+    // Note: exclusion is handled by ProxyModule, so if we are here, it's not excluded.
     if (!token) {
-      return next();
+      throw new UnauthorizedException('Authentication token is missing');
     }
 
     try {
