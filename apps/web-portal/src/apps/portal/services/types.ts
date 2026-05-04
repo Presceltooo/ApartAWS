@@ -46,6 +46,7 @@ export interface ICreateBookingPayload {
   apartmentId: string;
   startDate: string; // ISO 8601
   endDate: string;   // ISO 8601
+  totalPrice: number;
 }
 
 export interface ICheckAvailabilityQuery {

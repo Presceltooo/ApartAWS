@@ -143,6 +143,46 @@ export const PortalProfileBtn = styled.button`
   }
 `;
 
+export const PortalAuthBtn = styled.button`
+  background: transparent;
+  border: 1px solid ${theme.colors.primary};
+  color: ${theme.colors.primary};
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${theme.colors.primary};
+    color: white;
+  }
+`;
+
+export const PortalRegisterBtn = styled.button`
+  background: ${theme.colors.primary};
+  border: 1px solid ${theme.colors.primary};
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(216, 90, 48, 0.2);
+
+  &:hover {
+    background-color: ${theme.colors.primaryActive};
+    border-color: ${theme.colors.primaryActive};
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(216, 90, 48, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+
 export const PortalMainContent = styled.main`
   flex-grow: 1;
   padding-top: 5rem;

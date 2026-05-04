@@ -62,6 +62,7 @@ const BookingModal: React.FC<IBookingModalProps> = ({
         apartmentId,
         startDate: start.toISOString(),
         endDate: end.toISOString(),
+        totalPrice: total,
       },
       {
         onSuccess: () => {

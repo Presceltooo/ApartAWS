@@ -20,6 +20,8 @@ import {
   PortalHeaderActions,
   PortalIconButton,
   PortalProfileBtn,
+  PortalAuthBtn,
+  PortalRegisterBtn,
   PortalMainContent,
   PortalFooterWrapper,
   PortalFooterInner,
@@ -27,12 +29,16 @@ import {
   PortalFooterNav,
   PortalFooterCopyright,
 } from '../styled';
+import { useGetMe } from '@apps/auth/services/query';
 
 const PortalLayout: React.FC = () => {
+  const accessToken = tokenManager.getAccessToken();
+  const { data: userData } = useGetMe({ enabled: !!accessToken });
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
   const navigate = useNavigate();
   const { mutate: logoutMutate } = useLogout();
+  const isLoggedIn = !!tokenManager.getAccessToken();
 
   return (
     <PortalLayoutWrapper>
@@ -63,41 +69,52 @@ const PortalLayout: React.FC = () => {
               <SearchOutlined />
             </PortalIconButton>
             
-            <Dropdown
-              menu={{
-                items: [
-                  {
-                    key: 'profile',
-                    icon: <UserOutlined />,
-                    label: 'Profile',
-                  },
-                  {
-                    type: 'divider',
-                  },
-                  {
-                    key: 'logout',
-                    danger: true,
-                    icon: <LogoutOutlined />,
-                    label: 'Logout',
-                    onClick: () => {
-                      const refreshToken = tokenManager.getRefreshToken();
-                      if (refreshToken) logoutMutate({ refreshToken });
-                      tokenManager.removeAccessToken();
-                      tokenManager.removeRefreshToken();
-                      navigate({ to: '/' });
+            {isLoggedIn ? (
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: 'profile',
+                      icon: <UserOutlined />,
+                      label: 'Profile',
                     },
-                  },
-                ],
-              }}
-              trigger={['click']}
-            >
-              <span style={{ cursor: 'pointer' }}>
-                <PortalProfileBtn>
-                  <UserOutlined />
-                  <span className="hidden md:inline">Profile</span>
-                </PortalProfileBtn>
-              </span>
-            </Dropdown>
+                    {
+                      type: 'divider',
+                    },
+                    {
+                      key: 'logout',
+                      danger: true,
+                      icon: <LogoutOutlined />,
+                      label: 'Logout',
+                      onClick: () => {
+                        const refreshToken = tokenManager.getRefreshToken();
+                        if (refreshToken) logoutMutate({ refreshToken });
+                        tokenManager.removeAccessToken();
+                        tokenManager.removeRefreshToken();
+                        navigate({ to: '/' });
+                      },
+                    },
+                  ],
+                }}
+                trigger={['click']}
+              >
+                <span style={{ cursor: 'pointer' }}>
+                  <PortalProfileBtn>
+                    <UserOutlined />
+                    <span className="hidden md:inline">{userData?.data.fullName}</span>
+                  </PortalProfileBtn>
+                </span>
+              </Dropdown>
+            ) : (
+              <div style={{ display: 'flex', gap: '0.75rem' }}>
+                <Link to="/dang-nhap">
+                  <PortalAuthBtn>Đăng nhập</PortalAuthBtn>
+                </Link>
+                <Link to="/dang-ky">
+                  <PortalRegisterBtn>Đăng ký</PortalRegisterBtn>
+                </Link>
+              </div>
+            )}
             {/* Mobile menu button */}
             <PortalIconButton className="md:hidden" style={{ display: 'none' }}>
               <MenuOutlined />
