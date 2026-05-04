@@ -70,3 +70,17 @@ export const getBookingById = (id: string): Promise<IResponse<IBooking>> => {
 export const cancelBooking = (id: string): Promise<IResponse<IBooking>> => {
   return axiosClient.patch(`Bookings/${id}/cancel`);
 };
+
+/**
+ * PATCH /Bookings/:id/confirm — Xác nhận booking (cần auth - Owner)
+ */
+export const confirmBooking = (id: string): Promise<IResponse<IBooking>> => {
+  return axiosClient.patch(`Bookings/${id}/confirm`);
+};
+
+/**
+ * PATCH /Bookings/:id/complete — Hoàn thành booking (cần auth - Owner)
+ */
+export const completeBooking = (id: string): Promise<IResponse<IBooking>> => {
+  return axiosClient.patch(`Bookings/${id}/complete`);
+};

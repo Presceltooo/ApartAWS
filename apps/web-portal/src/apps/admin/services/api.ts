@@ -44,6 +44,18 @@ export const getOwnerBookings = (
   return axiosClient.get('Bookings/owner', { params });
 };
 
+export const confirmBooking = (id: string): Promise<IResponse<IBooking>> => {
+  return axiosClient.patch(`Bookings/${id}/confirm`);
+};
+
+export const completeBooking = (id: string): Promise<IResponse<IBooking>> => {
+  return axiosClient.patch(`Bookings/${id}/complete`);
+};
+
+export const cancelBooking = (id: string): Promise<IResponse<IBooking>> => {
+  return axiosClient.patch(`Bookings/${id}/cancel`);
+};
+
 // ─── Upload APIs ───────────────────────────────────────────────────────────────
 
 export const getPresignedUrl = (

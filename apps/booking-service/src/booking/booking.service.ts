@@ -46,14 +46,25 @@ export class BookingsService {
       throw new ConflictException('Căn hộ đã được đặt trong khoảng thời gian này');
     }
 
+    // Tính số đêm (nights)
+    const start = new Date(dto.startDate);
+    const end = new Date(dto.endDate);
+    const msDiff = end.getTime() - start.getTime();
+    const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
+
+    // Lấy giá trị nguyên từ Decimal / string
+    const pricePerNight = Number(apartment.pricePerNight || 0);
+    const totalPrice = pricePerNight * nights;
+
     try {
       // 3. Tạo booking
       const booking = await this.prisma.booking.create({
         data: {
           ...dto,
           tenantId,
-          startDate: new Date(dto.startDate),
-          endDate: new Date(dto.endDate),
+          totalPrice,
+          startDate: start,
+          endDate: end,
         },
       });
 
@@ -157,6 +168,56 @@ export class BookingsService {
     });
 
     return new ApiResponse({ ...updated, apartment }, 'Hủy đặt phòng thành công');
+  }
+
+  // ===========================================================================
+  // Xác nhận đặt phòng (Owner)
+  // ===========================================================================
+  async confirm(id: string, userId: string) {
+    const booking = await this.prisma.booking.findUnique({ where: { id } });
+    if (!booking) throw new NotFoundException('Không tìm thấy đơn đặt phòng');
+
+    const apartment = await this.getApartment(booking.apartmentId);
+
+    if (apartment?.ownerId !== userId) {
+      throw new ForbiddenException('Chỉ chủ nhà mới có quyền xác nhận đơn đặt phòng này');
+    }
+
+    if (booking.status !== 'PENDING') {
+      throw new ConflictException('Chỉ có thể xác nhận đơn đặt phòng đang chờ xử lý');
+    }
+
+    const updated = await this.prisma.booking.update({
+      where: { id },
+      data: { status: 'CONFIRMED' },
+    });
+
+    return new ApiResponse({ ...updated, apartment }, 'Xác nhận đặt phòng thành công');
+  }
+
+  // ===========================================================================
+  // Hoàn thành đặt phòng (Owner)
+  // ===========================================================================
+  async complete(id: string, userId: string) {
+    const booking = await this.prisma.booking.findUnique({ where: { id } });
+    if (!booking) throw new NotFoundException('Không tìm thấy đơn đặt phòng');
+
+    const apartment = await this.getApartment(booking.apartmentId);
+
+    if (apartment?.ownerId !== userId) {
+      throw new ForbiddenException('Chỉ chủ nhà mới có quyền hoàn thành đơn đặt phòng này');
+    }
+
+    if (booking.status !== 'CONFIRMED') {
+      throw new ConflictException('Chỉ có thể hoàn thành đơn đặt phòng đã xác nhận');
+    }
+
+    const updated = await this.prisma.booking.update({
+      where: { id },
+      data: { status: 'COMPLETED' },
+    });
+
+    return new ApiResponse({ ...updated, apartment }, 'Hoàn thành đặt phòng thành công');
   }
 
   // ===========================================================================

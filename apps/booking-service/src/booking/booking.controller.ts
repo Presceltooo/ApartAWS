@@ -110,4 +110,22 @@ export class BookingsController {
   ) {
     return this.bookingsService.cancel(id, userId);
   }
+
+  @Patch(':id/confirm')
+  @ApiOperation({ summary: 'Chủ nhà xác nhận đơn đặt phòng' })
+  @ApiResponse({ status: 200, description: 'Đã xác nhận thành công' })
+  @ApiParam({ name: 'id', type: String })
+  @ApiHeader({ name: 'x-user-id', required: true })
+  confirm(@Param('id') id: string, @CurrentUser('userId') userId: string) {
+    return this.bookingsService.confirm(id, userId);
+  }
+
+  @Patch(':id/complete')
+  @ApiOperation({ summary: 'Chủ nhà hoàn thành đơn đặt phòng' })
+  @ApiResponse({ status: 200, description: 'Đã hoàn thành thành công' })
+  @ApiParam({ name: 'id', type: String })
+  @ApiHeader({ name: 'x-user-id', required: true })
+  complete(@Param('id') id: string, @CurrentUser('userId') userId: string) {
+    return this.bookingsService.complete(id, userId);
+  }
 }

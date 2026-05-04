@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createApartment, updateApartment, deleteApartment } from './api';
+import { createApartment, updateApartment, deleteApartment, confirmBooking, completeBooking, cancelBooking } from './api';
 import type { ICreateApartmentPayload, IUpdateApartmentPayload } from './types';
 import { notification } from 'antd';
 
@@ -57,3 +57,58 @@ export const useDeleteApartment = () => {
     },
   });
 };
+
+export const useConfirmBooking = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => confirmBooking(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'bookings'] });
+      notification.success({ message: 'Booking confirmed successfully' });
+    },
+    onError: (error: any) => {
+      notification.error({
+        message: 'Failed to confirm booking',
+        description: error.response?.data?.message || error.message,
+      });
+    },
+  });
+};
+
+export const useCompleteBooking = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => completeBooking(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'bookings'] });
+      notification.success({ message: 'Booking completed successfully' });
+    },
+    onError: (error: any) => {
+      notification.error({
+        message: 'Failed to complete booking',
+        description: error.response?.data?.message || error.message,
+      });
+    },
+  });
+};
+
+export const useCancelBooking = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => cancelBooking(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'bookings'] });
+      notification.success({ message: 'Booking cancelled successfully' });
+    },
+    onError: (error: any) => {
+      notification.error({
+        message: 'Failed to cancel booking',
+        description: error.response?.data?.message || error.message,
+      });
+    },
+  });
+};
+

@@ -18,9 +18,4 @@ export class CreateBookingDto {
   @IsNotEmpty()
   endDate: string;
 
-  @ApiProperty({ description: 'Tổng tiền', example: 2000000 })
-  @IsNumber()
-  @IsPositive()
-  @Type(() => Number)
-  totalPrice: number;
 }
