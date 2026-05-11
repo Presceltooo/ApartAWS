@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Switch, Input, Tag } from 'antd';
-import { useSystemUsers } from '../../services/query';
-import { useToggleUserStatus } from '../../services/mutation';
+import { useSystemUsers } from '../../../services/query';
+import { useToggleUserStatus } from '../../../services/mutation';
 
 const SystemUsers: React.FC = () => {
   const [keyword, setKeyword] = useState('');

@@ -2,9 +2,9 @@ import React from 'react';
 import { Table, Button, Space, Tag, Popconfirm, Typography } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
-import { useMyApartments } from '../../services/query';
-import { useDeleteApartment } from '../../services/mutation';
-import type { IApartment } from '../../services/types';
+import { useMyApartments } from '../../../services/query';
+import { useDeleteApartment } from '../../../services/mutation';
+import type { IApartment } from '../../../services/types';
 
 const { Title } = Typography;
 
@@ -55,7 +55,7 @@ const MyApartments: React.FC = () => {
           <Button
             type="text"
             icon={<EditOutlined />}
-            onClick={() => navigate({ to: '/quan-ly/can-ho/sua/$id', params: { id: record.id } })}
+            onClick={() => navigate({ to: '/quan-ly/bieu-mau-can-ho/sua/$id', params: { id: record.id } })}
           >
             Edit
           </Button>
@@ -87,7 +87,7 @@ const MyApartments: React.FC = () => {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => navigate({ to: '/quan-ly/can-ho/tao-moi' })}
+          onClick={() => navigate({ to: '/quan-ly/bieu-mau-can-ho/tao-moi' })}
           size="large"
         >
           Add New Apartment

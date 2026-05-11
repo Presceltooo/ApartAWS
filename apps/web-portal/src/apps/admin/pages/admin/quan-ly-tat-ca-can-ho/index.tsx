@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Table, Switch, Input } from 'antd';
-import { useSystemApartments } from '../../services/query';
-import { useToggleApartmentStatus } from '../../services/mutation';
-import type { IApartment } from '../../services/types';
+import { useSystemApartments } from '../../../services/query';
+import { useToggleApartmentStatus } from '../../../services/mutation';
+import type { IApartment } from '../../../services/types';
 
 const SystemApartments: React.FC = () => {
   const [keyword, setKeyword] = useState('');

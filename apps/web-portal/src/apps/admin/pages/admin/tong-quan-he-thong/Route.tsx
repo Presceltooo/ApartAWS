@@ -1,10 +1,10 @@
 import { createRoute } from '@tanstack/react-router';
-import { adminRoute } from '../../Route';
+import { adminRoute } from '../../../Route';
 import AdminDashboard from './index';
 
 export const dashboardRoute = createRoute({
   getParentRoute: () => adminRoute,
-  path: '/dashboard',
+  path: '/tong-quan-he-thong',
   component: AdminDashboard,
 });
 

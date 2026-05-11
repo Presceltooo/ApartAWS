@@ -32,11 +32,31 @@ export const useHandleLogin = () => {
 
         notification.success({
           message: 'Đăng nhập thành công',
-          description: `Chào mừng trở lại!`,
+          description: `Chào mừng trở lại, ${data.user?.fullName || data.user?.email || ''}!`,
         });
 
-        // Điều hướng về trang chủ user
-        router.navigate({ to: '/' });
+        // Điều hướng dựa trên role
+        const role = data.user?.role;
+        const currentPath = window.location.pathname;
+
+        // Kiểm tra bảo mật cho trang đăng nhập Admin
+        if (currentPath.startsWith('/quan-ly/dang-nhap') && role !== 'ADMIN') {
+          notification.error({
+            message: 'Quyền truy cập bị từ chối',
+            description: 'Tài khoản này không có quyền truy cập vào khu vực quản trị hệ thống.',
+          });
+          tokenManager.removeAccessToken();
+          tokenManager.removeRefreshToken();
+          return;
+        }
+
+        if (role === 'ADMIN') {
+          router.navigate({ to: '/quan-ly/tong-quan-he-thong' });
+        } else if (role === 'OWNER') {
+          router.navigate({ to: '/quan-ly/danh-sach-can-ho' });
+        } else {
+          router.navigate({ to: '/' });
+        }
       },
       onError: (err: any) => {
         notification.error({

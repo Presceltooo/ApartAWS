@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table, Tag, Typography, Button, Space } from 'antd';
-import { useOwnerBookings } from '../../services/query';
-import { useConfirmBooking, useCompleteBooking, useCancelBooking } from '../../services/mutation';
-import type { IBooking } from '../../services/types';
+import { useOwnerBookings } from '../../../services/query';
+import { useConfirmBooking, useCompleteBooking, useCancelBooking } from '../../../services/mutation';
+import type { IBooking } from '../../../services/types';
 import dayjs from 'dayjs';
 import useNotification from '@/shared/hooks/useNotification';
 

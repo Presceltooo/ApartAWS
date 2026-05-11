@@ -1,10 +1,10 @@
 import { createRoute } from '@tanstack/react-router';
-import { adminRoute } from '../../Route';
+import { adminRoute } from '../../../Route';
 import OwnerBookings from './index';
 
 const ownerBookingsRoute = createRoute({
   getParentRoute: () => adminRoute,
-  path: '/booking',
+  path: '/quan-ly-dat-phong',
   component: OwnerBookings,
 });
 

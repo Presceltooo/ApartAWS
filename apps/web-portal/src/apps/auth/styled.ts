@@ -4,8 +4,139 @@ import bgImageAdmin from '@/assets/images/anhnenNaraka.jpg';
 
 
 // ============================================================
-// ADMIN AUTH STYLES (Dark theme - ảnh nền tối)
+// ADMIN AUTH STYLES (Dark professional theme)
 // ============================================================
+
+export const AdminLoginMain = styled.main`
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${bgImageAdmin});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+`;
+
+export const AdminLoginCard = styled.div`
+  width: 100%;
+  max-width: 440px;
+  background: rgba(25, 25, 25, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+`;
+
+export const AdminLoginTitle = styled.h1`
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+`;
+
+export const AdminLoginSubtitle = styled.p`
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.875rem;
+  margin: 0;
+`;
+
+export const AdminFormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const AdminFieldLabel = styled.label`
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 8px;
+`;
+
+export const AdminTextInput = styled.input`
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #ffffff;
+  font-size: 0.9375rem;
+  transition: all 0.2s;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #D85A30;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 0 1px #D85A30;
+  }
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
+`;
+
+export const AdminLoginSubmitBtn = styled.button`
+  width: 100%;
+  background: #D85A30;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+
+  &:hover {
+    background: #f06a3d;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+export const AdminCardFooter = styled.div`
+  margin-top: 32px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 24px;
+
+  p {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+  }
+`;
+
+export const AdminPrimaryLink = styled.a`
+  color: #D85A30;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    color: #f06a3d;
+  }
+`;
 
 export const AuthContainer = styled.div`
   display: flex;

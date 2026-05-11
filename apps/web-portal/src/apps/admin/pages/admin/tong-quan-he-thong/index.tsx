@@ -7,7 +7,7 @@ import {
   DollarOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import { useSystemStats } from '../../services/query';
+import { useSystemStats } from '../../../services/query';
 
 const { Title } = Typography;
 

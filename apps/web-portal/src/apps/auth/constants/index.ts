@@ -1,4 +1,5 @@
-export const ADMIN_LOGIN_ROUTE = "/admin/dang-nhap";
+export const ADMIN_LOGIN_ROUTE = "/quan-ly/dang-nhap";
+export const ADMIN_REGISTER_ROUTE = "/quan-ly/dang-ky";
 export const LOGIN_ROUTE = "/dang-nhap";
 export const FORGOT_PASSWORD_ROUTE = "/quen-mat-khau";
 export const REGISTER_ROUTE = "/dang-ky";

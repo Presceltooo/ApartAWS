@@ -1,55 +1,75 @@
-import React from 'react';
-import { Form, Input, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { AuthCard, AuthTitle, AuthButton, FooterLinks } from '../../styled';
-import { useHandleLoginAdmin } from '../../hooks/useHandleLoginAdmin';
+import React, { useState } from 'react';
+import { Link } from '@tanstack/react-router';
+import { ADMIN_REGISTER_ROUTE } from '../../constants';
+import { useHandleLogin } from '../../hooks/useHandleLogin';
+import {
+  AdminLoginCard,
+  AdminLoginTitle,
+  AdminLoginSubtitle,
+  AdminFormGroup,
+  AdminFieldLabel,
+  AdminTextInput,
+  AdminLoginSubmitBtn,
+  AdminCardFooter,
+  AdminPrimaryLink,
+} from '../../styled';
 
 const LoginAdmin: React.FC = () => {
-  const { handleLoginAdmin, isPending } = useHandleLoginAdmin();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { handleLogin, isPending } = useHandleLogin();
 
-  const onFinish = (values: { username: string; password: string }) => {
-    handleLoginAdmin({ email: values.username, password: values.password });
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleLogin({ email, password });
   };
 
   return (
-    <AuthCard>
-      <AuthTitle level={3}>Đăng nhập dành cho Quản trị viên</AuthTitle>
-      <Form
-        name="normal_login_admin"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        size="large"
-      >
-        <Form.Item
-          name="username"
-          rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập!' }]}
-        >
-          <Input prefix={<UserOutlined />} placeholder="Email / Tên đăng nhập" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
-        >
-          <Input.Password
-            prefix={<LockOutlined />}
-            placeholder="Mật khẩu"
-          />
-        </Form.Item>
-        <Form.Item>
-          <FooterLinks>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox style={{ color: '#CECBF6' }}>Ghi nhớ đăng nhập</Checkbox>
-            </Form.Item>
-          </FooterLinks>
-        </Form.Item>
+    <AdminLoginCard>
+      <div style={{ textAlign: 'center', marginBottom: 32 }}>
+        <AdminLoginTitle>Hệ Thống Quản Trị</AdminLoginTitle>
+        <AdminLoginSubtitle>Vui lòng đăng nhập để quản lý hệ thống Aura Heritage</AdminLoginSubtitle>
+      </div>
 
-        <Form.Item style={{ marginBottom: 0 }}>
-          <AuthButton type="primary" htmlType="submit" loading={isPending}>
-            {isPending ? 'Đang đăng nhập…' : 'Đăng nhập'}
-          </AuthButton>
-        </Form.Item>
-      </Form>
-    </AuthCard>
+      <form onSubmit={handleSubmit}>
+        <AdminFormGroup>
+          <div>
+            <AdminFieldLabel>Email Quản trị</AdminFieldLabel>
+            <AdminTextInput
+              type="email"
+              placeholder="admin@example.com"
+              value={email}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={{ marginTop: 20 }}>
+            <AdminFieldLabel>Mật khẩu</AdminFieldLabel>
+            <AdminTextInput
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+        </AdminFormGroup>
+
+        <AdminLoginSubmitBtn type="submit" disabled={isPending} style={{ marginTop: 32 }}>
+          {isPending ? 'Đang xác thực...' : 'Đăng nhập hệ thống'}
+        </AdminLoginSubmitBtn>
+      </form>
+
+      <AdminCardFooter>
+        <p>
+          Chưa có tài khoản quản trị?{' '}
+          <Link to={ADMIN_REGISTER_ROUTE}>
+            <AdminPrimaryLink as="span">Đăng ký ngay</AdminPrimaryLink>
+          </Link>
+        </p>
+      </AdminCardFooter>
+    </AdminLoginCard>
   );
 };
 

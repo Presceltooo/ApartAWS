@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Select, Input } from 'antd';
-import { useSystemBookings } from '../../services/query';
-import { useUpdateSystemBookingStatus } from '../../services/mutation';
+import { useSystemBookings } from '../../../services/query';
+import { useUpdateSystemBookingStatus } from '../../../services/mutation';
 import dayjs from 'dayjs';
 
 const SystemBookings: React.FC = () => {

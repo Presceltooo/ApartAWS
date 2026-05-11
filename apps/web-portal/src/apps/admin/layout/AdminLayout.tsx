@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, Link, useRouterState, useNavigate } from '@tanstack/react-router';
 import { Layout, Menu, Button } from 'antd';
 import {
@@ -48,62 +48,69 @@ const AdminLayout: React.FC = () => {
   const currentPath = routerState.location.pathname;
   const navigate = useNavigate();
 
-  const menuItems = [
+  const menuItems: any[] = [
     {
-      key: '/quan-ly/can-ho',
+      key: '/quan-ly/danh-sach-can-ho',
       icon: <AppstoreOutlined />,
-      label: <Link to="/quan-ly/can-ho">My Apartments</Link>,
+      label: <Link to="/quan-ly/danh-sach-can-ho">Danh sách căn hộ</Link>,
     },
     {
-      key: '/quan-ly/can-ho/tao-moi',
+      key: '/quan-ly/bieu-mau-can-ho/tao-moi',
       icon: <PlusCircleOutlined />,
-      label: <Link to="/quan-ly/can-ho/tao-moi">Add New</Link>,
+      label: <Link to="/quan-ly/bieu-mau-can-ho/tao-moi">Thêm căn hộ mới</Link>,
     },
     {
-      key: '/quan-ly/booking',
+      key: '/quan-ly/quan-ly-dat-phong',
       icon: <CalendarOutlined />,
-      label: <Link to="/quan-ly/booking">Bookings</Link>,
+      label: <Link to="/quan-ly/quan-ly-dat-phong">Quản lý đặt phòng</Link>,
     },
   ];
 
   // If user is ADMIN, prepend the Dashboard menu item
-  const { data: userData } = useGetMe();
+  const { data: userData, isLoading: isUserLoading } = useGetMe();
   if (userData?.data?.role === 'ADMIN') {
     menuItems.unshift(
       {
-        key: '/quan-ly/dashboard',
+        key: '/quan-ly/tong-quan-he-thong',
         icon: <AppstoreOutlined />,
-        label: <Link to="/quan-ly/dashboard">System Dashboard</Link>,
+        label: <Link to="/quan-ly/tong-quan-he-thong">Tổng quan hệ thống</Link>,
       },
       {
-        key: '/quan-ly/system-users',
+        key: '/quan-ly/quan-ly-nguoi-dung',
         icon: <AppstoreOutlined />,
-        label: <Link to="/quan-ly/system-users">System Users</Link>,
+        label: <Link to="/quan-ly/quan-ly-nguoi-dung">Quản lý người dùng</Link>,
       },
       {
-        key: '/quan-ly/system-apartments',
+        key: '/quan-ly/quan-ly-tat-ca-can-ho',
         icon: <AppstoreOutlined />,
-        label: <Link to="/quan-ly/system-apartments">System Apartments</Link>,
+        label: <Link to="/quan-ly/quan-ly-tat-ca-can-ho">Quản lý tất cả căn hộ</Link>,
       },
       {
-        key: '/quan-ly/system-bookings',
+        key: '/quan-ly/quan-ly-tat-ca-dat-phong',
         icon: <CalendarOutlined />,
-        label: <Link to="/quan-ly/system-bookings">System Bookings</Link>,
+        label: <Link to="/quan-ly/quan-ly-tat-ca-dat-phong">Quản lý tất cả đặt phòng</Link>,
       }
     );
   }
 
+  // Tự động redirect khi vào /quan-ly
+  useEffect(() => {
+    if (!isUserLoading && currentPath === '/quan-ly' && menuItems.length > 0) {
+      navigate({ to: menuItems[0].key, replace: true });
+    }
+  }, [currentPath, menuItems, isUserLoading, navigate]);
+
   // Determine active menu key based on current path
   const getActiveKey = () => {
-    if (currentPath.startsWith('/quan-ly/dashboard')) return '/quan-ly/dashboard';
-    if (currentPath.startsWith('/quan-ly/system-users')) return '/quan-ly/system-users';
-    if (currentPath.startsWith('/quan-ly/system-apartments')) return '/quan-ly/system-apartments';
-    if (currentPath.startsWith('/quan-ly/system-bookings')) return '/quan-ly/system-bookings';
-    if (currentPath.startsWith('/quan-ly/can-ho/tao-moi')) return '/quan-ly/can-ho/tao-moi';
-    if (currentPath.startsWith('/quan-ly/can-ho/sua')) return '/quan-ly/can-ho';
-    if (currentPath.startsWith('/quan-ly/can-ho')) return '/quan-ly/can-ho';
-    if (currentPath.startsWith('/quan-ly/booking')) return '/quan-ly/booking';
-    return '/quan-ly/can-ho';
+    if (currentPath.startsWith('/quan-ly/tong-quan-he-thong')) return '/quan-ly/tong-quan-he-thong';
+    if (currentPath.startsWith('/quan-ly/quan-ly-nguoi-dung')) return '/quan-ly/quan-ly-nguoi-dung';
+    if (currentPath.startsWith('/quan-ly/quan-ly-tat-ca-can-ho')) return '/quan-ly/quan-ly-tat-ca-can-ho';
+    if (currentPath.startsWith('/quan-ly/quan-ly-tat-ca-dat-phong')) return '/quan-ly/quan-ly-tat-ca-dat-phong';
+    if (currentPath.startsWith('/quan-ly/bieu-mau-can-ho/tao-moi')) return '/quan-ly/bieu-mau-can-ho/tao-moi';
+    if (currentPath.startsWith('/quan-ly/bieu-mau-can-ho/sua')) return '/quan-ly/danh-sach-can-ho';
+    if (currentPath.startsWith('/quan-ly/danh-sach-can-ho')) return '/quan-ly/danh-sach-can-ho';
+    if (currentPath.startsWith('/quan-ly/quan-ly-dat-phong')) return '/quan-ly/quan-ly-dat-phong';
+    return '/quan-ly/danh-sach-can-ho';
   };
 
   const { mutate: logoutMutate } = useLogout();

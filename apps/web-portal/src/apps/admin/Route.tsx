@@ -1,26 +1,27 @@
-import { createRoute } from '@tanstack/react-router';
+import { createRoute, redirect } from '@tanstack/react-router';
 import { rootRoute } from '../../Route';
 import AdminLayout from './layout/AdminLayout';
-import myApartmentsRoute from './pages/my-apartments/Route';
-import { apartmentFormCreateRoute, apartmentFormEditRoute } from './pages/apartment-form/Route';
-import ownerBookingsRoute from './pages/owner-bookings/Route';
-import dashboardRoute from './pages/dashboard/Route';
-import systemUsersRoute from './pages/system-users/Route';
-import systemApartmentsRoute from './pages/system-apartments/Route';
-import systemBookingsRoute from './pages/system-bookings/Route';
+import tokenManager from '@utils/tokenManager';
+import { ADMIN_LOGIN_ROUTE } from '@apps/auth/constants';
+import myApartmentsRoute from './pages/owner/danh-sach-can-ho/Route';
+import { apartmentFormCreateRoute, apartmentFormEditRoute } from './pages/shared/bieu-mau-can-ho/Route';
+import ownerBookingsRoute from './pages/owner/quan-ly-dat-phong/Route';
+import dashboardRoute from './pages/admin/tong-quan-he-thong/Route';
+import systemUsersRoute from './pages/admin/quan-ly-nguoi-dung/Route';
+import systemApartmentsRoute from './pages/admin/quan-ly-tat-ca-can-ho/Route';
+import systemBookingsRoute from './pages/admin/quan-ly-tat-ca-dat-phong/Route';
 
 export const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/quan-ly',
   component: AdminLayout,
   beforeLoad: () => {
-    // Basic auth/role check placeholder
-    // In a real app, you would check the token role here
-    // const token = localStorage.getItem('access_token');
-    // For now, if no token, maybe redirect to login (auth module handles login, maybe /auth/login)
-    // if (!token) {
-    //   throw redirect({ to: '/' });
-    // }
+    const token = tokenManager.getAccessToken();
+    const role = tokenManager.getUserRole();
+
+    if (!token || (role !== 'ADMIN' && role !== 'OWNER')) {
+      throw redirect({ to: ADMIN_LOGIN_ROUTE });
+    }
   },
 });
 

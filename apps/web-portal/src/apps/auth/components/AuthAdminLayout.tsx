@@ -1,15 +1,15 @@
 import React from 'react';
 import { Outlet } from '@tanstack/react-router';
-import { AuthContainer, AuthWrapper } from '../styled';
+import { AdminLoginMain, AuthWrapper } from '../styled';
 
-// Layout dành cho Admin - nền tối với ảnh background
+// Layout dành cho Admin - nền tối chuyên nghiệp
 const AuthAdminLayout: React.FC = () => {
   return (
-    <AuthContainer>
+    <AdminLoginMain>
       <AuthWrapper>
         <Outlet />
       </AuthWrapper>
-    </AuthContainer>
+    </AdminLoginMain>
   );
 };
 

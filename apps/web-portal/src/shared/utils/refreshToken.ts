@@ -2,7 +2,7 @@ import axios from 'axios';
 import axiosClient from '@configs/axios';
 import type { IOriginRequest } from '@configs/axios';
 import tokenManager from './tokenManager';
-import { ADMIN_LOGIN_ROUTE, REFRESH_TOKEN_URL } from '@/constants';
+import { ADMIN_LOGIN_ROUTE, LOGIN_ROUTE, REFRESH_TOKEN_URL } from '@/constants';
 
 interface IFailedQueue {
   resolve: Promise<any>;
@@ -59,7 +59,11 @@ export const handleRefreshToken = async (originalRequest: IOriginRequest) => {
           if (!data?.data) {
             tokenManager.removeAccessToken();
             tokenManager.removeRefreshToken();
-            window.location.href = ADMIN_LOGIN_ROUTE;
+            if (window.location.pathname.startsWith('/admin') || window.location.pathname.startsWith('/quan-ly')) {
+              window.location.href = ADMIN_LOGIN_ROUTE;
+            } else {
+              window.location.href = LOGIN_ROUTE;
+            }
             return;
           }
 
@@ -80,7 +84,11 @@ export const handleRefreshToken = async (originalRequest: IOriginRequest) => {
           console.log('refresh token err: ', err);
           tokenManager.removeAccessToken();
           tokenManager.removeRefreshToken();
-          window.location.href = ADMIN_LOGIN_ROUTE;
+          if (window.location.pathname.startsWith('/admin') || window.location.pathname.startsWith('/quan-ly')) {
+            window.location.href = ADMIN_LOGIN_ROUTE;
+          } else {
+            window.location.href = LOGIN_ROUTE;
+          }
           processQueue(err, null);
           reject(err);
         });

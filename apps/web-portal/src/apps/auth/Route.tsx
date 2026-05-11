@@ -6,8 +6,11 @@ import { createRoute } from "@tanstack/react-router";
 
 import forgotPasswordRoute from "@apps/auth/pages/forgot-password/Route";
 import resetPasswordRoute from "@apps/auth/pages/reset-password/Route";
-import loginAdminRoute from "./pages/login-admin/Route";
 import registerRoute from "./pages/register/Route";
+
+// Admin pages
+import loginAdminRoute from "./pages/login-admin/Route";
+import registerAdminRoute from "./pages/register-admin/Route";
 
 // Layout dành cho User (sáng, luxury warm)
 const USER_AUTH_LAYOUT = "_userAuthLayout";
@@ -17,15 +20,14 @@ export const authdRoute = createRoute({
   component: AuthUserLayout,
 });
 
-// Layout dành cho Admin (tối, ảnh nền)
-const ADMIN_AUTH_LAYOUT = "_adminAuthLayout";
+// Layout dành cho Admin (tối, chuyên nghiệp) - Chuyển thành Pathless Layout để tránh trùng ID /quan-ly
 export const adminAuthRoute = createRoute({
   getParentRoute: () => rootRoute,
-  id: ADMIN_AUTH_LAYOUT,
+  id: 'admin-auth-layout',
   component: AuthAdminLayout,
 });
 
 authdRoute.addChildren([loginRoute, forgotPasswordRoute, resetPasswordRoute, registerRoute]);
-adminAuthRoute.addChildren([loginAdminRoute]);
+adminAuthRoute.addChildren([loginAdminRoute, registerAdminRoute]);
 
 export default authdRoute;

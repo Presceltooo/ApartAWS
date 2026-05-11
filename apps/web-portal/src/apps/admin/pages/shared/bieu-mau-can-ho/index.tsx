@@ -3,9 +3,9 @@ import { Form, Input, InputNumber, Button, Select, Switch, Upload, message, Typo
 import { UploadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from '@tanstack/react-router';
 import type { UploadFile } from 'antd/es/upload/interface';
-import { useCreateApartment, useUpdateApartment } from '../../services/mutation';
-import { useS3Upload } from '../../hooks/useS3Upload';
-import { useApartmentDetail } from '../../../portal/services/query';
+import { useCreateApartment, useUpdateApartment } from '../../../services/mutation';
+import { useS3Upload } from '../../../hooks/useS3Upload';
+import { useApartmentDetail } from '../../../../portal/services/query';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -53,7 +53,7 @@ const ApartmentForm: React.FC = () => {
       });
 
       if (apt.images && apt.images.length > 0) {
-        const initialFiles = apt.images.map((url, index) => ({
+        const initialFiles = apt.images.map((url: string, index: number) => ({
           uid: `-initial-${index}`,
           name: `image-${index}`,
           status: 'done' as const,
@@ -99,12 +99,12 @@ const ApartmentForm: React.FC = () => {
       if (isEditMode) {
         updateApt(
           { id, payload },
-          { onSuccess: () => navigate({ to: '/quan-ly/can-ho' }) }
+          { onSuccess: () => navigate({ to: '/quan-ly/danh-sach-can-ho' }) }
         );
       } else {
         createApt(
           payload,
-          { onSuccess: () => navigate({ to: '/quan-ly/can-ho' }) }
+          { onSuccess: () => navigate({ to: '/quan-ly/danh-sach-can-ho' }) }
         );
       }
     } catch (error: any) {
@@ -125,7 +125,7 @@ const ApartmentForm: React.FC = () => {
   return (
     <div style={{ maxWidth: 800, margin: '0 auto' }}>
       <Space style={{ marginBottom: 24 }}>
-        <Button icon={<ArrowLeftOutlined />} onClick={() => navigate({ to: '/quan-ly/can-ho' })}>
+        <Button icon={<ArrowLeftOutlined />} onClick={() => navigate({ to: '/quan-ly/danh-sach-can-ho' })}>
           Back
         </Button>
         <Title level={2} style={{ margin: 0 }}>

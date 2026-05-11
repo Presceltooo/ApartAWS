@@ -1,6 +1,7 @@
 import { lcStorage } from '@utils/storage';
 import { LOCAL_STORAGE_KEYS } from '@constants/storageKeys';
 import { decryptDES, encryptDES } from '@utils/desEncryt';
+import { jwtDecode } from 'jwt-decode';
 
 const tokenManager = () => { 
   let accessToken: string | undefined = lcStorage.get(LOCAL_STORAGE_KEYS.accessToken);
@@ -56,13 +57,25 @@ const tokenManager = () => {
     localStorage.removeItem(LOCAL_STORAGE_KEYS.refreshToken);
   };
 
+  const getUserRole = (): string | undefined => {
+    const token = getAccessToken();
+    if (!token) return undefined;
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.role;
+    } catch {
+      return undefined;
+    }
+  };
+
   return {
     getAccessToken,
     setAccessToken,
     removeAccessToken,
     getRefreshToken, 
     setRefreshToken,
-    removeRefreshToken
+    removeRefreshToken,
+    getUserRole
   }
 }
 
