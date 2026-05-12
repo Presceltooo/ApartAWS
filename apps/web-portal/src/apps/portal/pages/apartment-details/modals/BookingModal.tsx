@@ -45,7 +45,7 @@ const BookingModal: React.FC<IBookingModalProps> = ({
 
   const { mutate: createBooking, isPending, error: mutationError } = useCreateBooking();
 
-  const { nights, subtotal, formatUSD } = useBookingCalculation(
+  const { nights, subtotal } = useBookingCalculation(
     dateRange[0],
     dateRange[1],
     pricePerNight,
