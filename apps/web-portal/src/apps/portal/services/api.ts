@@ -84,3 +84,14 @@ export const confirmBooking = (id: string): Promise<IResponse<IBooking>> => {
 export const completeBooking = (id: string): Promise<IResponse<IBooking>> => {
   return axiosClient.patch(`Bookings/${id}/complete`);
 };
+
+// ─── Payment APIs (VNPay) ─────────────────────────────────────────────────────
+
+/**
+ * GET /Bookings/payments/vnpay-url/:bookingId — Lấy URL thanh toán VNPay
+ */
+export const getVnpayUrl = (
+  bookingId: string,
+): Promise<IResponse<{ paymentUrl: string }>> => {
+  return axiosClient.get(`Bookings/payments/vnpay-url/${bookingId}`);
+};

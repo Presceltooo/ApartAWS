@@ -36,16 +36,30 @@ const SystemBookings: React.FC = () => {
       title: 'Tổng tiền', 
       dataIndex: 'totalPrice', 
       key: 'total',
-      render: (p: number) => `$${p}`
+      render: (p: number) => `${Number(p).toLocaleString('vi-VN')} ₫`
     },
     {
-      title: 'Trạng thái',
+      title: 'Thanh toán',
+      key: 'paymentStatus',
+      render: (_: any, record: any) => (
+        <span style={{ 
+          color: record.paymentStatus === 'PAID' ? '#52c41a' : 
+                 record.paymentStatus === 'FAILED' ? '#ff4d4f' : '#faad14',
+          fontWeight: 600
+        }}>
+          {record.paymentStatus === 'PAID' ? 'Đã TT' : 
+           record.paymentStatus === 'FAILED' ? 'Lỗi' : 'Chưa TT'}
+        </span>
+      )
+    },
+    {
+      title: 'Trạng thái đơn',
       key: 'status',
       render: (_: any, record: any) => (
         <Select
           value={record.status}
           onChange={(val) => handleStatusChange(record.id, val)}
-          style={{ width: 120 }}
+          style={{ width: 130 }}
           options={[
             { value: 'PENDING', label: 'Chờ duyệt' },
             { value: 'CONFIRMED', label: 'Đã xác nhận' },

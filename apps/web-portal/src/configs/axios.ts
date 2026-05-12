@@ -1,5 +1,5 @@
 import axios  from 'axios';
-import { App } from 'antd';
+import { notification } from 'antd';
 import type { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios'
 import type { IResponse } from '@shared/types/response.type';
 import tokenManager from '@utils/tokenManager';
@@ -28,7 +28,6 @@ const handleResponse = (response: AxiosResponse) => {
 };
 
 const handleResponseError = async (error: AxiosError<IResponse<any>>) => {
-  const { notification } = App.useApp();
   console.log('Request error: ', { error });
 
   const originalRequest = error.config as IOriginRequest;

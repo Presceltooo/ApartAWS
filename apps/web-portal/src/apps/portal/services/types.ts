@@ -31,6 +31,7 @@ export interface IApartmentQuery {
 // ─── Booking ──────────────────────────────────────────────────────────────────
 
 export type BookingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'COMPLETED';
+export type PaymentStatus = 'UNPAID' | 'PAID' | 'FAILED' | 'REFUNDED';
 
 export interface IBooking {
   id: string;
@@ -40,6 +41,9 @@ export interface IBooking {
   endDate: string;
   totalPrice: number;
   status: BookingStatus;
+  paymentStatus: PaymentStatus;
+  vnpTransactionId?: string;
+  paymentDate?: string;
   createdAt: string;
   updatedAt: string;
   apartment?: IApartment;

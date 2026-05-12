@@ -21,7 +21,10 @@ export class ProxyModule {
         { path: 'api/Auth/reset-password', method: RequestMethod.POST },
         { path: 'api/Apartments/listing', method: RequestMethod.GET },
         { path: 'api/Apartments/:id', method: RequestMethod.GET },
-        { path: 'api/Bookings/check-availability', method: RequestMethod.GET }
+        { path: 'api/Bookings/check-availability', method: RequestMethod.GET },
+        // VNPay callbacks — không có JWT token (server-to-server hoặc redirect từ VNPay)
+        { path: 'api/Bookings/payments/vnpay-ipn', method: RequestMethod.GET },
+        { path: 'api/Bookings/payments/vnpay-return', method: RequestMethod.GET },
       )
       .forRoutes('*');
   }

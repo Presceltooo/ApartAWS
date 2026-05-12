@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useParams, useNavigate } from '@tanstack/react-router';
 import {
   ArrowLeftOutlined,
@@ -10,13 +10,17 @@ import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   StopOutlined,
+  CreditCardOutlined,
+  SyncOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import { Tag, Button, Popconfirm, notification, Skeleton, Descriptions } from 'antd';
+import { Tag, Button, Popconfirm, notification, Skeleton, Descriptions, Divider } from 'antd';
 import styled from 'styled-components';
 import { portalTheme } from '../../styled';
 import { useBookingDetail } from '@apps/portal/services/query';
 import { useCancelBooking } from '@apps/portal/services/mutation';
-import type { BookingStatus } from '@apps/portal/services/types';
+import { getVnpayUrl } from '@apps/portal/services/api';
+import type { BookingStatus, PaymentStatus } from '@apps/portal/services/types';
 
 // ─── Styled ───────────────────────────────────────────────────────────────────
 
@@ -111,28 +115,58 @@ const statusConfig: Record<
   CANCELLED: { color: 'red', icon: <StopOutlined />, label: 'Đã huỷ' },
 };
 
+const paymentStatusConfig: Record<
+  PaymentStatus,
+  { color: string; icon: React.ReactNode; label: string }
+> = {
+  UNPAID: { color: 'warning', icon: <ExclamationCircleOutlined />, label: 'Chưa thanh toán' },
+  PAID: { color: 'success', icon: <CheckCircleOutlined />, label: 'Đã thanh toán' },
+  FAILED: { color: 'error', icon: <CloseCircleOutlined />, label: 'Thanh toán thất bại' },
+  REFUNDED: { color: 'default', icon: <SyncOutlined />, label: 'Đã hoàn tiền' },
+};
+
 // ─── BookingDetail Page ────────────────────────────────────────────────────────
 
 const BookingDetail: React.FC = () => {
   const { id } = useParams({ strict: false }) as { id: string };
   const navigate = useNavigate();
+  const [isRedirectingToVnpay, setIsRedirectingToVnpay] = useState(false);
 
   const { data: response, isLoading, isError } = useBookingDetail(id ?? '');
   const { mutate: cancelBooking, isPending: isCancelling } = useCancelBooking();
 
   const booking = response?.data ?? null;
   const status = booking?.status ?? 'PENDING';
+  const paymentStatus = booking?.paymentStatus ?? 'UNPAID';
   const statusInfo = statusConfig[status];
+  const paymentInfo = paymentStatusConfig[paymentStatus];
 
   const handleCancel = () => {
     cancelBooking(id, {
       onSuccess: () => {
         notification.success({
-          message: 'Booking Cancelled',
-          description: 'Your booking has been cancelled successfully.',
+          message: 'Đã huỷ đặt phòng',
+          description: 'Đơn đặt phòng của bạn đã được huỷ thành công.',
         });
       },
     });
+  };
+
+  const handleVnpayPayment = async () => {
+    setIsRedirectingToVnpay(true);
+    try {
+      const res = await getVnpayUrl(id);
+      const paymentUrl = res?.data?.paymentUrl;
+      if (paymentUrl) {
+        window.location.href = paymentUrl;
+      } else {
+        notification.error({ message: 'Không thể tạo link thanh toán. Vui lòng thử lại.' });
+        setIsRedirectingToVnpay(false);
+      }
+    } catch {
+      notification.error({ message: 'Lỗi kết nối. Vui lòng thử lại sau.' });
+      setIsRedirectingToVnpay(false);
+    }
   };
 
   if (isLoading) {
@@ -190,11 +224,26 @@ const BookingDetail: React.FC = () => {
       <Card>
         <CardTitle>
           {statusInfo.icon}
-          Booking Status
+          Trạng thái đơn đặt phòng
         </CardTitle>
         <Tag color={statusInfo.color} style={{ fontSize: '1rem', padding: '0.25rem 0.75rem' }}>
           {statusInfo.label}
         </Tag>
+
+        <Divider style={{ margin: '1rem 0' }} />
+
+        <CardTitle>
+          <CreditCardOutlined />
+          Trạng thái thanh toán
+        </CardTitle>
+        <Tag color={paymentInfo.color} icon={paymentInfo.icon} style={{ fontSize: '1rem', padding: '0.25rem 0.75rem' }}>
+          {paymentInfo.label}
+        </Tag>
+        {paymentStatus === 'PAID' && booking?.paymentDate && (
+          <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: portalTheme.colors.onSurfaceVariant }}>
+            Thanh toán lúc: {new Date(booking.paymentDate).toLocaleString('vi-VN')}
+          </p>
+        )}
       </Card>
 
       {/* Apartment info */}
@@ -218,8 +267,8 @@ const BookingDetail: React.FC = () => {
             </Descriptions.Item>
           )}
           {apt?.pricePerNight && (
-            <Descriptions.Item label={<><DollarOutlined /> Price/night</>}>
-              ${apt.pricePerNight.toLocaleString()}
+            <Descriptions.Item label={<><DollarOutlined /> Giá/đêm</>}>
+              {apt.pricePerNight.toLocaleString('vi-VN')} ₫
             </Descriptions.Item>
           )}
         </Descriptions>
@@ -234,9 +283,11 @@ const BookingDetail: React.FC = () => {
         <Descriptions column={2} size="small" bordered>
           <Descriptions.Item label="Check-in">{startDate}</Descriptions.Item>
           <Descriptions.Item label="Check-out">{endDate}</Descriptions.Item>
-          <Descriptions.Item label="Duration">{nights} night{nights !== 1 ? 's' : ''}</Descriptions.Item>
-          <Descriptions.Item label={<><DollarOutlined /> Total</>}>
-            <strong>${booking.totalPrice.toLocaleString()}</strong>
+          <Descriptions.Item label="Thời gian">{nights} đêm</Descriptions.Item>
+          <Descriptions.Item label={<><DollarOutlined /> Tổng cộng</>}>
+            <strong style={{ color: portalTheme.colors.primary, fontSize: '1.125rem' }}>
+              {booking.totalPrice.toLocaleString('vi-VN')} ₫
+            </strong>
           </Descriptions.Item>
         </Descriptions>
       </Card>
@@ -248,16 +299,29 @@ const BookingDetail: React.FC = () => {
           onClick={() => navigate({ to: '/bookings' })}
           icon={<ArrowLeftOutlined />}
         >
-          All Bookings
+          Tất cả đặt phòng
         </Button>
+
+        {/* Nút thanh toán VNPay: hiện khi PENDING và chưa thanh toán */}
+        {status === 'PENDING' && paymentStatus !== 'PAID' && (
+          <Button
+            type="primary"
+            icon={<CreditCardOutlined />}
+            loading={isRedirectingToVnpay}
+            onClick={handleVnpayPayment}
+            style={{ background: '#005BAC', borderColor: '#005BAC' }}
+          >
+            Thanh toán qua VNPay
+          </Button>
+        )}
 
         {canCancel && (
           <Popconfirm
-            title="Cancel this booking?"
-            description="This action cannot be undone."
+            title="Huỷ đơn đặt phòng?"
+            description="Hành động này không thể hoàn tác."
             onConfirm={handleCancel}
-            okText="Yes, Cancel"
-            cancelText="Keep it"
+            okText="Xác nhận huỷ"
+            cancelText="Giữ lại"
             okButtonProps={{ danger: true }}
           >
             <Button
@@ -265,17 +329,16 @@ const BookingDetail: React.FC = () => {
               icon={<CloseCircleOutlined />}
               loading={isCancelling}
             >
-              Cancel Booking
+              Huỷ đặt phòng
             </Button>
           </Popconfirm>
         )}
 
         {apt?.id && (
           <Button
-            type="primary"
             onClick={() => navigate({ to: '/apartment/$id', params: { id: apt.id } })}
           >
-            View Property
+            Xem căn hộ
           </Button>
         )}
       </ActionRow>
