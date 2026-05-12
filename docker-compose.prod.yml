@@ -34,11 +34,16 @@ services:
       - "3001:3001"
     environment:
       PORT: 3001
+      FRONTEND_URL: ${FRONTEND_URL}
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=auth
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-15m}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
       JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN:-7d}
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      MAIL_FROM: ${MAIL_FROM}
     depends_on:
       database:
         condition: service_healthy
@@ -54,11 +59,13 @@ services:
       - "3002:3002"
     environment:
       PORT: 3002
+      FRONTEND_URL: ${FRONTEND_URL}
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=apartment
       AWS_REGION: ${AWS_REGION}
       AWS_S3_BUCKET: ${AWS_S3_BUCKET}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      MAIL_FROM: ${EMAIL_ADDRESS}
     depends_on:
       database:
         condition: service_healthy
@@ -74,8 +81,13 @@ services:
       - "3003:3003"
     environment:
       PORT: 3003
+      FRONTEND_URL: ${FRONTEND_URL}
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=booking
       APARTMENT_SERVICE_URL: http://apartment-service:3002
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      MAIL_FROM: ${MAIL_FROM}
     depends_on:
       database:
         condition: service_healthy

@@ -248,7 +248,7 @@ export class AuthService {
       data: { resetToken: resetTokenHash, resetTokenExpires },
     });
 
-    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/auth/dat-lai-mat-khau?token=${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:5174'}/dat-lai-mat-khau?token=${resetToken}`;
     
     const htmlBody = `
       <h3>Xin chào ${user.fullName || user.email},</h3>

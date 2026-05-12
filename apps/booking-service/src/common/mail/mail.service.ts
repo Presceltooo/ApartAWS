@@ -36,7 +36,7 @@ export class MailService {
 
     try {
       const command = new SendEmailCommand({
-        Source: process.env.MAIL_FROM || 'no-reply@aura-heritage.com', // MUST be verified in SES
+        Source: process.env.MAIL_FROM, // MUST be verified in SES
         Destination: {
           ToAddresses: [to],
         },

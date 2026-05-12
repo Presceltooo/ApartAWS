@@ -17,6 +17,8 @@ export class ProxyModule {
         { path: 'api/Auth/register', method: RequestMethod.POST },
         { path: 'api/Auth/refresh', method: RequestMethod.POST },
         { path: 'api/Auth/logout', method: RequestMethod.POST },
+        { path: 'api/Auth/forgot-password', method: RequestMethod.POST },
+        { path: 'api/Auth/reset-password', method: RequestMethod.POST },
         { path: 'api/Apartments/listing', method: RequestMethod.GET },
         { path: 'api/Apartments/:id', method: RequestMethod.GET },
         { path: 'api/Bookings/check-availability', method: RequestMethod.GET }
