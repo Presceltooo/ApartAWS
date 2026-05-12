@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
     <>
       {/* ── Hero + Search ── */}
       <DashboardSection>
-        <HeroTitle>Discover Sanctuaries.</HeroTitle>
+        <HeroTitle>Khám phá các căn hộ tuyệt vời.</HeroTitle>
         <SearchBar />
 
         <FiltersRow>
@@ -132,13 +132,13 @@ const Dashboard: React.FC = () => {
             onClick={() => toggleFilter('Price Range')}
             $active={activeFilters.includes('Price Range')}
           >
-            Price Range <DownOutlined style={{ fontSize: '1.125rem' }} />
+            Mức giá <DownOutlined style={{ fontSize: '1.125rem' }} />
           </FilterChip>
           <FilterChip
             onClick={() => toggleFilter('Property Type')}
             $active={activeFilters.includes('Property Type')}
           >
-            Property Type <DownOutlined style={{ fontSize: '1.125rem' }} />
+            Loại căn hộ <DownOutlined style={{ fontSize: '1.125rem' }} />
           </FilterChip>
           <FilterChip
             onClick={() => toggleFilter('Pool Access')}
@@ -147,13 +147,13 @@ const Dashboard: React.FC = () => {
             {activeFilters.includes('Pool Access') && (
               <CheckOutlined style={{ fontSize: '1.125rem' }} />
             )}
-            Pool Access
+            Có hồ bơi
           </FilterChip>
           <FilterChip
             onClick={() => toggleFilter('More Filters')}
             $active={activeFilters.includes('More Filters')}
           >
-            More Filters <ControlOutlined style={{ fontSize: '1.125rem' }} />
+            Thêm bộ lọc <ControlOutlined style={{ fontSize: '1.125rem' }} />
           </FilterChip>
         </FiltersRow>
       </DashboardSection>
@@ -169,7 +169,7 @@ const Dashboard: React.FC = () => {
               <StatValue>
                 {isLoading ? <Skeleton.Input size="small" active /> : totalRecords}
               </StatValue>
-              <StatLabel>Available Properties</StatLabel>
+              <StatLabel>Căn hộ hiện có</StatLabel>
             </StatInfo>
           </StatCard>
 
@@ -180,10 +180,10 @@ const Dashboard: React.FC = () => {
             <StatInfo>
               <StatValue>
                 <Link to="/bookings" style={{ color: 'inherit', textDecoration: 'none' }}>
-                  My Bookings
+                  Đơn đặt của tôi
                 </Link>
               </StatValue>
-              <StatLabel>View Your Reservations</StatLabel>
+              <StatLabel>Xem danh sách đặt phòng</StatLabel>
             </StatInfo>
           </StatCard>
 
@@ -192,8 +192,8 @@ const Dashboard: React.FC = () => {
               <CheckCircleOutlined />
             </StatIconWrap>
             <StatInfo>
-              <StatValue>Instant</StatValue>
-              <StatLabel>Booking Confirmation</StatLabel>
+              <StatValue>Tức thì</StatValue>
+              <StatLabel>Xác nhận đặt phòng</StatLabel>
             </StatInfo>
           </StatCard>
         </StatsRow>
@@ -203,7 +203,7 @@ const Dashboard: React.FC = () => {
       <DashboardSection>
         {isError && (
           <ErrorBanner>
-            Unable to load listings — please check your connection or try again.
+            Không thể tải dữ liệu — vui lòng kiểm tra kết nối và thử lại.
           </ErrorBanner>
         )}
 
@@ -229,7 +229,7 @@ const Dashboard: React.FC = () => {
         {!isLoading && cardListings.length > 0 && (
           <LoadMoreContainer>
             <LoadMoreBtn onClick={handleLoadMore}>
-              Load More Sanctuaries
+              Xem thêm căn hộ
               <DownOutlined style={{ fontSize: '1.25rem' }} />
             </LoadMoreBtn>
           </LoadMoreContainer>

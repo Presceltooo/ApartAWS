@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 // ============================================================
-// PORTAL STYLES (Aura Heritage Theme)
+// PORTAL STYLES (Domin Tactic Theme)
 // ============================================================
 
 const theme = {

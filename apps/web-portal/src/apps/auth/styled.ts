@@ -230,7 +230,7 @@ export const CenteredText = styled.div`
 `;
 
 // ============================================================
-// USER AUTH STYLES (Light warm luxury theme - Aura Heritage)
+// USER AUTH STYLES (Light warm luxury theme - Domin Tactic)
 // ============================================================
 
 // --- Shared tokens ---

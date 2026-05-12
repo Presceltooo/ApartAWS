@@ -73,7 +73,7 @@ export class BookingsService {
       // Gửi email thông báo (bất đồng bộ, không block luồng)
       if (tenantEmail) {
         const htmlBody = `
-          <h3>Cảm ơn bạn đã đặt phòng tại Aura Heritage!</h3>
+          <h3>Cảm ơn bạn đã đặt phòng tại Domin Tactic!</h3>
           <p>Thông tin đặt phòng của bạn:</p>
           <ul>
             <li><strong>Căn hộ:</strong> ${apartment.title}</li>

@@ -86,7 +86,7 @@ const ResetPassword: React.FC = () => {
     <ForgotPageWrapper>
       <ForgotHeader>
         <ForgotNav>
-          <ForgotBrand>Aura Heritage</ForgotBrand>
+          <ForgotBrand>Domin Tactic</ForgotBrand>
           <div>
             <Link to={LOGIN_ROUTE}>
               <ForgotNavLink as="span">Quay lại Đăng nhập</ForgotNavLink>
@@ -177,7 +177,7 @@ const ResetPassword: React.FC = () => {
 
       <ForgotPageFooter>
         <ForgotPageFooterInner>
-          <ForgotFooterCopy>© 2024 Aura Heritage Properties</ForgotFooterCopy>
+          <ForgotFooterCopy>© 2024 Domin Tactic Properties</ForgotFooterCopy>
           <ForgotFooterLinks>
             <a href="#">Bảo mật</a>
             <a href="#">Điều khoản</a>

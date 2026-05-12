@@ -182,21 +182,21 @@ const BookingDetail: React.FC = () => {
       <PageWrapper>
         <TopBar>
           <BackBtn onClick={() => navigate({ to: '/bookings' })}>
-            <ArrowLeftOutlined /> Back to Reservations
+            <ArrowLeftOutlined /> Quay lại danh sách
           </BackBtn>
         </TopBar>
         <Card>
-          <p>Unable to load booking details. <Link to="/bookings">Go back</Link></p>
+          <p>Không thể tải thông tin đặt phòng. <Link to="/bookings">Quay lại</Link></p>
         </Card>
       </PageWrapper>
     );
   }
 
   const apt = booking.apartment;
-  const startDate = new Date(booking.startDate).toLocaleDateString('en-GB', {
+  const startDate = new Date(booking.startDate).toLocaleDateString('vi-VN', {
     day: 'numeric', month: 'long', year: 'numeric',
   });
-  const endDate = new Date(booking.endDate).toLocaleDateString('en-GB', {
+  const endDate = new Date(booking.endDate).toLocaleDateString('vi-VN', {
     day: 'numeric', month: 'long', year: 'numeric',
   });
   const nights = Math.max(
@@ -213,12 +213,12 @@ const BookingDetail: React.FC = () => {
     <PageWrapper>
       <TopBar>
         <BackBtn onClick={() => navigate({ to: '/bookings' })}>
-          <ArrowLeftOutlined /> Back to Reservations
+          <ArrowLeftOutlined /> Quay lại danh sách
         </BackBtn>
         <BookingIdBadge>{id.slice(0, 16).toUpperCase()}</BookingIdBadge>
       </TopBar>
 
-      <PageTitle>Booking Details</PageTitle>
+      <PageTitle>Chi tiết đặt phòng</PageTitle>
 
       {/* Status card */}
       <Card>
@@ -250,7 +250,7 @@ const BookingDetail: React.FC = () => {
       <Card>
         <CardTitle>
           <HomeOutlined />
-          Property
+          Thông tin căn hộ
         </CardTitle>
         {apt?.images?.[0] && (
           <AptImage
@@ -260,9 +260,9 @@ const BookingDetail: React.FC = () => {
           />
         )}
         <Descriptions column={1} size="small" bordered>
-          <Descriptions.Item label="Title">{apt?.title ?? `Apartment #${booking.apartmentId.slice(0, 8)}`}</Descriptions.Item>
+          <Descriptions.Item label="Tên căn hộ">{apt?.title ?? `Căn hộ #${booking.apartmentId.slice(0, 8)}`}</Descriptions.Item>
           {apt?.location && (
-            <Descriptions.Item label={<><EnvironmentOutlined /> Location</>}>
+            <Descriptions.Item label={<><EnvironmentOutlined /> Địa chỉ</>}>
               {apt.location}
             </Descriptions.Item>
           )}
@@ -278,7 +278,7 @@ const BookingDetail: React.FC = () => {
       <Card>
         <CardTitle>
           <CalendarOutlined />
-          Reservation Details
+          Thông tin đặt chỗ
         </CardTitle>
         <Descriptions column={2} size="small" bordered>
           <Descriptions.Item label="Check-in">{startDate}</Descriptions.Item>

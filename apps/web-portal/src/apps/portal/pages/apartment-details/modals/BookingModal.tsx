@@ -67,8 +67,8 @@ const BookingModal: React.FC<IBookingModalProps> = ({
       {
         onSuccess: () => {
           notification.success({
-            message: 'Reservation Confirmed!',
-            description: `Your booking for ${propertyName} has been placed successfully.`,
+            message: 'Đặt phòng thành công!',
+            description: `Đơn đặt phòng cho ${propertyName} đã được ghi nhận.`,
           });
           form.resetFields();
           setDateRange([null, null]);
@@ -84,7 +84,7 @@ const BookingModal: React.FC<IBookingModalProps> = ({
 
   return (
     <BaseModal
-      title="Confirm Your Reservation"
+      title="Xác nhận đặt phòng"
       open={open}
       onCancel={onClose}
       width={520}
@@ -109,15 +109,15 @@ const BookingModal: React.FC<IBookingModalProps> = ({
               gap: '8px',
             }}
           >
-            Confirm Booking
+            Xác nhận đặt phòng
             <ArrowRightOutlined />
           </Button>
-          <FooterNote>You won't be charged yet.</FooterNote>
+          <FooterNote>Bạn sẽ chưa bị trừ tiền ngay lúc này.</FooterNote>
         </div>,
       ]}
     >
       <BookingSectionHeader>
-        <h2>Reserve Sanctuary</h2>
+        <h2>Đặt căn hộ</h2>
         <p>{propertyName}</p>
       </BookingSectionHeader>
 
@@ -125,8 +125,8 @@ const BookingModal: React.FC<IBookingModalProps> = ({
         {mutationError && (
           <Alert
             type="error"
-            message="Booking failed"
-            description={(mutationError as any)?.message ?? 'Please try again.'}
+            message="Đặt phòng thất bại"
+            description={(mutationError as any)?.message ?? 'Vui lòng thử lại.'}
             style={{ marginBottom: 16 }}
           />
         )}
@@ -136,12 +136,12 @@ const BookingModal: React.FC<IBookingModalProps> = ({
           layout="vertical"
           onFinish={onFinish}
         >
-          <FormSectionHeader>Reservation details</FormSectionHeader>
+          <FormSectionHeader>Chi tiết đặt chỗ</FormSectionHeader>
 
           <Form.Item
             name="dates"
-            label={<FieldLabel>Selected Dates</FieldLabel>}
-            rules={[{ required: true, message: 'Please select your dates' }]}
+            label={<FieldLabel>Ngày đã chọn</FieldLabel>}
+            rules={[{ required: true, message: 'Vui lòng chọn ngày' }]}
           >
             <DatePicker.RangePicker
               style={{ width: '100%', height: '48px', borderRadius: '8px' }}
@@ -151,11 +151,11 @@ const BookingModal: React.FC<IBookingModalProps> = ({
             />
           </Form.Item>
 
-          <Form.Item label={<FieldLabel>Guests</FieldLabel>}>
+          <Form.Item label={<FieldLabel>Số khách</FieldLabel>}>
             <GuestCounterWrapper>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <TeamOutlined style={{ marginRight: '12px', fontSize: '1.25rem' }} />
-                <span style={{ fontSize: '1rem', fontWeight: 500 }}>{guests} Guests</span>
+                <span style={{ fontSize: '1rem', fontWeight: 500 }}>{guests} Khách</span>
               </div>
               <CounterControls>
                 <CounterBtn
@@ -173,26 +173,26 @@ const BookingModal: React.FC<IBookingModalProps> = ({
             </GuestCounterWrapper>
           </Form.Item>
 
-          <FormSectionHeader style={{ marginTop: '24px' }}>Price Summary</FormSectionHeader>
+          <FormSectionHeader style={{ marginTop: '24px' }}>Tóm tắt giá</FormSectionHeader>
           <PriceSummaryCard>
             <SummaryRow>
               <span>
-                ${pricePerNight} × {nights > 0 ? nights : '—'} nights
+                {pricePerNight.toLocaleString('vi-VN')} ₫ × {nights > 0 ? nights : '—'} đêm
               </span>
-              <span className="value">{nights > 0 ? formatUSD(subtotal) : '—'}</span>
+              <span className="value">{nights > 0 ? (subtotal).toLocaleString('vi-VN') + ' ₫' : '—'}</span>
             </SummaryRow>
             <SummaryRow>
-              <span className="label-link">Cleaning fee</span>
-              <span className="value">{formatUSD(cleaningFee)}</span>
+              <span className="label-link">Phí vệ sinh</span>
+              <span className="value">{cleaningFee.toLocaleString('vi-VN')} ₫</span>
             </SummaryRow>
             <SummaryRow>
-              <span className="label-link">Service fee</span>
-              <span className="value">{formatUSD(serviceFee)}</span>
+              <span className="label-link">Phí dịch vụ</span>
+              <span className="value">{serviceFee.toLocaleString('vi-VN')} ₫</span>
             </SummaryRow>
             <Divider />
             <SummaryRow $isTotal>
-              <span>Total</span>
-              <span className="value">{nights > 0 ? formatUSD(total) : '—'}</span>
+              <span>Tổng cộng</span>
+              <span className="value">{nights > 0 ? (total).toLocaleString('vi-VN') + ' ₫' : '—'}</span>
             </SummaryRow>
           </PriceSummaryCard>
         </Form>

@@ -20,29 +20,29 @@ const SearchBar: React.FC = () => {
   return (
     <SearchBarContainer>
       <SearchFieldBox>
-        <SearchLabel>Location</SearchLabel>
+        <SearchLabel>Địa điểm</SearchLabel>
         <SearchInputWrapper>
           <EnvironmentOutlined />
-          <SearchInput type="text" placeholder="Where to?" />
+          <SearchInput type="text" placeholder="Bạn muốn đi đâu?" />
         </SearchInputWrapper>
       </SearchFieldBox>
 
       <SearchFieldBox>
-        <SearchLabel>Dates</SearchLabel>
+        <SearchLabel>Ngày</SearchLabel>
         <SearchInputWrapper>
           <CalendarOutlined />
-          <SearchInput type="text" placeholder="Add dates" />
+          <SearchInput type="text" placeholder="Thêm ngày" />
         </SearchInputWrapper>
       </SearchFieldBox>
 
       <SearchFieldBox>
-        <SearchLabel>Guests</SearchLabel>
+        <SearchLabel>Khách</SearchLabel>
         <SearchInputWrapper className="select-wrapper">
           <TeamOutlined />
           <SearchSelect>
-            <option>1 Guest</option>
-            <option>2 Guests</option>
-            <option>3+ Guests</option>
+            <option>1 Khách</option>
+            <option>2 Khách</option>
+            <option>3+ Khách</option>
           </SearchSelect>
           <DownOutlined className="right-icon" />
         </SearchInputWrapper>
@@ -50,7 +50,7 @@ const SearchBar: React.FC = () => {
 
       <SearchSubmitBtn>
         <SearchOutlined />
-        Search
+        Tìm kiếm
       </SearchSubmitBtn>
     </SearchBarContainer>
   );

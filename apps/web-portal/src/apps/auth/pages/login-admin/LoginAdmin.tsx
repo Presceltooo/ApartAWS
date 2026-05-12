@@ -28,7 +28,7 @@ const LoginAdmin: React.FC = () => {
     <AdminLoginCard>
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <AdminLoginTitle>Hệ Thống Quản Trị</AdminLoginTitle>
-        <AdminLoginSubtitle>Vui lòng đăng nhập để quản lý hệ thống Aura Heritage</AdminLoginSubtitle>
+        <AdminLoginSubtitle>Vui lòng đăng nhập để quản lý hệ thống Domin Tactic</AdminLoginSubtitle>
       </div>
 
       <form onSubmit={handleSubmit}>

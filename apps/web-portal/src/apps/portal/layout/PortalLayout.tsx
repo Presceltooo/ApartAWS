@@ -45,23 +45,23 @@ const PortalLayout: React.FC = () => {
       <PortalHeaderNav>
         <PortalHeaderInner>
           <Link to="/">
-            <PortalBrandLogo>Aura Heritage</PortalBrandLogo>
+            <PortalBrandLogo>Domin Tactic</PortalBrandLogo>
           </Link>
           <PortalNavLinks>
             <Link to="/" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive || currentPath === '/'}>Listings</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive || currentPath === '/'}>Trang chủ</PortalNavLink>}
             </Link>
             <Link to="/can-ho" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Apartments</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Căn hộ</PortalNavLink>}
             </Link>
             <Link to="/bookings" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Bookings</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Đã đặt</PortalNavLink>}
             </Link>
             <Link to="/concierge" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Concierge</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Dịch vụ</PortalNavLink>}
             </Link>
             <Link to="/about" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>About</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Giới thiệu</PortalNavLink>}
             </Link>
           </PortalNavLinks>
           <PortalHeaderActions>
@@ -78,7 +78,7 @@ const PortalLayout: React.FC = () => {
                       icon: <UserOutlined />,
                       label: (
                         <Link to="/profile" >
-                          Profile
+                          Cá nhân
                         </Link>
                       ),
                     },
@@ -89,7 +89,7 @@ const PortalLayout: React.FC = () => {
                       key: 'logout',
                       danger: true,
                       icon: <LogoutOutlined />,
-                      label: 'Logout',
+                      label: 'Đăng xuất',
                       onClick: () => {
                         const refreshToken = tokenManager.getRefreshToken();
                         if (refreshToken) logoutMutate({ refreshToken });
@@ -133,15 +133,15 @@ const PortalLayout: React.FC = () => {
 
       <PortalFooterWrapper>
         <PortalFooterInner>
-          <PortalFooterBrand>Aura Heritage</PortalFooterBrand>
+          <PortalFooterBrand>Domin Tactic</PortalFooterBrand>
           <PortalFooterNav>
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Architecture</a>
-            <a href="#">Press</a>
+            <a href="#">Bảo mật</a>
+            <a href="#">Điều khoản</a>
+            <a href="#">Kiến trúc</a>
+            <a href="#">Báo chí</a>
           </PortalFooterNav>
           <PortalFooterCopyright>
-            © 2024 Aura Heritage Sanctuary. Editorial Living.
+            © 2024 Domin Tactic Sanctuary. Sống Đẳng Cấp.
           </PortalFooterCopyright>
         </PortalFooterInner>
       </PortalFooterWrapper>

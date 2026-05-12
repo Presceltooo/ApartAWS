@@ -49,15 +49,15 @@ const ApartmentList: React.FC = () => {
   return (
     <PageWrapper>
       <PageHeader>
-        <PageTitle>All Sanctuaries</PageTitle>
-        <PageSubtitle>Browse our curated collection of premium properties.</PageSubtitle>
+        <PageTitle>Danh sách căn hộ</PageTitle>
+        <PageSubtitle>Khám phá bộ sưu tập các căn hộ cao cấp của chúng tôi.</PageSubtitle>
       </PageHeader>
 
       <SearchRow style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
         <Input
           id="apartment-search-input"
           size="large"
-          placeholder="Keyword..."
+          placeholder="Từ khóa..."
           prefix={<SearchOutlined />}
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
@@ -67,7 +67,7 @@ const ApartmentList: React.FC = () => {
         />
         <Input
           size="large"
-          placeholder="Location..."
+          placeholder="Địa điểm..."
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           onPressEnter={handleSearch}
@@ -76,7 +76,7 @@ const ApartmentList: React.FC = () => {
         />
         <InputNumber
           size="large"
-          placeholder="Min Price ($)"
+          placeholder="Giá tối thiểu"
           value={minPrice}
           onChange={(val) => setMinPrice(val as number)}
           onPressEnter={handleSearch}
@@ -84,22 +84,22 @@ const ApartmentList: React.FC = () => {
         />
         <InputNumber
           size="large"
-          placeholder="Max Price ($)"
+          placeholder="Giá tối đa"
           value={maxPrice}
           onChange={(val) => setMaxPrice(val as number)}
           onPressEnter={handleSearch}
           style={{ width: 140 }}
         />
         <Button type="primary" size="large" onClick={handleSearch} icon={<SearchOutlined />}>
-          Search
+          Tìm kiếm
         </Button>
       </SearchRow>
 
       {!isLoading && !isError && (
         <ResultsCount>
           {total > 0
-            ? `Showing ${apartments.length} of ${total} properties`
-            : 'No properties found'}
+            ? `Hiển thị ${apartments.length} trên tổng số ${total} căn hộ`
+            : 'Không tìm thấy căn hộ nào'}
         </ResultsCount>
       )}
 
@@ -111,11 +111,11 @@ const ApartmentList: React.FC = () => {
         </Grid>
       ) : isError ? (
         <Empty
-          description="Unable to load properties. Please try again."
+          description="Không thể tải dữ liệu. Vui lòng thử lại."
           image={Empty.PRESENTED_IMAGE_SIMPLE}
         />
       ) : apartments.length === 0 ? (
-        <Empty description="No properties match your search." image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        <Empty description="Không có căn hộ nào phù hợp với tìm kiếm của bạn." image={Empty.PRESENTED_IMAGE_SIMPLE} />
       ) : (
         <Grid>
           {apartments.map((apt) => (

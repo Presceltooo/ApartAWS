@@ -77,7 +77,7 @@ const RegisterAdmin: React.FC = () => {
     <AdminLoginCard style={{ maxWidth: 500 }}>
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <AdminLoginTitle>Đăng ký Quản trị viên</AdminLoginTitle>
-        <AdminLoginSubtitle>Tạo tài khoản quản lý hệ thống Aura Heritage</AdminLoginSubtitle>
+        <AdminLoginSubtitle>Tạo tài khoản quản lý hệ thống Domin Tactic</AdminLoginSubtitle>
       </div>
 
       <form onSubmit={handleSubmit}>

@@ -112,7 +112,7 @@ const Register: React.FC = () => {
         </RegisterImageAbsolute>
         <RegisterImageContent>
           <RegisterGlassCard>
-            <RegisterGlassBrand>Aura Heritage</RegisterGlassBrand>
+            <RegisterGlassBrand>Domin Tactic</RegisterGlassBrand>
             <RegisterGlassTitle>Hành trình đến cuộc sống xuất sắc bắt đầu từ đây.</RegisterGlassTitle>
             <RegisterGlassDesc>
               Khám phá bộ sưu tập không gian sống được tuyển chọn, tôn vinh lịch sử kiến trúc và hiện đại hóa xa xỉ.
@@ -127,7 +127,7 @@ const Register: React.FC = () => {
         <RegisterHeader>
           <RegisterLogoRow>
             <span>🏛️</span>
-            <RegisterLogoText>Aura Heritage</RegisterLogoText>
+            <RegisterLogoText>Domin Tactic</RegisterLogoText>
           </RegisterLogoRow>
           <RegisterPageTitle>Tạo tài khoản</RegisterPageTitle>
           <RegisterPageSubtitle>Gia nhập cộng đồng những người yêu mến kiến trúc.</RegisterPageSubtitle>
@@ -249,7 +249,7 @@ const Register: React.FC = () => {
               <a href="#">Điều khoản dịch vụ</a>
               {' '}và{' '}
               <a href="#">Chính sách bảo mật</a>
-              {' '}của Aura Residences.
+              {' '}của Domin Tactic.
             </RegisterTermsLabel>
           </RegisterTermsRow>
 

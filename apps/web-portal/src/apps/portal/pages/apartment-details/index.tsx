@@ -66,7 +66,7 @@ const ApartmentDetails: React.FC = () => {
   if (isError || !apartment) {
     return (
       <DetailSection style={{ padding: '2rem', textAlign: 'center' }}>
-        <p>Unable to load property details. <Link to="/can-ho">Browse all properties</Link></p>
+        <p>Không thể tải thông tin căn hộ. <Link to="/can-ho">Xem danh sách căn hộ</Link></p>
       </DetailSection>
     );
   }
@@ -80,11 +80,11 @@ const ApartmentDetails: React.FC = () => {
         <TopBarWrapper>
           <BackLink onClick={() => window.history.back()}>
             <ArrowLeftOutlined />
-            Back to Collection
+            Quay lại danh sách
           </BackLink>
           <StatusBadge>
             <StarFilled className="star" />
-            Aura Verified
+            Xác thực Domin
           </StatusBadge>
         </TopBarWrapper>
 
@@ -112,26 +112,26 @@ const ApartmentDetails: React.FC = () => {
             <BentoGrid>
               <BentoBox $colSpan={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <BentoLabel>Price per Night</BentoLabel>
-                  <BentoValue>${pricePerNight.toLocaleString()}</BentoValue>
+                  <BentoLabel>Giá mỗi đêm</BentoLabel>
+                  <BentoValue>{pricePerNight.toLocaleString('vi-VN')} ₫</BentoValue>
                 </div>
                 <CalendarOutlined style={{ fontSize: '1.875rem', color: 'rgba(153,60,29,0.2)' }} />
               </BentoBox>
 
               <BentoBox>
-                <BentoLabel>Status</BentoLabel>
+                <BentoLabel>Trạng thái</BentoLabel>
                 <BentoValue>
                   <Tag color={apartment.isActive ? 'success' : 'default'}>
-                    {apartment.isActive ? 'Available' : 'Unavailable'}
+                    {apartment.isActive ? 'Còn phòng' : 'Hết phòng'}
                   </Tag>
                 </BentoValue>
               </BentoBox>
 
               <BentoBox>
-                <BentoLabel>Category</BentoLabel>
+                <BentoLabel>Hạng mục</BentoLabel>
                 <BentoValue>
                   <HomeOutlined style={{ marginRight: 6 }} />
-                  Apartment
+                  Căn hộ
                 </BentoValue>
               </BentoBox>
             </BentoGrid>
@@ -139,7 +139,7 @@ const ApartmentDetails: React.FC = () => {
             {/* Description */}
             {apartment.description && (
               <div>
-                <SectionTitle>The Architecture</SectionTitle>
+                <SectionTitle>Kiến trúc & Không gian</SectionTitle>
                 <SectionText>{apartment.description}</SectionText>
               </div>
             )}
@@ -147,7 +147,7 @@ const ApartmentDetails: React.FC = () => {
             {/* Amenities */}
             {apartment.amenities?.length > 0 && (
               <div>
-                <SectionTitle>Signatures</SectionTitle>
+                <SectionTitle>Tiện ích nổi bật</SectionTitle>
                 <AmenitiesChipsRow>
                   {apartment.amenities.map((am, i) => (
                     <AmenityChip key={am} $highlight={i < 2}>
@@ -161,7 +161,7 @@ const ApartmentDetails: React.FC = () => {
 
             {/* Location */}
             <div>
-              <SectionTitle>Location</SectionTitle>
+              <SectionTitle>Vị trí</SectionTitle>
               <MapWrapper>
                 <div className="pin-wrapper">
                   <div className="pin-circle">
@@ -170,38 +170,38 @@ const ApartmentDetails: React.FC = () => {
                 </div>
               </MapWrapper>
               <MapDisclaimer>
-                {apartment.location} — Exact address provided after booking.
+                {apartment.location} — Địa chỉ chính xác sẽ được cung cấp sau khi đặt phòng.
               </MapDisclaimer>
             </div>
           </LeftColumn>
 
           <RightColumn>
             <StickyWidgetContainer>
-              <WidgetTitle>Reservation</WidgetTitle>
+              <WidgetTitle>Đặt phòng</WidgetTitle>
 
               <SummaryRow>
-                <span>Price per night</span>
-                <span className="price">${pricePerNight.toLocaleString()}</span>
+                <span>Giá mỗi đêm</span>
+                <span className="price">{pricePerNight.toLocaleString('vi-VN')} ₫</span>
               </SummaryRow>
               <SummaryRow>
-                <span>Cleaning fee</span>
-                <span className="price">$120</span>
+                <span>Phí vệ sinh</span>
+                <span className="price">120.000 ₫</span>
               </SummaryRow>
               <SummaryRow>
-                <span>Service fee</span>
-                <span className="price">$85</span>
+                <span>Phí dịch vụ</span>
+                <span className="price">85.000 ₫</span>
               </SummaryRow>
 
               <SummaryRow $isTotal>
-                <span>Starting from</span>
-                <span className="price">${(pricePerNight + 205).toLocaleString()}</span>
+                <span>Tổng cộng từ</span>
+                <span className="price">{(pricePerNight + 205000).toLocaleString('vi-VN')} ₫</span>
               </SummaryRow>
 
               <PaymentSuccessCard>
                 <LockOutlined />
                 <div>
-                  <p className="title">Secure Reserve</p>
-                  <p className="desc">No charge until confirmed.</p>
+                  <p className="title">Đặt phòng an toàn</p>
+                  <p className="desc">Không thu phí cho đến khi được xác nhận.</p>
                 </div>
               </PaymentSuccessCard>
 
@@ -210,12 +210,12 @@ const ApartmentDetails: React.FC = () => {
                 onClick={openModal}
                 disabled={!apartment.isActive}
               >
-                {apartment.isActive ? 'Initialize Booking' : 'Not Available'}
+                {apartment.isActive ? 'Tiến hành đặt phòng' : 'Hiện không khả dụng'}
                 {apartment.isActive && <ArrowRightOutlined />}
               </WidgetPrimaryBtn>
 
               <WidgetSecondaryBtn onClick={() => window.history.back()}>
-                Back to Collection
+                Quay lại danh sách
               </WidgetSecondaryBtn>
             </StickyWidgetContainer>
           </RightColumn>

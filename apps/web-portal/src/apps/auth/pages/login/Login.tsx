@@ -53,7 +53,7 @@ const Login: React.FC = () => {
     <UserLoginMain>
       {/* Background */}
       <UserLoginBgWrapper>
-        <UserLoginBgImage src={auraBg} alt="Aura Heritage Background" />
+        <UserLoginBgImage src={auraBg} alt="Domin Tactic Background" />
         <UserLoginBgOverlay />
       </UserLoginBgWrapper>
 
@@ -61,7 +61,7 @@ const Login: React.FC = () => {
       <UserLoginBranding>
         <UserLoginBrandingLabel>Bộ Sưu Tập Heritage</UserLoginBrandingLabel>
         <UserLoginBrandingTitle>
-          Aura <br />
+          Domin <br />
           Heritage
         </UserLoginBrandingTitle>
         <UserLoginBrandingDivider />

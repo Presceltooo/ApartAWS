@@ -252,7 +252,7 @@ export class AuthService {
     
     const htmlBody = `
       <h3>Xin chào ${user.fullName || user.email},</h3>
-      <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản Aura Heritage của mình.</p>
+      <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản Domin Tactic của mình.</p>
       <p>Vui lòng click vào đường dẫn bên dưới để đặt lại mật khẩu (có hiệu lực trong 1 giờ):</p>
       <a href="${resetLink}" style="display:inline-block;padding:10px 20px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:4px;">Đặt lại mật khẩu</a>
       <p>Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>
@@ -260,7 +260,7 @@ export class AuthService {
 
     await this.mailService.sendEmail(
       user.email,
-      'Aura Heritage - Đặt lại mật khẩu',
+      'Domin Tactic - Đặt lại mật khẩu',
       htmlBody,
     );
 
