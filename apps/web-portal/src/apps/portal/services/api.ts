@@ -18,14 +18,14 @@ import type {
 export const getApartmentListing = (
   params?: IApartmentQuery,
 ): Promise<IResponsePagination<IApartment>> => {
-  return axiosClient.get('Apartments/listing', { params });
+  return axiosClient.get('apartments/listing', { params });
 };
 
 /**
  * GET /Apartments/:id — Chi tiết căn hộ (không cần auth)
  */
 export const getApartmentById = (id: string): Promise<IResponse<IApartment>> => {
-  return axiosClient.get(`Apartments/${id}`);
+  return axiosClient.get(`apartments/${id}`);
 };
 
 // ─── Booking APIs ─────────────────────────────────────────────────────────────
@@ -36,7 +36,7 @@ export const getApartmentById = (id: string): Promise<IResponse<IApartment>> => 
 export const checkAvailability = (
   params: ICheckAvailabilityQuery,
 ): Promise<IResponse<ICheckAvailabilityResponse>> => {
-  return axiosClient.get('Bookings/check-availability', { params });
+  return axiosClient.get('bookings/check-availability', { params });
 };
 
 /**
@@ -45,7 +45,7 @@ export const checkAvailability = (
 export const createBooking = (
   payload: ICreateBookingPayload,
 ): Promise<IResponse<IBooking>> => {
-  return axiosClient.post('Bookings', payload);
+  return axiosClient.post('bookings', payload);
 };
 
 /**
@@ -54,35 +54,35 @@ export const createBooking = (
 export const getMyBookings = (
   params?: IBookingQuery,
 ): Promise<IResponsePagination<IBooking>> => {
-  return axiosClient.get('Bookings/my-bookings', { params });
+  return axiosClient.get('bookings/my-bookings', { params });
 };
 
 /**
  * GET /Bookings/:id — Chi tiết booking (cần auth)
  */
 export const getBookingById = (id: string): Promise<IResponse<IBooking>> => {
-  return axiosClient.get(`Bookings/${id}`);
+  return axiosClient.get(`bookings/${id}`);
 };
 
 /**
  * PATCH /Bookings/:id/cancel — Huỷ booking (cần auth)
  */
 export const cancelBooking = (id: string): Promise<IResponse<IBooking>> => {
-  return axiosClient.patch(`Bookings/${id}/cancel`);
+  return axiosClient.patch(`bookings/${id}/cancel`);
 };
 
 /**
  * PATCH /Bookings/:id/confirm — Xác nhận booking (cần auth - Owner)
  */
 export const confirmBooking = (id: string): Promise<IResponse<IBooking>> => {
-  return axiosClient.patch(`Bookings/${id}/confirm`);
+  return axiosClient.patch(`bookings/${id}/confirm`);
 };
 
 /**
  * PATCH /Bookings/:id/complete — Hoàn thành booking (cần auth - Owner)
  */
 export const completeBooking = (id: string): Promise<IResponse<IBooking>> => {
-  return axiosClient.patch(`Bookings/${id}/complete`);
+  return axiosClient.patch(`bookings/${id}/complete`);
 };
 
 // ─── Payment APIs (VNPay) ─────────────────────────────────────────────────────
@@ -93,5 +93,5 @@ export const completeBooking = (id: string): Promise<IResponse<IBooking>> => {
 export const getVnpayUrl = (
   bookingId: string,
 ): Promise<IResponse<{ paymentUrl: string }>> => {
-  return axiosClient.get(`Bookings/payments/vnpay-url/${bookingId}`);
+  return axiosClient.get(`bookings/payments/vnpay-url/${bookingId}`);
 };

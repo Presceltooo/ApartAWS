@@ -26,7 +26,7 @@ import { CurrentUser } from '../common/decorators/user.decorator';
 @ApiTags('Bookings')
 @ApiSecurity('x-user-id')
 @ApiSecurity('x-user-role')
-@Controller('Bookings')
+@Controller('bookings')
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 

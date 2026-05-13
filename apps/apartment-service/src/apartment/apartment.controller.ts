@@ -8,7 +8,7 @@ import { CurrentUser } from '../common/decorators/user.decorator';
 @ApiTags('Apartments')
 @ApiSecurity('x-user-id')
 @ApiSecurity('x-user-role')
-@Controller('Apartments')
+@Controller('apartments')
 export class ApartmentsController {
   constructor(
     private readonly apartmentsService: ApartmentsService,

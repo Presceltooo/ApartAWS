@@ -16,7 +16,7 @@ import { PaymentService } from './payment.service';
 import { CurrentUser } from '../common/decorators/user.decorator';
 
 @ApiTags('Payments (VNPay)')
-@Controller('Bookings/payments')
+@Controller('bookings/payments')
 export class PaymentController {
   private readonly logger = new Logger(PaymentController.name);
 

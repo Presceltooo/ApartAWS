@@ -16,24 +16,24 @@ import axios from 'axios';
 export const getMyApartments = (
   params?: IApartmentQuery,
 ): Promise<IResponsePagination<IApartment>> => {
-  return axiosClient.get('Apartments', { params });
+  return axiosClient.get('apartments', { params });
 };
 
 export const createApartment = (
   payload: ICreateApartmentPayload,
 ): Promise<IResponse<IApartment>> => {
-  return axiosClient.post('Apartments', payload);
+  return axiosClient.post('apartments', payload);
 };
 
 export const updateApartment = (
   id: string,
   payload: IUpdateApartmentPayload,
 ): Promise<IResponse<IApartment>> => {
-  return axiosClient.put(`Apartments/${id}`, payload);
+  return axiosClient.put(`apartments/${id}`, payload);
 };
 
 export const deleteApartment = (id: string): Promise<IResponse<null>> => {
-  return axiosClient.delete(`Apartments/${id}`);
+  return axiosClient.delete(`apartments/${id}`);
 };
 
 // ─── Owner Booking APIs ──────────────────────────────────────────────────────────
@@ -41,19 +41,19 @@ export const deleteApartment = (id: string): Promise<IResponse<null>> => {
 export const getOwnerBookings = (
   params?: IBookingQuery,
 ): Promise<IResponsePagination<IBooking>> => {
-  return axiosClient.get('Bookings/owner', { params });
+  return axiosClient.get('bookings/owner', { params });
 };
 
 export const confirmBooking = (id: string): Promise<IResponse<IBooking>> => {
-  return axiosClient.patch(`Bookings/${id}/confirm`);
+  return axiosClient.patch(`bookings/${id}/confirm`);
 };
 
 export const completeBooking = (id: string): Promise<IResponse<IBooking>> => {
-  return axiosClient.patch(`Bookings/${id}/complete`);
+  return axiosClient.patch(`bookings/${id}/complete`);
 };
 
 export const cancelBooking = (id: string): Promise<IResponse<IBooking>> => {
-  return axiosClient.patch(`Bookings/${id}/cancel`);
+  return axiosClient.patch(`bookings/${id}/cancel`);
 };
 
 // ─── Upload APIs ───────────────────────────────────────────────────────────────
@@ -63,47 +63,47 @@ export const getPresignedUrl = (
   contentType: string,
   fileSize?: number,
 ): Promise<IResponse<IPresignedUrlResponse>> => {
-  return axiosClient.post('Apartments/presigned-url', { fileName, contentType, fileSize });
+  return axiosClient.post('apartments/presigned-url', { fileName, contentType, fileSize });
 };
 
 // ─── System Stats APIs (Admin only) ──────────────────────────────────────────
 
 export const getAuthStats = (): Promise<IResponse<any>> => {
-  return axiosClient.get('Auth/stats');
+  return axiosClient.get('auth/stats');
 };
 
 export const getApartmentStats = (): Promise<IResponse<any>> => {
-  return axiosClient.get('Apartments/stats');
+  return axiosClient.get('apartments/stats');
 };
 
 export const getBookingStats = (): Promise<IResponse<any>> => {
-  return axiosClient.get('Bookings/system/stats');
+  return axiosClient.get('bookings/system/stats');
 };
 
 // ─── System Management APIs (Admin only) ─────────────────────────────────────
 
 export const getSystemUsers = (params?: any): Promise<IResponsePagination<any>> => {
-  return axiosClient.get('Auth/users', { params });
+  return axiosClient.get('auth/users', { params });
 };
 
 export const toggleUserStatus = (id: string, isActive: boolean): Promise<IResponse<any>> => {
-  return axiosClient.patch(`Auth/users/${id}/status`, { isActive });
+  return axiosClient.patch(`auth/users/${id}/status`, { isActive });
 };
 
 export const getSystemApartments = (params?: IApartmentQuery): Promise<IResponsePagination<IApartment>> => {
-  return axiosClient.get('Apartments/system/all', { params });
+  return axiosClient.get('apartments/system/all', { params });
 };
 
 export const toggleApartmentStatus = (id: string, isActive: boolean): Promise<IResponse<IApartment>> => {
-  return axiosClient.patch(`Apartments/${id}/status`, { isActive });
+  return axiosClient.patch(`apartments/${id}/status`, { isActive });
 };
 
 export const getSystemBookings = (params?: IBookingQuery): Promise<IResponsePagination<IBooking>> => {
-  return axiosClient.get('Bookings/system/all', { params });
+  return axiosClient.get('bookings/system/all', { params });
 };
 
 export const updateSystemBookingStatus = (id: string, status: string): Promise<IResponse<IBooking>> => {
-  return axiosClient.patch(`Bookings/system/${id}/status`, { status });
+  return axiosClient.patch(`bookings/system/${id}/status`, { status });
 };
 
 export const uploadToS3 = async (presignedUrl: string, file: File): Promise<void> => {
