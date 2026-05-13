@@ -26,7 +26,10 @@ export class S3Service {
         accessKeyId: this.configService.get<string>('AWS_ACCESS_KEY_ID') || '',
         secretAccessKey: this.configService.get<string>('AWS_SECRET_ACCESS_KEY') || '',
       },
-    });
+      // Ngăn chặn tự động thêm Checksum gây lỗi 400 Bad Request
+      requestChecksumCalculation: "WHEN_REQUIRED",
+      responseChecksumValidation: "WHEN_REQUIRED",
+    } as any);
   }
 
   async generatePresignedUrl(fileName: string, contentType: string, fileSize?: number) {
