@@ -29,6 +29,7 @@ services:
   auth-service:
     image: ${ECR_REGISTRY}/auth-service:${IMAGE_TAG:-latest}
     container_name: apart-auth
+    # command: sh -c "npx prisma db push && node dist/src/main"
     restart: unless-stopped
     ports:
       - "3001:3001"
@@ -54,6 +55,7 @@ services:
   apartment-service:
     image: ${ECR_REGISTRY}/apartment-service:${IMAGE_TAG:-latest}
     container_name: apart-service
+    # command: sh -c "npx prisma db push && node dist/src/main"
     restart: unless-stopped
     ports:
       - "3002:3002"
@@ -76,6 +78,7 @@ services:
   booking-service:
     image: ${ECR_REGISTRY}/booking-service:${IMAGE_TAG:-latest}
     container_name: apart-booking
+    # command: sh -c "npx prisma db push && node dist/src/main"
     restart: unless-stopped
     ports:
       - "3003:3003"
