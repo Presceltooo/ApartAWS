@@ -43,6 +43,8 @@ export class ProxyController {
             ...req.headers,
             host: undefined, // remove host header to avoid conflicts
           },
+          maxRedirects: 0, // Cực kỳ quan trọng: Không tự động follow redirect
+          validateStatus: (status) => status < 400 || status === 302, // Chấp nhận cả mã 302
         }),
       );
 
