@@ -7,7 +7,7 @@ export class VnpayService {
 
   private readonly vnp_TmnCode = process.env.VNP_TMN_CODE!;
   private readonly vnp_HashSecret = process.env.VNP_HASH_SECRET!;
-  private readonly vnp_Url = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
+  private readonly vnp_Url = process.env.VNP_URL || 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
   private readonly vnp_ReturnUrl = process.env.VNP_RETURN_URL!;
 
   // ──────────────────────────────────────────────────────────────────────────────
