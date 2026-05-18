@@ -33,4 +33,4 @@ COPY --from=builder --chown=node:node /app/prisma ./prisma
 COPY --from=builder --chown=node:node /app/prisma.config.ts ./
 
 EXPOSE 3001
-CMD ["node", "dist/src/main"]
+CMD ["node", "dist/main"]
