@@ -36,14 +36,23 @@ export class VnpayService {
       vnp_CreateDate: createDate,
     };
 
-    // Sắp xếp theo thứ tự alphabet rồi build query string
+    // Sắp xếp theo thứ tự alphabet
     const sortedParams = this.sortObject(params);
-    const signData = new URLSearchParams(sortedParams).toString();
+    
+    // 1. Tạo chuỗi dữ liệu ký thô (raw, unencoded) theo quy định của VNPAY 2.1.0
+    const signData = Object.keys(sortedParams)
+      .map((key) => `${key}=${sortedParams[key]}`)
+      .join('&');
+
     const hmac = crypto.createHmac('sha512', this.vnp_HashSecret);
     const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');
 
-    sortedParams['vnp_SecureHash'] = signed;
-    const paymentUrl = `${this.vnp_Url}?${new URLSearchParams(sortedParams).toString()}`;
+    // 2. Tạo query string sử dụng percent-encoding (chuyển dấu cách thành %20 thay vì + để chuẩn xác nhất)
+    const queryStr = Object.keys(sortedParams)
+      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(sortedParams[key])}`)
+      .join('&');
+
+    const paymentUrl = `${this.vnp_Url}?${queryStr}&vnp_SecureHash=${signed}`;
 
     this.logger.log(`Payment URL created for booking: ${bookingId}`);
     return paymentUrl;
@@ -61,7 +70,12 @@ export class VnpayService {
     delete params['vnp_SecureHashType'];
 
     const sortedParams = this.sortObject(params);
-    const signData = new URLSearchParams(sortedParams).toString();
+    
+    // Sử dụng chuỗi thô unencoded để xác thực chữ ký khớp với bên VNPAY gửi về
+    const signData = Object.keys(sortedParams)
+      .map((key) => `${key}=${sortedParams[key]}`)
+      .join('&');
+
     const hmac = crypto.createHmac('sha512', this.vnp_HashSecret);
     const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');
 
@@ -81,14 +95,16 @@ export class VnpayService {
   // Helpers
   // ──────────────────────────────────────────────────────────────────────────────
   private formatDate(date: Date): string {
+    // Cộng bù 7 tiếng để đưa về múi giờ GMT+7 (Việt Nam) độc lập với múi giờ của máy chủ/container
+    const gmt7Date = new Date(date.getTime() + 7 * 60 * 60 * 1000);
     const pad = (n: number) => String(n).padStart(2, '0');
     return (
-      `${date.getFullYear()}` +
-      `${pad(date.getMonth() + 1)}` +
-      `${pad(date.getDate())}` +
-      `${pad(date.getHours())}` +
-      `${pad(date.getMinutes())}` +
-      `${pad(date.getSeconds())}`
+      `${gmt7Date.getUTCFullYear()}` +
+      `${pad(gmt7Date.getUTCMonth() + 1)}` +
+      `${pad(gmt7Date.getUTCDate())}` +
+      `${pad(gmt7Date.getUTCHours())}` +
+      `${pad(gmt7Date.getUTCMinutes())}` +
+      `${pad(gmt7Date.getUTCSeconds())}`
     );
   }
 

@@ -35,10 +35,20 @@ export class PaymentController {
     @CurrentUser('userId') userId: string,
     @Req() req: Request,
   ) {
-    const ipAddr =
-      (req.headers['x-forwarded-for'] as string)?.split(',')[0] ||
+    let ipAddr =
+      (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
       req.socket.remoteAddress ||
       '127.0.0.1';
+
+    // Xử lý chuẩn hóa địa chỉ IP về định dạng IPv4 chuẩn cho VNPAY
+    if (ipAddr === '::1') {
+      ipAddr = '127.0.0.1';
+    } else if (ipAddr.includes('::ffff:')) {
+      ipAddr = ipAddr.replace('::ffff:', '');
+    } else if (ipAddr.includes(':')) {
+      // Nếu là IPv6 khác, fallback về loopback IPv4 để không lỗi tham số VNPAY
+      ipAddr = '127.0.0.1';
+    }
 
     return this.paymentService.createVnpayUrl(bookingId, userId, ipAddr);
   }
