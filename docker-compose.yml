@@ -49,7 +49,7 @@ services:
       - "3001:3001"
     environment:
       PORT: 3001
-      FRONTEND_URL: http://localhost:5174
+      FRONTEND_URL: ${FRONTEND_URL}
       DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=auth
       JWT_SECRET: your-dev-secret-key
       JWT_EXPIRES_IN: 15m
@@ -76,7 +76,7 @@ services:
       - "3002:3002"
     environment:
       PORT: 3002
-      FRONTEND_URL: http://localhost:5174
+      FRONTEND_URL: ${FRONTEND_URL}
       DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=apartment
       AWS_REGION: ${AWS_REGION}
       AWS_S3_BUCKET: ${AWS_S3_BUCKET}
@@ -100,7 +100,7 @@ services:
       - "3003:3003"
     environment:
       PORT: 3003
-      FRONTEND_URL: http://localhost:5174
+      FRONTEND_URL: ${FRONTEND_URL}
       DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=booking
       APARTMENT_SERVICE_URL: http://apartment-service:3002
       AWS_REGION: ${AWS_REGION}
