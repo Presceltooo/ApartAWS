@@ -39,18 +39,12 @@ export class VnpayService {
     // Sắp xếp theo thứ tự alphabet
     const sortedParams = this.sortObject(params);
     
-    // 1. Tạo chuỗi dữ liệu ký thô (raw, unencoded) theo quy định của VNPAY 2.1.0
-    const signData = Object.keys(sortedParams)
-      .map((key) => `${key}=${sortedParams[key]}`)
-      .join('&');
+    // 1. Tạo query string sử dụng URLSearchParams (sắp xếp và mã hóa dấu cách thành +)
+    const queryStr = new URLSearchParams(sortedParams).toString();
 
+    // 2. Ký trên chuỗi dữ liệu đã được mã hóa
     const hmac = crypto.createHmac('sha512', this.vnp_HashSecret);
-    const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');
-
-    // 2. Tạo query string sử dụng percent-encoding (chuyển dấu cách thành %20 thay vì + để chuẩn xác nhất)
-    const queryStr = Object.keys(sortedParams)
-      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(sortedParams[key])}`)
-      .join('&');
+    const signed = hmac.update(Buffer.from(queryStr, 'utf-8')).digest('hex');
 
     const paymentUrl = `${this.vnp_Url}?${queryStr}&vnp_SecureHash=${signed}`;
 
@@ -71,13 +65,11 @@ export class VnpayService {
 
     const sortedParams = this.sortObject(params);
     
-    // Sử dụng chuỗi thô unencoded để xác thực chữ ký khớp với bên VNPAY gửi về
-    const signData = Object.keys(sortedParams)
-      .map((key) => `${key}=${sortedParams[key]}`)
-      .join('&');
+    // Sử dụng URLSearchParams mã hóa đồng nhất để xác thực chữ ký
+    const queryStr = new URLSearchParams(sortedParams).toString();
 
     const hmac = crypto.createHmac('sha512', this.vnp_HashSecret);
-    const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');
+    const signed = hmac.update(Buffer.from(queryStr, 'utf-8')).digest('hex');
 
     return signed === secureHash;
   }
