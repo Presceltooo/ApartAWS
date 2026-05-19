@@ -84,7 +84,7 @@ export class AuthService {
     }
 
     // Hash mật khẩu trước khi lưu
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 4);
     const user = await this.prisma.user.create({
       data: { ...createUserDto, password: hashedPassword },
       select: { id: true, email: true, fullName: true, role: true, createdAt: true },
@@ -216,7 +216,7 @@ export class AuthService {
       throw new UnauthorizedException('Mật khẩu cũ không chính xác');
     }
 
-    const hashedPassword = await bcrypt.hash(changePasswordDto.newPassword, 10);
+    const hashedPassword = await bcrypt.hash(changePasswordDto.newPassword, 4);
     await this.prisma.user.update({
       where: { id: userId },
       data: { password: hashedPassword },
@@ -282,7 +282,7 @@ export class AuthService {
       throw new UnauthorizedException('Token không hợp lệ hoặc đã hết hạn');
     }
 
-    const hashedPassword = await bcrypt.hash(dto.newPassword, 10);
+    const hashedPassword = await bcrypt.hash(dto.newPassword, 4);
     
     await this.prisma.user.update({
       where: { id: user.id },

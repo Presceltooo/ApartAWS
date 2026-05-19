@@ -180,5 +180,5 @@ export default function () {
   }
 
   // Nghỉ giữa các iteration để mô phỏng hành vi tự nhiên
-  sleep(1);
+  sleep(Math.random() * 3 + 2); // Nghỉ ngẫu nhiên từ 2s đến 5s
 }
