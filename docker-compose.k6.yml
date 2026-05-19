@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  # InfluxDB làm database để k6 đẩy dữ liệu realtime về
+  influxdb:
+    image: influxdb:1.8-alpine
+    container_name: apart-k6-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+      - INFLUXDB_ADMIN_ENABLED=true
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+    networks:
+      - apart-network
+
+  # Grafana để trực quan hoá biểu đồ kiểm thử từ InfluxDB
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: apart-k6-grafana
+    ports:
+      - "3005:3000" # Map ra cổng 3005 trên host vì cổng 3000 đã dùng cho API Gateway
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+      - ./k6/grafana/provisioning:/etc/grafana/provisioning
+      - ./k6/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - influxdb
+    networks:
+      - apart-network
+
+  # k6 container để chạy script
+  k6:
+    image: grafana/k6:latest
+    container_name: apart-k6-runner
+    volumes:
+      - ./k6/scripts:/scripts
+    environment:
+      - BASE_URL=http://api-gateway:3000
+    entrypoint: ["k6"]
+    depends_on:
+      - influxdb
+    networks:
+      - apart-network
+
+volumes:
+  influxdb_data:
+
+networks:
+  apart-network:
+    name: apartaws_apart-network
+    external: true
