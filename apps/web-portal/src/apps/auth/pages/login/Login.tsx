@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { FORGOT_PASSWORD_ROUTE, REGISTER_ROUTE } from '../../constants';
 import { useHandleLogin } from '../../hooks/useHandleLogin';
+import useNotification from '../../../../shared/hooks/useNotification';
+import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
 import {
   UserLoginMain,
   UserLoginBgWrapper,
@@ -36,13 +39,19 @@ import {
   UserSupportBtn,
   UserFixedSupportWrapper,
 } from '../../styled';
-import auraBg from '@/assets/images/aura_bg.png';
+import loginBg from '@/assets/images/login_bg.png';
 
 const Login: React.FC = () => {
+  const { t } = useTranslation('auth');
+  const { showErrorNotify } = useNotification();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const { handleLogin, isPending } = useHandleLogin();
+
+  const handleSocialLogin = (provider: string) => {
+    showErrorNotify(t('login.social_under_development', `Tính năng đăng nhập qua ${provider} đang được phát triển.`));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,20 +62,20 @@ const Login: React.FC = () => {
     <UserLoginMain>
       {/* Background */}
       <UserLoginBgWrapper>
-        <UserLoginBgImage src={auraBg} alt="Domin Tactic Background" />
+        <UserLoginBgImage src={loginBg} alt="Domin Tactic Background" />
         <UserLoginBgOverlay />
       </UserLoginBgWrapper>
 
       {/* Left Branding */}
       <UserLoginBranding>
-        <UserLoginBrandingLabel>Bộ Sưu Tập Heritage</UserLoginBrandingLabel>
+        <UserLoginBrandingLabel>{t('login.heritage_label', 'Bộ Sưu Tập Heritage')}</UserLoginBrandingLabel>
         <UserLoginBrandingTitle>
           Domin <br />
           Heritage
         </UserLoginBrandingTitle>
         <UserLoginBrandingDivider />
         <UserLoginBrandingDesc>
-          Trải nghiệm không gian sống được chắt lọc và curated. Hành trình về nhà bắt đầu từ đây.
+          {t('login.heritage_desc', 'Trải nghiệm không gian sống được chắt lọc và curated. Hành trình về nhà bắt đầu từ đây.')}
         </UserLoginBrandingDesc>
       </UserLoginBranding>
 
@@ -74,18 +83,18 @@ const Login: React.FC = () => {
       <UserLoginCardWrapper>
         <UserLoginCard>
           <UserLoginCardHeader>
-            <UserLoginCardTitle>Chào mừng trở lại</UserLoginCardTitle>
-            <UserLoginCardSubtitle>Vui lòng nhập thông tin để tiếp cận không gian của bạn.</UserLoginCardSubtitle>
+            <UserLoginCardTitle>{t('login.welcome', 'Chào mừng trở lại')}</UserLoginCardTitle>
+            <UserLoginCardSubtitle>{t('login.subtitle', 'Vui lòng nhập thông tin để tiếp cận không gian của bạn.')}</UserLoginCardSubtitle>
           </UserLoginCardHeader>
 
           <form onSubmit={handleSubmit}>
             <UserFormGroup>
               {/* Email */}
               <UserFieldWrapper>
-                <UserFieldLabel>Địa chỉ Email</UserFieldLabel>
+                <UserFieldLabel>{t('login.email', 'Địa chỉ Email')}</UserFieldLabel>
                 <UserTextInput
                   type="email"
-                  placeholder="ten@example.com"
+                  placeholder={t('login.email_placeholder', 'ten@example.com')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -93,10 +102,10 @@ const Login: React.FC = () => {
 
               {/* Password */}
               <UserFieldWrapper>
-                <UserFieldLabel>Mật khẩu</UserFieldLabel>
+                <UserFieldLabel>{t('login.password', 'Mật khẩu')}</UserFieldLabel>
                 <UserTextInput
                   type="password"
-                  placeholder="••••••••"
+                  placeholder={t('login.password_placeholder', '••••••••')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -111,29 +120,29 @@ const Login: React.FC = () => {
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
                 />
-                <span>Ghi nhớ đăng nhập</span>
+                <span>{t('login.remember_me', 'Ghi nhớ đăng nhập')}</span>
               </UserRememberLabel>
               <Link to={FORGOT_PASSWORD_ROUTE}>
-                <UserForgotLink as="span">Quên mật khẩu?</UserForgotLink>
+                <UserForgotLink as="span">{t('login.forgot_password', 'Quên mật khẩu?')}</UserForgotLink>
               </Link>
             </UserRememberRow>
 
             {/* Submit */}
             <UserLoginSubmitBtn type="submit" disabled={isPending}>
-              {isPending ? 'Đang đăng nhập…' : <span>Đăng nhập <span>→</span></span>}
+              {isPending ? t('login.logging_in', 'Đang đăng nhập…') : <span>{t('login.title', 'Đăng nhập')} <span>→</span></span>}
             </UserLoginSubmitBtn>
           </form>
 
           {/* Divider */}
           <UserDividerRow>
             <UserDividerLine />
-            <UserDividerText>hoặc tiếp tục với</UserDividerText>
+            <UserDividerText>{t('login.continue_with', 'hoặc tiếp tục với')}</UserDividerText>
             <UserDividerLine />
           </UserDividerRow>
 
           {/* Social login */}
           <UserSocialGrid>
-            <UserSocialBtn type="button">
+            <UserSocialBtn type="button" onClick={() => handleSocialLogin('Google')}>
               <svg width="20" height="20" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
@@ -142,7 +151,7 @@ const Login: React.FC = () => {
               </svg>
               <span>Google</span>
             </UserSocialBtn>
-            <UserSocialBtn type="button">
+            <UserSocialBtn type="button" onClick={() => handleSocialLogin('Apple')}>
               <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C4.7 17.3 3.8 12.4 6.3 8.15c1.24-2.14 3.4-3.4 5.54-3.37 1.63.03 2.65.7 3.63.7.96 0 2.25-.84 4.15-.65 1.94.18 3.38.88 4.3 2.24-3.9 2.34-3.26 7.4.38 8.86-.77 1.94-1.8 3.87-3.45 5.55-.3.3-.65.6-.8.8zM12.03 4.8c-.22-4.07 3.35-4.52 3.6-4.8.35 3.3-3.1 4.72-3.6 4.8z" />
               </svg>
@@ -153,20 +162,21 @@ const Login: React.FC = () => {
           {/* Footer */}
           <UserCardFooter>
             <p>
-              Chưa có tài khoản?{' '}
+              {t('login.no_account', 'Chưa có tài khoản?')}{' '}
               <Link to={REGISTER_ROUTE}>
-                <UserPrimaryLink as="span">Đăng ký thành viên</UserPrimaryLink>
+                <UserPrimaryLink as="span">{t('login.register_now', 'Đăng ký thành viên')}</UserPrimaryLink>
               </Link>
             </p>
           </UserCardFooter>
         </UserLoginCard>
 
-        <UserLoginQuote>"Kiến trúc là trò chơi của ánh sáng và bóng tối."</UserLoginQuote>
+        <UserLoginQuote>{t('login.quote', '"Kiến trúc là trò chơi của ánh sáng và bóng tối."')}</UserLoginQuote>
       </UserLoginCardWrapper>
 
-      {/* Support */}
+      {/* Support and Language Switcher */}
       <UserFixedSupportWrapper>
-        <UserSupportBtn type="button">❓ HỖ TRỢ</UserSupportBtn>
+        <LanguageSwitcher />
+        <UserSupportBtn type="button">{t('login.support', '❓ HỖ TRỢ')}</UserSupportBtn>
       </UserFixedSupportWrapper>
     </UserLoginMain>
   );

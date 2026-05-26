@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "home": "Home",
+    "apartments": "Apartments",
+    "bookings": "Bookings",
+    "services": "Services",
+    "about": "About",
+    "login": "Sign In",
+    "register": "Sign Up",
+    "logout": "Sign Out",
+    "profile": "Profile",
+    "view_public_site": "View Public Site",
+    "owner_portal": "ApartAWS Owner Portal"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "architecture": "Architecture",
+    "press": "Press",
+    "copyright": "© 2024 Domin Tactic Sanctuary. Living in Style."
+  },
+  "lang": {
+    "vi": "Tiếng Việt",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "total_items": "{{from}}-{{to}} of {{total}}",
+  "items_per_page": "/ page"
+}

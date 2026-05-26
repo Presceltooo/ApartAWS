@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input, Pagination, Empty, Skeleton, InputNumber, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 import {
   PageWrapper,
   PageHeader,
@@ -18,6 +19,7 @@ import { useActions } from './hooks/useActions';
 const PAGE_SIZE = 9;
 
 const ApartmentList: React.FC = () => {
+  const { t } = useTranslation('portal');
   const {
     keyword,
     searchInput,
@@ -49,57 +51,57 @@ const ApartmentList: React.FC = () => {
   return (
     <PageWrapper>
       <PageHeader>
-        <PageTitle>Danh sách căn hộ</PageTitle>
-        <PageSubtitle>Khám phá bộ sưu tập các căn hộ cao cấp của chúng tôi.</PageSubtitle>
+        <PageTitle>{t('list.title', 'Danh sách căn hộ')}</PageTitle>
+        <PageSubtitle>{t('list.subtitle', 'Khám phá bộ sưu tập các căn hộ cao cấp của chúng tôi.')}</PageSubtitle>
       </PageHeader>
 
       <SearchRow style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
         <Input
           id="apartment-search-input"
           size="large"
-          placeholder="Từ khóa..."
+          placeholder={t('list.filters.keyword', 'Từ khóa...')}
           prefix={<SearchOutlined />}
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           onPressEnter={handleSearch}
-          style={{ width: 240 }}
+          style={{ flex: '1 1 240px' }}
           allowClear
         />
         <Input
           size="large"
-          placeholder="Địa điểm..."
+          placeholder={t('list.filters.location', 'Địa điểm...')}
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           onPressEnter={handleSearch}
-          style={{ width: 200 }}
+          style={{ flex: '1 1 200px' }}
           allowClear
         />
         <InputNumber
           size="large"
-          placeholder="Giá tối thiểu"
+          placeholder={t('list.filters.min_price', 'Giá tối thiểu')}
           value={minPrice}
           onChange={(val) => setMinPrice(val as number)}
           onPressEnter={handleSearch}
-          style={{ width: 140 }}
+          style={{ flex: '1 1 140px' }}
         />
         <InputNumber
           size="large"
-          placeholder="Giá tối đa"
+          placeholder={t('list.filters.max_price', 'Giá tối đa')}
           value={maxPrice}
           onChange={(val) => setMaxPrice(val as number)}
           onPressEnter={handleSearch}
-          style={{ width: 140 }}
+          style={{ flex: '1 1 140px' }}
         />
-        <Button type="primary" size="large" onClick={handleSearch} icon={<SearchOutlined />}>
-          Tìm kiếm
+        <Button type="primary" size="large" onClick={handleSearch} icon={<SearchOutlined />} style={{ flex: '0 0 auto' }}>
+          {t('list.filters.search_btn', 'Tìm kiếm')}
         </Button>
       </SearchRow>
 
       {!isLoading && !isError && (
         <ResultsCount>
           {total > 0
-            ? `Hiển thị ${apartments.length} trên tổng số ${total} căn hộ`
-            : 'Không tìm thấy căn hộ nào'}
+            ? t('list.results.showing', { count: apartments.length, total, defaultValue: `Hiển thị ${apartments.length} trên tổng số ${total} căn hộ` })
+            : t('list.results.empty', 'Không tìm thấy căn hộ nào')}
         </ResultsCount>
       )}
 
@@ -111,11 +113,11 @@ const ApartmentList: React.FC = () => {
         </Grid>
       ) : isError ? (
         <Empty
-          description="Không thể tải dữ liệu. Vui lòng thử lại."
+          description={t('list.results.error', 'Không thể tải dữ liệu. Vui lòng thử lại.')}
           image={Empty.PRESENTED_IMAGE_SIMPLE}
         />
       ) : apartments.length === 0 ? (
-        <Empty description="Không có căn hộ nào phù hợp với tìm kiếm của bạn." image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        <Empty description={t('list.results.no_match', 'Không có căn hộ nào phù hợp với tìm kiếm của bạn.')} image={Empty.PRESENTED_IMAGE_SIMPLE} />
       ) : (
         <Grid>
           {apartments.map((apt) => (

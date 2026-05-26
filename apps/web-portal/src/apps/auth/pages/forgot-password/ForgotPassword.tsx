@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { LOGIN_ROUTE } from '../../constants';
 import { useForgotPassword } from '../../services/mutation';
 import { notification } from 'antd';
+import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
 import {
   ForgotPageWrapper,
   ForgotHeader,
@@ -36,17 +38,17 @@ import {
   ForgotSuccessIcon,
   ForgotSuccessTitle,
   ForgotSuccessDesc,
-  ForgotSuccessHighlight,
   ForgotPageFooter,
   ForgotPageFooterInner,
   ForgotFooterCopy,
   ForgotFooterLinks,
 } from '../../styled';
+import forgotPasswordBg from '@/assets/images/forgot_password_bg.png';
 
-const FORGOT_IMAGE =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuCrsy1VNp8fR2hweZxATSAsTs01iv9NE02X2zHHXhWSq-yazLJQm8AGGdGVidelP4ubyqkb6neE1imQj-lMvKOgQ1I9cOeqlQqvACcGD9D3nOwNXvwl7HRz-esb3fWLxWobXtdUNFRnmDSh3QAoO-utgiPNPzZX4z-WxvWEFuGDejx0ltIqIFKF6xDFSkyLyt8T0218qyhGKcF0riPRgJqT1_0S_ZOvx8bBkWN1SpOZ6BqS1it3mNDKYFaeIHf0Ba_KZClFs3FPWG3P';
+const FORGOT_IMAGE = forgotPasswordBg;
 
 const ForgotPassword: React.FC = () => {
+  const { t } = useTranslation('auth');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -62,8 +64,8 @@ const ForgotPassword: React.FC = () => {
       setSubmitted(true);
     } catch (error: any) {
       notification.error({
-        message: 'Lỗi gửi yêu cầu',
-        description: error.response?.data?.message || 'Không thể gửi email đặt lại mật khẩu',
+        message: t('forgot.error_title', 'Lỗi gửi yêu cầu'),
+        description: error.response?.data?.message || t('forgot.error_desc', 'Không thể gửi email đặt lại mật khẩu'),
       });
     } finally {
       setIsPending(false);
@@ -76,9 +78,10 @@ const ForgotPassword: React.FC = () => {
       <ForgotHeader>
         <ForgotNav>
           <ForgotBrand>Domin Tactic</ForgotBrand>
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <LanguageSwitcher />
             <Link to={LOGIN_ROUTE}>
-              <ForgotNavLink as="span">Quay lại Đăng nhập</ForgotNavLink>
+              <ForgotNavLink as="span">{t('forgot.back_to_login', 'Quay lại Đăng nhập')}</ForgotNavLink>
             </Link>
           </div>
         </ForgotNav>
@@ -92,9 +95,9 @@ const ForgotPassword: React.FC = () => {
             <ForgotImageCover src={FORGOT_IMAGE} alt="Luxury living room" />
             <ForgotImageOverlay />
             <ForgotImageText>
-              <ForgotImageHeading>Tìm thấy sự bình yên trong từng không gian.</ForgotImageHeading>
+              <ForgotImageHeading>{t('forgot.heritage_title', 'Tìm thấy sự bình yên trong từng không gian.')}</ForgotImageHeading>
               <ForgotImageDesc>
-                Bộ sưu tập Heritage tập trung vào tính toàn vẹn kiến trúc và sự ấm áp của một kiệt tác đã được sống.
+                {t('forgot.heritage_desc', 'Bộ sưu tập Heritage tập trung vào tính toàn vẹn kiến trúc và sự ấm áp của một kiệt tác đã được sống.')}
               </ForgotImageDesc>
             </ForgotImageText>
           </ForgotImagePanel>
@@ -106,22 +109,22 @@ const ForgotPassword: React.FC = () => {
                 <>
                   <ForgotHeading>
                     <ForgotIconBadge>🔑</ForgotIconBadge>
-                    <ForgotTitle>Lấy lại quyền truy cập</ForgotTitle>
+                    <ForgotTitle>{t('forgot.title', 'Lấy lại quyền truy cập')}</ForgotTitle>
                     <ForgotDesc>
-                      Nhập địa chỉ email gắn với tài khoản Domin của bạn. Chúng tôi sẽ gửi một liên kết bảo mật để đặt lại mật khẩu cổng thông tin của bạn.
+                      {t('forgot.desc', 'Nhập địa chỉ email gắn với tài khoản Domin của bạn. Chúng tôi sẽ gửi một liên kết bảo mật để đặt lại mật khẩu cổng thông tin của bạn.')}
                     </ForgotDesc>
                   </ForgotHeading>
 
                   <ForgotForm onSubmit={handleSubmit}>
                     <div>
-                      <ForgotFieldLabel htmlFor="forgot-email">Địa chỉ Email</ForgotFieldLabel>
+                      <ForgotFieldLabel htmlFor="forgot-email">{t('forgot.email_label', 'Địa chỉ Email')}</ForgotFieldLabel>
                       <ForgotInputWrapper>
                         <ForgotInputIcon>✉️</ForgotInputIcon>
                         <ForgotEmailInput
                           id="forgot-email"
                           type="email"
                           required
-                          placeholder="ban@heritage.com"
+                          placeholder={t('forgot.email_placeholder', 'ban@heritage.com')}
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                         />
@@ -131,10 +134,10 @@ const ForgotPassword: React.FC = () => {
                     <div>
                       <ForgotSubmitBtn type="submit" disabled={isPending}>
                         {isPending ? (
-                          <span>Đang gửi…</span>
+                          <span>{t('forgot.sending', 'Đang gửi…')}</span>
                         ) : (
                           <>
-                            <span>Gửi liên kết đặt lại</span>
+                            <span>{t('forgot.submit_btn', 'Gửi liên kết đặt lại')}</span>
                             <span>→</span>
                           </>
                         )}
@@ -144,12 +147,12 @@ const ForgotPassword: React.FC = () => {
 
                   <ForgotFooterArea>
                     <p>
-                      Không nhận được liên kết? Kiểm tra thư rác hoặc{' '}
-                      <a href="#">thử email khác</a>.
+                      {t('forgot.not_received', 'Không nhận được liên kết? Kiểm tra thư rác hoặc')}{' '}
+                      <a href="#">{t('forgot.try_another', 'thử email khác')}</a>.
                     </p>
                     <ForgotBackLinkWrapper>
                       <Link to={LOGIN_ROUTE}>
-                        <ForgotBackLink as="span">← Quay lại Đăng nhập</ForgotBackLink>
+                        <ForgotBackLink as="span">← {t('forgot.back_to_login', 'Quay lại Đăng nhập')}</ForgotBackLink>
                       </Link>
                     </ForgotBackLinkWrapper>
                   </ForgotFooterArea>
@@ -157,14 +160,12 @@ const ForgotPassword: React.FC = () => {
               ) : (
                 <ForgotSuccessWrapper>
                   <ForgotSuccessIcon>✅</ForgotSuccessIcon>
-                  <ForgotSuccessTitle>Đã gửi email!</ForgotSuccessTitle>
+                  <ForgotSuccessTitle>{t('forgot.success_title', 'Đã gửi email!')}</ForgotSuccessTitle>
                   <ForgotSuccessDesc>
-                    Chúng tôi đã gửi liên kết đặt lại mật khẩu đến{' '}
-                    <ForgotSuccessHighlight>{email}</ForgotSuccessHighlight>.
-                    Vui lòng kiểm tra hộp thư đến của bạn.
+                    {t('forgot.success_desc', 'Chúng tôi đã gửi liên kết đặt lại mật khẩu đến {{email}}. Vui lòng kiểm tra hộp thư đến của bạn.', { email })}
                   </ForgotSuccessDesc>
                   <Link to={LOGIN_ROUTE}>
-                    <ForgotBackLink as="span">← Quay lại Đăng nhập</ForgotBackLink>
+                    <ForgotBackLink as="span">← {t('forgot.back_to_login', 'Quay lại Đăng nhập')}</ForgotBackLink>
                   </Link>
                 </ForgotSuccessWrapper>
               )}
@@ -178,8 +179,8 @@ const ForgotPassword: React.FC = () => {
         <ForgotPageFooterInner>
           <ForgotFooterCopy>© 2024 Domin Tactic Properties</ForgotFooterCopy>
           <ForgotFooterLinks>
-            <a href="#">Bảo mật</a>
-            <a href="#">Điều khoản</a>
+            <a href="#">{t('forgot.privacy', 'Bảo mật')}</a>
+            <a href="#">{t('forgot.terms', 'Điều khoản')}</a>
           </ForgotFooterLinks>
         </ForgotPageFooterInner>
       </ForgotPageFooter>

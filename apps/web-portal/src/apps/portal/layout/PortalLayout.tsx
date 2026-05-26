@@ -8,6 +8,8 @@ import {
 } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
 import { useLogout } from '@apps/auth/services/mutation';
 import tokenManager from '@shared/utils/tokenManager';
 import {
@@ -32,6 +34,7 @@ import {
 import { useGetMe } from '@apps/auth/services/query';
 
 const PortalLayout: React.FC = () => {
+  const { t } = useTranslation('common');
   const accessToken = tokenManager.getAccessToken();
   const { data: userData } = useGetMe({ enabled: !!accessToken });
   const routerState = useRouterState();
@@ -49,25 +52,27 @@ const PortalLayout: React.FC = () => {
           </Link>
           <PortalNavLinks>
             <Link to="/" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive || currentPath === '/'}>Trang chủ</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive || currentPath === '/'}>{t('nav.home')}</PortalNavLink>}
             </Link>
             <Link to="/can-ho" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Căn hộ</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>{t('nav.apartments')}</PortalNavLink>}
             </Link>
             <Link to="/bookings" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Đã đặt</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>{t('nav.bookings')}</PortalNavLink>}
             </Link>
             <Link to="/concierge" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Dịch vụ</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>{t('nav.services')}</PortalNavLink>}
             </Link>
             <Link to="/about" activeProps={{ className: 'active' }}>
-              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>Giới thiệu</PortalNavLink>}
+              {({ isActive }) => <PortalNavLink as="div" $active={isActive}>{t('nav.about')}</PortalNavLink>}
             </Link>
           </PortalNavLinks>
           <PortalHeaderActions>
             <PortalIconButton>
               <SearchOutlined />
             </PortalIconButton>
+            
+            <LanguageSwitcher />
             
             {isLoggedIn ? (
               <Dropdown
@@ -78,7 +83,7 @@ const PortalLayout: React.FC = () => {
                       icon: <UserOutlined />,
                       label: (
                         <Link to="/profile" >
-                          Cá nhân
+                          {t('nav.profile')}
                         </Link>
                       ),
                     },
@@ -89,7 +94,7 @@ const PortalLayout: React.FC = () => {
                       key: 'logout',
                       danger: true,
                       icon: <LogoutOutlined />,
-                      label: 'Đăng xuất',
+                      label: t('nav.logout'),
                       onClick: () => {
                         const refreshToken = tokenManager.getRefreshToken();
                         if (refreshToken) logoutMutate({ refreshToken });
@@ -112,10 +117,10 @@ const PortalLayout: React.FC = () => {
             ) : (
               <div style={{ display: 'flex', gap: '0.75rem' }}>
                 <Link to="/dang-nhap">
-                  <PortalAuthBtn>Đăng nhập</PortalAuthBtn>
+                  <PortalAuthBtn>{t('nav.login')}</PortalAuthBtn>
                 </Link>
                 <Link to="/dang-ky">
-                  <PortalRegisterBtn>Đăng ký</PortalRegisterBtn>
+                  <PortalRegisterBtn>{t('nav.register')}</PortalRegisterBtn>
                 </Link>
               </div>
             )}
@@ -135,13 +140,13 @@ const PortalLayout: React.FC = () => {
         <PortalFooterInner>
           <PortalFooterBrand>Domin Tactic</PortalFooterBrand>
           <PortalFooterNav>
-            <a href="#">Bảo mật</a>
-            <a href="#">Điều khoản</a>
-            <a href="#">Kiến trúc</a>
-            <a href="#">Báo chí</a>
+            <a href="#">{t('footer.privacy')}</a>
+            <a href="#">{t('footer.terms')}</a>
+            <a href="#">{t('footer.architecture')}</a>
+            <a href="#">{t('footer.press')}</a>
           </PortalFooterNav>
           <PortalFooterCopyright>
-            © 2024 Domin Tactic Sanctuary. Sống Đẳng Cấp.
+            {t('footer.copyright')}
           </PortalFooterCopyright>
         </PortalFooterInner>
       </PortalFooterWrapper>

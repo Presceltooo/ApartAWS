@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useSearch } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
 import { LOGIN_ROUTE } from '../../constants';
 import { useResetPassword } from '../../services/mutation';
 import { notification } from 'antd';
@@ -38,10 +40,12 @@ import {
   ForgotFooterLinks,
 } from '../../styled';
 
-const RESET_IMAGE =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuCrsy1VNp8fR2hweZxATSAsTs01iv9NE02X2zHHXhWSq-yazLJQm8AGGdGVidelP4ubyqkb6neE1imQj-lMvKOgQ1I9cOeqlQqvACcGD9D3nOwNXvwl7HRz-esb3fWLxWobXtdUNFRnmDSh3QAoO-utgiPNPzZX4z-WxvWEFuGDejx0ltIqIFKF6xDFSkyLyt8T0218qyhGKcF0riPRgJqT1_0S_ZOvx8bBkWN1SpOZ6BqS1it3mNDKYFaeIHf0Ba_KZClFs3FPWG3P';
+import loginBg from '@/assets/images/login_bg.png';
+
+const RESET_IMAGE = loginBg;
 
 const ResetPassword: React.FC = () => {
+  const { t } = useTranslation('auth');
   const search = useSearch({ strict: false });
   const token = (search as any).token || '';
   const navigate = useNavigate();
@@ -56,17 +60,26 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
     
     if (!token) {
-      notification.error({ message: 'Lỗi', description: 'Đường dẫn không hợp lệ hoặc đã hết hạn.' });
+      notification.error({
+        message: t('reset.error', 'Lỗi'),
+        description: t('reset.invalid_token', 'Đường dẫn không hợp lệ hoặc đã hết hạn.')
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      notification.error({ message: 'Lỗi', description: 'Mật khẩu xác nhận không khớp.' });
+      notification.error({
+        message: t('reset.error', 'Lỗi'),
+        description: t('reset.password_mismatch', 'Mật khẩu xác nhận không khớp.')
+      });
       return;
     }
 
     if (password.length < 6) {
-      notification.error({ message: 'Lỗi', description: 'Mật khẩu phải có ít nhất 6 ký tự.' });
+      notification.error({
+        message: t('reset.error', 'Lỗi'),
+        description: t('reset.password_length', 'Mật khẩu phải có ít nhất 6 ký tự.')
+      });
       return;
     }
 
@@ -87,9 +100,10 @@ const ResetPassword: React.FC = () => {
       <ForgotHeader>
         <ForgotNav>
           <ForgotBrand>Domin Tactic</ForgotBrand>
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <LanguageSwitcher />
             <Link to={LOGIN_ROUTE}>
-              <ForgotNavLink as="span">Quay lại Đăng nhập</ForgotNavLink>
+              <ForgotNavLink as="span">{t('reset.back_to_login', 'Quay lại Đăng nhập')}</ForgotNavLink>
             </Link>
           </div>
         </ForgotNav>
@@ -101,9 +115,9 @@ const ResetPassword: React.FC = () => {
             <ForgotImageCover src={RESET_IMAGE} alt="Luxury living room" />
             <ForgotImageOverlay />
             <ForgotImageText>
-              <ForgotImageHeading>Mở khóa cánh cửa mới.</ForgotImageHeading>
+              <ForgotImageHeading>{t('reset.heritage_title', 'Mở khóa cánh cửa mới.')}</ForgotImageHeading>
               <ForgotImageDesc>
-                Bảo vệ tài khoản của bạn bằng một mật khẩu an toàn và tiếp tục hành trình khám phá.
+                {t('reset.heritage_desc', 'Bảo vệ tài khoản của bạn bằng một mật khẩu an toàn và tiếp tục hành trình khám phá.')}
               </ForgotImageDesc>
             </ForgotImageText>
           </ForgotImagePanel>
@@ -112,22 +126,22 @@ const ResetPassword: React.FC = () => {
             <ForgotFormInner>
               <ForgotHeading>
                 <ForgotIconBadge>🔒</ForgotIconBadge>
-                <ForgotTitle>Đặt lại mật khẩu</ForgotTitle>
+                <ForgotTitle>{t('reset.title', 'Đặt lại mật khẩu')}</ForgotTitle>
                 <ForgotDesc>
-                  Vui lòng nhập mật khẩu mới cho tài khoản của bạn.
+                  {t('reset.desc', 'Vui lòng nhập mật khẩu mới cho tài khoản của bạn.')}
                 </ForgotDesc>
               </ForgotHeading>
 
               <ForgotForm onSubmit={handleSubmit}>
                 <div>
-                  <ForgotFieldLabel htmlFor="new-password">Mật khẩu mới</ForgotFieldLabel>
+                  <ForgotFieldLabel htmlFor="new-password">{t('reset.new_password', 'Mật khẩu mới')}</ForgotFieldLabel>
                   <ForgotInputWrapper>
                     <ForgotInputIcon>🔑</ForgotInputIcon>
                     <ForgotEmailInput
                       id="new-password"
                       type="password"
                       required
-                      placeholder="Nhập mật khẩu mới"
+                      placeholder={t('reset.new_password_placeholder', 'Nhập mật khẩu mới')}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -135,14 +149,14 @@ const ResetPassword: React.FC = () => {
                 </div>
                 
                 <div style={{ marginTop: '1rem' }}>
-                  <ForgotFieldLabel htmlFor="confirm-password">Xác nhận mật khẩu</ForgotFieldLabel>
+                  <ForgotFieldLabel htmlFor="confirm-password">{t('reset.confirm_password', 'Xác nhận mật khẩu')}</ForgotFieldLabel>
                   <ForgotInputWrapper>
                     <ForgotInputIcon>🔑</ForgotInputIcon>
                     <ForgotEmailInput
                       id="confirm-password"
                       type="password"
                       required
-                      placeholder="Nhập lại mật khẩu"
+                      placeholder={t('reset.confirm_password_placeholder', 'Nhập lại mật khẩu')}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     />
@@ -152,10 +166,10 @@ const ResetPassword: React.FC = () => {
                 <div>
                   <ForgotSubmitBtn type="submit" disabled={isPending || !token}>
                     {isPending ? (
-                      <span>Đang cập nhật…</span>
+                      <span>{t('reset.updating', 'Đang cập nhật…')}</span>
                     ) : (
                       <>
-                        <span>Lưu mật khẩu</span>
+                        <span>{t('reset.submit_btn', 'Lưu mật khẩu')}</span>
                         <span>→</span>
                       </>
                     )}
@@ -166,7 +180,7 @@ const ResetPassword: React.FC = () => {
               <ForgotFooterArea>
                 <ForgotBackLinkWrapper>
                   <Link to={LOGIN_ROUTE}>
-                    <ForgotBackLink as="span">← Quay lại Đăng nhập</ForgotBackLink>
+                    <ForgotBackLink as="span">← {t('reset.back_to_login', 'Quay lại Đăng nhập')}</ForgotBackLink>
                   </Link>
                 </ForgotBackLinkWrapper>
               </ForgotFooterArea>
@@ -179,8 +193,8 @@ const ResetPassword: React.FC = () => {
         <ForgotPageFooterInner>
           <ForgotFooterCopy>© 2024 Domin Tactic Properties</ForgotFooterCopy>
           <ForgotFooterLinks>
-            <a href="#">Bảo mật</a>
-            <a href="#">Điều khoản</a>
+            <a href="#">{t('forgot.privacy', 'Bảo mật')}</a>
+            <a href="#">{t('forgot.terms', 'Điều khoản')}</a>
           </ForgotFooterLinks>
         </ForgotPageFooterInner>
       </ForgotPageFooter>

@@ -22,26 +22,26 @@ export const AdminLoginMain = styled.main`
 
 export const AdminLoginCard = styled.div`
   width: 100%;
-  max-width: 440px;
+  max-width: 520px;
   background: rgba(25, 25, 25, 0.8);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  padding: 40px;
+  padding: 4.5rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 `;
 
 export const AdminLoginTitle = styled.h1`
-  font-size: 1.75rem;
+  font-size: 2.6rem;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 8px 0;
+  margin: 0 0 1.2rem 0;
   letter-spacing: -0.02em;
 `;
 
 export const AdminLoginSubtitle = styled.p`
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1.5rem;
   margin: 0;
 `;
 
@@ -53,12 +53,12 @@ export const AdminFormGroup = styled.div`
 
 export const AdminFieldLabel = styled.label`
   display: block;
-  font-size: 0.75rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
 `;
 
 export const AdminTextInput = styled.input`
@@ -66,9 +66,9 @@ export const AdminTextInput = styled.input`
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 12px 16px;
+  padding: 1.4rem 1.8rem;
   color: #ffffff;
-  font-size: 0.9375rem;
+  font-size: 1.5rem;
   transition: all 0.2s;
   box-sizing: border-box;
 
@@ -80,7 +80,7 @@ export const AdminTextInput = styled.input`
   }
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.5);
   }
 `;
 
@@ -90,8 +90,8 @@ export const AdminLoginSubmitBtn = styled.button`
   color: #ffffff;
   border: none;
   border-radius: 8px;
-  padding: 12px;
-  font-size: 0.9375rem;
+  padding: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -119,8 +119,8 @@ export const AdminCardFooter = styled.div`
   padding-top: 24px;
 
   p {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.5);
     margin: 0;
   }
 `;
@@ -128,6 +128,7 @@ export const AdminCardFooter = styled.div`
 export const AdminPrimaryLink = styled.a`
   color: #D85A30;
   font-weight: 600;
+  font-size: 1.5rem;
   text-decoration: none;
   margin-left: 4px;
   cursor: pointer;
@@ -164,7 +165,7 @@ export const AuthContainer = styled.div`
 
 export const AuthWrapper = styled.div`
   width: 100%;
-  max-width: 440px;
+  max-width: 520px;
   z-index: 2;
   padding: 20px;
 `;
@@ -281,7 +282,14 @@ export const UserLoginBranding = styled.div`
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  max-width: 32rem;
+  max-width: 42rem;
+  background: rgba(252, 249, 244, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 3rem 3.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(224, 192, 182, 0.25);
+  box-shadow: 0 15px 35px rgba(74, 27, 12, 0.08);
 
   @media (min-width: 1024px) {
     display: block;
@@ -289,43 +297,45 @@ export const UserLoginBranding = styled.div`
 `;
 
 export const UserLoginBrandingLabel = styled.p`
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: ${ON_SURFACE_VARIANT};
-  font-weight: 500;
-  margin-bottom: 1rem;
+  color: ${PRIMARY};
+  font-weight: 700;
+  margin-bottom: 1.2rem;
 `;
 
 export const UserLoginBrandingTitle = styled.h1`
-  font-size: 5rem;
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.9;
+  font-size: 4.2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
   color: ${ON_SURFACE};
   margin: 0;
 `;
 
 export const UserLoginBrandingDivider = styled.div`
-  margin-top: 2rem;
-  height: 1px;
+  margin-top: 1.5rem;
+  height: 2px;
   width: 6rem;
   background: ${PRIMARY};
 `;
 
 export const UserLoginBrandingDesc = styled.p`
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   color: ${ON_SURFACE_VARIANT};
   line-height: 1.6;
-  opacity: 0.8;
-  font-size: 1.125rem;
+  opacity: 0.95;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0;
 `;
 
 export const UserLoginCardWrapper = styled.div`
   position: relative;
   z-index: 20;
   width: 100%;
-  max-width: 28rem;
+  max-width: 48rem;
   margin: 1.5rem;
   margin-right: clamp(1.5rem, 8vw, 8rem);
 
@@ -338,70 +348,70 @@ export const UserLoginCard = styled.div`
   background: rgba(252, 249, 244, 0.88);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  padding: 3rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 20px 40px rgba(74, 27, 12, 0.1);
+  padding: 4.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px rgba(74, 27, 12, 0.12);
   border: 1px solid rgba(224, 192, 182, 0.2);
 `;
 
 export const UserLoginCardHeader = styled.div`
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 `;
 
 export const UserLoginCardTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 2.6rem;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: ${PRIMARY};
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   margin-top: 0;
 `;
 
 export const UserLoginCardSubtitle = styled.p`
   color: ${ON_SURFACE_VARIANT};
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   margin: 0;
 `;
 
 export const UserFormGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 `;
 
 export const UserFieldWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.5rem;
 `;
 
 export const UserFieldLabel = styled.label`
   display: block;
-  font-size: 0.625rem;
+  font-size: 1.2rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 700;
   color: ${ON_SURFACE_VARIANT};
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.4rem;
   margin-left: 0.25rem;
 `;
 
 export const UserTextInput = styled.input`
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 1.2rem 1.6rem;
   background: ${SURFACE_HIGH};
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   color: ${ON_SURFACE};
   outline: none;
-  font-size: 0.9375rem;
+  font-size: 1.5rem;
   font-family: 'Inter', sans-serif;
   box-sizing: border-box;
   transition: box-shadow 0.2s, background 0.2s;
 
   &::placeholder {
-    color: rgba(74, 27, 12, 0.4);
+    color: rgba(74, 27, 12, 0.65);
   }
 
   &:focus {
@@ -414,29 +424,29 @@ export const UserRememberRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 `;
 
 export const UserRememberLabel = styled.label`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
+  gap: 0.6rem;
+  font-size: 1.5rem;
   color: ${ON_SURFACE_VARIANT};
   cursor: pointer;
 
   input[type='checkbox'] {
-    width: 1rem;
-    height: 1rem;
+    width: 1.6rem;
+    height: 1.6rem;
     accent-color: ${PRIMARY};
-    border-radius: 0.25rem;
+    border-radius: 0.3rem;
     cursor: pointer;
   }
 `;
 
 export const UserForgotLink = styled.a`
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: ${PRIMARY};
   text-decoration: none;
   transition: opacity 0.2s;
@@ -451,12 +461,12 @@ export const UserLoginSubmitBtn = styled.button`
   width: 100%;
   background: linear-gradient(135deg, ${PRIMARY} 0%, ${PRIMARY_DARK} 100%);
   color: #ffffff;
-  font-weight: 600;
-  padding: 1rem;
-  border-radius: 0.5rem;
+  font-weight: 700;
+  padding: 1.3rem;
+  border-radius: 0.6rem;
   border: none;
   cursor: pointer;
-  font-size: 0.9375rem;
+  font-size: 1.6rem;
   font-family: 'Inter', sans-serif;
   box-shadow: 0 4px 15px rgba(216, 90, 48, 0.35);
   display: flex;
@@ -464,7 +474,7 @@ export const UserLoginSubmitBtn = styled.button`
   justify-content: center;
   gap: 0.5rem;
   transition: opacity 0.2s, transform 0.1s;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 
   &:hover {
     opacity: 0.9;
@@ -477,10 +487,10 @@ export const UserLoginSubmitBtn = styled.button`
 
 export const UserDividerRow = styled.div`
   position: relative;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
 `;
 
 export const UserDividerLine = styled.div`
@@ -490,8 +500,8 @@ export const UserDividerLine = styled.div`
 `;
 
 export const UserDividerText = styled.span`
-  padding: 0 0.5rem;
-  font-size: 0.625rem;
+  padding: 0 0.6rem;
+  font-size: 1.2rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: ${ON_SURFACE_VARIANT};
@@ -502,21 +512,21 @@ export const UserDividerText = styled.span`
 export const UserSocialGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.2rem;
 `;
 
 export const UserSocialBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  gap: 0.8rem;
+  padding: 1.2rem;
   background: #ffffff;
   border: 1px solid rgba(224, 192, 182, 0.25);
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: ${ON_SURFACE};
   font-family: 'Inter', sans-serif;
   transition: background 0.2s;
@@ -527,11 +537,11 @@ export const UserSocialBtn = styled.button`
 `;
 
 export const UserCardFooter = styled.div`
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   text-align: center;
 
   p {
-    font-size: 0.875rem;
+    font-size: 1.5rem;
     color: ${ON_SURFACE_VARIANT};
     margin: 0;
   }
@@ -550,15 +560,17 @@ export const UserPrimaryLink = styled.a`
 `;
 
 export const UserLoginQuote = styled.div`
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   padding: 0 1rem;
-  opacity: 0.35;
+  opacity: 0.85;
+  font-weight: 600;
   font-style: italic;
-  font-size: 0.625rem;
+  font-size: 1.2rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: ${ON_SURFACE};
   text-align: right;
+  text-shadow: 0 1px 2px rgba(252, 249, 244, 0.8);
 `;
 
 export const UserSupportBtn = styled.button`
@@ -569,11 +581,11 @@ export const UserSupportBtn = styled.button`
   background: rgba(252, 249, 244, 0.65);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1.6rem;
   border-radius: 9999px;
   border: 1px solid rgba(224, 192, 182, 0.2);
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 1.4rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   font-family: 'Inter', sans-serif;
@@ -586,9 +598,38 @@ export const UserSupportBtn = styled.button`
 
 export const UserFixedSupportWrapper = styled.div`
   position: fixed;
-  top: 2rem;
-  right: 2rem;
+  top: 2.5rem;
+  right: 2.5rem;
   z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+
+  button {
+    font-size: 1.4rem !important;
+    padding: 0.8rem 1.6rem !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    border-radius: 9999px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(74, 27, 12, 0.05) !important;
+    background: rgba(252, 249, 244, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(224, 192, 182, 0.4) !important;
+    color: ${ON_SURFACE_VARIANT} !important;
+    transition: all 0.2s !important;
+    cursor: pointer !important;
+
+    &:hover {
+      color: ${PRIMARY} !important;
+      border-color: ${PRIMARY} !important;
+      background: rgba(252, 249, 244, 0.95) !important;
+    }
+  }
 `;
 
 // --- Register page ---
@@ -639,40 +680,41 @@ export const RegisterImageContent = styled.div`
 `;
 
 export const RegisterGlassCard = styled.div`
-  background: rgba(252, 249, 244, 0.82);
+  background: rgba(252, 249, 244, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  padding: 2.5rem;
-  border-radius: 0.75rem;
-  max-width: 32rem;
+  padding: 3rem 3.5rem;
+  border-radius: 1rem;
+  max-width: 40rem;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 35px rgba(74, 27, 12, 0.08);
 `;
 
 export const RegisterGlassBrand = styled.span`
   display: block;
-  font-size: 0.75rem;
+  font-size: 1.2rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   font-weight: 700;
   color: ${PRIMARY};
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 `;
 
 export const RegisterGlassTitle = styled.h1`
-  font-size: 2.25rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 800;
   color: ${ON_SURFACE};
   letter-spacing: -0.03em;
-  line-height: 1.15;
+  line-height: 1.2;
   margin-bottom: 1.5rem;
   margin-top: 0;
 `;
 
 export const RegisterGlassDesc = styled.p`
-  font-size: 1.125rem;
+  font-size: 1.6rem;
   color: ${ON_SURFACE_VARIANT};
   line-height: 1.6;
-  font-weight: 300;
+  font-weight: 500;
   margin: 0;
 `;
 
@@ -689,8 +731,8 @@ export const RegisterFormSection = styled.section`
 
 export const RegisterHeader = styled.div`
   width: 100%;
-  max-width: 28rem;
-  margin-bottom: 3rem;
+  max-width: 46rem;
+  margin-bottom: 3.5rem;
   text-align: left;
 `;
 
@@ -702,47 +744,48 @@ export const RegisterLogoRow = styled.div`
 `;
 
 export const RegisterLogoText = styled.span`
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   font-weight: 700;
   color: ${PRIMARY};
   letter-spacing: -0.03em;
 `;
 
 export const RegisterPageTitle = styled.h2`
-  font-size: 1.875rem;
+  font-size: 2.8rem;
   font-weight: 700;
   letter-spacing: -0.03em;
   color: ${ON_SURFACE};
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   margin-top: 0;
 `;
 
 export const RegisterPageSubtitle = styled.p`
   color: ${ON_SURFACE_VARIANT};
+  font-size: 1.5rem;
   margin: 0;
 `;
 
 export const RegisterSocialGrid = styled.div`
   width: 100%;
-  max-width: 28rem;
+  max-width: 46rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
+  gap: 1.2rem;
+  margin-bottom: 3rem;
 `;
 
 export const RegisterSocialBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  gap: 0.8rem;
+  padding: 1.2rem;
   background: ${SURFACE_HIGH};
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 0.875rem;
+  font-weight: 600;
+  font-size: 1.5rem;
   color: ${ON_SURFACE};
   font-family: 'Inter', sans-serif;
   transition: background 0.2s;
@@ -754,11 +797,11 @@ export const RegisterSocialBtn = styled.button`
 
 export const RegisterDividerRow = styled.div`
   width: 100%;
-  max-width: 28rem;
+  max-width: 46rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
+  gap: 1.2rem;
+  margin-bottom: 3rem;
 `;
 
 export const RegisterDividerLine = styled.div`
@@ -768,7 +811,7 @@ export const RegisterDividerLine = styled.div`
 `;
 
 export const RegisterDividerText = styled.span`
-  font-size: 0.625rem;
+  font-size: 1.2rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: ${OUTLINE};
@@ -778,27 +821,27 @@ export const RegisterDividerText = styled.span`
 
 export const RegisterForm = styled.form`
   width: 100%;
-  max-width: 28rem;
+  max-width: 46rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.8rem;
 `;
 
 export const RegisterFieldGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.5rem;
 `;
 
 export const RegisterPasswordRow = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.2rem;
 `;
 
 export const RegisterFieldLabel = styled.label`
   display: block;
-  font-size: 0.625rem;
+  font-size: 1.2rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 700;
@@ -814,17 +857,17 @@ export const RegisterTextInput = styled.input`
   width: 100%;
   background: ${SURFACE_LOW};
   border: 1px solid rgba(224, 192, 182, 0.2);
-  padding: 0.875rem 3rem 0.875rem 1rem;
-  border-radius: 0.5rem;
+  padding: 1.2rem 3.5rem 1.2rem 1.6rem;
+  border-radius: 0.6rem;
   color: ${ON_SURFACE};
   outline: none;
-  font-size: 0.9375rem;
+  font-size: 1.5rem;
   font-family: 'Inter', sans-serif;
   box-sizing: border-box;
   transition: box-shadow 0.2s, background 0.2s;
 
   &::placeholder {
-    color: rgba(224, 192, 182, 0.7);
+    color: rgba(74, 27, 12, 0.65);
   }
 
   &:focus {
@@ -835,33 +878,33 @@ export const RegisterTextInput = styled.input`
 
 export const RegisterInputIcon = styled.span`
   position: absolute;
-  right: 1rem;
+  right: 1.2rem;
   top: 50%;
   transform: translateY(-50%);
   color: ${OUTLINE};
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   pointer-events: none;
 `;
 
 export const RegisterTermsRow = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
+  gap: 1rem;
   padding: 0.5rem 0;
 `;
 
 export const RegisterTermsCheckbox = styled.input`
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.6rem;
+  height: 1.6rem;
   accent-color: ${PRIMARY};
-  border-radius: 0.25rem;
+  border-radius: 0.3rem;
   cursor: pointer;
   flex-shrink: 0;
-  margin-top: 0.1rem;
+  margin-top: 0.2rem;
 `;
 
 export const RegisterTermsLabel = styled.label`
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   color: ${ON_SURFACE_VARIANT};
   line-height: 1.5;
   cursor: pointer;
@@ -869,6 +912,7 @@ export const RegisterTermsLabel = styled.label`
   a {
     color: ${PRIMARY};
     text-decoration: none;
+    font-weight: 600;
     &:hover {
       text-decoration: underline;
     }
@@ -879,12 +923,12 @@ export const RegisterSubmitBtn = styled.button`
   width: 100%;
   background: linear-gradient(135deg, ${PRIMARY} 0%, ${PRIMARY_DARK} 100%);
   color: #ffffff;
-  font-weight: 600;
-  padding: 1rem;
-  border-radius: 0.5rem;
+  font-weight: 700;
+  padding: 1.3rem;
+  border-radius: 0.6rem;
   border: none;
   cursor: pointer;
-  font-size: 0.9375rem;
+  font-size: 1.6rem;
   font-family: 'Inter', sans-serif;
   box-shadow: 0 4px 15px rgba(216, 90, 48, 0.3);
   display: flex;
@@ -903,11 +947,11 @@ export const RegisterSubmitBtn = styled.button`
 `;
 
 export const RegisterFooter = styled.div`
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   text-align: center;
 
   p {
-    font-size: 0.875rem;
+    font-size: 1.5rem;
     color: ${ON_SURFACE_VARIANT};
     margin: 0;
   }
@@ -962,21 +1006,30 @@ export const ForgotNav = styled.nav`
 `;
 
 export const ForgotBrand = styled.div`
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
   letter-spacing: -0.03em;
   color: ${PRIMARY};
 `;
 
 export const ForgotNavLink = styled.a`
-  color: ${ON_SURFACE_VARIANT};
-  font-size: 0.875rem;
+  color: ${PRIMARY};
+  background: rgba(216, 90, 48, 0.08);
+  border: 1px solid rgba(216, 90, 48, 0.2);
+  padding: 0.8rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 1.4rem;
+  font-weight: 600;
   letter-spacing: 0.03em;
   text-decoration: none;
-  transition: opacity 0.15s;
+  transition: all 0.2s;
+  cursor: pointer;
 
   &:hover {
-    opacity: 0.7;
+    background: ${PRIMARY};
+    color: #ffffff;
+    border-color: ${PRIMARY};
+    box-shadow: 0 4px 12px rgba(216, 90, 48, 0.2);
   }
 `;
 
@@ -989,7 +1042,7 @@ export const ForgotMain = styled.main`
 `;
 
 export const ForgotContentGrid = styled.div`
-  max-width: 72rem;
+  max-width: 90rem;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
@@ -999,7 +1052,7 @@ export const ForgotContentGrid = styled.div`
   background: #ffffff;
 
   @media (min-width: 1024px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.1fr 1fr;
   }
 `;
 
@@ -1061,7 +1114,7 @@ export const ForgotFormPanel = styled.div`
 `;
 
 export const ForgotFormInner = styled.div`
-  max-width: 28rem;
+  max-width: 38rem;
   margin: 0 auto;
   width: 100%;
 `;
@@ -1105,12 +1158,12 @@ export const ForgotForm = styled.form`
 
 export const ForgotFieldLabel = styled.label`
   display: block;
-  font-size: 0.625rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: ${ON_SURFACE_VARIANT};
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   margin-left: 0.25rem;
 `;
 
@@ -1120,48 +1173,48 @@ export const ForgotInputWrapper = styled.div`
 
 export const ForgotInputIcon = styled.span`
   position: absolute;
-  left: 1rem;
+  left: 1.2rem;
   top: 50%;
   transform: translateY(-50%);
   color: ${OUTLINE};
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   pointer-events: none;
 `;
 
 export const ForgotEmailInput = styled.input`
   width: 100%;
-  padding: 1rem 1rem 1rem 3rem;
+  padding: 1.4rem 1.6rem 1.4rem 3.5rem;
   background: ${SURFACE_HIGH};
   border: none;
   border-radius: 0.5rem;
   color: ${ON_SURFACE};
   outline: none;
-  font-size: 0.9375rem;
+  font-size: 1.5rem;
   font-family: 'Inter', sans-serif;
   box-sizing: border-box;
   transition: box-shadow 0.2s;
 
   &::placeholder {
-    color: rgba(74, 27, 12, 0.4);
+    color: rgba(74, 27, 12, 0.65);
   }
 
   &:focus {
-    box-shadow: 0 0 0 1px ${PRIMARY};
+    box-shadow: 0 0 0 2px ${PRIMARY};
   }
 `;
 
 export const ForgotSubmitBtn = styled.button`
   width: 100%;
-  padding: 1rem;
+  padding: 1.3rem;
   background: linear-gradient(135deg, ${PRIMARY} 0%, ${PRIMARY_DARK} 100%);
   color: #ffffff;
   font-weight: 700;
   border-radius: 0.5rem;
   border: none;
   cursor: pointer;
-  font-size: 0.9375rem;
+  font-size: 1.6rem;
   font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 15px rgba(216, 90, 48, 0.3);
+  box-shadow: 0 4px 15px rgba(216, 90, 48, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1182,11 +1235,11 @@ export const ForgotFooterArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   text-align: center;
 
   p {
-    font-size: 0.875rem;
+    font-size: 1.4rem;
     color: ${ON_SURFACE_VARIANT};
     margin: 0;
   }
@@ -1212,16 +1265,28 @@ export const ForgotBackLinkWrapper = styled.div`
 export const ForgotBackLink = styled.a`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: ${ON_SURFACE_VARIANT};
-  font-size: 0.875rem;
-  font-weight: 500;
+  gap: 0.6rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, ${PRIMARY} 0%, ${PRIMARY_DARK} 100%);
+  padding: 1.2rem 2.4rem;
+  border-radius: 0.6rem;
+  font-size: 1.5rem;
+  font-weight: 700;
   text-decoration: none;
-  transition: color 0.2s;
+  width: 100%;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(216, 90, 48, 0.25);
+  transition: all 0.2s;
   cursor: pointer;
 
   &:hover {
-    color: ${PRIMARY};
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(216, 90, 48, 0.35);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
@@ -1243,18 +1308,19 @@ export const ForgotSuccessIcon = styled.div`
 `;
 
 export const ForgotSuccessTitle = styled.h2`
-  font-size: 1.875rem;
+  font-size: 2.4rem;
   font-weight: 700;
   color: ${ON_SURFACE};
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   margin-top: 0;
   letter-spacing: -0.03em;
 `;
 
 export const ForgotSuccessDesc = styled.p`
   color: ${ON_SURFACE_VARIANT};
+  font-size: 1.5rem;
   line-height: 1.6;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 `;
 
 export const ForgotSuccessHighlight = styled.span`
@@ -1279,11 +1345,10 @@ export const ForgotPageFooterInner = styled.div`
 `;
 
 export const ForgotFooterCopy = styled.p`
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: ${OUTLINE};
-  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: ${ON_SURFACE_VARIANT};
   margin: 0;
 `;
 
@@ -1292,11 +1357,10 @@ export const ForgotFooterLinks = styled.div`
   gap: 2rem;
 
   a {
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: ${OUTLINE};
-    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: ${ON_SURFACE_VARIANT};
     text-decoration: none;
     transition: color 0.2s;
 

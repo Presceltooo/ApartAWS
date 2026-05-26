@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { portalTheme } from '../../../styled';
 
 export const PageWrapper = styled.div`
-  max-width: 1280px;
+  max-width: 140rem;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 3rem 4rem 4rem;
 `;
 
 export const PageHeader = styled.div`
@@ -12,16 +12,16 @@ export const PageHeader = styled.div`
 `;
 
 export const PageTitle = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 300;
+  font-size: 3.2rem;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: ${portalTheme.colors.onSurface};
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 `;
 
 export const PageSubtitle = styled.p`
   color: ${portalTheme.colors.onSurfaceVariant};
-  font-size: 1rem;
+  font-size: 1.6rem;
 `;
 
 export const SearchRow = styled.div`
@@ -34,14 +34,10 @@ export const SearchRow = styled.div`
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2.5rem;
 
   @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
 `;
 
@@ -68,7 +64,7 @@ export const Card = styled.article`
 
 export const CardImgWrapper = styled.div`
   position: relative;
-  height: 14rem;
+  height: 18rem;
   overflow: hidden;
   background: #e5e2dd;
 `;
@@ -120,21 +116,21 @@ export const PriceBadge = styled.div`
   background: rgba(74, 27, 12, 0.75);
   backdrop-filter: blur(8px);
   color: white;
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  padding: 0.25rem 0.625rem;
+  padding: 0.35rem 0.75rem;
   border-radius: 0.375rem;
 `;
 
 export const CardBody = styled.div`
-  padding: 1.25rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   flex: 1;
 `;
 
 export const CardTitle = styled.h2`
-  font-size: 1rem;
+  font-size: 1.6rem;
   font-weight: 600;
   color: ${portalTheme.colors.onSurface};
   margin: 0 0 0.375rem;
@@ -149,7 +145,7 @@ export const CardLocation = styled.p`
   align-items: center;
   gap: 0.25rem;
   color: ${portalTheme.colors.onSurfaceVariant};
-  font-size: 0.8125rem;
+  font-size: 1.4rem;
   margin: 0 0 0.75rem;
 `;
 
@@ -173,7 +169,7 @@ export const RatingInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 0.8125rem;
+  font-size: 1.4rem;
   font-weight: 500;
   color: ${portalTheme.colors.onSurface};
 
@@ -187,8 +183,8 @@ export const ViewBtn = styled.button`
   color: white;
   border: none;
   border-radius: 0.375rem;
-  padding: 0.375rem 0.875rem;
-  font-size: 0.8125rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 1.5rem;
   font-weight: 500;
   cursor: pointer;
   transition: opacity 0.2s;
@@ -205,7 +201,7 @@ export const PaginationWrapper = styled.div`
 `;
 
 export const ResultsCount = styled.div`
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   color: ${portalTheme.colors.onSurfaceVariant};
   margin-bottom: 1.5rem;
 `;

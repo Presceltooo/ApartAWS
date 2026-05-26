@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "apartments": "アパートメント",
+    "bookings": "予約済み",
+    "services": "サービス",
+    "about": "概要",
+    "login": "ログイン",
+    "register": "新規登録",
+    "logout": "ログアウト",
+    "profile": "プロフィール",
+    "view_public_site": "公開サイトを表示",
+    "owner_portal": "ApartAWS オーナーポータル"
+  },
+  "footer": {
+    "privacy": "プライバシー",
+    "terms": "利用規約",
+    "architecture": "建築",
+    "press": "プレス",
+    "copyright": "© 2024 Domin Tactic Sanctuary. 上質な暮らし。"
+  },
+  "lang": {
+    "vi": "Tiếng Việt",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "total_items": "{{total}}中 {{from}}-{{to}}",
+  "items_per_page": "/ ページ"
+}

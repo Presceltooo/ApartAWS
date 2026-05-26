@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useParams, useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import {
   ArrowLeftOutlined,
   HomeOutlined,
@@ -25,16 +26,16 @@ import type { BookingStatus, PaymentStatus } from '@apps/portal/services/types';
 // ─── Styled ───────────────────────────────────────────────────────────────────
 
 const PageWrapper = styled.div`
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 4rem 2rem 6rem;
 `;
 
 const TopBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 `;
 
 const BackBtn = styled.button`
@@ -44,8 +45,8 @@ const BackBtn = styled.button`
   background: none;
   border: none;
   color: ${portalTheme.colors.onSurfaceVariant};
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 1.4rem;
+  font-weight: 600;
   cursor: pointer;
   padding: 0;
   transition: color 0.2s;
@@ -53,81 +54,94 @@ const BackBtn = styled.button`
 `;
 
 const PageTitle = styled.h1`
-  font-size: 2rem;
-  font-weight: 300;
+  font-size: 3rem;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: ${portalTheme.colors.onSurface};
-  margin-bottom: 0.5rem;
+  margin-bottom: 2rem;
 `;
 
 const BookingIdBadge = styled.span`
   font-family: monospace;
-  font-size: 0.8125rem;
+  font-size: 1.3rem;
+  font-weight: 600;
   color: ${portalTheme.colors.outline};
   background: ${portalTheme.colors.surfaceContainerLow};
-  padding: 0.25rem 0.625rem;
-  border-radius: 0.25rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
 `;
 
 const Card = styled.div`
   background: ${portalTheme.colors.surfaceContainerLowest};
   border: 1px solid rgba(224, 192, 182, 0.2);
-  border-radius: 0.75rem;
-  padding: 2rem;
-  margin-bottom: 1.5rem;
+  border-radius: 0.8rem;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
   box-shadow: 0 4px 16px rgba(74, 27, 12, 0.04);
 `;
 
 const CardTitle = styled.h2`
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 700;
   color: ${portalTheme.colors.onSurface};
   margin: 0 0 1.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
 `;
 
 const AptImage = styled.img`
   width: 100%;
-  height: 220px;
+  height: 320px;
   object-fit: cover;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
+  border-radius: 0.6rem;
+  margin-bottom: 1.5rem;
 `;
 
 const ActionRow = styled.div`
   display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
   flex-wrap: wrap;
 `;
 
-// ─── Status helpers ────────────────────────────────────────────────────────────
+// ─── Status configs (keys only, labels resolved dynamically) ──────────────────
 
 const statusConfig: Record<
   BookingStatus,
-  { color: string; icon: React.ReactNode; label: string }
+  { color: string; icon: React.ReactNode; defaultLabel: string; translationKey: string }
 > = {
-  PENDING: { color: 'gold', icon: <ClockCircleOutlined />, label: 'Đang chờ xác nhận' },
-  CONFIRMED: { color: 'blue', icon: <CheckCircleOutlined />, label: 'Đã xác nhận' },
-  COMPLETED: { color: 'green', icon: <CheckCircleOutlined />, label: 'Hoàn thành' },
-  CANCELLED: { color: 'red', icon: <StopOutlined />, label: 'Đã huỷ' },
+  PENDING: { color: 'gold', icon: <ClockCircleOutlined />, defaultLabel: 'Đang chờ xác nhận', translationKey: 'booking_detail.status.pending' },
+  CONFIRMED: { color: 'blue', icon: <CheckCircleOutlined />, defaultLabel: 'Đã xác nhận', translationKey: 'booking_detail.status.confirmed' },
+  COMPLETED: { color: 'green', icon: <CheckCircleOutlined />, defaultLabel: 'Hoàn thành', translationKey: 'booking_detail.status.completed' },
+  CANCELLED: { color: 'red', icon: <StopOutlined />, defaultLabel: 'Đã huỷ', translationKey: 'booking_detail.status.cancelled' },
 };
 
 const paymentStatusConfig: Record<
   PaymentStatus,
-  { color: string; icon: React.ReactNode; label: string }
+  { color: string; icon: React.ReactNode; defaultLabel: string; translationKey: string }
 > = {
-  UNPAID: { color: 'warning', icon: <ExclamationCircleOutlined />, label: 'Chưa thanh toán' },
-  PAID: { color: 'success', icon: <CheckCircleOutlined />, label: 'Đã thanh toán' },
-  FAILED: { color: 'error', icon: <CloseCircleOutlined />, label: 'Thanh toán thất bại' },
-  REFUNDED: { color: 'default', icon: <SyncOutlined />, label: 'Đã hoàn tiền' },
+  UNPAID: { color: 'warning', icon: <ExclamationCircleOutlined />, defaultLabel: 'Chưa thanh toán', translationKey: 'booking_detail.payment_status.unpaid' },
+  PAID: { color: 'success', icon: <CheckCircleOutlined />, defaultLabel: 'Đã thanh toán', translationKey: 'booking_detail.payment_status.paid' },
+  FAILED: { color: 'error', icon: <CloseCircleOutlined />, defaultLabel: 'Thanh toán thất bại', translationKey: 'booking_detail.payment_status.failed' },
+  REFUNDED: { color: 'default', icon: <SyncOutlined />, defaultLabel: 'Đã hoàn tiền', translationKey: 'booking_detail.payment_status.refunded' },
+};
+
+// Helper for price currency localization
+const formatPrice = (value: number, lang: string) => {
+  if (lang === 'vi') {
+    return `${value.toLocaleString('vi-VN')} ₫`;
+  } else if (lang === 'ja') {
+    return `¥${value.toLocaleString('ja-JP')}`;
+  } else {
+    return `$${value.toLocaleString('en-US')}`;
+  }
 };
 
 // ─── BookingDetail Page ────────────────────────────────────────────────────────
 
 const BookingDetail: React.FC = () => {
+  const { t, i18n } = useTranslation('portal');
   const { id } = useParams({ strict: false }) as { id: string };
   const navigate = useNavigate();
   const [isRedirectingToVnpay, setIsRedirectingToVnpay] = useState(false);
@@ -145,8 +159,8 @@ const BookingDetail: React.FC = () => {
     cancelBooking(id, {
       onSuccess: () => {
         notification.success({
-          message: 'Đã huỷ đặt phòng',
-          description: 'Đơn đặt phòng của bạn đã được huỷ thành công.',
+          message: t('booking_detail.notifications.cancel_success', 'Đã huỷ đặt phòng'),
+          description: t('booking_detail.notifications.cancel_success_desc', 'Đơn đặt phòng của bạn đã được huỷ thành công.'),
         });
       },
     });
@@ -160,11 +174,11 @@ const BookingDetail: React.FC = () => {
       if (paymentUrl) {
         window.location.href = paymentUrl;
       } else {
-        notification.error({ message: 'Không thể tạo link thanh toán. Vui lòng thử lại.' });
+        notification.error({ message: t('booking_detail.notifications.pay_error', 'Không thể tạo link thanh toán. Vui lòng thử lại.') });
         setIsRedirectingToVnpay(false);
       }
     } catch {
-      notification.error({ message: 'Lỗi kết nối. Vui lòng thử lại sau.' });
+      notification.error({ message: t('booking_detail.notifications.pay_conn_error', 'Lỗi kết nối. Vui lòng thử lại sau.') });
       setIsRedirectingToVnpay(false);
     }
   };
@@ -182,21 +196,24 @@ const BookingDetail: React.FC = () => {
       <PageWrapper>
         <TopBar>
           <BackBtn onClick={() => navigate({ to: '/bookings' })}>
-            <ArrowLeftOutlined /> Quay lại danh sách
+            <ArrowLeftOutlined /> {t('booking_detail.back_to_list', 'Quay lại danh sách')}
           </BackBtn>
         </TopBar>
         <Card>
-          <p>Không thể tải thông tin đặt phòng. <Link to="/bookings">Quay lại</Link></p>
+          <p>
+            {t('booking_detail.load_error', 'Không thể tải thông tin đặt phòng.')}{' '}
+            <Link to="/bookings">{t('booking_detail.back_to_list', 'Quay lại')}</Link>
+          </p>
         </Card>
       </PageWrapper>
     );
   }
 
   const apt = booking.apartment;
-  const startDate = new Date(booking.startDate).toLocaleDateString('vi-VN', {
+  const startDate = new Date(booking.startDate).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US', {
     day: 'numeric', month: 'long', year: 'numeric',
   });
-  const endDate = new Date(booking.endDate).toLocaleDateString('vi-VN', {
+  const endDate = new Date(booking.endDate).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US', {
     day: 'numeric', month: 'long', year: 'numeric',
   });
   const nights = Math.max(
@@ -213,35 +230,35 @@ const BookingDetail: React.FC = () => {
     <PageWrapper>
       <TopBar>
         <BackBtn onClick={() => navigate({ to: '/bookings' })}>
-          <ArrowLeftOutlined /> Quay lại danh sách
+          <ArrowLeftOutlined /> {t('booking_detail.back_to_list', 'Quay lại danh sách')}
         </BackBtn>
         <BookingIdBadge>{id.slice(0, 16).toUpperCase()}</BookingIdBadge>
       </TopBar>
 
-      <PageTitle>Chi tiết đặt phòng</PageTitle>
+      <PageTitle>{t('booking_detail.title', 'Chi tiết đặt phòng')}</PageTitle>
 
       {/* Status card */}
       <Card>
         <CardTitle>
           {statusInfo.icon}
-          Trạng thái đơn đặt phòng
+          {t('booking_detail.status_card_title', 'Trạng thái đơn đặt phòng')}
         </CardTitle>
-        <Tag color={statusInfo.color} style={{ fontSize: '1rem', padding: '0.25rem 0.75rem' }}>
-          {statusInfo.label}
+        <Tag color={statusInfo.color} style={{ fontSize: '1.3rem', padding: '0.4rem 1.2rem', borderRadius: '0.4rem' }}>
+          {t(statusInfo.translationKey, statusInfo.defaultLabel)}
         </Tag>
 
-        <Divider style={{ margin: '1rem 0' }} />
+        <Divider style={{ margin: '1.5rem 0' }} />
 
         <CardTitle>
           <CreditCardOutlined />
-          Trạng thái thanh toán
+          {t('booking_detail.payment_card_title', 'Trạng thái thanh toán')}
         </CardTitle>
-        <Tag color={paymentInfo.color} icon={paymentInfo.icon} style={{ fontSize: '1rem', padding: '0.25rem 0.75rem' }}>
-          {paymentInfo.label}
+        <Tag color={paymentInfo.color} icon={paymentInfo.icon} style={{ fontSize: '1.3rem', padding: '0.4rem 1.2rem', borderRadius: '0.4rem' }}>
+          {t(paymentInfo.translationKey, paymentInfo.defaultLabel)}
         </Tag>
         {paymentStatus === 'PAID' && booking?.paymentDate && (
-          <p style={{ marginTop: '0.5rem', fontSize: '0.875rem', color: portalTheme.colors.onSurfaceVariant }}>
-            Thanh toán lúc: {new Date(booking.paymentDate).toLocaleString('vi-VN')}
+          <p style={{ marginTop: '0.8rem', fontSize: '1.4rem', color: portalTheme.colors.onSurfaceVariant }}>
+            {t('booking_detail.payment_date', { date: new Date(booking.paymentDate).toLocaleString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US'), defaultValue: `Thanh toán lúc: ${new Date(booking.paymentDate).toLocaleString()}` })}
           </p>
         )}
       </Card>
@@ -250,7 +267,7 @@ const BookingDetail: React.FC = () => {
       <Card>
         <CardTitle>
           <HomeOutlined />
-          Thông tin căn hộ
+          {t('booking_detail.apartment_info', 'Thông tin căn hộ')}
         </CardTitle>
         {apt?.images?.[0] && (
           <AptImage
@@ -259,16 +276,16 @@ const BookingDetail: React.FC = () => {
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
         )}
-        <Descriptions column={1} size="small" bordered>
-          <Descriptions.Item label="Tên căn hộ">{apt?.title ?? `Căn hộ #${booking.apartmentId.slice(0, 8)}`}</Descriptions.Item>
+        <Descriptions column={1} size="middle" bordered>
+          <Descriptions.Item label={t('booking_detail.apartment_name', 'Tên căn hộ')}>{apt?.title ?? `${t('details.apartment', 'Căn hộ')} #${booking.apartmentId.slice(0, 8)}`}</Descriptions.Item>
           {apt?.location && (
-            <Descriptions.Item label={<><EnvironmentOutlined /> Địa chỉ</>}>
+            <Descriptions.Item label={<><EnvironmentOutlined /> {t('booking_detail.address', 'Địa chỉ')}</>}>
               {apt.location}
             </Descriptions.Item>
           )}
           {apt?.pricePerNight && (
-            <Descriptions.Item label={<><DollarOutlined /> Giá/đêm</>}>
-              {apt.pricePerNight.toLocaleString('vi-VN')} ₫
+            <Descriptions.Item label={<><DollarOutlined /> {t('booking_detail.price_per_night', 'Giá/đêm')}</>}>
+              {formatPrice(apt.pricePerNight, i18n.language)}
             </Descriptions.Item>
           )}
         </Descriptions>
@@ -278,15 +295,15 @@ const BookingDetail: React.FC = () => {
       <Card>
         <CardTitle>
           <CalendarOutlined />
-          Thông tin đặt chỗ
+          {t('booking_detail.booking_info', 'Thông tin đặt chỗ')}
         </CardTitle>
-        <Descriptions column={2} size="small" bordered>
-          <Descriptions.Item label="Check-in">{startDate}</Descriptions.Item>
-          <Descriptions.Item label="Check-out">{endDate}</Descriptions.Item>
-          <Descriptions.Item label="Thời gian">{nights} đêm</Descriptions.Item>
-          <Descriptions.Item label={<><DollarOutlined /> Tổng cộng</>}>
-            <strong style={{ color: portalTheme.colors.primary, fontSize: '1.125rem' }}>
-              {booking.totalPrice.toLocaleString('vi-VN')} ₫
+        <Descriptions column={2} size="middle" bordered>
+          <Descriptions.Item label={t('booking_detail.check_in', 'Check-in')}>{startDate}</Descriptions.Item>
+          <Descriptions.Item label={t('booking_detail.check_out', 'Check-out')}>{endDate}</Descriptions.Item>
+          <Descriptions.Item label={t('booking_detail.duration', 'Thời gian')}>{t('booking_detail.duration_nights', { count: nights, defaultValue: `${nights} đêm` })}</Descriptions.Item>
+          <Descriptions.Item label={<><DollarOutlined /> {t('booking_detail.total_price', 'Tổng cộng')}</>}>
+            <strong style={{ color: portalTheme.colors.primary, fontSize: '2rem' }}>
+              {formatPrice(booking.totalPrice, i18n.language)}
             </strong>
           </Descriptions.Item>
         </Descriptions>
@@ -298,38 +315,40 @@ const BookingDetail: React.FC = () => {
           type="default"
           onClick={() => navigate({ to: '/bookings' })}
           icon={<ArrowLeftOutlined />}
+          style={{ height: '4rem', fontSize: '1.4rem', fontWeight: 600 }}
         >
-          Tất cả đặt phòng
+          {t('booking_detail.btn_all_bookings', 'Tất cả đặt phòng')}
         </Button>
 
-        {/* Nút thanh toán VNPay: hiện khi PENDING và chưa thanh toán */}
+        {/* VNPay payment button: shown if status is PENDING and unpaid */}
         {status === 'PENDING' && paymentStatus !== 'PAID' && (
           <Button
             type="primary"
             icon={<CreditCardOutlined />}
             loading={isRedirectingToVnpay}
             onClick={handleVnpayPayment}
-            style={{ background: '#005BAC', borderColor: '#005BAC' }}
+            style={{ background: '#005BAC', borderColor: '#005BAC', height: '4rem', fontSize: '1.4rem', fontWeight: 600 }}
           >
-            Thanh toán qua VNPay
+            {t('booking_detail.btn_pay_vnpay', 'Thanh toán qua VNPay')}
           </Button>
         )}
 
         {canCancel && (
           <Popconfirm
-            title="Huỷ đơn đặt phòng?"
-            description="Hành động này không thể hoàn tác."
+            title={t('booking_detail.cancel_confirm.title', 'Huỷ đơn đặt phòng?')}
+            description={t('booking_detail.cancel_confirm.desc', 'Hành động này không thể hoàn tác.')}
             onConfirm={handleCancel}
-            okText="Xác nhận huỷ"
-            cancelText="Giữ lại"
+            okText={t('booking_detail.cancel_confirm.ok', 'Xác nhận huỷ')}
+            cancelText={t('booking_detail.cancel_confirm.cancel', 'Giữ lại')}
             okButtonProps={{ danger: true }}
           >
             <Button
               danger
               icon={<CloseCircleOutlined />}
               loading={isCancelling}
+              style={{ height: '4rem', fontSize: '1.4rem', fontWeight: 600 }}
             >
-              Huỷ đặt phòng
+              {t('booking_detail.btn_cancel_booking', 'Huỷ đặt phòng')}
             </Button>
           </Popconfirm>
         )}
@@ -337,8 +356,9 @@ const BookingDetail: React.FC = () => {
         {apt?.id && (
           <Button
             onClick={() => navigate({ to: '/apartment/$id', params: { id: apt.id } })}
+            style={{ height: '4rem', fontSize: '1.4rem', fontWeight: 600 }}
           >
-            Xem căn hộ
+            {t('booking_detail.btn_view_apartment', 'Xem căn hộ')}
           </Button>
         )}
       </ActionRow>

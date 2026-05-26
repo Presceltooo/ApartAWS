@@ -1,14 +1,52 @@
-// import { resources } from "@constants/locales";
-// import i18n from "i18next";
-// import { initReactI18next } from "react-i18next";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-// i18n.use(initReactI18next).init({
-//   resources,
-//   lng: "vi",
-//   fallbackLng: "vi",
-//   interpolation: {
-//     escapeValue: false,
-//   },
-// });
+// Import locales
+import viCommon from "./locales/vi/common.json";
+import viAuth from "./locales/vi/auth.json";
+import viPortal from "./locales/vi/portal.json";
+import viAdmin from "./locales/vi/admin.json";
 
-// export default i18n;
+import enCommon from "./locales/en/common.json";
+import enAuth from "./locales/en/auth.json";
+import enPortal from "./locales/en/portal.json";
+import enAdmin from "./locales/en/admin.json";
+
+import jaCommon from "./locales/ja/common.json";
+import jaAuth from "./locales/ja/auth.json";
+import jaPortal from "./locales/ja/portal.json";
+import jaAdmin from "./locales/ja/admin.json";
+
+const resources = {
+  vi: {
+    common: viCommon,
+    auth: viAuth,
+    portal: viPortal,
+    admin: viAdmin,
+  },
+  en: {
+    common: enCommon,
+    auth: enAuth,
+    portal: enPortal,
+    admin: enAdmin,
+  },
+  ja: {
+    common: jaCommon,
+    auth: jaAuth,
+    portal: jaPortal,
+    admin: jaAdmin,
+  },
+};
+
+i18n.use(initReactI18next).init({
+  resources,
+  lng: localStorage.getItem("language") || "vi",
+  fallbackLng: "vi",
+  ns: ["common", "auth", "portal", "admin"],
+  defaultNS: "common",
+  interpolation: {
+    escapeValue: false,
+  },
+});
+
+export default i18n;

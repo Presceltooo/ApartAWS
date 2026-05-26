@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "apartments": "Căn hộ",
+    "bookings": "Đã đặt",
+    "services": "Dịch vụ",
+    "about": "Giới thiệu",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "logout": "Đăng xuất",
+    "profile": "Cá nhân",
+    "view_public_site": "Xem trang chủ",
+    "owner_portal": "ApartAWS Owner Portal"
+  },
+  "footer": {
+    "privacy": "Bảo mật",
+    "terms": "Điều khoản",
+    "architecture": "Kiến trúc",
+    "press": "Báo chí",
+    "copyright": "© 2024 Domin Tactic Sanctuary. Sống Đẳng Cấp."
+  },
+  "lang": {
+    "vi": "Tiếng Việt",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "total_items": "{{from}}-{{to}} / {{total}}",
+  "items_per_page": "/ trang"
+}

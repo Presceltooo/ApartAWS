@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import 'antd/dist/reset.css';
 import 'dayjs/locale/vi';
 import App from './App.tsx'
+import './configs/i18n';
 
 import { StyleProvider, px2remTransformer } from '@ant-design/cssinjs';
 import antdDefaultConfig from '@configs/antDesign';

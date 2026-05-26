@@ -2,6 +2,9 @@ import React from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { CalendarOutlined } from '@ant-design/icons';
 import { Skeleton } from 'antd';
+import { useTranslation } from 'react-i18next';
+import useCheckLogin from '../../../../shared/hooks/useCheckLogin';
+import useNotification from '../../../../shared/hooks/useNotification';
 import {
   BookingsPageWrapper,
   PageHeader,
@@ -33,18 +36,47 @@ const statusToTab = (status: IBooking['status']): BookingStatus => {
 };
 
 const Bookings: React.FC = () => {
+  const { t, i18n } = useTranslation('portal');
   const navigate = useNavigate();
+  const { isLogin } = useCheckLogin();
+  const { showErrorNotify } = useNotification();
+
+  React.useEffect(() => {
+    if (!isLogin) {
+      showErrorNotify(t('bookings.login_required', 'Vui lòng đăng nhập để xem thông tin đặt phòng của bạn.'));
+    }
+  }, [isLogin, showErrorNotify, t]);
+
   const { bookings, isLoading, isError } = useBookingsData();
   const { activeTab, handleTabChange } = useBookingsActions();
+
+  if (!isLogin) {
+    return (
+      <BookingsPageWrapper>
+        <PageHeader>
+          <PageTitle>{t('bookings.title', 'Đặt phòng của tôi')}</PageTitle>
+          <PageSubtitle>{t('bookings.subtitle', 'Quản lý các chuyến đi sắp tới và xem lại lịch sử đặt phòng của bạn.')}</PageSubtitle>
+        </PageHeader>
+        <EmptyState>
+          <CalendarOutlined style={{ fontSize: '4rem', color: '#e5e2dd', marginBottom: '1.5rem' }} />
+          <h3>{t('bookings.login_required_title', 'Yêu cầu đăng nhập')}</h3>
+          <p>
+            {t('bookings.login_required_desc', 'Vui lòng đăng nhập để quản lý và xem lại lịch sử đặt phòng của bạn.')}
+          </p>
+          <button onClick={() => navigate({ to: '/dang-nhap' })}>{t('bookings.login_btn', 'Đăng nhập ngay')}</button>
+        </EmptyState>
+      </BookingsPageWrapper>
+    );
+  }
 
   // Map IBooking → local format + tab key
   const mappedBookings = bookings.map((b) => ({
     id: b.id,
-    property: b.apartment?.title ?? `Căn hộ #${b.apartmentId.slice(0, 8)}`,
+    property: b.apartment?.title ?? `${t('details.apartment', 'Căn hộ')} #${b.apartmentId.slice(0, 8)}`,
     location: b.apartment?.location ?? '—',
     status: statusToTab(b.status),
-    checkIn: new Date(b.startDate).toLocaleDateString('vi-VN', { day: 'numeric', month: 'short', year: 'numeric' }),
-    checkOut: new Date(b.endDate).toLocaleDateString('vi-VN', { day: 'numeric', month: 'short', year: 'numeric' }),
+    checkIn: new Date(b.startDate).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
+    checkOut: new Date(b.endDate).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
     guests: 1,
     totalPrice: b.totalPrice,
     imageUrl: b.apartment?.images?.[0] ?? 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80',
@@ -65,7 +97,7 @@ const Bookings: React.FC = () => {
     return (
       <BookingsPageWrapper>
         <PageHeader>
-          <PageTitle>Đặt phòng của tôi</PageTitle>
+          <PageTitle>{t('bookings.title', 'Đặt phòng của tôi')}</PageTitle>
         </PageHeader>
         {[1, 2, 3].map((i) => (
           <Skeleton key={i} active paragraph={{ rows: 4 }} style={{ marginBottom: '2rem' }} />
@@ -77,27 +109,27 @@ const Bookings: React.FC = () => {
   return (
     <BookingsPageWrapper>
       <PageHeader>
-        <PageTitle>Đặt phòng của tôi</PageTitle>
-        <PageSubtitle>Quản lý các chuyến đi sắp tới và xem lại lịch sử đặt phòng của bạn.</PageSubtitle>
+        <PageTitle>{t('bookings.title', 'Đặt phòng của tôi')}</PageTitle>
+        <PageSubtitle>{t('bookings.subtitle', 'Quản lý các chuyến đi sắp tới và xem lại lịch sử đặt phòng của bạn.')}</PageSubtitle>
       </PageHeader>
 
       <TabsRow>
         <TabBtn $active={activeTab === 'upcoming'} onClick={() => handleTabChange('upcoming')}>
-          Sắp tới ({getTabCount('upcoming')})
+          {t('bookings.tabs.upcoming', 'Sắp tới')} ({getTabCount('upcoming')})
         </TabBtn>
         <TabBtn $active={activeTab === 'completed'} onClick={() => handleTabChange('completed')}>
-          Đã hoàn thành ({getTabCount('completed')})
+          {t('bookings.tabs.completed', 'Đã hoàn thành')} ({getTabCount('completed')})
         </TabBtn>
         <TabBtn $active={activeTab === 'cancelled'} onClick={() => handleTabChange('cancelled')}>
-          Đã hủy ({getTabCount('cancelled')})
+          {t('bookings.tabs.cancelled', 'Đã hủy')} ({getTabCount('cancelled')})
         </TabBtn>
       </TabsRow>
 
       {isError && (
         <EmptyState>
           <CalendarOutlined style={{ fontSize: '4rem', color: '#e5e2dd', marginBottom: '1.5rem' }} />
-          <h3>Không thể tải dữ liệu đặt phòng</h3>
-          <p>Vui lòng kiểm tra kết nối và thử lại.</p>
+          <h3>{t('bookings.empty.load_error_title', 'Không thể tải dữ liệu đặt phòng')}</h3>
+          <p>{t('bookings.empty.load_error_desc', 'Vui lòng kiểm tra kết nối và thử lại.')}</p>
         </EmptyState>
       )}
 
@@ -115,11 +147,11 @@ const Bookings: React.FC = () => {
         !isError && (
           <EmptyState>
             <CalendarOutlined style={{ fontSize: '4rem', color: '#e5e2dd', marginBottom: '1.5rem' }} />
-            <h3>Trống</h3>
+            <h3>{t('bookings.empty.title', 'Trống')}</h3>
             <p>
-              Bạn hiện không có đặt phòng nào ở mục này. Hãy khám phá các căn hộ tuyệt vời của chúng tôi.
+              {t('bookings.empty.desc', 'Bạn hiện không có đặt phòng nào ở mục này. Hãy khám phá các căn hộ tuyệt vời của chúng tôi.')}
             </p>
-            <button onClick={() => navigate({ to: '/can-ho' })}>Khám phá ngay</button>
+            <button onClick={() => navigate({ to: '/can-ho' })}>{t('bookings.empty.explore_btn', 'Khám phá ngay')}</button>
           </EmptyState>
         )
       )}

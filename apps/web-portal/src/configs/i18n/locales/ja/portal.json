@@ -1,0 +1,199 @@
+{
+  "home": {
+    "hero_title": "ラグジュアリーな居住空間を見つける、",
+    "hero_title_highlight": "上質な暮らし。",
+    "search": {
+      "location": "目的地",
+      "location_placeholder": "どこへ行きますか？",
+      "check_in": "チェックイン日",
+      "check_in_placeholder": "日付を追加",
+      "check_out": "チェックアウト日",
+      "check_out_placeholder": "日付を追加",
+      "btn": "検索"
+    },
+    "featured": {
+      "title": "注目のアパートメント",
+      "subtitle": "厳選されたプレミアムな設備と独特の建築様式を持つ高級アパートメント。",
+      "view_more": "アパートメントをもっと見る"
+    },
+    "promo": {
+      "rewards_title": "長期滞在向けの限定特典。",
+      "rewards_desc": "30日以上のご予約で、Domin Conciergeおよびプレミアムラウンジ施設をご利用いただけます。",
+      "learn_more": "詳細を見る",
+      "verified_title": "Domin認定",
+      "verified_desc": "すべてのアパートメントは、当社の建築チームによって品質とデザインの基準が直接検査されています。",
+      "trust_label": "100%の信頼。"
+    }
+  },
+  "list": {
+    "title": "アパートメント一覧",
+    "subtitle": "厳選されたアパートメントのコレクションをご覧ください。",
+    "filters": {
+      "keyword": "キーワード...",
+      "location": "エリア...",
+      "min_price": "最低価格",
+      "max_price": "最高価格",
+      "search_btn": "検索"
+    },
+    "results": {
+      "showing": "{{total}}件中 {{count}}件を表示",
+      "empty": "アパートメントが見つかりませんでした",
+      "error": "データを読み込めませんでした。もう一度お試しください。",
+      "no_match": "検索条件に一致するアパートメントはありません。"
+    }
+  },
+  "details": {
+    "load_error": "アパートメントの詳細を読み込めませんでした。",
+    "view_list": "一覧に戻る",
+    "back_to_list": "一覧へ戻る",
+    "verified": "Domin認定",
+    "price_per_night": "1泊あたりの料金",
+    "status": "ステータス",
+    "available": "空室あり",
+    "unavailable": "満室",
+    "category": "カテゴリ",
+    "apartment": "アパートメント",
+    "architecture_space": "建築と空間",
+    "featured_amenities": "主な設備",
+    "location": "ロケーション",
+    "location_disclaimer": "正確な住所は予約完了後に提供されます。",
+    "book_widget": {
+      "title": "ご予約",
+      "price_per_night": "1泊あたりの料金",
+      "cleaning_fee": "清掃料金",
+      "service_fee": "サービス料",
+      "total_from": "合計金額（から）",
+      "secure_booking": "安全な予約手続き",
+      "secure_booking_desc": "この段階では料金は請求されません。",
+      "proceed_btn": "予約手続きへ進む",
+      "unavailable_btn": "現在利用不可"
+    }
+  },
+  "status_tags": {
+    "rare": "希少な物件",
+    "popular": "人気",
+    "available": "空室あり",
+    "verified": "確認済み",
+    "new": "新規"
+  },
+  "bookings": {
+    "title": "ご予約一覧",
+    "subtitle": "今後のご旅行の管理や、過去の予約履歴の確認ができます。",
+    "login_required": "予約情報を確認するにはログインしてください。",
+    "login_required_title": "ログインが必要です",
+    "login_required_desc": "予約履歴の確認および管理を行うにはログインしてください。",
+    "login_btn": "今すぐログイン",
+    "tabs": {
+      "upcoming": "今後の予定",
+      "completed": "完了済み",
+      "cancelled": "キャンセル済み"
+    },
+    "card": {
+      "check_in": "チェックイン",
+      "check_out": "チェックアウト",
+      "guests": "ゲスト",
+      "guests_count": "ゲスト {{count}}名",
+      "total_price": "合計料金",
+      "view_details": "詳細を見る",
+      "contact_concierge": "コンシェルジュに連絡",
+      "book_again": "もう一度予約する"
+    },
+    "status": {
+      "pending": "承認待ち",
+      "confirmed": "確定済み",
+      "completed": "完了済み",
+      "cancelled": "キャンセル済み"
+    },
+    "empty": {
+      "title": "予約はありません",
+      "desc": "このセクションには予約がありません。素晴らしいアパートメントをご覧ください。",
+      "explore_btn": "今すぐ探す",
+      "load_error_title": "予約データを読み込めませんでした",
+      "load_error_desc": "接続状況を確認して、もう一度お試しください。"
+    }
+  },
+  "booking_detail": {
+    "back_to_list": "一覧へ戻る",
+    "title": "ご予約詳細",
+    "status_card_title": "予約ステータス",
+    "payment_card_title": "決済ステータス",
+    "payment_date": "決済日時: {{date}}",
+    "apartment_info": "アパートメント情報",
+    "apartment_name": "アパートメント名",
+    "address": "住所",
+    "price_per_night": "料金/1泊",
+    "booking_info": "予約詳細",
+    "check_in": "チェックイン",
+    "check_out": "チェックアウト",
+    "duration": "宿泊日数",
+    "duration_nights": "{{count}} 泊",
+    "total_price": "合計料金",
+    "btn_all_bookings": "ご予約一覧",
+    "btn_pay_vnpay": "VNPayで支払う",
+    "btn_cancel_booking": "予約をキャンセル",
+    "btn_view_apartment": "アパートメントを見る",
+    "cancel_confirm": {
+      "title": "予約をキャンセルしますか？",
+      "desc": "この操作は取り消せません。",
+      "ok": "キャンセルを確定",
+      "cancel": "戻る"
+    },
+    "notifications": {
+      "cancel_success": "予約キャンセル完了",
+      "cancel_success_desc": "予約のキャンセル手続きが完了しました。",
+      "pay_error": "決済リンクを生成できませんでした。もう一度お試しください。",
+      "pay_conn_error": "接続エラーが発生しました。時間をおいてもう一度お試しください。"
+    },
+    "load_error": "予約情報を読み込めませんでした。戻る",
+    "status": {
+      "pending": "承認待ち",
+      "confirmed": "確定済み",
+      "completed": "完了",
+      "cancelled": "キャンセル済み"
+    },
+    "payment_status": {
+      "unpaid": "未払い",
+      "paid": "支払い済み",
+      "failed": "決済失敗",
+      "refunded": "返金済み"
+    }
+  },
+  "profile": {
+    "title": "個人プロフィール",
+    "subtitle": "Domin Tactic アカウント情報の管理と更新を行います。",
+    "section_personal": "個人情報",
+    "section_security": "パスワードとセキュリティ",
+    "fullName": "氏名",
+    "fullName_placeholder": "氏名を入力してください",
+    "phone": "電話番号",
+    "phone_placeholder": "電話番号を入力してください（例：0987654321）",
+    "address": "住所",
+    "address_placeholder": "住所を入力してください（例：123 X通り、Y地区）",
+    "email": "メールアドレス",
+    "role": "会員タイプ",
+    "role_tenant": "テナント (Tenant)",
+    "role_owner": "オーナー (Owner)",
+    "role_admin": "管理者 (Admin)",
+    "btn_update": "プロフィールを更新",
+    "btn_change_password": "パスワードを変更",
+    "oldPassword": "現在のパスワード",
+    "oldPassword_placeholder": "現在のパスワードを入力してください",
+    "newPassword": "新しいパスワード",
+    "newPassword_placeholder": "新しいパスワードを入力してください",
+    "confirmPassword": "新しいパスワード（確認）",
+    "confirmPassword_placeholder": "新しいパスワードをもう一度入力してください",
+    "msg_update_success": "プロフィール情報を更新しました",
+    "msg_update_error": "プロフィールの更新中にエラーが発生しました",
+    "msg_password_success": "パスワードを変更しました",
+    "msg_password_error": "パスワードの変更中にエラーが発生しました",
+    "validation": {
+      "required_fullName": "氏名を入力してください！",
+      "required_phone": "電話番号を入力してください！",
+      "invalid_phone": "無効な電話番号です！",
+      "required_oldPassword": "現在のパスワードを入力してください！",
+      "required_newPassword": "新しいパスワードを入力してください！",
+      "required_confirmPassword": "新しいパスワードを再度入力してください！",
+      "password_mismatch": "確認用パスワードが一致しません！"
+    }
+  }
+}

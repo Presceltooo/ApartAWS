@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 import { LOGIN_ROUTE } from '../../constants';
 import { App } from 'antd';
 import { useRegister } from '../../services';
 import { useRouter } from '@tanstack/react-router';
+import useNotification from '../../../../shared/hooks/useNotification';
+import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
+import registerBg from '@/assets/images/register_bg.png';
 import {
   RegisterMain,
   RegisterImageSection,
@@ -38,17 +42,24 @@ import {
   RegisterTermsLabel,
   RegisterSubmitBtn,
   RegisterFooter,
-  RegisterHelpBtn,
   UserPrimaryLink,
+  UserFixedSupportWrapper,
+  UserSupportBtn,
 } from '../../styled';
 
 // ảnh bên trái panel
-const REGISTER_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7eu7ijF98UJXv68h7fid0Jwy6Pza0T6Z4VvXKdoG93O_FVRxJylEBl-VXcc3rQq6Y1i3nCczL2EG33sj8I8ZktShQ23na0y_J5NrWiy_BZ7Gi5oMPRnJ2iTOMkMDQSV9ZfRGOK6dmtlSBnQ38ldBRYB9seZEsNzGkK8pIPL80tcOUwmAe1xQjrZZGVG7YRE362ck2Z_CNsRo3PrSmd4HE4VdPY8dwPxQjgVIHTX85hR3AJLAnI_5a6x7mXPOXMYUvQJSSEBM87yLO';
+const REGISTER_IMAGE = registerBg;
 
 const Register: React.FC = () => {
+  const { t } = useTranslation('auth');
+  const { showErrorNotify } = useNotification();
   const { notification } = App.useApp();
   const router = useRouter();
   const { mutate: registerMutate, isPending } = useRegister();
+
+  const handleSocialRegister = (provider: string) => {
+    showErrorNotify(t('register.social_under_development', `Tính năng đăng ký qua ${provider} đang được phát triển.`));
+  };
 
   const [form, setForm] = useState({
     fullName: '',
@@ -68,11 +79,11 @@ const Register: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.agreed) {
-      notification.warning({ message: 'Bạn cần đồng ý với Điều khoản dịch vụ!' });
+      notification.warning({ message: t('register.required_terms', 'Bạn cần đồng ý với Điều khoản dịch vụ!') });
       return;
     }
     if (form.password !== form.confirm) {
-      notification.error({ message: 'Mật khẩu xác nhận không khớp!' });
+      notification.error({ message: t('register.password_mismatch', 'Mật khẩu xác nhận không khớp!') });
       return;
     }
     registerMutate(
@@ -87,14 +98,14 @@ const Register: React.FC = () => {
       {
         onSuccess: () => {
           notification.success({
-            message: 'Đăng ký thành công!',
-            description: 'Tài khoản đã được tạo. Vui lòng đăng nhập.',
+            message: t('register.success_msg', 'Đăng ký thành công!'),
+            description: t('register.success_desc', 'Tài khoản đã được tạo. Vui lòng đăng nhập.'),
           });
           router.navigate({ to: LOGIN_ROUTE });
         },
         onError: (err: any) => {
           notification.error({
-            message: 'Đăng ký thất bại',
+            message: t('register.fail_msg', 'Đăng ký thất bại'),
             description: err?.data?.message || err?.message || 'Đã có lỗi xảy ra.',
           });
         },
@@ -113,9 +124,9 @@ const Register: React.FC = () => {
         <RegisterImageContent>
           <RegisterGlassCard>
             <RegisterGlassBrand>Domin Tactic</RegisterGlassBrand>
-            <RegisterGlassTitle>Hành trình đến cuộc sống xuất sắc bắt đầu từ đây.</RegisterGlassTitle>
+            <RegisterGlassTitle>{t('register.heritage_title', 'Hành trình đến cuộc sống xuất sắc bắt đầu từ đây.')}</RegisterGlassTitle>
             <RegisterGlassDesc>
-              Khám phá bộ sưu tập không gian sống được tuyển chọn, tôn vinh lịch sử kiến trúc và hiện đại hóa xa xỉ.
+              {t('register.heritage_desc', 'Khám phá bộ sưu tập không gian sống được tuyển chọn, tôn vinh lịch sử kiến trúc và hiện đại hóa xa xỉ.')}
             </RegisterGlassDesc>
           </RegisterGlassCard>
         </RegisterImageContent>
@@ -129,13 +140,13 @@ const Register: React.FC = () => {
             <span>🏛️</span>
             <RegisterLogoText>Domin Tactic</RegisterLogoText>
           </RegisterLogoRow>
-          <RegisterPageTitle>Tạo tài khoản</RegisterPageTitle>
-          <RegisterPageSubtitle>Gia nhập cộng đồng những người yêu mến kiến trúc.</RegisterPageSubtitle>
+          <RegisterPageTitle>{t('register.title', 'Tạo tài khoản')}</RegisterPageTitle>
+          <RegisterPageSubtitle>{t('register.subtitle', 'Gia nhập cộng đồng những người yêu mến kiến trúc.')}</RegisterPageSubtitle>
         </RegisterHeader>
 
         {/* Social Auth */}
         <RegisterSocialGrid>
-          <RegisterSocialBtn type="button">
+          <RegisterSocialBtn type="button" onClick={() => handleSocialRegister('Google')}>
             <svg width="20" height="20" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
@@ -144,7 +155,7 @@ const Register: React.FC = () => {
             </svg>
             Google
           </RegisterSocialBtn>
-          <RegisterSocialBtn type="button">
+          <RegisterSocialBtn type="button" onClick={() => handleSocialRegister('Apple')}>
             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
               <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C4.7 17.3 3.8 12.4 6.3 8.15c1.24-2.14 3.4-3.4 5.54-3.37 1.63.03 2.65.7 3.63.7.96 0 2.25-.84 4.15-.65 1.94.18 3.38.88 4.3 2.24-3.9 2.34-3.26 7.4.38 8.86-.77 1.94-1.8 3.87-3.45 5.55-.3.3-.65.6-.8.8zM12.03 4.8c-.22-4.07 3.35-4.52 3.6-4.8.35 3.3-3.1 4.72-3.6 4.8z" />
             </svg>
@@ -155,7 +166,7 @@ const Register: React.FC = () => {
         {/* Divider */}
         <RegisterDividerRow>
           <RegisterDividerLine />
-          <RegisterDividerText>HOẶC ĐĂNG KÝ VỚI EMAIL</RegisterDividerText>
+          <RegisterDividerText>{t('register.or_email', 'HOẶC ĐĂNG KÝ VỚI EMAIL')}</RegisterDividerText>
           <RegisterDividerLine />
         </RegisterDividerRow>
 
@@ -163,11 +174,11 @@ const Register: React.FC = () => {
         <RegisterForm onSubmit={handleSubmit}>
           {/* Full Name */}
           <RegisterFieldGroup>
-            <RegisterFieldLabel>Họ và Tên</RegisterFieldLabel>
+            <RegisterFieldLabel>{t('register.full_name', 'Họ và Tên')}</RegisterFieldLabel>
             <RegisterInputWrapper>
               <RegisterTextInput
                 type="text"
-                placeholder="Nguyễn Văn A"
+                placeholder={t('register.full_name_placeholder', 'Nguyễn Văn A')}
                 value={form.fullName}
                 onChange={(e) => handleChange('fullName', e.target.value)}
               />
@@ -177,11 +188,11 @@ const Register: React.FC = () => {
 
           {/* Email */}
           <RegisterFieldGroup>
-            <RegisterFieldLabel>Địa chỉ Email</RegisterFieldLabel>
+            <RegisterFieldLabel>{t('register.email', 'Địa chỉ Email')}</RegisterFieldLabel>
             <RegisterInputWrapper>
               <RegisterTextInput
                 type="email"
-                placeholder="xin-chao@auraheritage.com"
+                placeholder={t('register.email_placeholder', 'xin-chao@auraheritage.com')}
                 value={form.email}
                 onChange={(e) => handleChange('email', e.target.value)}
               />
@@ -190,26 +201,27 @@ const Register: React.FC = () => {
           </RegisterFieldGroup>
           {/* Role Selection */}
           <RegisterFieldGroup>
-            <RegisterFieldLabel>Bạn đăng ký với tư cách</RegisterFieldLabel>
+            <RegisterFieldLabel>{t('register.role_label', 'Bạn đăng ký với tư cách')}</RegisterFieldLabel>
             <RegisterInputWrapper>
               <select
                 value={form.role}
                 onChange={(e) => handleChange('role', e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '12px 16px 12px 40px',
-                  borderRadius: '12px',
-                  border: '1.5px solid #eee',
-                  fontSize: '0.95rem',
+                  padding: '1.2rem 1.6rem 1.2rem 3.5rem',
+                  borderRadius: '0.6rem',
+                  border: '1px solid rgba(224, 192, 182, 0.2)',
+                  fontSize: '1.5rem',
                   outline: 'none',
                   appearance: 'none',
-                  backgroundColor: '#fff',
+                  backgroundColor: '#FAEEDA',
+                  color: '#4A1B0C',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                 }}
               >
-                <option value="TENANT">Khách thuê (Tenant)</option>
-                <option value="OWNER">Chủ căn hộ (Owner)</option>
+                <option value="TENANT">{t('register.role_tenant', 'Khách thuê (Tenant)')}</option>
+                <option value="OWNER">{t('register.role_owner', 'Chủ căn hộ (Owner)')}</option>
               </select>
               <RegisterInputIcon>🎭</RegisterInputIcon>
             </RegisterInputWrapper>
@@ -218,19 +230,19 @@ const Register: React.FC = () => {
           {/* Password */}
           <RegisterPasswordRow>
             <RegisterFieldGroup>
-              <RegisterFieldLabel>Mật khẩu</RegisterFieldLabel>
+              <RegisterFieldLabel>{t('register.password', 'Mật khẩu')}</RegisterFieldLabel>
               <RegisterTextInput
                 type="password"
-                placeholder="••••••••"
+                placeholder={t('register.password_placeholder', '••••••••')}
                 value={form.password}
                 onChange={(e) => handleChange('password', e.target.value)}
               />
             </RegisterFieldGroup>
             <RegisterFieldGroup>
-              <RegisterFieldLabel>Xác nhận</RegisterFieldLabel>
+              <RegisterFieldLabel>{t('register.confirm_password', 'Xác nhận')}</RegisterFieldLabel>
               <RegisterTextInput
                 type="password"
-                placeholder="••••••••"
+                placeholder={t('register.confirm_password_placeholder', '••••••••')}
                 value={form.confirm}
                 onChange={(e) => handleChange('confirm', e.target.value)}
               />
@@ -245,33 +257,36 @@ const Register: React.FC = () => {
               onChange={(e) => handleChange('agreed', e.target.checked)}
             />
             <RegisterTermsLabel>
-              Tôi đồng ý với{' '}
-              <a href="#">Điều khoản dịch vụ</a>
-              {' '}và{' '}
-              <a href="#">Chính sách bảo mật</a>
-              {' '}của Domin Tactic.
+              {t('register.terms_agree_1', 'Tôi đồng ý với ')}
+              <a href="#">{t('register.terms_link', 'Điều khoản dịch vụ')}</a>
+              {t('register.terms_agree_2', ' và ')}
+              <a href="#">{t('register.privacy_link', 'Chính sách bảo mật')}</a>
+              {t('register.terms_agree_3', ' của Domin Tactic.')}
             </RegisterTermsLabel>
           </RegisterTermsRow>
 
           {/* Submit */}
           <RegisterSubmitBtn type="submit" disabled={isPending}>
-            {isPending ? 'Đang xử lý…' : <span>Tạo tài khoản <span>→</span></span>}
+            {isPending ? t('register.signing_up', 'Đang xử lý…') : <span>{t('register.title', 'Tạo tài khoản')} <span>→</span></span>}
           </RegisterSubmitBtn>
         </RegisterForm>
 
         {/* Footer */}
         <RegisterFooter>
           <p>
-            Đã là thành viên?{' '}
+            {t('register.already_account', 'Đã là thành viên?')}{' '}
             <Link to={LOGIN_ROUTE}>
-              <UserPrimaryLink as="span">Đăng nhập</UserPrimaryLink>
+              <UserPrimaryLink as="span">{t('register.login_now', 'Đăng nhập')}</UserPrimaryLink>
             </Link>
           </p>
         </RegisterFooter>
       </RegisterFormSection>
 
-      {/* Floating help button */}
-      <RegisterHelpBtn type="button" title="Hỗ trợ">❓</RegisterHelpBtn>
+      {/* Support and Language Switcher */}
+      <UserFixedSupportWrapper>
+        <LanguageSwitcher />
+        <UserSupportBtn type="button">{t('login.support', '❓ HỖ TRỢ')}</UserSupportBtn>
+      </UserFixedSupportWrapper>
     </RegisterMain>
   );
 };

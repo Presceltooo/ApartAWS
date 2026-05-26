@@ -1,0 +1,199 @@
+{
+  "home": {
+    "hero_title": "Khám phá không gian sống sang trọng, ",
+    "hero_title_highlight": "đẳng cấp.",
+    "search": {
+      "location": "Địa điểm",
+      "location_placeholder": "Bạn muốn đi đâu?",
+      "check_in": "Ngày nhận phòng",
+      "check_in_placeholder": "Thêm ngày",
+      "check_out": "Ngày trả phòng",
+      "check_out_placeholder": "Thêm ngày",
+      "btn": "Tìm kiếm"
+    },
+    "featured": {
+      "title": "Căn hộ nổi bật",
+      "subtitle": "Những căn hộ cao cấp được tuyển chọn kỹ lưỡng với tiện nghi vượt trội và kiến trúc độc đáo.",
+      "view_more": "Xem thêm căn hộ"
+    },
+    "promo": {
+      "rewards_title": "Phần thưởng độc quyền cho kỳ lưu trú dài ngày.",
+      "rewards_desc": "Đặt phòng trên 30 ngày để nhận quyền truy cập vào Domin Concierge và các tiện ích phòng chờ cao cấp.",
+      "learn_more": "Tìm hiểu thêm",
+      "verified_title": "Xác thực Domin",
+      "verified_desc": "Mọi căn hộ đều được đội ngũ kiến trúc của chúng tôi kiểm tra trực tiếp về tiêu chuẩn chất lượng và thiết kế.",
+      "trust_label": "100% Tin cậy."
+    }
+  },
+  "list": {
+    "title": "Danh sách căn hộ",
+    "subtitle": "Khám phá bộ sưu tập các căn hộ cao cấp của chúng tôi.",
+    "filters": {
+      "keyword": "Từ khóa...",
+      "location": "Địa điểm...",
+      "min_price": "Giá tối thiểu",
+      "max_price": "Giá tối đa",
+      "search_btn": "Tìm kiếm"
+    },
+    "results": {
+      "showing": "Hiển thị {{count}} trên tổng số {{total}} căn hộ",
+      "empty": "Không tìm thấy căn hộ nào",
+      "error": "Không thể tải dữ liệu. Vui lòng thử lại.",
+      "no_match": "Không có căn hộ nào phù hợp với tìm kiếm của bạn."
+    }
+  },
+  "details": {
+    "load_error": "Không thể tải thông tin căn hộ.",
+    "view_list": "Xem danh sách căn hộ",
+    "back_to_list": "Quay lại danh sách",
+    "verified": "Xác thực Domin",
+    "price_per_night": "Giá mỗi đêm",
+    "status": "Trạng thái",
+    "available": "Còn phòng",
+    "unavailable": "Hết phòng",
+    "category": "Hạng mục",
+    "apartment": "Căn hộ",
+    "architecture_space": "Kiến trúc & Không gian",
+    "featured_amenities": "Tiện ích nổi bật",
+    "location": "Vị trí",
+    "location_disclaimer": "Địa chỉ chính xác sẽ được cung cấp sau khi đặt phòng.",
+    "book_widget": {
+      "title": "Đặt phòng",
+      "price_per_night": "Giá mỗi đêm",
+      "cleaning_fee": "Phí vệ sinh",
+      "service_fee": "Phí dịch vụ",
+      "total_from": "Tổng cộng từ",
+      "secure_booking": "Đặt phòng an toàn",
+      "secure_booking_desc": "Không thu phí cho đến khi được xác nhận.",
+      "proceed_btn": "Tiến hành đặt phòng",
+      "unavailable_btn": "Hiện không khả dụng"
+    }
+  },
+  "status_tags": {
+    "rare": "Lựa chọn hiếm",
+    "popular": "Phổ biến",
+    "available": "Còn phòng",
+    "verified": "Đã xác thực",
+    "new": "Mới"
+  },
+  "bookings": {
+    "title": "Đặt phòng của tôi",
+    "subtitle": "Quản lý các chuyến đi sắp tới và xem lại lịch sử đặt phòng của bạn.",
+    "login_required": "Vui lòng đăng nhập để xem thông tin đặt phòng của bạn.",
+    "login_required_title": "Yêu cầu đăng nhập",
+    "login_required_desc": "Vui lòng đăng nhập để quản lý và xem lại lịch sử đặt phòng của bạn.",
+    "login_btn": "Đăng nhập ngay",
+    "tabs": {
+      "upcoming": "Sắp tới",
+      "completed": "Đã hoàn thành",
+      "cancelled": "Đã hủy"
+    },
+    "card": {
+      "check_in": "Ngày nhận phòng",
+      "check_out": "Ngày trả phòng",
+      "guests": "Khách",
+      "guests_count": "{{count}} Khách",
+      "total_price": "Tổng giá",
+      "view_details": "Xem chi tiết",
+      "contact_concierge": "Liên hệ quản gia",
+      "book_again": "Đặt lại phòng"
+    },
+    "status": {
+      "pending": "Chờ xác nhận",
+      "confirmed": "Đã xác nhận",
+      "completed": "Đã hoàn thành",
+      "cancelled": "Đã hủy"
+    },
+    "empty": {
+      "title": "Trống",
+      "desc": "Bạn hiện không có đặt phòng nào ở mục này. Hãy khám phá các căn hộ tuyệt vời của chúng tôi.",
+      "explore_btn": "Khám phá ngay",
+      "load_error_title": "Không thể tải dữ liệu đặt phòng",
+      "load_error_desc": "Vui lòng kiểm tra kết nối và thử lại."
+    }
+  },
+  "booking_detail": {
+    "back_to_list": "Quay lại danh sách",
+    "title": "Chi tiết đặt phòng",
+    "status_card_title": "Trạng thái đơn đặt phòng",
+    "payment_card_title": "Trạng thái thanh toán",
+    "payment_date": "Thanh toán lúc: {{date}}",
+    "apartment_info": "Thông tin căn hộ",
+    "apartment_name": "Tên căn hộ",
+    "address": "Địa chỉ",
+    "price_per_night": "Giá/đêm",
+    "booking_info": "Thông tin đặt chỗ",
+    "check_in": "Check-in",
+    "check_out": "Check-out",
+    "duration": "Thời gian",
+    "duration_nights": "{{count}} đêm",
+    "total_price": "Tổng cộng",
+    "btn_all_bookings": "Tất cả đặt phòng",
+    "btn_pay_vnpay": "Thanh toán qua VNPay",
+    "btn_cancel_booking": "Huỷ đặt phòng",
+    "btn_view_apartment": "Xem căn hộ",
+    "cancel_confirm": {
+      "title": "Huỷ đơn đặt phòng?",
+      "desc": "Hành động này không thể hoàn tác.",
+      "ok": "Xác nhận huỷ",
+      "cancel": "Giữ lại"
+    },
+    "notifications": {
+      "cancel_success": "Đã huỷ đặt phòng",
+      "cancel_success_desc": "Đơn đặt phòng của bạn đã được huỷ thành công.",
+      "pay_error": "Không thể tạo link thanh toán. Vui lòng thử lại.",
+      "pay_conn_error": "Lỗi kết nối. Vui lòng thử lại sau."
+    },
+    "load_error": "Không thể tải thông tin đặt phòng. Quay lại",
+    "status": {
+      "pending": "Đang chờ xác nhận",
+      "confirmed": "Đã xác nhận",
+      "completed": "Hoàn thành",
+      "cancelled": "Đã huỷ"
+    },
+    "payment_status": {
+      "unpaid": "Chưa thanh toán",
+      "paid": "Đã thanh toán",
+      "failed": "Thanh toán thất bại",
+      "refunded": "Đã hoàn tiền"
+    }
+  },
+  "profile": {
+    "title": "Thông tin cá nhân",
+    "subtitle": "Quản lý và cập nhật thông tin tài khoản Domin Tactic của bạn.",
+    "section_personal": "Thông tin cá nhân",
+    "section_security": "Mật khẩu & Bảo mật",
+    "fullName": "Họ và tên",
+    "fullName_placeholder": "Nhập họ và tên của bạn",
+    "phone": "Số điện thoại",
+    "phone_placeholder": "Nhập số điện thoại (ví dụ: 0987654321)",
+    "address": "Địa chỉ",
+    "address_placeholder": "Nhập địa chỉ của bạn (ví dụ: 123 Đường X, Quận Y)",
+    "email": "Địa chỉ Email",
+    "role": "Tư cách thành viên",
+    "role_tenant": "Khách thuê (Tenant)",
+    "role_owner": "Chủ căn hộ (Owner)",
+    "role_admin": "Quản trị viên (Admin)",
+    "btn_update": "Cập nhật hồ sơ",
+    "btn_change_password": "Đổi mật khẩu",
+    "oldPassword": "Mật khẩu hiện tại",
+    "oldPassword_placeholder": "Nhập mật khẩu hiện tại",
+    "newPassword": "Mật khẩu mới",
+    "newPassword_placeholder": "Nhập mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu mới",
+    "confirmPassword_placeholder": "Xác nhận mật khẩu mới",
+    "msg_update_success": "Cập nhật thông tin thành công",
+    "msg_update_error": "Có lỗi xảy ra khi cập nhật thông tin",
+    "msg_password_success": "Đổi mật khẩu thành công",
+    "msg_password_error": "Có lỗi xảy ra khi đổi mật khẩu",
+    "validation": {
+      "required_fullName": "Vui lòng nhập họ và tên!",
+      "required_phone": "Vui lòng nhập số điện thoại!",
+      "invalid_phone": "Số điện thoại không hợp lệ!",
+      "required_oldPassword": "Vui lòng nhập mật khẩu hiện tại!",
+      "required_newPassword": "Vui lòng nhập mật khẩu mới!",
+      "required_confirmPassword": "Vui lòng xác nhận mật khẩu mới!",
+      "password_mismatch": "Mật khẩu xác nhận không khớp!"
+    }
+  }
+}

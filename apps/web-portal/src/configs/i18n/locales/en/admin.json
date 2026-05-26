@@ -1,0 +1,16 @@
+{
+  "sidebar": {
+    "dashboard": "System Overview",
+    "users": "User Management",
+    "all_apartments": "Manage All Apartments",
+    "all_bookings": "Manage All Bookings",
+    "my_apartments": "My Apartments",
+    "add_apartment": "Add New Apartment",
+    "my_bookings": "Manage Bookings"
+  },
+  "header": {
+    "title": "ApartAWS Owner Portal",
+    "view_site": "View Public Site",
+    "logout": "Logout"
+  }
+}

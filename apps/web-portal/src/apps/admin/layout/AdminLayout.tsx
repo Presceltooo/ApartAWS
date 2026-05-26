@@ -2,13 +2,18 @@ import React, { useEffect } from 'react';
 import { Outlet, Link, useRouterState, useNavigate } from '@tanstack/react-router';
 import { Layout, Menu, Button } from 'antd';
 import {
-  AppstoreOutlined,
-  CalendarOutlined,
   PlusCircleOutlined,
   LogoutOutlined,
-  HomeOutlined
+  HomeOutlined,
+  DashboardOutlined,
+  TeamOutlined,
+  BuildOutlined,
+  CalendarOutlined,
+  ScheduleOutlined
 } from '@ant-design/icons';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
 import { useLogout } from '@apps/auth/services/mutation';
 import { useGetMe } from '@apps/auth/services/query';
 import tokenManager from '@shared/utils/tokenManager';
@@ -17,33 +22,94 @@ const { Header, Sider, Content } = Layout;
 
 const StyledLayout = styled(Layout)`
   min-height: 100vh;
+  background-color: #f6f3ee;
 `;
 
 const StyledHeader = styled(Header)`
-  background: #fff;
-  padding: 0 24px;
+  background: linear-gradient(135deg, #fcf9f4 0%, #f6f3ee 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(224, 192, 182, 0.15);
+  box-shadow: 0 4px 20px rgba(88, 66, 59, 0.04);
+  padding: 0 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  height: 6.4rem;
+  line-height: 6.4rem;
   z-index: 10;
 `;
 
 const HeaderTitle = styled.div`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #a5360d;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  letter-spacing: -0.02em;
+
+  .anticon {
+    font-size: 1.75rem;
+    color: #D85A30;
+  }
 `;
 
 const StyledSider = styled(Sider)`
-  background: #fff;
-  border-right: 1px solid #f0f0f0;
+  background: rgba(252, 249, 244, 0.85) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: none;
+  box-shadow: 4px 0 20px rgba(88, 66, 59, 0.03);
+  
+  .ant-layout-sider-children {
+    background: transparent !important;
+  }
+
+  .ant-menu {
+    background: transparent !important;
+    border-right: none !important;
+  }
+
+  .ant-menu-item {
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+    border-radius: 8px;
+    width: calc(100% - 16px) !important;
+    margin-left: 8px !important;
+    font-size: 15px;
+    height: 48px !important;
+    line-height: 48px !important;
+    display: flex;
+    align-items: center;
+    transition: all 0.25s ease;
+
+    &:hover {
+      background-color: rgba(216, 90, 48, 0.04) !important;
+    }
+  }
+
+  .ant-menu-item-selected {
+    background-color: rgba(165, 54, 13, 0.08) !important;
+    color: #a5360d !important;
+    font-weight: 600;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      height: 60%;
+      width: 4px;
+      background-color: #a5360d;
+      border-radius: 0 4px 4px 0;
+    }
+  }
 `;
 
 const AdminLayout: React.FC = () => {
+  const { t } = useTranslation('admin');
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
   const navigate = useNavigate();
@@ -51,18 +117,18 @@ const AdminLayout: React.FC = () => {
   const menuItems: any[] = [
     {
       key: '/quan-ly/danh-sach-can-ho',
-      icon: <AppstoreOutlined />,
-      label: <Link to="/quan-ly/danh-sach-can-ho">Danh sách căn hộ</Link>,
+      icon: <HomeOutlined />,
+      label: <Link to="/quan-ly/danh-sach-can-ho">{t('sidebar.my_apartments', 'Danh sách căn hộ')}</Link>,
     },
     {
       key: '/quan-ly/bieu-mau-can-ho/tao-moi',
       icon: <PlusCircleOutlined />,
-      label: <Link to="/quan-ly/bieu-mau-can-ho/tao-moi">Thêm căn hộ mới</Link>,
+      label: <Link to="/quan-ly/bieu-mau-can-ho/tao-moi">{t('sidebar.add_apartment', 'Thêm căn hộ mới')}</Link>,
     },
     {
       key: '/quan-ly/quan-ly-dat-phong',
       icon: <CalendarOutlined />,
-      label: <Link to="/quan-ly/quan-ly-dat-phong">Quản lý đặt phòng</Link>,
+      label: <Link to="/quan-ly/quan-ly-dat-phong">{t('sidebar.my_bookings', 'Quản lý đặt phòng')}</Link>,
     },
   ];
 
@@ -72,23 +138,23 @@ const AdminLayout: React.FC = () => {
     menuItems.unshift(
       {
         key: '/quan-ly/tong-quan-he-thong',
-        icon: <AppstoreOutlined />,
-        label: <Link to="/quan-ly/tong-quan-he-thong">Tổng quan hệ thống</Link>,
+        icon: <DashboardOutlined />,
+        label: <Link to="/quan-ly/tong-quan-he-thong">{t('sidebar.dashboard', 'Tổng quan hệ thống')}</Link>,
       },
       {
         key: '/quan-ly/quan-ly-nguoi-dung',
-        icon: <AppstoreOutlined />,
-        label: <Link to="/quan-ly/quan-ly-nguoi-dung">Quản lý người dùng</Link>,
+        icon: <TeamOutlined />,
+        label: <Link to="/quan-ly/quan-ly-nguoi-dung">{t('sidebar.users', 'Quản lý người dùng')}</Link>,
       },
       {
         key: '/quan-ly/quan-ly-tat-ca-can-ho',
-        icon: <AppstoreOutlined />,
-        label: <Link to="/quan-ly/quan-ly-tat-ca-can-ho">Quản lý tất cả căn hộ</Link>,
+        icon: <BuildOutlined />,
+        label: <Link to="/quan-ly/quan-ly-tat-ca-can-ho">{t('sidebar.all_apartments', 'Quản lý tất cả căn hộ')}</Link>,
       },
       {
         key: '/quan-ly/quan-ly-tat-ca-dat-phong',
-        icon: <CalendarOutlined />,
-        label: <Link to="/quan-ly/quan-ly-tat-ca-dat-phong">Quản lý tất cả đặt phòng</Link>,
+        icon: <ScheduleOutlined />,
+        label: <Link to="/quan-ly/quan-ly-tat-ca-dat-phong">{t('sidebar.all_bookings', 'Quản lý tất cả đặt phòng')}</Link>,
       }
     );
   }
@@ -130,19 +196,20 @@ const AdminLayout: React.FC = () => {
       <StyledHeader>
         <HeaderTitle>
           <HomeOutlined />
-          ApartAWS Owner Portal
+          {t('header.title', 'ApartAWS Owner Portal')}
         </HeaderTitle>
-        <div style={{ display: 'flex', gap: '16px' }}>
-          <Button type="text" onClick={() => navigate({ to: '/' })}>
-            View Public Site
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <LanguageSwitcher />
+          <Button type="text" onClick={() => navigate({ to: '/' })} style={{ fontSize: '15px' }}>
+            {t('header.view_site', 'View Public Site')}
           </Button>
-          <Button icon={<LogoutOutlined />} onClick={handleLogout}>
-            Logout
+          <Button icon={<LogoutOutlined />} onClick={handleLogout} style={{ fontSize: '15px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            {t('header.logout', 'Logout')}
           </Button>
         </div>
       </StyledHeader>
       <Layout>
-        <StyledSider width={250}>
+        <StyledSider width={260}>
           <Menu
             mode="inline"
             selectedKeys={[getActiveKey()]}
@@ -150,8 +217,8 @@ const AdminLayout: React.FC = () => {
             items={menuItems}
           />
         </StyledSider>
-        <Layout style={{ padding: '24px' }}>
-          <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280, borderRadius: 8 }}>
+        <Layout style={{ padding: '32px', backgroundColor: '#f6f3ee' }}>
+          <Content style={{ background: '#fcf9f4', padding: '32px 40px', margin: 0, minHeight: 280, borderRadius: '16px', boxShadow: '0 4px 20px rgba(88, 66, 59, 0.04)' }}>
             <Outlet />
           </Content>
         </Layout>

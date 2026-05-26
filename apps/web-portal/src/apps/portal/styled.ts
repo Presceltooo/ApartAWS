@@ -54,15 +54,15 @@ export const PortalHeaderInner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
-  height: 5rem;
+  padding: 0 4rem;
+  height: 7.2rem;
   width: 100%;
-  max-width: 1536px;
+  max-width: 1920px;
   margin: 0 auto;
 `;
 
 export const PortalBrandLogo = styled.span`
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   font-weight: 700;
   letter-spacing: -0.05em;
   color: ${theme.colors.primary};
@@ -71,7 +71,7 @@ export const PortalBrandLogo = styled.span`
 
 export const PortalNavLinks = styled.nav`
   display: none;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: center;
 
   @media (min-width: 768px) {
@@ -84,7 +84,7 @@ export const PortalNavLink = styled.a<{ $active?: boolean }>`
   border-bottom: ${props => props.$active ? `2px solid ${theme.colors.primary}` : 'none'};
   padding-bottom: ${props => props.$active ? '4px' : '0'};
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.6rem;
   text-decoration: none;
   transition: opacity 0.3s;
   cursor: pointer;
@@ -98,7 +98,7 @@ export const PortalNavLink = styled.a<{ $active?: boolean }>`
 export const PortalHeaderActions = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 `;
 
 export const PortalIconButton = styled.button`
@@ -108,7 +108,7 @@ export const PortalIconButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
+  padding: 0.6rem;
   border-radius: 9999px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -117,8 +117,8 @@ export const PortalIconButton = styled.button`
     background-color: ${theme.colors.surfaceContainerHighest};
   }
 
-  .material-symbols-outlined {
-    font-size: 1.5rem;
+  .material-symbols-outlined, .anticon {
+    font-size: 1.8rem;
   }
 `;
 
@@ -130,6 +130,7 @@ export const PortalProfileBtn = styled.button`
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
+  font-size: 1.6rem;
   cursor: pointer;
   transition: opacity 0.3s;
   
@@ -147,9 +148,10 @@ export const PortalAuthBtn = styled.button`
   background: transparent;
   border: 1px solid ${theme.colors.primary};
   color: ${theme.colors.primary};
-  padding: 0.5rem 1.25rem;
+  padding: 0.6rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.2s;
 
@@ -163,9 +165,10 @@ export const PortalRegisterBtn = styled.button`
   background: ${theme.colors.primary};
   border: 1px solid ${theme.colors.primary};
   color: white;
-  padding: 0.5rem 1.25rem;
+  padding: 0.6rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 4px 12px rgba(216, 90, 48, 0.2);
@@ -185,14 +188,14 @@ export const PortalRegisterBtn = styled.button`
 
 export const PortalMainContent = styled.main`
   flex-grow: 1;
-  padding-top: 5rem;
+  padding-top: 7.2rem;
   width: 100%;
 `;
 
 export const PortalFooterWrapper = styled.footer`
   background-color: ${theme.colors.surfaceContainerLow};
   width: 100%;
-  padding: 4rem 3rem;
+  padding: 5rem 4rem;
   margin-top: auto;
 `;
 
@@ -201,7 +204,7 @@ export const PortalFooterInner = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  max-width: 80rem;
+  max-width: 140rem;
   margin: 0 auto;
   gap: 2rem;
 
@@ -211,17 +214,17 @@ export const PortalFooterInner = styled.div`
 `;
 
 export const PortalFooterBrand = styled.div`
-  font-size: 1.125rem;
+  font-size: 1.8rem;
   font-weight: 600;
   color: ${theme.colors.primary};
 `;
 
 export const PortalFooterNav = styled.nav`
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
 
   a {
-    font-size: 0.875rem;
+    font-size: 1.5rem;
     color: ${theme.colors.onSurfaceVariant};
     text-decoration: none;
     transition: color 0.2s;
@@ -233,7 +236,7 @@ export const PortalFooterNav = styled.nav`
 `;
 
 export const PortalFooterCopyright = styled.div`
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   color: ${theme.colors.outline};
 `;
 

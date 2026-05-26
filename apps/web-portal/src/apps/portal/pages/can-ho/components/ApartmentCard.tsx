@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tag } from 'antd';
+import { useTranslation } from 'react-i18next';
 import {
   EnvironmentOutlined,
   HeartOutlined,
@@ -29,8 +30,19 @@ interface ApartmentCardProps {
 }
 
 const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onView }) => {
+  const { t, i18n } = useTranslation('portal');
   const imageUrl = apartment.images?.[0] ?? image404;
-  const priceLabel = `$${apartment.pricePerNight.toLocaleString()} / night`;
+
+  const getPriceLabel = () => {
+    const formattedPrice = apartment.pricePerNight.toLocaleString(i18n.language === 'vi' ? 'vi-VN' : 'en-US');
+    if (i18n.language === 'vi') {
+      return `${formattedPrice} ₫/đêm`;
+    } else if (i18n.language === 'ja') {
+      return `${formattedPrice} ₫/泊`;
+    } else {
+      return `${formattedPrice} ₫/night`;
+    }
+  };
 
   return (
     <Card onClick={() => onView(apartment.id)}>
@@ -51,7 +63,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onView }) => {
         <WishlistBtn onClick={(e) => e.stopPropagation()}>
           <HeartOutlined />
         </WishlistBtn>
-        <PriceBadge>{priceLabel}</PriceBadge>
+        <PriceBadge>{getPriceLabel()}</PriceBadge>
       </CardImgWrapper>
 
       <CardBody>
@@ -64,12 +76,12 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onView }) => {
         {apartment.amenities?.length > 0 && (
           <AmenitiesRow>
             {apartment.amenities.slice(0, 3).map((am) => (
-              <Tag key={am} color="default" style={{ fontSize: '0.7rem', margin: 0 }}>
+              <Tag key={am} color="default" style={{ fontSize: '1.2rem', margin: 0 }}>
                 {am}
               </Tag>
             ))}
             {apartment.amenities.length > 3 && (
-              <Tag style={{ fontSize: '0.7rem', margin: 0 }}>
+              <Tag style={{ fontSize: '1.2rem', margin: 0 }}>
                 +{apartment.amenities.length - 3}
               </Tag>
             )}
@@ -88,7 +100,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onView }) => {
               onView(apartment.id);
             }}
           >
-            View Details
+            {t('details.view_details', 'Xem chi tiết')}
           </ViewBtn>
         </CardFooter>
       </CardBody>

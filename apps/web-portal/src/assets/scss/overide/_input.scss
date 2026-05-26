@@ -10,8 +10,8 @@ input.ant-input,
 .ant-input,
 .ant-input-number-input {
   font-size: 1.4rem;
-  line-height: 2.8rem;
-  height: 4rem;
+  line-height: 4.5rem;
+  height: 4.5rem !important;
 }
 
 .ant-form-item-label
@@ -30,11 +30,19 @@ input.ant-input,
 }
 
 .ant-input-affix-wrapper {
-  height: 4rem;
+  height: 4.5rem !important;
+  display: inline-flex;
+  align-items: center;
 
   .ant-input {
-    height: auto;
+    height: auto !important;
   }
+}
+
+.ant-input-number {
+  height: 4.5rem !important;
+  display: inline-flex;
+  align-items: center;
 }
 
 .ant-input-number-handler-wrap {

@@ -1,5 +1,8 @@
 .ant-picker {
-  height: 4rem;
+  height: 4.5rem !important;
+  display: inline-flex;
+  align-items: center;
+
   .ant-picker-input > input {
     font-size: 1.4rem;
   }

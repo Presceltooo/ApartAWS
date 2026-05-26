@@ -3,6 +3,10 @@ import { portalTheme } from '../../../styled';
 
 export const DetailSection = styled.section`
   margin-bottom: 3rem;
+  max-width: 140rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 4rem;
 `;
 
 export const TopBarWrapper = styled.div`
@@ -16,7 +20,7 @@ export const BackLink = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   color: ${portalTheme.colors.onSurfaceVariant};
@@ -43,7 +47,7 @@ export const StatusBadge = styled.div`
   background-color: ${portalTheme.colors.secondaryContainer};
   color: ${portalTheme.colors.onSecondaryContainer};
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 1.3rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -54,7 +58,7 @@ export const StatusBadge = styled.div`
 `;
 
 export const PropertyTitle = styled.h1`
-  font-size: 2.25rem;
+  font-size: 3rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: ${portalTheme.colors.onSurface};
@@ -62,11 +66,11 @@ export const PropertyTitle = styled.h1`
   line-height: 1.2;
 
   @media (min-width: 768px) {
-    font-size: 3rem;
+    font-size: 4rem;
   }
 
   @media (min-width: 1024px) {
-    font-size: 3.5rem;
+    font-size: 4.5rem;
   }
 `;
 
@@ -106,7 +110,7 @@ export const LocationFloatBadge = styled.div`
   }
 
   span:not(.material-symbols-outlined) {
-    font-size: 0.875rem;
+    font-size: 1.4rem;
     font-weight: 500;
     color: ${portalTheme.colors.onSurface};
   }
@@ -160,7 +164,7 @@ export const BentoBoxGroupFlex = styled(BentoBox)`
 `;
 
 export const BentoLabel = styled.div`
-  font-size: 0.75rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: ${portalTheme.colors.onSurfaceVariant};
   text-transform: uppercase;
@@ -169,20 +173,20 @@ export const BentoLabel = styled.div`
 `;
 
 export const BentoValue = styled.div`
-  font-size: 1.25rem;
+  font-size: 1.8rem;
   font-weight: 600;
   color: ${portalTheme.colors.onSurface};
   margin-bottom: 0.25rem;
 `;
 
 export const BentoSubValue = styled.div`
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   color: ${portalTheme.colors.onSurfaceVariant};
   opacity: 0.8;
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 2.2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: ${portalTheme.colors.onSurface};
@@ -190,7 +194,7 @@ export const SectionTitle = styled.h2`
 `;
 
 export const SectionText = styled.p`
-  font-size: 1.125rem;
+  font-size: 1.6rem;
   color: ${portalTheme.colors.onSurfaceVariant};
   line-height: 1.6;
   margin-bottom: 1.5rem;
@@ -203,8 +207,8 @@ export const AmenitiesChipsRow = styled.div`
 `;
 
 export const AmenityChip = styled.span<{ $highlight?: boolean }>`
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  padding: 0.6rem 1.25rem;
+  font-size: 1.5rem;
   font-weight: 500;
   border-radius: 0.25rem;
   display: flex;
@@ -279,7 +283,7 @@ export const StickyWidgetContainer = styled.aside`
 `;
 
 export const WidgetTitle = styled.h3`
-  font-size: 1.25rem;
+  font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: ${portalTheme.colors.onSurface};
@@ -291,6 +295,7 @@ export const SummaryRow = styled.div<{ $isTotal?: boolean }>`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  font-size: 1.5rem;
   color: ${props => props.$isTotal ? portalTheme.colors.onSurface : portalTheme.colors.onSurfaceVariant};
   font-weight: ${props => props.$isTotal ? '700' : '500'};
   
@@ -302,7 +307,7 @@ export const SummaryRow = styled.div<{ $isTotal?: boolean }>`
 
   .price {
     color: ${props => props.$isTotal ? portalTheme.colors.primary : 'inherit'};
-    font-size: ${props => props.$isTotal ? '1.25rem' : 'inherit'};
+    font-size: ${props => props.$isTotal ? '1.8rem' : 'inherit'};
   }
 `;
 
@@ -337,9 +342,10 @@ export const WidgetPrimaryBtn = styled.button`
   width: 100%;
   background: linear-gradient(135deg, ${portalTheme.colors.primary}, ${portalTheme.colors.primaryContainer});
   color: ${portalTheme.colors.onPrimary};
-  padding: 1rem;
+  padding: 1.2rem;
   border-radius: 0.25rem;
   font-weight: 600;
+  font-size: 1.5rem;
   letter-spacing: 0.05em;
   display: flex;
   flex-direction: row;

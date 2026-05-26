@@ -8,7 +8,7 @@
              
             Breakpoint argument choices:
             - phone 
-            - tab-port
+            - tab-port`
             - tab-land
             - big-desktop
             */
@@ -16,7 +16,7 @@
 /* Desktop > 1920px(original design) */
 
 html {
-  font-size: 75%; /* 1rem = 10px, 10/16 = 62.5% */
+  font-size: 62.5%; /* 1rem = 10px, 10/16 = 62.5% */
 }
 
 /* 1600px */
@@ -47,3 +47,4 @@ html {
     overflow-x: scroll;
   }
 }
+

@@ -46,9 +46,9 @@ const antdDefaultConfig: ConfigProviderProps = {
   ),
   theme: {
     token: {
-      fontSize: 14,
-      fontSizeLG: 16,
-      fontFamily: "Roboto, sans-serif",
+      fontSize: 16,
+      fontSizeLG: 18,
+      fontFamily: '"Inter", sans-serif',
 
       // Theme colors
       colorPrimary: colors.primary,
@@ -82,15 +82,18 @@ const antdDefaultConfig: ConfigProviderProps = {
         primaryShadow: "0 2px 0 rgba(216, 90, 48, 0.1)",
       },
       Table: {
-        headerBg: colors.sidebarActive, // Dùng Amber Lt cho header table
-        headerColor: colors.textPrimary,
+        headerBg: '#f6f3ee',
+        headerColor: '#58423b',
         headerBorderRadius: 8,
         borderColor: colors.borderSubtle,
-        rowHoverBg: colors.pageBg,
+        rowHoverBg: '#fff1ed',
+        fontSize: 15,
       },
       Menu: {
-        itemSelectedBg: colors.sidebarActive,
-        itemSelectedColor: colors.primary,
+        itemBg: 'transparent',
+        itemSelectedBg: 'rgba(165, 54, 13, 0.08)',
+        itemSelectedColor: '#a5360d',
+        itemHoverBg: '#f6f3ee',
       },
       Tabs: {
         itemSelectedColor: colors.primary,

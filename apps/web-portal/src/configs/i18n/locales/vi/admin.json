@@ -1,0 +1,16 @@
+{
+  "sidebar": {
+    "dashboard": "Tổng quan hệ thống",
+    "users": "Quản lý người dùng",
+    "all_apartments": "Quản lý tất cả căn hộ",
+    "all_bookings": "Quản lý tất cả đặt phòng",
+    "my_apartments": "Danh sách căn hộ",
+    "add_apartment": "Thêm căn hộ mới",
+    "my_bookings": "Quản lý đặt phòng"
+  },
+  "header": {
+    "title": "ApartAWS Owner Portal",
+    "view_site": "Xem trang chủ",
+    "logout": "Đăng xuất"
+  }
+}

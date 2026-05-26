@@ -1,0 +1,200 @@
+{
+  "home": {
+    "hero_title": "Discover luxury spaces, ",
+    "hero_title_highlight": "living in style.",
+    "search": {
+      "location": "Location",
+      "location_placeholder": "Where do you want to go?",
+      "check_in": "Check-in",
+      "check_in_placeholder": "Add dates",
+      "check_out": "Check-out",
+      "check_out_placeholder": "Add dates",
+      "btn": "Search"
+    },
+    "featured": {
+      "title": "Featured Residences",
+      "subtitle": "Carefully selected premium apartments with exceptional amenities and unique architecture.",
+      "view_more": "View More Apartments"
+    },
+    "promo": {
+      "rewards_title": "Exclusive rewards for long-term stays.",
+      "rewards_desc": "Book for over 30 days to get access to Domin Concierge and premium lounge facilities.",
+      "learn_more": "Learn More",
+      "verified_title": "Domin Verified",
+      "verified_desc": "Every apartment is personally inspected by our architecture team for quality and design standards.",
+      "trust_label": "100% Trust."
+    }
+  },
+  "list": {
+    "title": "Residences",
+    "subtitle": "Discover our collection of premium apartments.",
+    "filters": {
+      "keyword": "Keyword...",
+      "location": "Location...",
+      "min_price": "Min price",
+      "max_price": "Max price",
+      "search_btn": "Search"
+    },
+    "results": {
+      "showing": "Showing {{count}} of {{total}} apartments",
+      "empty": "No apartments found",
+      "error": "Failed to load data. Please try again.",
+      "no_match": "No apartments match your search criteria."
+    }
+  },
+  "details": {
+    "load_error": "Failed to load apartment details.",
+    "view_list": "View apartments list",
+    "back_to_list": "Back to list",
+    "verified": "Domin Verified",
+    "price_per_night": "Price per night",
+    "status": "Status",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "category": "Category",
+    "apartment": "Apartment",
+    "architecture_space": "Architecture & Space",
+    "featured_amenities": "Featured Amenities",
+    "location": "Location",
+    "location_disclaimer": "Exact address will be provided after booking.",
+    "book_widget": {
+      "title": "Booking",
+      "price_per_night": "Price per night",
+      "cleaning_fee": "Cleaning fee",
+      "service_fee": "Service fee",
+      "total_from": "Total from",
+      "secure_booking": "Secure Booking",
+      "secure_booking_desc": "You won't be charged yet.",
+      "proceed_btn": "Proceed to Booking",
+      "unavailable_btn": "Currently Unavailable"
+    }
+  },
+  "status_tags": {
+    "rare": "Rare find",
+    "popular": "Popular",
+    "available": "Available",
+    "verified": "Verified",
+    "new": "New"
+  },
+  "bookings": {
+    "title": "My Bookings",
+    "subtitle": "Manage your upcoming trips and review your booking history.",
+    "login_required": "Please log in to view your booking information.",
+    "login_required_title": "Login Required",
+    "login_required_desc": "Please log in to manage and review your booking history.",
+    "login_btn": "Log In Now",
+    "tabs": {
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "card": {
+      "check_in": "Check In",
+      "check_out": "Check Out",
+      "guests": "Guests",
+      "guests_count": "{{count}} Guests",
+      "total_price": "Total Price",
+      "view_details": "View Details",
+      "contact_concierge": "Contact Concierge",
+      "book_again": "Book Again"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "empty": {
+      "title": "Empty",
+      "desc": "You have no bookings in this section. Explore our wonderful apartments.",
+      "explore_btn": "Explore Now",
+      "load_error_title": "Unable to load booking data",
+      "load_error_desc": "Please check your connection and try again."
+    }
+  },
+  "booking_detail": {
+    "back_to_list": "Back to list",
+    "title": "Booking Details",
+    "status_card_title": "Booking Status",
+    "payment_card_title": "Payment Status",
+    "payment_date": "Payment Date: {{date}}",
+    "apartment_info": "Apartment Information",
+    "apartment_name": "Apartment Name",
+    "address": "Address",
+    "price_per_night": "Price/night",
+    "booking_info": "Booking Information",
+    "check_in": "Check-in",
+    "check_out": "Check-out",
+    "duration": "Duration",
+    "duration_nights": "{{count}} nights",
+    "duration_nights_one": "{{count}} night",
+    "total_price": "Total Price",
+    "btn_all_bookings": "All Bookings",
+    "btn_pay_vnpay": "Pay via VNPay",
+    "btn_cancel_booking": "Cancel Booking",
+    "btn_view_apartment": "View Apartment",
+    "cancel_confirm": {
+      "title": "Cancel booking?",
+      "desc": "This action cannot be undone.",
+      "ok": "Confirm Cancel",
+      "cancel": "Keep Booking"
+    },
+    "notifications": {
+      "cancel_success": "Booking Cancelled",
+      "cancel_success_desc": "Your booking has been cancelled successfully.",
+      "pay_error": "Cannot create payment link. Please try again.",
+      "pay_conn_error": "Connection error. Please try again later."
+    },
+    "load_error": "Failed to load booking details. Go back",
+    "status": {
+      "pending": "Pending Confirmation",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "payment_status": {
+      "unpaid": "Unpaid",
+      "paid": "Paid",
+      "failed": "Payment Failed",
+      "refunded": "Refunded"
+    }
+  },
+  "profile": {
+    "title": "Personal Profile",
+    "subtitle": "Manage and update your Domin Tactic account information.",
+    "section_personal": "Personal Information",
+    "section_security": "Password & Security",
+    "fullName": "Full Name",
+    "fullName_placeholder": "Enter your full name",
+    "phone": "Phone Number",
+    "phone_placeholder": "Enter your phone number (e.g. 0987654321)",
+    "address": "Address",
+    "address_placeholder": "Enter your address (e.g. 123 X Street, Y District)",
+    "email": "Email Address",
+    "role": "Membership Role",
+    "role_tenant": "Tenant",
+    "role_owner": "Owner",
+    "role_admin": "Admin",
+    "btn_update": "Update Profile",
+    "btn_change_password": "Change Password",
+    "oldPassword": "Current Password",
+    "oldPassword_placeholder": "Enter current password",
+    "newPassword": "New Password",
+    "newPassword_placeholder": "Enter new password",
+    "confirmPassword": "Confirm New Password",
+    "confirmPassword_placeholder": "Confirm new password",
+    "msg_update_success": "Profile updated successfully",
+    "msg_update_error": "Failed to update profile details",
+    "msg_password_success": "Password changed successfully",
+    "msg_password_error": "Failed to change password",
+    "validation": {
+      "required_fullName": "Please enter your full name!",
+      "required_phone": "Please enter your phone number!",
+      "invalid_phone": "Invalid phone number format!",
+      "required_oldPassword": "Please enter your current password!",
+      "required_newPassword": "Please enter your new password!",
+      "required_confirmPassword": "Please confirm your new password!",
+      "password_mismatch": "Confirm password does not match!"
+    }
+  }
+}

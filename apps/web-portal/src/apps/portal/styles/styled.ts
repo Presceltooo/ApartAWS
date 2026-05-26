@@ -9,29 +9,29 @@ export const HomeWrapper = styled.div`
 
 export const HeroSection = styled.section`
   position: relative;
-  padding: 4rem 2rem 6rem;
+  padding: 6rem 4rem 8rem;
   overflow: hidden;
   text-align: center;
-  max-width: 80rem;
+  max-width: 140rem;
   margin: 0 auto;
 
   @media (min-width: 768px) {
-    padding: 6rem 2rem 8rem;
+    padding: 8rem 4rem 10rem;
   }
 `;
 
 export const HeroTitle = styled.h1`
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 2rem;
-  max-width: 60rem;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  margin-bottom: 2.5rem;
+  max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
 
   @media (min-width: 768px) {
-    font-size: 4.5rem;
+    font-size: 5.5rem;
   }
 
   span {
@@ -41,8 +41,8 @@ export const HeroTitle = styled.h1`
 
 export const HeroSearchBar = styled.div`
   width: 100%;
-  max-width: 56rem;
-  margin: 1rem auto 0;
+  max-width: 96rem;
+  margin: 2rem auto 0;
   background-color: ${portalTheme.colors.surfaceContainerLowest};
   padding: 0.5rem;
   border-radius: 9999px;
@@ -61,7 +61,7 @@ export const SearchItem = styled.div<{ $border?: boolean }>`
   flex: 1;
   display: flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2rem;
   ${props => props.$border ? `border-right: 1px solid rgba(133, 115, 110, 0.2);` : ''}
   width: 100%;
   text-align: left;
@@ -71,9 +71,10 @@ export const SearchItem = styled.div<{ $border?: boolean }>`
     border-bottom: ${props => props.$border ? '1px solid rgba(133, 115, 110, 0.1)' : 'none'};
   }
 
-  .material-symbols-outlined {
+  .material-symbols-outlined, .anticon {
+    font-size: 2rem;
     color: ${portalTheme.colors.primary};
-    margin-right: 0.75rem;
+    margin-right: 1rem;
   }
 `;
 
@@ -83,11 +84,12 @@ export const SearchLabel = styled.div`
 `;
 
 export const LabelText = styled.span`
-  font-size: 0.625rem;
+  font-size: 1.2rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: ${portalTheme.colors.outline};
+  white-space: nowrap;
 `;
 
 export const ValueInput = styled.input`
@@ -97,7 +99,7 @@ export const ValueInput = styled.input`
   padding: 0;
   color: ${portalTheme.colors.onSurface};
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 1.6rem;
   outline: none;
 
   &::placeholder {
@@ -108,13 +110,14 @@ export const ValueInput = styled.input`
 export const SearchBtn = styled.button`
   background: linear-gradient(135deg, #D85A30 0%, #993C1D 100%);
   color: white;
-  padding: 1rem 2rem;
+  padding: 1.2rem 2.8rem;
   border-radius: 9999px;
   font-weight: 700;
+  font-size: 1.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   border: none;
   cursor: pointer;
   transition: all 0.2s;
@@ -133,8 +136,8 @@ export const SearchBtn = styled.button`
 `;
 
 export const GridSection = styled.section`
-  padding: 0 2rem 6rem;
-  max-width: 80rem;
+  padding: 0 4rem 6rem;
+  max-width: 140rem;
   margin: 0 auto;
 `;
 
@@ -147,30 +150,25 @@ export const SectionHeader = styled.div`
 
 export const SectionTitleWrapper = styled.div`
   h2 {
-    font-size: 1.875rem;
+    font-size: 2.8rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     letter-spacing: -0.01em;
   }
   p {
     color: ${portalTheme.colors.onSurfaceVariant};
-    max-width: 32rem;
+    font-size: 1.6rem;
+    max-width: 48rem;
   }
 `;
 
 export const ResidencesGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (min-width: 1440px) {
-    grid-template-columns: repeat(4, 1fr);
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
 `;
 
@@ -193,7 +191,7 @@ export const ResidenceCard = styled.div`
 
 export const CardImgWrapper = styled.div`
   position: relative;
-  height: 18rem;
+  height: 22rem;
   overflow: hidden;
 `;
 
@@ -215,17 +213,17 @@ export const RatingBadge = styled.div`
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 0.75rem;
+  font-size: 1.4rem;
   font-weight: 700;
 
   .star {
     color: ${portalTheme.colors.primary};
-    font-size: 0.875rem;
+    font-size: 1.4rem;
   }
 `;
 
 export const CardContent = styled.div`
-  padding: 1.5rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -238,20 +236,21 @@ export const CardTitleRow = styled.div`
   margin-bottom: 0.5rem;
 
   h3 {
-    font-size: 1.125rem;
+    font-size: 1.8rem;
     font-weight: 700;
     line-height: 1.2;
     max-width: 70%;
   }
 
   span {
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 1.6rem;
     color: ${portalTheme.colors.onSurfaceVariant};
   }
 `;
 
 export const CardDesc = styled.p`
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   color: ${portalTheme.colors.outline};
   margin-bottom: 1.5rem;
   display: -webkit-box;
@@ -268,9 +267,9 @@ export const CardFooter = styled.div`
 `;
 
 export const StatusTag = styled.span<{ $type: 'available' | 'rare' | 'verified' | 'new' }>`
-  padding: 0.125rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 0.25rem;
-  font-size: 0.625rem;
+  font-size: 1.2rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -288,12 +287,12 @@ export const StatusTag = styled.span<{ $type: 'available' | 'rare' | 'verified' 
 export const ViewDetailsBtn = styled.button`
   color: ${portalTheme.colors.primary};
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 1.5rem;
   background: transparent;
   border: none;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
   cursor: pointer;
 
   &:hover {
@@ -303,8 +302,8 @@ export const ViewDetailsBtn = styled.button`
 `;
 
 export const PromoSection = styled.section`
-  padding: 0 2rem 6rem;
-  max-width: 80rem;
+  padding: 0 4rem 6rem;
+  max-width: 140rem;
   margin: 0 auto;
 `;
 
@@ -330,18 +329,18 @@ export const RewardsCard = styled.div`
   justify-content: center;
 
   h3 {
-    font-size: 2.25rem;
+    font-size: 3rem;
     font-weight: 900;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     position: relative;
     z-index: 10;
   }
 
   p {
-    font-size: 1.125rem;
+    font-size: 1.6rem;
     opacity: 0.8;
-    margin-bottom: 2rem;
-    max-width: 28rem;
+    margin-bottom: 2.5rem;
+    max-width: 36rem;
     position: relative;
     z-index: 10;
   }
@@ -349,9 +348,10 @@ export const RewardsCard = styled.div`
   button {
     background-color: white;
     color: ${portalTheme.colors.primary};
-    padding: 0.75rem 2rem;
+    padding: 1rem 2.5rem;
     border-radius: 9999px;
     font-weight: 700;
+    font-size: 1.5rem;
     width: fit-content;
     position: relative;
     z-index: 10;
@@ -391,19 +391,19 @@ export const VerifiedCard = styled.div`
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
   }
 
   p {
-    font-size: 0.875rem;
+    font-size: 1.4rem;
     opacity: 0.8;
   }
 
   .trust-label {
     margin-top: 2rem;
-    font-size: 1.875rem;
+    font-size: 2.4rem;
     font-weight: 900;
   }
 `;
