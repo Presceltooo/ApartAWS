@@ -45,14 +45,16 @@ const BookingModal: React.FC<IBookingModalProps> = ({
 
   const { mutate: createBooking, isPending, error: mutationError } = useCreateBooking();
 
+  const numericPricePerNight = Number(pricePerNight);
+
   const { nights, subtotal } = useBookingCalculation(
     dateRange[0],
     dateRange[1],
-    pricePerNight,
+    numericPricePerNight,
   );
 
-  const cleaningFee = 120;
-  const serviceFee = 85;
+  const cleaningFee = 120000;
+  const serviceFee = 85000;
   const total = subtotal + cleaningFee + serviceFee;
 
   const onFinish = (values: { dates: [Dayjs, Dayjs] }) => {
@@ -177,7 +179,7 @@ const BookingModal: React.FC<IBookingModalProps> = ({
           <PriceSummaryCard>
             <SummaryRow>
               <span>
-                {pricePerNight.toLocaleString('vi-VN')} ₫ × {nights > 0 ? nights : '—'} đêm
+                {numericPricePerNight.toLocaleString('vi-VN')} ₫ × {nights > 0 ? nights : '—'} đêm
               </span>
               <span className="value">{nights > 0 ? (subtotal).toLocaleString('vi-VN') + ' ₫' : '—'}</span>
             </SummaryRow>

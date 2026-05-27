@@ -12,5 +12,83 @@
     "title": "ApartAWS Owner Portal",
     "view_site": "Xem trang chủ",
     "logout": "Đăng xuất"
+  },
+  "owner": {
+    "my_apartments_title": "Căn hộ của tôi",
+    "add_apartment_btn": "Thêm căn hộ mới",
+    "table": {
+      "title": "Tên căn hộ",
+      "location": "Vị trí",
+      "price_per_night": "Giá / Đêm",
+      "status": "Trạng thái",
+      "actions": "Hành động"
+    },
+    "actions": {
+      "edit": "Sửa",
+      "delete": "Xóa"
+    },
+    "delete_confirm": {
+      "title": "Xóa căn hộ này?",
+      "desc": "Bạn có chắc chắn muốn xóa căn hộ này? Hành động này không thể hoàn tác.",
+      "ok": "Xác nhận xóa",
+      "cancel": "Hủy"
+    },
+    "errors": {
+      "load_apartments": "Không thể tải danh sách căn hộ. Vui lòng thử lại.",
+      "load_bookings": "Không thể tải danh sách đặt phòng. Vui lòng thử lại.",
+      "upload_failed": "Tải hình ảnh thất bại.",
+      "submit_failed": "Đã xảy ra lỗi khi gửi dữ liệu."
+    },
+    "bookings_title": "Đơn đặt phòng của tôi",
+    "bookings_table": {
+      "booking_id": "Mã đặt phòng",
+      "property": "Căn hộ",
+      "tenant_id": "Mã khách thuê",
+      "check_in": "Ngày nhận",
+      "check_out": "Ngày trả",
+      "total_price": "Tổng tiền",
+      "status": "Trạng thái",
+      "action": "Hành động"
+    },
+    "booking_actions": {
+      "confirm": "Xác nhận",
+      "reject": "Từ chối",
+      "complete": "Hoàn thành"
+    },
+    "booking_messages": {
+      "confirm_success": "Xác nhận đơn đặt phòng thành công",
+      "confirm_error": "Xác nhận đơn đặt phòng thất bại",
+      "complete_success": "Hoàn thành đơn đặt phòng thành công",
+      "complete_error": "Hoàn thành đơn đặt phòng thất bại",
+      "cancel_success": "Hủy đơn đặt phòng thành công",
+      "cancel_error": "Hủy đơn đặt phòng thất bại"
+    },
+    "form": {
+      "back": "Quay lại",
+      "edit_title": "Chỉnh sửa căn hộ",
+      "add_title": "Thêm căn hộ mới",
+      "property_title_label": "Tên căn hộ",
+      "property_title_required": "Vui lòng nhập tên căn hộ",
+      "property_title_placeholder": "Ví dụ: Căn hộ thông tầng Heritage",
+      "location_label": "Vị trí",
+      "location_required": "Vui lòng nhập vị trí",
+      "location_placeholder": "Ví dụ: Thung lũng Carmel, California",
+      "price_label": "Giá mỗi đêm (VNĐ)",
+      "price_required": "Vui lòng nhập giá",
+      "price_placeholder": "0",
+      "description_label": "Mô tả",
+      "description_placeholder": "Mô tả căn hộ của bạn...",
+      "amenities_label": "Tiện nghi",
+      "amenities_placeholder": "Chọn các tiện nghi",
+      "images_label": "Hình ảnh",
+      "images_tooltip": "Tải lên ít nhất một hình ảnh",
+      "images_upload_btn": "Tải lên",
+      "status_label": "Trạng thái",
+      "status_active": "Hoạt động",
+      "status_draft": "Bản nháp",
+      "save_btn": "Lưu thay đổi",
+      "publish_btn": "Đăng tải căn hộ",
+      "loading_detail": "Đang tải chi tiết căn hộ..."
+    }
   }
 }

@@ -128,14 +128,8 @@ const paymentStatusConfig: Record<
 };
 
 // Helper for price currency localization
-const formatPrice = (value: number, lang: string) => {
-  if (lang === 'vi') {
-    return `${value.toLocaleString('vi-VN')} ₫`;
-  } else if (lang === 'ja') {
-    return `¥${value.toLocaleString('ja-JP')}`;
-  } else {
-    return `$${value.toLocaleString('en-US')}`;
-  }
+const formatPrice = (value: any, _lang?: string) => {
+  return `${Number(value).toLocaleString('vi-VN')} ₫`;
 };
 
 // ─── BookingDetail Page ────────────────────────────────────────────────────────

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Select, Input } from 'antd';
+import { Select, Input } from 'antd';
+import TableWithPagination from '@/shared/components/tables/table-with-pagination';
 import { useSystemBookings } from '../../../services/query';
 import { useUpdateSystemBookingStatus } from '../../../services/mutation';
 import dayjs from 'dayjs';
@@ -79,7 +80,7 @@ const SystemBookings: React.FC = () => {
         onSearch={(val) => { setKeyword(val); setPage(1); }}
         style={{ width: 300, marginBottom: 20 }}
       />
-      <Table
+      <TableWithPagination
         dataSource={data?.data || []}
         columns={columns}
         rowKey="id"

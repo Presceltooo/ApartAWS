@@ -74,7 +74,7 @@ const ApartmentDetails: React.FC = () => {
   }
 
   const imageUrl = apartment.images?.[0] ?? FALLBACK_IMAGES[0];
-  const pricePerNight = apartment.pricePerNight;
+  const pricePerNight = Number(apartment.pricePerNight);
 
   return (
     <>

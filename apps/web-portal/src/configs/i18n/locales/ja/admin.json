@@ -12,5 +12,83 @@
     "title": "ApartAWS オーナーポータル",
     "view_site": "公開サイトを表示",
     "logout": "ログアウト"
+  },
+  "owner": {
+    "my_apartments_title": "マイ・アパートメント",
+    "add_apartment_btn": "新規アパートメント追加",
+    "table": {
+      "title": "アパート名",
+      "location": "ロケーション",
+      "price_per_night": "一晩の料金",
+      "status": "ステータス",
+      "actions": "操作"
+    },
+    "actions": {
+      "edit": "編集",
+      "delete": "削除"
+    },
+    "delete_confirm": {
+      "title": "このアパートメントを削除しますか？",
+      "desc": "本当に削除してもよろしいですか？この操作は取り消せません。",
+      "ok": "はい、削除します",
+      "cancel": "キャンセル"
+    },
+    "errors": {
+      "load_apartments": "アパートメント情報の読み込みに失敗しました。もう一度お試しください。",
+      "load_bookings": "予約情報の読み込みに失敗しました。もう一度お試しください。",
+      "upload_failed": "画像のアップロードに失敗しました。",
+      "submit_failed": "送信中にエラーが発生しました。"
+    },
+    "bookings_title": "マイプロパティの予約",
+    "bookings_table": {
+      "booking_id": "予約ID",
+      "property": "アパート名",
+      "tenant_id": "テナントID",
+      "check_in": "チェックイン",
+      "check_out": "チェックアウト",
+      "total_price": "合計金額",
+      "status": "ステータス",
+      "action": "操作"
+    },
+    "booking_actions": {
+      "confirm": "承認",
+      "reject": "却下",
+      "complete": "完了"
+    },
+    "booking_messages": {
+      "confirm_success": "予約を承認しました",
+      "confirm_error": "予約の承認に失敗しました",
+      "complete_success": "予約を完了しました",
+      "complete_error": "予約の完了に失敗しました",
+      "cancel_success": "予約をキャンセルしました",
+      "cancel_error": "予約のキャンセルに失敗しました"
+    },
+    "form": {
+      "back": "戻る",
+      "edit_title": "アパートメントの編集",
+      "add_title": "アパートメントの新規登録",
+      "property_title_label": "アパート名",
+      "property_title_required": "アパート名を入力してください",
+      "property_title_placeholder": "例: ヘリテージ・ペントハウス",
+      "location_label": "ロケーション",
+      "location_required": "ロケーションを入力してください",
+      "location_placeholder": "例: カリフォルニア州カーメルバレー",
+      "price_label": "一晩の料金 (VNĐ)",
+      "price_required": "料金を入力してください",
+      "price_placeholder": "0",
+      "description_label": "説明",
+      "description_placeholder": "アパートメントの詳細を入力...",
+      "amenities_label": "アメニティ",
+      "amenities_placeholder": "アメニティを選択",
+      "images_label": "画像",
+      "images_tooltip": "画像を1枚以上アップロードしてください",
+      "images_upload_btn": "アップロード",
+      "status_label": "ステータス",
+      "status_active": "有効",
+      "status_draft": "下書き",
+      "save_btn": "変更を保存",
+      "publish_btn": "アパートを公開",
+      "loading_detail": "アパートメント情報をロード中..."
+    }
   }
 }

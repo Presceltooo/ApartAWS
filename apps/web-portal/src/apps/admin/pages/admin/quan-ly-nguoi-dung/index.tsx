@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Switch, Input, Tag } from 'antd';
+import { Switch, Input, Tag } from 'antd';
+import TableWithPagination from '@/shared/components/tables/table-with-pagination';
 import { useSystemUsers } from '../../../services/query';
 import { useToggleUserStatus } from '../../../services/mutation';
 
@@ -45,7 +46,7 @@ const SystemUsers: React.FC = () => {
         onSearch={(val) => { setKeyword(val); setPage(1); }}
         style={{ width: 300, marginBottom: 20 }}
       />
-      <Table
+      <TableWithPagination
         dataSource={data?.data || []}
         columns={columns}
         rowKey="id"

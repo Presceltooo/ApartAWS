@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Switch, Input } from 'antd';
+import { Switch, Input } from 'antd';
+import TableWithPagination from '@/shared/components/tables/table-with-pagination';
 import { useSystemApartments } from '../../../services/query';
 import { useToggleApartmentStatus } from '../../../services/mutation';
 import type { IApartment } from '../../../services/types';
@@ -21,7 +22,7 @@ const SystemApartments: React.FC = () => {
       title: 'Giá/đêm', 
       dataIndex: 'pricePerNight', 
       key: 'price',
-      render: (price: number) => `$${price}`
+      render: (price: number) => `${Number(price).toLocaleString('vi-VN')} ₫`
     },
     {
       title: 'Trạng thái (Duyệt)',
@@ -45,7 +46,7 @@ const SystemApartments: React.FC = () => {
         onSearch={(val) => { setKeyword(val); setPage(1); }}
         style={{ width: 300, marginBottom: 20 }}
       />
-      <Table
+      <TableWithPagination
         dataSource={data?.data || []}
         columns={columns}
         rowKey="id"

@@ -34,7 +34,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onView }) => {
   const imageUrl = apartment.images?.[0] ?? image404;
 
   const getPriceLabel = () => {
-    const formattedPrice = apartment.pricePerNight.toLocaleString(i18n.language === 'vi' ? 'vi-VN' : 'en-US');
+    const formattedPrice = Number(apartment.pricePerNight).toLocaleString('vi-VN');
     if (i18n.language === 'vi') {
       return `${formattedPrice} ₫/đêm`;
     } else if (i18n.language === 'ja') {

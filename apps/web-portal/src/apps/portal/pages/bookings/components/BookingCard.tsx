@@ -87,7 +87,7 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, onViewDetail }) => {
           </DetailItem>
           <DetailItem>
             <label>{t('bookings.card.total_price', 'Tổng giá')}</label>
-            <div>${booking.totalPrice.toLocaleString()}</div>
+            <div>{Number(booking.totalPrice).toLocaleString('vi-VN')} ₫</div>
           </DetailItem>
         </DetailsGrid>
 

@@ -266,9 +266,9 @@ export const MapWrapper = styled.div`
 
 export const MapDisclaimer = styled.p`
   margin-top: 1rem;
-  font-size: 0.875rem;
+  font-size: 1.4rem;
   color: ${portalTheme.colors.onSurfaceVariant};
-  opacity: 0.8;
+  opacity: 0.95;
 `;
 
 // Widget Styles
@@ -313,27 +313,30 @@ export const SummaryRow = styled.div<{ $isTotal?: boolean }>`
 
 export const PaymentSuccessCard = styled.div`
   background-color: ${portalTheme.colors.surfaceContainerLow};
-  padding: 1rem;
-  border-radius: 0.25rem;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
   margin-bottom: 2rem;
   display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 1rem;
 
+  .anticon,
   .material-symbols-outlined {
     color: ${portalTheme.colors.outline};
+    font-size: 1.6rem;
   }
 
   .title {
-    font-weight: 500;
+    font-weight: 600;
     color: ${portalTheme.colors.onSurface};
-    margin: 0 0 0.25rem 0;
-    font-size: 0.875rem;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
   }
   
   .desc {
     margin: 0;
-    font-size: 0.875rem;
+    font-size: 1.3rem;
+    line-height: 1.4;
     color: ${portalTheme.colors.onSurfaceVariant};
   }
 `;
