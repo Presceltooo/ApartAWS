@@ -81,6 +81,32 @@ export const SearchItem = styled.div<{ $border?: boolean }>`
 export const SearchLabel = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  .ant-picker {
+    padding: 0 !important;
+    height: 22px !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    .ant-picker-input {
+      height: 100% !important;
+      
+      input {
+        font-size: 1.6rem !important;
+        color: #4A1B0C !important;
+        font-weight: 500 !important;
+        height: 100% !important;
+        padding: 0 !important;
+        
+        &::placeholder {
+          color: rgba(133, 115, 110, 0.5) !important;
+        }
+      }
+    }
+  }
 `;
 
 export const LabelText = styled.span`

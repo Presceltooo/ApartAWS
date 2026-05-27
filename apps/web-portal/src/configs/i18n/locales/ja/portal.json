@@ -2,6 +2,8 @@
   "home": {
     "hero_title": "ラグジュアリーな居住空間を見つける、",
     "hero_title_highlight": "上質な暮らし。",
+    "load_error": "アパートメント情報を読み込めませんでした。もう一度お試しください。",
+    "empty_residences": "検索条件に一致するアパートメントは見つかりませんでした。",
     "search": {
       "location": "目的地",
       "location_placeholder": "どこへ行きますか？",

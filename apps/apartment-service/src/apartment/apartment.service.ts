@@ -82,7 +82,9 @@ export class ApartmentsService {
     PageSize: number = 10,
     MinPrice?: number,
     MaxPrice?: number,
-    Location?: string
+    Location?: string,
+    StartDate?: string,
+    EndDate?: string
   ) {
     const where: any = { isActive: true };
 
@@ -98,6 +100,31 @@ export class ApartmentsService {
       where.pricePerNight = {};
       if (MinPrice !== undefined) where.pricePerNight.gte = MinPrice;
       if (MaxPrice !== undefined) where.pricePerNight.lte = MaxPrice;
+    }
+
+    if (StartDate && EndDate) {
+      const start = new Date(StartDate);
+      const end = new Date(EndDate);
+
+      if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+        const conflictingBookings = await this.prisma.booking.findMany({
+          where: {
+            status: { in: ['CONFIRMED', 'PENDING'] },
+            AND: [
+              { startDate: { lt: end } },
+              { endDate: { gt: start } }
+            ]
+          },
+          select: {
+            apartmentId: true
+          }
+        });
+
+        const bookedApartmentIds = conflictingBookings.map(b => b.apartmentId);
+        if (bookedApartmentIds.length > 0) {
+          where.id = { notIn: bookedApartmentIds };
+        }
+      }
     }
 
     const result = await paginate(this.prisma.apartment, { page: Page, pageSize: PageSize }, {

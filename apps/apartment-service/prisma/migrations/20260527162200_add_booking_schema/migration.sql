@@ -1,0 +1,3 @@
+-- This migration is intentionally left empty.
+-- The "booking" schema, "BookingStatus" enum, and "Bookings" table are created and managed by the booking-service.
+-- This migration is created to sync the apartment-service's schema.prisma history without duplicating table creation.

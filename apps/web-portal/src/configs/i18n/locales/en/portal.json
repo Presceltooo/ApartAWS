@@ -2,6 +2,8 @@
   "home": {
     "hero_title": "Discover luxury spaces, ",
     "hero_title_highlight": "living in style.",
+    "load_error": "Unable to load apartments. Please try again.",
+    "empty_residences": "No apartments found matching your search.",
     "search": {
       "location": "Location",
       "location_placeholder": "Where do you want to go?",

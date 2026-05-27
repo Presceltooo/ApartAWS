@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["apartment"]
+  schemas  = ["apartment", "booking"]
 }
 
 model Apartment {
@@ -29,3 +29,22 @@ model Apartment {
   @@schema("apartment")
 }
 
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+
+  @@schema("booking")
+}
+
+model Booking {
+  id          String        @id @default(uuid())
+  startDate   DateTime      @db.Date
+  endDate     DateTime      @db.Date
+  status      BookingStatus @default(PENDING)
+  apartmentId String
+
+  @@map("Bookings")
+  @@schema("booking")
+}

@@ -2,6 +2,8 @@
   "home": {
     "hero_title": "Khám phá không gian sống sang trọng, ",
     "hero_title_highlight": "đẳng cấp.",
+    "load_error": "Không thể tải danh sách căn hộ. Vui lòng thử lại.",
+    "empty_residences": "Không tìm thấy căn hộ phù hợp với tìm kiếm của bạn.",
     "search": {
       "location": "Địa điểm",
       "location_placeholder": "Bạn muốn đi đâu?",

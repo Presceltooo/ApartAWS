@@ -38,13 +38,17 @@ export class ApartmentsController {
   @ApiQuery({ name: 'MinPrice', required: false, type: Number })
   @ApiQuery({ name: 'MaxPrice', required: false, type: Number })
   @ApiQuery({ name: 'Location', required: false, type: String })
+  @ApiQuery({ name: 'StartDate', required: false, type: String })
+  @ApiQuery({ name: 'EndDate', required: false, type: String })
   findListing(
     @Query('Keyword') keyword?: string, 
     @Query('Page') page?: string, 
     @Query('PageSize') pageSize?: string,
     @Query('MinPrice') minPrice?: string,
     @Query('MaxPrice') maxPrice?: string,
-    @Query('Location') location?: string
+    @Query('Location') location?: string,
+    @Query('StartDate') startDate?: string,
+    @Query('EndDate') endDate?: string
   ) {
     return this.apartmentsService.findListing(
       keyword, 
@@ -52,7 +56,9 @@ export class ApartmentsController {
       pageSize ? +pageSize : 10,
       minPrice ? +minPrice : undefined,
       maxPrice ? +maxPrice : undefined,
-      location
+      location,
+      startDate,
+      endDate
     );
   }
 

@@ -26,6 +26,8 @@ export interface IApartmentQuery {
   MinPrice?: number;
   MaxPrice?: number;
   Location?: string;
+  StartDate?: string;
+  EndDate?: string;
 }
 
 // ─── Booking ──────────────────────────────────────────────────────────────────

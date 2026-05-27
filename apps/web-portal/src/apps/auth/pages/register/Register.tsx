@@ -8,6 +8,8 @@ import { useRouter } from '@tanstack/react-router';
 import useNotification from '../../../../shared/hooks/useNotification';
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
 import registerBg from '@/assets/images/register_bg.png';
+import DieuKhoanSuDung from '@/apps/auth/modal/DieuKhoanSuDung';
+import ChinhSachBaoMat from '@/apps/auth/modal/ChinhSachBaoMat';
 import {
   RegisterMain,
   RegisterImageSection,
@@ -71,6 +73,9 @@ const Register: React.FC = () => {
     role: 'TENANT',
     agreed: false,
   });
+
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
   const handleChange = (field: string, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -258,9 +263,13 @@ const Register: React.FC = () => {
             />
             <RegisterTermsLabel>
               {t('register.terms_agree_1', 'Tôi đồng ý với ')}
-              <a href="#">{t('register.terms_link', 'Điều khoản dịch vụ')}</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setIsTermsOpen(true); }}>
+                {t('register.terms_link', 'Điều khoản dịch vụ')}
+              </a>
               {t('register.terms_agree_2', ' và ')}
-              <a href="#">{t('register.privacy_link', 'Chính sách bảo mật')}</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setIsPrivacyOpen(true); }}>
+                {t('register.privacy_link', 'Chính sách bảo mật')}
+              </a>
               {t('register.terms_agree_3', ' của Domin Tactic.')}
             </RegisterTermsLabel>
           </RegisterTermsRow>
@@ -287,6 +296,9 @@ const Register: React.FC = () => {
         <LanguageSwitcher />
         <UserSupportBtn type="button">{t('login.support', '❓ HỖ TRỢ')}</UserSupportBtn>
       </UserFixedSupportWrapper>
+
+      <DieuKhoanSuDung open={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
+      <ChinhSachBaoMat open={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
     </RegisterMain>
   );
 };
