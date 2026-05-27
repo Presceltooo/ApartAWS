@@ -198,5 +198,11 @@
       "required_confirmPassword": "Please confirm your new password!",
       "password_mismatch": "Confirm password does not match!"
     }
+  },
+  "redirect_payment_modal": {
+    "title": "Booking Successful!",
+    "desc": "Your booking request has been recorded. Do you want to proceed to the payment page now to complete the booking?",
+    "btn_later": "Later",
+    "btn_pay_now": "Pay Now"
   }
 }

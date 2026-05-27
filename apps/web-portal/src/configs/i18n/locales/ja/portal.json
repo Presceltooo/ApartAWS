@@ -197,5 +197,11 @@
       "required_confirmPassword": "新しいパスワードを再度入力してください！",
       "password_mismatch": "確認用パスワードが一致しません！"
     }
+  },
+  "redirect_payment_modal": {
+    "title": "ご予約が完了しました！",
+    "desc": "予約リクエストが記録されました。予約手続きを完了するため、今すぐ支払いページに進みますか？",
+    "btn_later": "後で",
+    "btn_pay_now": "今すぐ支払う"
   }
 }

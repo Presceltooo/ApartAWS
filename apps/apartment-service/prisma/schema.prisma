@@ -38,12 +38,31 @@ enum BookingStatus {
   @@schema("booking")
 }
 
+enum PaymentStatus {
+  UNPAID
+  PAID
+  FAILED
+  REFUNDED
+
+  @@schema("booking")
+}
+
 model Booking {
-  id          String        @id @default(uuid())
-  startDate   DateTime      @db.Date
-  endDate     DateTime      @db.Date
-  status      BookingStatus @default(PENDING)
-  apartmentId String
+  id                String        @id @default(uuid())
+  apartmentId       String
+  tenantId          String
+  startDate         DateTime      @db.Date
+  endDate           DateTime      @db.Date
+  totalPrice        Decimal       @db.Decimal(14, 2)
+  status            BookingStatus @default(PENDING)
+  paymentStatus     PaymentStatus @default(UNPAID)
+  vnpTransactionId  String?
+  paymentDate       DateTime?
+
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  // Không có FK sang apartment (cross-schema không dùng FK)
 
   @@map("Bookings")
   @@schema("booking")

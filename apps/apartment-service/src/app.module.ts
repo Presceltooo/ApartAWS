@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApartmentsModule } from './apartment/apartment.module';
+import { BookingModule } from './booking/booking.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './common/prisma/prisma.module';
 
@@ -16,6 +17,7 @@ import { PrismaModule } from './common/prisma/prisma.module';
     }),
     PrismaModule,
     ApartmentsModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

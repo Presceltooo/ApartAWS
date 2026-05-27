@@ -50,7 +50,7 @@ const Login: React.FC = () => {
   const { handleLogin, isPending } = useHandleLogin();
 
   const handleSocialLogin = (provider: string) => {
-    showErrorNotify(t('login.social_under_development', `Tính năng đăng nhập qua ${provider} đang được phát triển.`));
+    showErrorNotify(t('login.social_under_development', `Tính năng đăng nhập qua ${provider} đang được phát triển.`, { provider }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -23,6 +23,7 @@ import {
 } from './styled';
 import { useCreateBooking } from '@apps/portal/services/mutation';
 import { useBookingCalculation } from '@apps/portal/hooks/useBookingCalculation';
+import RedirectThanhToan from '@/apps/portal/modal/Dat-phong/RedirectThanhToan';
 
 interface IBookingModalProps {
   open: boolean;
@@ -42,6 +43,8 @@ const BookingModal: React.FC<IBookingModalProps> = ({
   const [form] = Form.useForm();
   const [guests, setGuests] = useState(2);
   const [dateRange, setDateRange] = useState<[string | null, string | null]>([null, null]);
+  const [isRedirectModalOpen, setIsRedirectModalOpen] = useState(false);
+  const [createdBookingId, setCreatedBookingId] = useState('');
 
   const { mutate: createBooking, isPending, error: mutationError } = useCreateBooking();
 
@@ -67,14 +70,19 @@ const BookingModal: React.FC<IBookingModalProps> = ({
         totalPrice: total,
       },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           notification.success({
             message: 'Đặt phòng thành công!',
             description: `Đơn đặt phòng cho ${propertyName} đã được ghi nhận.`,
           });
+          const bookingId = res?.data?.id ?? '';
+          setCreatedBookingId(bookingId);
           form.resetFields();
           setDateRange([null, null]);
           onClose();
+          if (bookingId) {
+            setIsRedirectModalOpen(true);
+          }
         },
       },
     );
@@ -85,6 +93,7 @@ const BookingModal: React.FC<IBookingModalProps> = ({
   };
 
   return (
+    <>
     <BaseModal
       title="Xác nhận đặt phòng"
       open={open}
@@ -200,6 +209,13 @@ const BookingModal: React.FC<IBookingModalProps> = ({
         </Form>
       </div>
     </BaseModal>
+
+    <RedirectThanhToan
+      open={isRedirectModalOpen}
+      onClose={() => setIsRedirectModalOpen(false)}
+      bookingId={createdBookingId}
+    />
+    </>
   );
 };
 

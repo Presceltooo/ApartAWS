@@ -48,25 +48,29 @@ export class BookingsService {
       throw new ConflictException('Căn hộ đã được đặt trong khoảng thời gian này');
     }
 
-    // Tính số đêm (nights)
+    // 3. Tính số đêm
     const start = new Date(dto.startDate);
     const end = new Date(dto.endDate);
     const msDiff = end.getTime() - start.getTime();
     const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
 
-    // Lấy giá trị nguyên từ Decimal / string
+    // 4. Xác định totalPrice:
+    //    - Ưu tiên dùng giá từ frontend (đã bao gồm phí vệ sinh, phí dịch vụ, v.v.)
+    //    - Nếu frontend không gửi, tính cơ bản: pricePerNight × nights
     const pricePerNight = Number(apartment.pricePerNight || 0);
-    const totalPrice = pricePerNight * nights;
+    const totalPrice = dto.totalPrice != null && dto.totalPrice > 0
+      ? dto.totalPrice
+      : pricePerNight * nights;
 
     try {
-      // 3. Tạo booking
+      // 5. Tạo booking với totalPrice chính xác
       const booking = await this.prisma.booking.create({
         data: {
-          ...dto,
-          tenantId,
-          totalPrice,
+          apartmentId: dto.apartmentId,
           startDate: start,
           endDate: end,
+          tenantId,
+          totalPrice,
         },
       });
 
@@ -79,14 +83,15 @@ export class BookingsService {
             <li><strong>Căn hộ:</strong> ${apartment.title}</li>
             <li><strong>Nhận phòng:</strong> ${start.toLocaleDateString('vi-VN')}</li>
             <li><strong>Trả phòng:</strong> ${end.toLocaleDateString('vi-VN')}</li>
-            <li><strong>Tổng tiền:</strong> $${totalPrice}</li>
+            <li><strong>Số đêm:</strong> ${nights} đêm</li>
+            <li><strong>Tổng tiền:</strong> ${Number(totalPrice).toLocaleString('vi-VN')} ₫</li>
           </ul>
           <p>Trạng thái hiện tại: <strong>Chờ xác nhận</strong></p>
         `;
         this.mailService.sendEmail(tenantEmail, 'Xác nhận yêu cầu đặt phòng', htmlBody).catch(console.error);
       }
 
-      // 4. Merge thông tin apartment vào response (Convert Decimal -> number cho frontend)
+      // 6. Merge thông tin apartment vào response (Convert Decimal → number cho frontend)
       return new ApiResponse(
         { 
           ...booking, 
@@ -97,9 +102,10 @@ export class BookingsService {
       );
     } catch (error) {
       console.error('Create booking error:', error);
-      throw error; // Rethrow to let NestJS handle it, but now we've logged it (if we could see logs)
+      throw error;
     }
   }
+
 
   // ===========================================================================
   // Khách thuê xem lịch sử đặt phòng của mình

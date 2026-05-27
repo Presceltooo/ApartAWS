@@ -197,5 +197,11 @@
       "required_confirmPassword": "Vui lòng xác nhận mật khẩu mới!",
       "password_mismatch": "Mật khẩu xác nhận không khớp!"
     }
+  },
+  "redirect_payment_modal": {
+    "title": "Đặt phòng thành công!",
+    "desc": "Yêu cầu đặt phòng của bạn đã được ghi nhận. Bạn có muốn chuyển sang trang thanh toán ngay bây giờ để hoàn tất thủ tục?",
+    "btn_later": "Để sau",
+    "btn_pay_now": "Thanh toán ngay"
   }
 }

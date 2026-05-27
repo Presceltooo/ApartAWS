@@ -294,13 +294,62 @@ const BookingDetail: React.FC = () => {
         <Descriptions column={2} size="middle" bordered>
           <Descriptions.Item label={t('booking_detail.check_in', 'Check-in')}>{startDate}</Descriptions.Item>
           <Descriptions.Item label={t('booking_detail.check_out', 'Check-out')}>{endDate}</Descriptions.Item>
-          <Descriptions.Item label={t('booking_detail.duration', 'Thời gian')}>{t('booking_detail.duration_nights', { count: nights, defaultValue: `${nights} đêm` })}</Descriptions.Item>
-          <Descriptions.Item label={<><DollarOutlined /> {t('booking_detail.total_price', 'Tổng cộng')}</>}>
-            <strong style={{ color: portalTheme.colors.primary, fontSize: '2rem' }}>
-              {formatPrice(booking.totalPrice, i18n.language)}
-            </strong>
+          <Descriptions.Item label={t('booking_detail.duration', 'Thời gian')} span={2}>
+            {t('booking_detail.duration_nights', { count: nights, defaultValue: `${nights} đêm` })}
           </Descriptions.Item>
         </Descriptions>
+
+        {/* Price breakdown — same logic as BookingModal */}
+        {(() => {
+          const CLEANING_FEE = 120000;
+          const SERVICE_FEE = 85000;
+          const pricePerNightVal = Number(apt?.pricePerNight ?? 0);
+          const subtotal = pricePerNightVal * nights;
+          // If totalPrice equals subtotal only (old bookings without fees), show as-is
+          const hasExtraFees = Number(booking.totalPrice) >= subtotal + CLEANING_FEE + SERVICE_FEE - 1;
+
+          return (
+            <div style={{ marginTop: '1.5rem', background: 'rgba(216,90,48,0.04)', borderRadius: '0.6rem', padding: '1.5rem 2rem' }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#4A1B0C', marginBottom: '1rem' }}>
+                {t('booking_detail.price_summary', 'Tóm tắt giá')}
+              </div>
+
+              {/* pricePerNight × nights */}
+              {pricePerNightVal > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.4rem', marginBottom: '0.6rem', color: '#6B3020' }}>
+                  <span>{pricePerNightVal.toLocaleString('vi-VN')} ₫ × {nights} {t('booking_detail.nights', 'đêm')}</span>
+                  <span>{subtotal.toLocaleString('vi-VN')} ₫</span>
+                </div>
+              )}
+
+              {/* Phí vệ sinh & dịch vụ — chỉ hiển thị nếu booking có cộng phí */}
+              {hasExtraFees && (
+                <>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.4rem', marginBottom: '0.6rem', color: '#6B3020' }}>
+                    <span>{t('booking_detail.cleaning_fee', 'Phí vệ sinh')}</span>
+                    <span>{CLEANING_FEE.toLocaleString('vi-VN')} ₫</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.4rem', marginBottom: '1rem', color: '#6B3020' }}>
+                    <span>{t('booking_detail.service_fee', 'Phí dịch vụ')}</span>
+                    <span>{SERVICE_FEE.toLocaleString('vi-VN')} ₫</span>
+                  </div>
+                </>
+              )}
+
+              <div style={{ height: '1px', background: 'rgba(216,90,48,0.2)', margin: '0.8rem 0' }} />
+
+              {/* Tổng cộng */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '1.6rem', fontWeight: 700, color: '#4A1B0C' }}>
+                  {t('booking_detail.total_price', 'Tổng cộng')}
+                </span>
+                <strong style={{ color: '#D85A30', fontSize: '2.2rem', fontWeight: 800 }}>
+                  {formatPrice(booking.totalPrice, i18n.language)}
+                </strong>
+              </div>
+            </div>
+          );
+        })()}
       </Card>
 
       {/* Actions */}

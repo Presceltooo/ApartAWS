@@ -60,7 +60,7 @@ const Register: React.FC = () => {
   const { mutate: registerMutate, isPending } = useRegister();
 
   const handleSocialRegister = (provider: string) => {
-    showErrorNotify(t('register.social_under_development', `Tính năng đăng ký qua ${provider} đang được phát triển.`));
+    showErrorNotify(t('register.social_under_development', `Tính năng đăng ký qua ${provider} đang được phát triển.`, { provider }));
   };
 
   const [form, setForm] = useState({
