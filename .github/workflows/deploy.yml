@@ -116,6 +116,8 @@ jobs:
             sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${IMAGE_TAG}/" .env || echo "IMAGE_TAG=${IMAGE_TAG}" >> .env
 
             echo "=== [5/5] Restart services với image mới ==="
+            export ECR_REGISTRY="${{ secrets.ECR_REGISTRY }}"
+            export IMAGE_TAG="${IMAGE_TAG}"
             docker-compose -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.prod.yml up -d --remove-orphans
 
