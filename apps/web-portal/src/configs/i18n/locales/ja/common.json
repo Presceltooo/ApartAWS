@@ -25,5 +25,7 @@
     "ja": "日本語"
   },
   "total_items": "{{total}}中 {{from}}-{{to}}",
-  "items_per_page": "/ ページ"
+  "items_per_page": "/ ページ",
+  "not_found": "申し訳ありませんが、アクセスされたページは存在しません。",
+  "back_to_home": "ホームへ戻る"
 }

@@ -49,6 +49,9 @@ const ApartmentForm: React.FC = () => {
         title: apt.title,
         description: apt.description,
         pricePerNight: apt.pricePerNight,
+        cleaningFee: apt.cleaningFee,
+        serviceFee: apt.serviceFee,
+        maxGuests: apt.maxGuests,
         location: apt.location,
         amenities: apt.amenities,
         isActive: apt.isActive,
@@ -91,6 +94,9 @@ const ApartmentForm: React.FC = () => {
         title: values.title,
         description: values.description,
         pricePerNight: values.pricePerNight,
+        cleaningFee: values.cleaningFee,
+        serviceFee: values.serviceFee,
+        maxGuests: values.maxGuests,
         location: values.location,
         amenities: values.amenities || [],
         images: allImages,
@@ -176,6 +182,50 @@ const ApartmentForm: React.FC = () => {
                 size="large"
                 addonAfter="đ"
                 placeholder={t('owner.form.price_placeholder', '0')}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="cleaningFee"
+              label={t('owner.form.cleaning_fee_label', 'Phí vệ sinh (VNĐ)')}
+              rules={[{ required: true, message: t('owner.form.cleaning_fee_required', 'Vui lòng nhập phí vệ sinh') }]}
+              initialValue={120000}
+            >
+              <InputNumber
+                style={{ width: '100%' }}
+                min={0}
+                size="large"
+                addonAfter="đ"
+                placeholder={t('owner.form.cleaning_fee_placeholder', '0')}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="serviceFee"
+              label={t('owner.form.service_fee_label', 'Phí dịch vụ (VNĐ)')}
+              rules={[{ required: true, message: t('owner.form.service_fee_required', 'Vui lòng nhập phí dịch vụ') }]}
+              initialValue={85000}
+            >
+              <InputNumber
+                style={{ width: '100%' }}
+                min={0}
+                size="large"
+                addonAfter="đ"
+                placeholder={t('owner.form.service_fee_placeholder', '0')}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="maxGuests"
+              label={t('owner.form.max_guests_label', 'Số người ở tối đa')}
+              rules={[{ required: true, message: t('owner.form.max_guests_required', 'Vui lòng nhập số người ở tối đa') }]}
+              initialValue={2}
+            >
+              <InputNumber
+                style={{ width: '100%' }}
+                min={1}
+                size="large"
+                placeholder={t('owner.form.max_guests_placeholder', '2')}
               />
             </Form.Item>
 

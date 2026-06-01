@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Apartments" ADD COLUMN     "cleaningFee" DECIMAL(10,2) NOT NULL DEFAULT 0.0,
+ADD COLUMN     "maxGuests" INTEGER NOT NULL DEFAULT 2,
+ADD COLUMN     "serviceFee" DECIMAL(10,2) NOT NULL DEFAULT 0.0;

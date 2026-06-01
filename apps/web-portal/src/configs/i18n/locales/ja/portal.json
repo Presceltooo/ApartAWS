@@ -134,6 +134,10 @@
     "btn_pay_vnpay": "VNPayで支払う",
     "btn_cancel_booking": "予約をキャンセル",
     "btn_view_apartment": "アパートメントを見る",
+    "price_summary": "料金の概要",
+    "nights": "泊",
+    "cleaning_fee": "清掃料金",
+    "service_fee": "サービス料",
     "cancel_confirm": {
       "title": "予約をキャンセルしますか？",
       "desc": "この操作は取り消せません。",
@@ -203,5 +207,52 @@
     "desc": "予約リクエストが記録されました。予約手続きを完了するため、今すぐ支払いページに進みますか？",
     "btn_later": "後で",
     "btn_pay_now": "今すぐ支払う"
+  },
+  "booking_modal": {
+    "title": "予約内容の確認",
+    "sub_title": "アパートメント予約",
+    "error_title": "予約に失敗しました",
+    "error_desc_fallback": "もう一度お試しください。",
+    "section_details": "予約詳細",
+    "label_dates": "選択された日程",
+    "validation_dates": "日付を選択してください",
+    "label_guests": "ゲスト数",
+    "guests_count": "ゲスト {{count}}名",
+    "section_price": "料金の概要",
+    "price_per_night": "{{price}} ₫ × {{count}} 泊",
+    "cleaning_fee": "清掃料金",
+    "service_fee": "サービス料",
+    "total": "合計",
+    "btn_confirm": "予約を確定する",
+    "footer_note": "現時点で請求が発生することはありません。",
+    "success_title": "ご予約が完了しました！",
+    "success_desc": "{{name}} の予約リクエストが記録されました。"
+  },
+  "payment_result": {
+    "success_title": "決済に成功しました！",
+    "success_desc": "お取引は正常に処理されました。",
+    "btn_my_bookings": "マイ予約を見る",
+    "btn_home": "ホームへ戻る",
+    "vnpay_tx_id": "VNPay取引ID",
+    "order_code": "注文コード",
+    "amount": "金額",
+    "fail_title": "決済に失敗しました",
+    "btn_back_bookings": "予約一覧へ戻る",
+    "err_unknown": "決済処理中にエラーが発生しました。",
+    "err_failed_code": "決済に失敗しました（エラーコード: {{code}}）。",
+    "error_map": {
+      "07": "引き落としは成功しましたが、不審な取引として検知されました（詐欺または異常な取引）。",
+      "09": "決済失敗: カードまたはアカウントがインターネットバンキングに登録されていません。",
+      "10": "決済失敗: カード/アカウント情報認証 of 試行回数が3回を超えました。",
+      "11": "決済失敗: お支払い待ち時間の期限が切れました。",
+      "12": "決済失敗: カードまたはアカウントがロックされています。",
+      "13": "決済失敗: OTP（ワンタイムパスワード）が正しくありません。",
+      "24": "取引がキャンセルされました。",
+      "51": "残高が不足しています。",
+      "65": "本日の取引上限額を超過しました。",
+      "75": "決済先銀行がメンテナンス中です。",
+      "79": "暗証番号 of 入力間違いが制限回数を超えました。",
+      "99": "不明なエラーが発生しました。"
+    }
   }
 }

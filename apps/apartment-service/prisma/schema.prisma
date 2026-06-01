@@ -16,6 +16,9 @@ model Apartment {
   title         String    @db.VarChar(255)
   description   String?   @db.Text
   pricePerNight Decimal   @db.Decimal(10, 2)
+  cleaningFee   Decimal   @default(0.0) @db.Decimal(10, 2)
+  serviceFee    Decimal   @default(0.0) @db.Decimal(10, 2)
+  maxGuests     Int       @default(2)
   location      String
   amenities     String[]
   images        String[]

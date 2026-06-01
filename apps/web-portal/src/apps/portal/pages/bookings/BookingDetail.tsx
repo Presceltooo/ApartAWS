@@ -15,7 +15,7 @@ import {
   SyncOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import { Tag, Button, Popconfirm, notification, Skeleton, Descriptions, Divider } from 'antd';
+import { Tag, Popconfirm, notification, Skeleton, Descriptions, Divider } from 'antd';
 import styled from 'styled-components';
 import { portalTheme } from '../../styled';
 import { useBookingDetail } from '@apps/portal/services/query';
@@ -98,11 +98,103 @@ const AptImage = styled.img`
   margin-bottom: 1.5rem;
 `;
 
-const ActionRow = styled.div`
+const StyledActionRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+  width: 100%;
+`;
+
+const LeftActions = styled.div`
   display: flex;
   gap: 1.5rem;
-  margin-top: 2.5rem;
+`;
+
+const RightActions = styled.div`
+  display: flex;
+  gap: 1.25rem;
   flex-wrap: wrap;
+  align-items: center;
+`;
+
+const BaseActionButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  height: 4.6rem;
+  padding: 0 2.2rem;
+  font-size: 1.405rem;
+  font-weight: 600;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  font-family: inherit;
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+`;
+
+const BackActionButton = styled(BaseActionButton)`
+  background-color: ${portalTheme.colors.surfaceContainerLowest};
+  border: 1px solid ${portalTheme.colors.outlineVariant};
+  color: ${portalTheme.colors.onSurfaceVariant};
+  
+  &:hover {
+    border-color: ${portalTheme.colors.primary};
+    color: ${portalTheme.colors.primary};
+    background-color: rgba(216, 90, 48, 0.04);
+  }
+`;
+
+
+const VNPayActionButton = styled(BaseActionButton)`
+  background: linear-gradient(135deg, #005BAC 0%, #004481 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 91, 172, 0.15);
+  
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 91, 172, 0.25);
+    opacity: 0.95;
+  }
+`;
+
+const DangerActionButton = styled(BaseActionButton)`
+  background-color: ${portalTheme.colors.surfaceContainerLowest};
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: #dc3545;
+  
+  &:hover {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.04);
+  }
+`;
+
+const SecondaryActionButton = styled(BaseActionButton)`
+  background-color: ${portalTheme.colors.surfaceContainerLowest};
+  border: 1px solid ${portalTheme.colors.outlineVariant};
+  color: ${portalTheme.colors.onSurface};
+  
+  &:hover {
+    border-color: ${portalTheme.colors.primary};
+    color: ${portalTheme.colors.primary};
+    background-color: rgba(216, 90, 48, 0.04);
+  }
 `;
 
 // ─── Status configs (keys only, labels resolved dynamically) ──────────────────
@@ -353,58 +445,50 @@ const BookingDetail: React.FC = () => {
       </Card>
 
       {/* Actions */}
-      <ActionRow>
-        <Button
-          type="default"
-          onClick={() => navigate({ to: '/bookings' })}
-          icon={<ArrowLeftOutlined />}
-          style={{ height: '4rem', fontSize: '1.4rem', fontWeight: 600 }}
-        >
-          {t('booking_detail.btn_all_bookings', 'Tất cả đặt phòng')}
-        </Button>
+      <StyledActionRow>
+        <LeftActions>
+          <BackActionButton onClick={() => navigate({ to: '/bookings' })}>
+            <ArrowLeftOutlined /> {t('booking_detail.btn_all_bookings', 'Tất cả đặt phòng')}
+          </BackActionButton>
+        </LeftActions>
 
-        {/* VNPay payment button: shown if status is PENDING and unpaid */}
-        {status === 'PENDING' && paymentStatus !== 'PAID' && (
-          <Button
-            type="primary"
-            icon={<CreditCardOutlined />}
-            loading={isRedirectingToVnpay}
-            onClick={handleVnpayPayment}
-            style={{ background: '#005BAC', borderColor: '#005BAC', height: '4rem', fontSize: '1.4rem', fontWeight: 600 }}
-          >
-            {t('booking_detail.btn_pay_vnpay', 'Thanh toán qua VNPay')}
-          </Button>
-        )}
-
-        {canCancel && (
-          <Popconfirm
-            title={t('booking_detail.cancel_confirm.title', 'Huỷ đơn đặt phòng?')}
-            description={t('booking_detail.cancel_confirm.desc', 'Hành động này không thể hoàn tác.')}
-            onConfirm={handleCancel}
-            okText={t('booking_detail.cancel_confirm.ok', 'Xác nhận huỷ')}
-            cancelText={t('booking_detail.cancel_confirm.cancel', 'Giữ lại')}
-            okButtonProps={{ danger: true }}
-          >
-            <Button
-              danger
-              icon={<CloseCircleOutlined />}
-              loading={isCancelling}
-              style={{ height: '4rem', fontSize: '1.4rem', fontWeight: 600 }}
+        <RightActions>
+          {status === 'PENDING' && paymentStatus !== 'PAID' && (
+            <VNPayActionButton
+              onClick={handleVnpayPayment}
+              disabled={isRedirectingToVnpay}
             >
-              {t('booking_detail.btn_cancel_booking', 'Huỷ đặt phòng')}
-            </Button>
-          </Popconfirm>
-        )}
+              <CreditCardOutlined />
+              {t('booking_detail.btn_pay_vnpay', 'Thanh toán qua VNPay')}
+            </VNPayActionButton>
+          )}
 
-        {apt?.id && (
-          <Button
-            onClick={() => navigate({ to: '/apartment/$id', params: { id: apt.id } })}
-            style={{ height: '4rem', fontSize: '1.4rem', fontWeight: 600 }}
-          >
-            {t('booking_detail.btn_view_apartment', 'Xem căn hộ')}
-          </Button>
-        )}
-      </ActionRow>
+          {apt?.id && (
+            <SecondaryActionButton
+              onClick={() => navigate({ to: '/apartment/$id', params: { id: apt.id } })}
+            >
+              <HomeOutlined />
+              {t('booking_detail.btn_view_apartment', 'Xem căn hộ')}
+            </SecondaryActionButton>
+          )}
+
+          {canCancel && (
+            <Popconfirm
+              title={t('booking_detail.cancel_confirm.title', 'Huỷ đơn đặt phòng?')}
+              description={t('booking_detail.cancel_confirm.desc', 'Hành động này không thể hoàn tác.')}
+              onConfirm={handleCancel}
+              okText={t('booking_detail.cancel_confirm.ok', 'Xác nhận huỷ')}
+              cancelText={t('booking_detail.cancel_confirm.cancel', 'Giữ lại')}
+              okButtonProps={{ danger: true }}
+            >
+              <DangerActionButton disabled={isCancelling}>
+                <CloseCircleOutlined />
+                {t('booking_detail.btn_cancel_booking', 'Huỷ đặt phòng')}
+              </DangerActionButton>
+            </Popconfirm>
+          )}
+        </RightActions>
+      </StyledActionRow>
     </PageWrapper>
   );
 };

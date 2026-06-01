@@ -7,6 +7,15 @@ export class CreateApartmentDto {
   @ApiProperty({ description: 'Giá tiền mỗi đêm (VND)', example: 2000000 })
   pricePerNight: number;
 
+  @ApiPropertyOptional({ description: 'Phí vệ sinh (VND)', example: 120000, default: 0 })
+  cleaningFee?: number;
+
+  @ApiPropertyOptional({ description: 'Phí dịch vụ (VND)', example: 85000, default: 0 })
+  serviceFee?: number;
+
+  @ApiPropertyOptional({ description: 'Số người ở tối đa', example: 2, default: 2 })
+  maxGuests?: number;
+
   @ApiPropertyOptional({ description: 'Mô tả ngắn gọn', example: 'View bao trọn sông Sài Gòn' })
   description?: string;
 

@@ -187,16 +187,16 @@ const ApartmentDetails: React.FC = () => {
               </SummaryRow>
               <SummaryRow>
                 <span>{t('details.book_widget.cleaning_fee', 'Phí vệ sinh')}</span>
-                <span className="price">120.000 ₫</span>
+                <span className="price">{Number(apartment.cleaningFee ?? 120000).toLocaleString('vi-VN')} ₫</span>
               </SummaryRow>
               <SummaryRow>
                 <span>{t('details.book_widget.service_fee', 'Phí dịch vụ')}</span>
-                <span className="price">85.000 ₫</span>
+                <span className="price">{Number(apartment.serviceFee ?? 85000).toLocaleString('vi-VN')} ₫</span>
               </SummaryRow>
  
               <SummaryRow $isTotal>
                 <span>{t('details.book_widget.total_from', 'Tổng cộng từ')}</span>
-                <span className="price">{(pricePerNight + 205000).toLocaleString('vi-VN')} ₫</span>
+                <span className="price">{(pricePerNight + Number(apartment.cleaningFee ?? 120000) + Number(apartment.serviceFee ?? 85000)).toLocaleString('vi-VN')} ₫</span>
               </SummaryRow>
  
               <PaymentSuccessCard>
@@ -230,6 +230,9 @@ const ApartmentDetails: React.FC = () => {
         apartmentId={apartment.id}
         propertyName={apartment.title}
         pricePerNight={pricePerNight}
+        cleaningFee={Number(apartment.cleaningFee ?? 120000)}
+        serviceFee={Number(apartment.serviceFee ?? 85000)}
+        maxGuests={Number(apartment.maxGuests ?? 2)}
       />
     </>
   );

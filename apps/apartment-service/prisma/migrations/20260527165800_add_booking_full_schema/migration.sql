@@ -1,3 +1,7 @@
+-- Create schemas if they do not exist
+CREATE SCHEMA IF NOT EXISTS "booking";
+CREATE SCHEMA IF NOT EXISTS "apartment";
+
 -- CreateEnum
 CREATE TYPE "booking"."PaymentStatus" AS ENUM ('UNPAID', 'PAID', 'FAILED', 'REFUNDED');
 

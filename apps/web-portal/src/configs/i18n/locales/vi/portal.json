@@ -134,6 +134,10 @@
     "btn_pay_vnpay": "Thanh toán qua VNPay",
     "btn_cancel_booking": "Huỷ đặt phòng",
     "btn_view_apartment": "Xem căn hộ",
+    "price_summary": "Tóm tắt giá",
+    "nights": "đêm",
+    "cleaning_fee": "Phí vệ sinh",
+    "service_fee": "Phí dịch vụ",
     "cancel_confirm": {
       "title": "Huỷ đơn đặt phòng?",
       "desc": "Hành động này không thể hoàn tác.",
@@ -203,5 +207,52 @@
     "desc": "Yêu cầu đặt phòng của bạn đã được ghi nhận. Bạn có muốn chuyển sang trang thanh toán ngay bây giờ để hoàn tất thủ tục?",
     "btn_later": "Để sau",
     "btn_pay_now": "Thanh toán ngay"
+  },
+  "booking_modal": {
+    "title": "Xác nhận đặt phòng",
+    "sub_title": "Đặt căn hộ",
+    "error_title": "Đặt phòng thất bại",
+    "error_desc_fallback": "Vui lòng thử lại.",
+    "section_details": "Chi tiết đặt chỗ",
+    "label_dates": "Ngày đã chọn",
+    "validation_dates": "Vui lòng chọn ngày",
+    "label_guests": "Số khách",
+    "guests_count": "{{count}} Khách",
+    "section_price": "Tóm tắt giá",
+    "price_per_night": "{{price}} ₫ × {{count}} đêm",
+    "cleaning_fee": "Phí vệ sinh",
+    "service_fee": "Phí dịch vụ",
+    "total": "Tổng cộng",
+    "btn_confirm": "Xác nhận đặt phòng",
+    "footer_note": "Bạn sẽ chưa bị trừ tiền ngay lúc này.",
+    "success_title": "Đặt phòng thành công!",
+    "success_desc": "Đơn đặt phòng cho {{name}} đã được ghi nhận."
+  },
+  "payment_result": {
+    "success_title": "Thanh toán thành công!",
+    "success_desc": "Giao dịch của bạn đã được xử lý thành công.",
+    "btn_my_bookings": "Xem đặt phòng của tôi",
+    "btn_home": "Về trang chủ",
+    "vnpay_tx_id": "Mã giao dịch VNPay",
+    "order_code": "Mã đơn hàng",
+    "amount": "Số tiền",
+    "fail_title": "Thanh toán không thành công",
+    "btn_back_bookings": "Quay lại đặt phòng",
+    "err_unknown": "Đã có lỗi xảy ra trong quá trình thanh toán.",
+    "err_failed_code": "Giao dịch thất bại (mã lỗi: {{code}}).",
+    "error_map": {
+      "07": "Trừ tiền thành công. Giao dịch bị nghi ngờ (liên quan tới lừa đảo, giao dịch bất thường).",
+      "09": "Giao dịch không thành công: Thẻ/Tài khoản chưa đăng ký dịch vụ Internet Banking.",
+      "10": "Giao dịch không thành công: Xác thực thông tin thẻ/tài khoản quá 3 lần.",
+      "11": "Giao dịch không thành công: Đã hết hạn chờ thanh toán.",
+      "12": "Giao dịch không thành công: Thẻ/Tài khoản bị khóa.",
+      "13": "Giao dịch không thành công: Sai mật khẩu OTP.",
+      "24": "Giao dịch bị hủy bỏ.",
+      "51": "Tài khoản không đủ số dư.",
+      "65": "Tài khoản vượt quá hạn mức giao dịch trong ngày.",
+      "75": "Ngân hàng thanh toán đang bảo trì.",
+      "79": "Nhập sai mật khẩu thanh toán quá số lần quy định.",
+      "99": "Lỗi không xác định."
+    }
   }
 }

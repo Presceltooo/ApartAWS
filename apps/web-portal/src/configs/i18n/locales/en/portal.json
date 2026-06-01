@@ -135,6 +135,10 @@
     "btn_pay_vnpay": "Pay via VNPay",
     "btn_cancel_booking": "Cancel Booking",
     "btn_view_apartment": "View Apartment",
+    "price_summary": "Price Summary",
+    "nights": "nights",
+    "cleaning_fee": "Cleaning fee",
+    "service_fee": "Service fee",
     "cancel_confirm": {
       "title": "Cancel booking?",
       "desc": "This action cannot be undone.",
@@ -204,5 +208,52 @@
     "desc": "Your booking request has been recorded. Do you want to proceed to the payment page now to complete the booking?",
     "btn_later": "Later",
     "btn_pay_now": "Pay Now"
+  },
+  "booking_modal": {
+    "title": "Confirm Booking",
+    "sub_title": "Book Apartment",
+    "error_title": "Booking Failed",
+    "error_desc_fallback": "Please try again.",
+    "section_details": "Reservation Details",
+    "label_dates": "Selected Dates",
+    "validation_dates": "Please select dates",
+    "label_guests": "Guests",
+    "guests_count": "{{count}} Guests",
+    "section_price": "Price Summary",
+    "price_per_night": "{{price}} ₫ × {{count}} nights",
+    "cleaning_fee": "Cleaning fee",
+    "service_fee": "Service fee",
+    "total": "Total",
+    "btn_confirm": "Confirm Booking",
+    "footer_note": "You won't be charged yet.",
+    "success_title": "Booking Successful!",
+    "success_desc": "Your booking request for {{name}} has been recorded."
+  },
+  "payment_result": {
+    "success_title": "Payment Successful!",
+    "success_desc": "Your transaction has been processed successfully.",
+    "btn_my_bookings": "View My Bookings",
+    "btn_home": "Back to Home",
+    "vnpay_tx_id": "VNPay Transaction ID",
+    "order_code": "Order Code",
+    "amount": "Amount",
+    "fail_title": "Payment Failed",
+    "btn_back_bookings": "Back to Bookings",
+    "err_unknown": "An error occurred during the payment process.",
+    "err_failed_code": "Transaction failed (error code: {{code}}).",
+    "error_map": {
+      "07": "Money deducted successfully. Suspicious transaction (suspected fraud or unusual activity).",
+      "09": "Transaction failed: Card/Account is not registered for Internet Banking.",
+      "10": "Transaction failed: Card/Account verification failed more than 3 times.",
+      "11": "Transaction failed: Payment session has expired.",
+      "12": "Transaction failed: Card/Account is locked.",
+      "13": "Transaction failed: Incorrect OTP password.",
+      "24": "Transaction cancelled.",
+      "51": "Insufficient balance.",
+      "65": "Account exceeded daily transaction limit.",
+      "75": "Payment gateway bank is under maintenance.",
+      "79": "Payment password entered incorrectly too many times.",
+      "99": "Unknown error."
+    }
   }
 }

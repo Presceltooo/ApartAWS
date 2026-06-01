@@ -47,7 +47,8 @@ const PortalLayout: React.FC = () => {
     <PortalLayoutWrapper>
       <PortalHeaderNav>
         <PortalHeaderInner>
-          <Link to="/">
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', textDecoration: 'none' }}>
+            <img src="/logo.png" alt="Domin Tactic Logo" style={{ height: '3.6rem', width: '3.6rem', objectFit: 'contain' }} />
             <PortalBrandLogo>Domin Tactic</PortalBrandLogo>
           </Link>
           <PortalNavLinks>
@@ -138,7 +139,10 @@ const PortalLayout: React.FC = () => {
 
       <PortalFooterWrapper>
         <PortalFooterInner>
-          <PortalFooterBrand>Domin Tactic</PortalFooterBrand>
+          <PortalFooterBrand style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+            <img src="/logo.png" alt="Domin Tactic Logo" style={{ height: '3rem', width: '3rem', objectFit: 'contain' }} />
+            Domin Tactic
+          </PortalFooterBrand>
           <PortalFooterNav>
             <a href="#">{t('footer.privacy')}</a>
             <a href="#">{t('footer.terms')}</a>

@@ -3,6 +3,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 import { Result, Button, Descriptions, Typography } from 'antd';
 import styled from 'styled-components';
 import { portalTheme } from '../../styled';
+import { useTranslation } from 'react-i18next';
 
 const { Text } = Typography;
 
@@ -25,24 +26,6 @@ const ResultCard = styled.div`
   text-align: center;
 `;
 
-// Mapping mã lỗi VNPay sang tiếng Việt
-const vnpayErrorMap: Record<string, string> = {
-  '07': 'Trừ tiền thành công. Giao dịch bị nghi ngờ (liên quan tới lừa đảo, giao dịch bất thường).',
-  '09': 'Giao dịch không thành công: Thẻ/Tài khoản chưa đăng ký dịch vụ Internet Banking.',
-  '10': 'Giao dịch không thành công: Xác thực thông tin thẻ/tài khoản quá 3 lần.',
-  '11': 'Giao dịch không thành công: Đã hết hạn chờ thanh toán.',
-  '12': 'Giao dịch không thành công: Thẻ/Tài khoản bị khóa.',
-  '13': 'Giao dịch không thành công: Sai mật khẩu OTP.',
-  '24': 'Giao dịch bị hủy bỏ.',
-  '51': 'Tài khoản không đủ số dư.',
-  '65': 'Tài khoản vượt quá hạn mức giao dịch trong ngày.',
-  '75': 'Ngân hàng thanh toán đang bảo trì.',
-  '79': 'Nhập sai mật khẩu thanh toán quá số lần quy định.',
-  '99': 'Lỗi không xác định.',
-};
-
-// ─── Component ────────────────────────────────────────────────────────────────
-
 interface PaymentResultSearch {
   status?: 'success' | 'fail' | 'error';
   txnRef?: string;
@@ -54,6 +37,7 @@ interface PaymentResultSearch {
 
 const KetQuaThanhToan: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation('portal');
   // Đọc query params từ URL
   const search = useSearch({ strict: false }) as PaymentResultSearch;
 
@@ -65,34 +49,34 @@ const KetQuaThanhToan: React.FC = () => {
         <ResultCard>
           <Result
             status="success"
-            title="Thanh toán thành công!"
-            subTitle={`Giao dịch của bạn đã được xử lý thành công.`}
+            title={t('payment_result.success_title', 'Thanh toán thành công!')}
+            subTitle={t('payment_result.success_desc', 'Giao dịch của bạn đã được xử lý thành công.')}
             extra={[
               <Button
                 type="primary"
                 key="bookings"
                 onClick={() => navigate({ to: '/bookings' })}
               >
-                Xem đặt phòng của tôi
+                {t('payment_result.btn_my_bookings', 'Xem đặt phòng của tôi')}
               </Button>,
               <Button key="home" onClick={() => navigate({ to: '/' })}>
-                Về trang chủ
+                {t('payment_result.btn_home', 'Về trang chủ')}
               </Button>,
             ]}
           >
             <Descriptions column={1} bordered size="small">
               {transactionId && (
-                <Descriptions.Item label="Mã giao dịch VNPay">
+                <Descriptions.Item label={t('payment_result.vnpay_tx_id', 'Mã giao dịch VNPay')}>
                   <Text copyable>{transactionId}</Text>
                 </Descriptions.Item>
               )}
               {txnRef && (
-                <Descriptions.Item label="Mã đơn hàng">
+                <Descriptions.Item label={t('payment_result.order_code', 'Mã đơn hàng')}>
                   <Text copyable code>{txnRef}</Text>
                 </Descriptions.Item>
               )}
               {amount && (
-                <Descriptions.Item label="Số tiền">
+                <Descriptions.Item label={t('payment_result.amount', 'Số tiền')}>
                   <Text strong style={{ color: '#52c41a' }}>
                     {Number(amount).toLocaleString('vi-VN')} ₫
                   </Text>
@@ -105,16 +89,19 @@ const KetQuaThanhToan: React.FC = () => {
     );
   }
 
-  // Trạng thái thất bại hoặc lỗi
-  const errorMessage =
-    code ? (vnpayErrorMap[code] ?? `Giao dịch thất bại (mã lỗi: ${code}).`) : 'Đã có lỗi xảy ra trong quá trình thanh toán.';
+  // Trạng thái thất bại hoặc lỗi: Tự động tra cứu mã lỗi động từ i18n
+  const errorMessage = code
+    ? t(`payment_result.error_map.${code}`, {
+        defaultValue: t('payment_result.err_failed_code', { code, defaultValue: `Giao dịch thất bại (mã lỗi: ${code}).` })
+      })
+    : t('payment_result.err_unknown', 'Đã có lỗi xảy ra trong quá trình thanh toán.');
 
   return (
     <PageWrapper>
       <ResultCard>
         <Result
           status="error"
-          title="Thanh toán không thành công"
+          title={t('payment_result.fail_title', 'Thanh toán không thành công')}
           subTitle={errorMessage}
           extra={[
             <Button
@@ -122,16 +109,16 @@ const KetQuaThanhToan: React.FC = () => {
               key="retry"
               onClick={() => navigate({ to: '/bookings' })}
             >
-              Quay lại đặt phòng
+              {t('payment_result.btn_back_bookings', 'Quay lại đặt phòng')}
             </Button>,
             <Button key="home" onClick={() => navigate({ to: '/' })}>
-              Về trang chủ
+              {t('payment_result.btn_home', 'Về trang chủ')}
             </Button>,
           ]}
         >
           {txnRef && (
             <Descriptions column={1} bordered size="small">
-              <Descriptions.Item label="Mã đơn hàng">
+              <Descriptions.Item label={t('payment_result.order_code', 'Mã đơn hàng')}>
                 <Text copyable code>{txnRef}</Text>
               </Descriptions.Item>
             </Descriptions>

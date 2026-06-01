@@ -25,5 +25,7 @@
     "ja": "日本語"
   },
   "total_items": "{{from}}-{{to}} / {{total}}",
-  "items_per_page": "/ trang"
+  "items_per_page": "/ trang",
+  "not_found": "Xin lỗi, địa chỉ bạn truy cập không tồn tại.",
+  "back_to_home": "Về trang chủ"
 }

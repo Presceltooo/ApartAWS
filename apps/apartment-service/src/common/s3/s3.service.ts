@@ -57,7 +57,10 @@ export class S3Service {
     });
 
     try {
-      const uploadUrl = await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
+      const uploadUrl = await getSignedUrl(this.s3Client, command, {
+        expiresIn: 3600,
+        signableHeaders: new Set(['content-type']),
+      });
       const publicUrl = `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${fileKey}`;
 
       return {

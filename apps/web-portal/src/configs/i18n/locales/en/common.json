@@ -25,5 +25,7 @@
     "ja": "日本語"
   },
   "total_items": "{{from}}-{{to}} of {{total}}",
-  "items_per_page": "/ page"
+  "items_per_page": "/ page",
+  "not_found": "Sorry, the page you accessed does not exist.",
+  "back_to_home": "Back to Home"
 }

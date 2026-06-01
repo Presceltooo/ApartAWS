@@ -2,6 +2,9 @@ export interface ICreateApartmentPayload {
   title: string;
   description?: string;
   pricePerNight: number;
+  cleaningFee?: number;
+  serviceFee?: number;
+  maxGuests?: number;
   location: string;
   amenities: string[];
   images: string[];

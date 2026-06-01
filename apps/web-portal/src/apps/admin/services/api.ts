@@ -9,7 +9,6 @@ import type {
   IUpdateApartmentPayload,
   IPresignedUrlResponse,
 } from './types';
-import axios from 'axios';
 
 // ─── Owner Apartment APIs ────────────────────────────────────────────────────────
 
@@ -107,9 +106,16 @@ export const updateSystemBookingStatus = (id: string, status: string): Promise<I
 };
 
 export const uploadToS3 = async (presignedUrl: string, file: File): Promise<void> => {
-  await axios.put(presignedUrl, file, {
+  const response = await fetch(presignedUrl, {
+    method: 'PUT',
+    body: file,
     headers: {
       'Content-Type': file.type,
     },
   });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`S3 upload failed: ${response.status} ${response.statusText} - ${errorText}`);
+  }
 };
