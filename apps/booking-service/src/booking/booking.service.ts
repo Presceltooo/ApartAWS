@@ -64,6 +64,7 @@ export class BookingsService {
 
     try {
       // 5. Tạo booking với totalPrice chính xác
+      const isAuto = !!apartment.isAutoApprove;
       const booking = await this.prisma.booking.create({
         data: {
           apartmentId: dto.apartmentId,
@@ -71,6 +72,7 @@ export class BookingsService {
           endDate: end,
           tenantId,
           totalPrice,
+          status: isAuto ? 'CONFIRMED' : 'PENDING',
         },
       });
 
@@ -86,9 +88,14 @@ export class BookingsService {
             <li><strong>Số đêm:</strong> ${nights} đêm</li>
             <li><strong>Tổng tiền:</strong> ${Number(totalPrice).toLocaleString('vi-VN')} ₫</li>
           </ul>
-          <p>Trạng thái hiện tại: <strong>Chờ xác nhận</strong></p>
+          <p>Trạng thái hiện tại: <strong>${isAuto ? 'Đã duyệt (Tự động duyệt)' : 'Chờ xác nhận'}</strong></p>
         `;
         this.mailService.sendEmail(tenantEmail, 'Xác nhận yêu cầu đặt phòng', htmlBody).catch(console.error);
+      }
+
+      // Nếu tự động duyệt, gửi mail cho Owner báo đã duyệt căn hộ
+      if (isAuto) {
+        this.sendApprovalEmailToOwner(booking, apartment).catch(console.error);
       }
 
       // 6. Merge thông tin apartment vào response (Convert Decimal → number cho frontend)
@@ -215,6 +222,9 @@ export class BookingsService {
       where: { id },
       data: { status: 'CONFIRMED' },
     });
+
+    // Gửi email cho chủ nhà (Owner) báo đã duyệt đặt phòng
+    this.sendApprovalEmailToOwner(updated, apartment).catch(console.error);
 
     return new ApiResponse({ ...updated, apartment }, 'Xác nhận đặt phòng thành công');
   }
@@ -348,5 +358,51 @@ export class BookingsService {
     const apartment = await this.getApartment(booking.apartmentId);
 
     return new ApiResponse({ ...updated, apartment }, 'Cập nhật trạng thái đặt phòng (Admin) thành công');
+  }
+
+  private async getUser(userId: string): Promise<any> {
+    try {
+      const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://auth-service:3001';
+      const { data } = await firstValueFrom(
+        this.httpService.get(
+          `${authServiceUrl}/api/auth/users/${userId}`,
+        ),
+      );
+      return data?.data ?? data;
+    } catch (err: any) {
+      console.error(`Error fetching user ${userId} from auth-service:`, err.message);
+      return null;
+    }
+  }
+
+  private async sendApprovalEmailToOwner(booking: any, apartment: any) {
+    if (!apartment?.ownerId) return;
+    const owner = await this.getUser(apartment.ownerId);
+    if (!owner?.email) return;
+
+    const start = new Date(booking.startDate);
+    const end = new Date(booking.endDate);
+    const msDiff = end.getTime() - start.getTime();
+    const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
+
+    const htmlBody = `
+      <h3>Thông báo: Duyệt đặt phòng thành công!</h3>
+      <p>Xin chào ${owner.fullName || 'chủ nhà'},</p>
+      <p>Căn hộ <strong>${apartment.title}</strong> của bạn đã được duyệt thành công một đơn đặt phòng mới.</p>
+      <p>Thông tin chi tiết đơn đặt phòng:</p>
+      <ul>
+        <li><strong>Mã đơn đặt phòng:</strong> ${booking.id}</li>
+        <li><strong>Thời gian thuê:</strong> Từ ${start.toLocaleDateString('vi-VN')} đến ${end.toLocaleDateString('vi-VN')} (${nights} đêm)</li>
+        <li><strong>Tổng doanh thu:</strong> ${Number(booking.totalPrice).toLocaleString('vi-VN')} ₫</li>
+      </ul>
+      <p>Trạng thái đơn hàng: <strong>Đã duyệt (CONFIRMED)</strong></p>
+      <p>Trạng thái thanh toán: <strong>${booking.paymentStatus === 'PAID' ? 'Đã thanh toán thành công' : 'Chưa thanh toán'}</strong></p>
+      <p>Vui lòng kiểm tra thông tin trên hệ thống quản lý chủ nhà của bạn.</p>
+    `;
+    await this.mailService.sendEmail(
+      owner.email,
+      `[Domin Tactic] Duyệt thành công đặt phòng căn hộ ${apartment.title}`,
+      htmlBody
+    );
   }
 }

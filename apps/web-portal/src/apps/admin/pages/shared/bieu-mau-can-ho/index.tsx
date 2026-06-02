@@ -55,6 +55,7 @@ const ApartmentForm: React.FC = () => {
         location: apt.location,
         amenities: apt.amenities,
         isActive: apt.isActive,
+        isAutoApprove: apt.isAutoApprove,
       });
 
       if (apt.images && apt.images.length > 0) {
@@ -101,6 +102,7 @@ const ApartmentForm: React.FC = () => {
         amenities: values.amenities || [],
         images: allImages,
         isActive: values.isActive,
+        isAutoApprove: values.isAutoApprove,
       };
 
       // 2. Submit to backend
@@ -145,7 +147,7 @@ const ApartmentForm: React.FC = () => {
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        initialValues={{ isActive: true, amenities: [] }}
+        initialValues={{ isActive: true, isAutoApprove: false, amenities: [] }}
       >
         <Row gutter={[32, 24]}>
           <Col xs={24} lg={15}>
@@ -265,6 +267,13 @@ const ApartmentForm: React.FC = () => {
               <Switch 
                 checkedChildren={t('owner.form.status_active', 'Active')} 
                 unCheckedChildren={t('owner.form.status_draft', 'Draft')} 
+              />
+            </Form.Item>
+
+            <Form.Item name="isAutoApprove" label={t('owner.form.auto_approve_label', 'Tự động duyệt booking')} valuePropName="checked">
+              <Switch 
+                checkedChildren={t('owner.form.status_enabled', 'Bật')} 
+                unCheckedChildren={t('owner.form.status_disabled', 'Tắt')} 
               />
             </Form.Item>
 

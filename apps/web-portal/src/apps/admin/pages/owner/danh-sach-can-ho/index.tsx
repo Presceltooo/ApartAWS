@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Space, Tag, Popconfirm, Typography } from 'antd';
+import { Button, Space, Tag, Popconfirm, Typography, Switch } from 'antd';
 import TableWithPagination from '@/shared/components/tables/table-with-pagination';
 import { useTranslation } from 'react-i18next';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useNavigate } from '@tanstack/react-router';
 import { useMyApartments } from '../../../services/query';
-import { useDeleteApartment } from '../../../services/mutation';
+import { useDeleteApartment, useToggleAutoApproveStatus } from '../../../services/mutation';
 import type { IApartment } from '../../../services/types';
 
 const { Title } = Typography;
@@ -15,11 +15,23 @@ const MyApartments: React.FC = () => {
   const { t } = useTranslation('admin');
   const { data: response, isLoading, isError } = useMyApartments({ PageSize: 50 });
   const { mutate: deleteApartment, isPending: isDeleting } = useDeleteApartment();
+  const { mutate: toggleAutoApprove } = useToggleAutoApproveStatus();
+  const [togglingId, setTogglingId] = React.useState<string | null>(null);
 
   const apartments = response?.data ?? [];
 
   const handleDelete = (id: string) => {
     deleteApartment(id);
+  };
+
+  const handleToggleAutoApprove = (id: string, checked: boolean) => {
+    setTogglingId(id);
+    toggleAutoApprove(
+      { id, isAutoApprove: checked },
+      {
+        onSettled: () => setTogglingId(null),
+      }
+    );
   };
 
   const columns = [
@@ -48,6 +60,18 @@ const MyApartments: React.FC = () => {
         <Tag color={isActive ? 'success' : 'default'}>
           {isActive ? t('owner.form.status_active', 'Active') : t('owner.form.status_draft', 'Draft')}
         </Tag>
+      ),
+    },
+    {
+      title: t('owner.table.auto_approve', 'Tự động duyệt'),
+      dataIndex: 'isAutoApprove',
+      key: 'isAutoApprove',
+      render: (isAutoApprove: boolean, record: IApartment) => (
+        <Switch
+          checked={isAutoApprove}
+          loading={togglingId === record.id}
+          onChange={(checked) => handleToggleAutoApprove(record.id, checked)}
+        />
       ),
     },
     {

@@ -129,4 +129,15 @@ export class ApartmentsController {
   toggleApartmentStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
     return this.apartmentsService.toggleApartmentStatus(id, body.isActive);
   }
+
+  @Patch(':id/auto-approve')
+  @ApiOperation({ summary: 'Bật / Tắt tự động duyệt booking' })
+  @ApiResponse({ status: 200, description: 'Cập nhật trạng thái tự động duyệt thành công' })
+  toggleAutoApproveStatus(
+    @Param('id') id: string,
+    @Body() body: { isAutoApprove: boolean },
+    @CurrentUser('userId') userId: string,
+  ) {
+    return this.apartmentsService.toggleAutoApproveStatus(id, body.isAutoApprove, userId);
+  }
 }

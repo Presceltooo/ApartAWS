@@ -21,6 +21,7 @@
       "location": "Vị trí",
       "price_per_night": "Giá / Đêm",
       "status": "Trạng thái",
+      "auto_approve": "Tự động duyệt",
       "actions": "Hành động"
     },
     "actions": {
@@ -86,9 +87,16 @@
       "status_label": "Trạng thái",
       "status_active": "Hoạt động",
       "status_draft": "Bản nháp",
+      "auto_approve_label": "Tự động duyệt booking",
+      "status_enabled": "Bật",
+      "status_disabled": "Tắt",
       "save_btn": "Lưu thay đổi",
       "publish_btn": "Đăng tải căn hộ",
       "loading_detail": "Đang tải chi tiết căn hộ..."
+    },
+    "toast": {
+      "toggle_auto_approve_success": "Cập nhật cấu hình tự động duyệt thành công",
+      "toggle_auto_approve_error": "Lỗi cập nhật cấu hình tự động duyệt"
     }
   }
 }

@@ -17,6 +17,7 @@ export interface IApartment {
   amenities: string[];
   images: string[];
   isActive: boolean;
+  isAutoApprove?: boolean;
   ownerId?: string;
   createdAt: string;
   updatedAt: string;

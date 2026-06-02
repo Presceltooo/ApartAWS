@@ -21,6 +21,7 @@
       "location": "ロケーション",
       "price_per_night": "一晩の料金",
       "status": "ステータス",
+      "auto_approve": "自動承認",
       "actions": "操作"
     },
     "actions": {
@@ -86,9 +87,16 @@
       "status_label": "ステータス",
       "status_active": "有効",
       "status_draft": "下書き",
+      "auto_approve_label": "予約の自動承認",
+      "status_enabled": "オン",
+      "status_disabled": "オフ",
       "save_btn": "変更を保存",
       "publish_btn": "アパートを公開",
       "loading_detail": "アパートメント情報をロード中..."
+    },
+    "toast": {
+      "toggle_auto_approve_success": "自動承認の設定を更新しました",
+      "toggle_auto_approve_error": "自動承認の設定更新に失敗しました"
     }
   }
 }

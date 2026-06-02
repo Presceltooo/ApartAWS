@@ -23,6 +23,7 @@ model Apartment {
   amenities     String[]
   images        String[]
   isActive      Boolean   @default(true)
+  isAutoApprove Boolean   @default(false)
   ownerId       String?   // Chỉ lưu ID, không có FK relation sang User
 
   createdAt     DateTime  @default(now())

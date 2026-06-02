@@ -453,7 +453,7 @@ const BookingDetail: React.FC = () => {
         </LeftActions>
 
         <RightActions>
-          {status === 'PENDING' && paymentStatus !== 'PAID' && (
+          {(status === 'PENDING' || status === 'CONFIRMED') && paymentStatus !== 'PAID' && (
             <VNPayActionButton
               onClick={handleVnpayPayment}
               disabled={isRedirectingToVnpay}

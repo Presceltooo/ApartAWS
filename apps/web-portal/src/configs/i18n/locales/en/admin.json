@@ -21,6 +21,7 @@
       "location": "Location",
       "price_per_night": "Price / Night",
       "status": "Status",
+      "auto_approve": "Auto Approve",
       "actions": "Actions"
     },
     "actions": {
@@ -86,9 +87,16 @@
       "status_label": "Status",
       "status_active": "Active",
       "status_draft": "Draft",
+      "auto_approve_label": "Auto Approve Bookings",
+      "status_enabled": "On",
+      "status_disabled": "Off",
       "save_btn": "Save Changes",
       "publish_btn": "Publish Property",
       "loading_detail": "Loading apartment details..."
+    },
+    "toast": {
+      "toggle_auto_approve_success": "Auto approve configuration updated successfully",
+      "toggle_auto_approve_error": "Failed to update auto approve configuration"
     }
   }
 }

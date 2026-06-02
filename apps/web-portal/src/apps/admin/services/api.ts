@@ -35,6 +35,10 @@ export const deleteApartment = (id: string): Promise<IResponse<null>> => {
   return axiosClient.delete(`apartments/${id}`);
 };
 
+export const toggleAutoApproveStatus = (id: string, isAutoApprove: boolean): Promise<IResponse<IApartment>> => {
+  return axiosClient.patch(`apartments/${id}/auto-approve`, { isAutoApprove });
+};
+
 // ─── Owner Booking APIs ──────────────────────────────────────────────────────────
 
 export const getOwnerBookings = (

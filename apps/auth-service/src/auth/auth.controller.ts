@@ -157,6 +157,13 @@ export class AuthController {
     return this.authService.getUsers(keyword, role, page ? +page : 1, pageSize ? +pageSize : 10);
   }
 
+  @Get('users/:id')
+  @ApiOperation({ summary: 'Lấy thông tin người dùng theo ID (internal)' })
+  @ApiParam({ name: 'id', type: String })
+  getUserById(@Param('id') id: string) {
+    return this.authService.me(id);
+  }
+
   @Patch('users/:id/status')
   @ApiOperation({ summary: 'Khóa / Mở khóa người dùng (Admin)' })
   @ApiParam({ name: 'id', type: String })

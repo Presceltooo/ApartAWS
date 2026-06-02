@@ -31,6 +31,9 @@ export class UpdateApartmentDto {
   @ApiPropertyOptional({ description: 'Trạng thái căn hộ', example: true, default: true })
   isActive?: boolean;
 
+  @ApiPropertyOptional({ description: 'Tự động duyệt booking', example: false, default: false })
+  isAutoApprove?: boolean;
+
   @ApiPropertyOptional({ description: 'ID chủ sở hữu', example: '123456789' })
   ownerId?: string;
 }

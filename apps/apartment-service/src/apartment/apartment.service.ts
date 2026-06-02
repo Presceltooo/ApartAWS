@@ -171,4 +171,19 @@ export class ApartmentsService {
 
     return new ApiResponse(updated, isActive ? 'Đã phê duyệt (Active) căn hộ' : 'Đã ẩn (Inactive) căn hộ');
   }
+
+  async toggleAutoApproveStatus(id: string, isAutoApprove: boolean, userId: string) {
+    const apartment = await this.prisma.apartment.findUnique({ where: { id } });
+    if (!apartment) throw new NotFoundException('Không tìm thấy căn hộ');
+    if (apartment.ownerId !== userId) {
+      throw new ForbiddenException('Bạn không có quyền chỉnh sửa căn hộ này');
+    }
+
+    const updated = await this.prisma.apartment.update({
+      where: { id },
+      data: { isAutoApprove },
+    });
+
+    return new ApiResponse(updated, isAutoApprove ? 'Đã bật tự động duyệt booking' : 'Đã tắt tự động duyệt booking');
+  }
 }

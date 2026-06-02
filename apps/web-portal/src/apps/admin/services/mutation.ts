@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createApartment, updateApartment, deleteApartment, confirmBooking, completeBooking, cancelBooking, toggleUserStatus, toggleApartmentStatus, updateSystemBookingStatus } from './api';
+import { useTranslation } from 'react-i18next';
+import { createApartment, updateApartment, deleteApartment, toggleAutoApproveStatus, confirmBooking, completeBooking, cancelBooking, toggleUserStatus, toggleApartmentStatus, updateSystemBookingStatus } from './api';
 import type { ICreateApartmentPayload, IUpdateApartmentPayload } from './types';
 import { notification } from 'antd';
 
@@ -157,6 +158,27 @@ export const useUpdateSystemBookingStatus = () => {
     onError: (error: any) => {
       notification.error({
         message: 'Failed to update booking status',
+        description: error.response?.data?.message || error.message,
+      });
+    },
+  });
+};
+
+export const useToggleAutoApproveStatus = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('admin');
+  return useMutation({
+    mutationFn: ({ id, isAutoApprove }: { id: string; isAutoApprove: boolean }) =>
+      toggleAutoApproveStatus(id, isAutoApprove),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'apartments'] });
+      notification.success({
+        message: t('owner.toast.toggle_auto_approve_success', 'Cập nhật cấu hình tự động duyệt thành công'),
+      });
+    },
+    onError: (error: any) => {
+      notification.error({
+        message: t('owner.toast.toggle_auto_approve_error', 'Lỗi cập nhật cấu hình tự động duyệt'),
         description: error.response?.data?.message || error.message,
       });
     },
