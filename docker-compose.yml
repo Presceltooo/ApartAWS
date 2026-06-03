@@ -112,9 +112,47 @@ services:
       VNP_HASH_SECRET: ${VNP_HASH_SECRET}
       VNP_RETURN_URL: ${VNP_RETURN_URL}
       VNP_URL: ${VNP_URL}
+      SQS_ENDPOINT: ${SQS_ENDPOINT}
+      SQS_NOTIFICATION_QUEUE_URL: ${SQS_NOTIFICATION_QUEUE_URL}
     depends_on:
       - database
       - apartment-service
+      - sqs
+    networks:
+      - apart-network
+
+  # Local SQS Emulator (ElasticMQ)
+  sqs:
+    image: softwaremill/elasticmq-native:1.6.2
+    container_name: apart-sqs
+    ports:
+      - "9324:9324"
+      - "9325:9325"
+    volumes:
+      - ./elasticmq.conf:/opt/elasticmq.conf
+    networks:
+      - apart-network
+
+  # Notification Service (SQS Consumer & Email Sender)
+  notification-service:
+    image: node:20-alpine
+    container_name: apart-notification
+    working_dir: /app
+    volumes:
+      - ./apps/notification-service:/app
+    command: sh -c "npm install --legacy-peer-deps && npm run start:dev"
+    ports:
+      - "3004:3004"
+    environment:
+      PORT: 3004
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      MAIL_FROM: ${MAIL_FROM}
+      SQS_ENDPOINT: ${SQS_ENDPOINT}
+      SQS_NOTIFICATION_QUEUE_URL: ${SQS_NOTIFICATION_QUEUE_URL}
+    depends_on:
+      - sqs
     networks:
       - apart-network
 

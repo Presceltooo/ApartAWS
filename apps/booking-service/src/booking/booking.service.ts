@@ -9,15 +9,16 @@ import { firstValueFrom } from 'rxjs';
 import { PrismaService } from '../common/prisma/prisma.service';
 import { ApiResponse } from '../common/dto/response.dto';
 import { paginate } from '../common/utils/prisma-paginator';
-import { MailService } from '../common/mail/mail.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
+import { SqsProducerService } from '../common/sqs/sqs-producer.service';
+import { NotificationEventType } from '../common/sqs/notification-event.interface';
 
 @Injectable()
 export class BookingsService {
   constructor(
     private prisma: PrismaService,
     private httpService: HttpService,
-    private mailService: MailService,
+    private sqsProducer: SqsProducerService,
   ) {}
 
   // ===========================================================================
@@ -76,27 +77,36 @@ export class BookingsService {
         },
       });
 
-      // Gửi email thông báo (bất đồng bộ, không block luồng)
-      if (tenantEmail) {
-        const htmlBody = `
-          <h3>Cảm ơn bạn đã đặt phòng tại Domin Tactic!</h3>
-          <p>Thông tin đặt phòng của bạn:</p>
-          <ul>
-            <li><strong>Căn hộ:</strong> ${apartment.title}</li>
-            <li><strong>Nhận phòng:</strong> ${start.toLocaleDateString('vi-VN')}</li>
-            <li><strong>Trả phòng:</strong> ${end.toLocaleDateString('vi-VN')}</li>
-            <li><strong>Số đêm:</strong> ${nights} đêm</li>
-            <li><strong>Tổng tiền:</strong> ${Number(totalPrice).toLocaleString('vi-VN')} ₫</li>
-          </ul>
-          <p>Trạng thái hiện tại: <strong>${isAuto ? 'Đã duyệt (Tự động duyệt)' : 'Chờ xác nhận'}</strong></p>
-        `;
-        this.mailService.sendEmail(tenantEmail, 'Xác nhận yêu cầu đặt phòng', htmlBody).catch(console.error);
-      }
+      // Gửi email thông báo qua SQS (bất đồng bộ, fat event)
+      const tenant = await this.getUser(tenantId).catch(() => null);
+      const tenantEmailVal = tenantEmail || tenant?.email;
+      const tenantName = tenant?.fullName || tenant?.username || 'Khách hàng';
 
-      // Nếu tự động duyệt, gửi mail cho Owner báo đã duyệt căn hộ
-      if (isAuto) {
-        this.sendApprovalEmailToOwner(booking, apartment).catch(console.error);
-      }
+      const owner = apartment.ownerId ? await this.getUser(apartment.ownerId).catch(() => null) : null;
+      const ownerEmail = owner?.email;
+      const ownerName = owner?.fullName || owner?.username || 'Chủ nhà';
+
+      this.sqsProducer.publishNotification({
+        eventType: NotificationEventType.BOOKING_CREATED,
+        timestamp: new Date().toISOString(),
+        payload: {
+          bookingId: booking.id,
+          apartmentId: apartment.id,
+          apartmentTitle: apartment.title,
+          tenantId,
+          tenantEmail: tenantEmailVal,
+          tenantName,
+          ownerId: apartment.ownerId,
+          ownerEmail,
+          ownerName,
+          startDate: start.toISOString(),
+          endDate: end.toISOString(),
+          nights,
+          totalPrice: Number(totalPrice),
+          bookingStatus: booking.status,
+          paymentStatus: booking.paymentStatus,
+        },
+      }).catch(err => console.error('SQS publish error (BOOKING_CREATED):', err));
 
       // 6. Merge thông tin apartment vào response (Convert Decimal → number cho frontend)
       return new ApiResponse(
@@ -198,6 +208,36 @@ export class BookingsService {
       data: { status: 'CANCELLED' },
     });
 
+    // Publish event BOOKING_CANCELLED to SQS
+    const tenant = await this.getUser(updated.tenantId).catch(() => null);
+    const owner = apartment?.ownerId ? await this.getUser(apartment.ownerId).catch(() => null) : null;
+    const start = new Date(updated.startDate);
+    const end = new Date(updated.endDate);
+    const msDiff = end.getTime() - start.getTime();
+    const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
+
+    this.sqsProducer.publishNotification({
+      eventType: NotificationEventType.BOOKING_CANCELLED,
+      timestamp: new Date().toISOString(),
+      payload: {
+        bookingId: updated.id,
+        apartmentId: updated.apartmentId,
+        apartmentTitle: apartment?.title || 'Căn hộ',
+        tenantId: updated.tenantId,
+        tenantEmail: tenant?.email,
+        tenantName: tenant?.fullName || tenant?.username,
+        ownerId: apartment?.ownerId,
+        ownerEmail: owner?.email,
+        ownerName: owner?.fullName || owner?.username,
+        startDate: updated.startDate.toISOString(),
+        endDate: updated.endDate.toISOString(),
+        nights,
+        totalPrice: Number(updated.totalPrice),
+        bookingStatus: updated.status,
+        paymentStatus: updated.paymentStatus,
+      },
+    }).catch(err => console.error('SQS publish error (BOOKING_CANCELLED):', err));
+
     return new ApiResponse({ ...updated, apartment }, 'Hủy đặt phòng thành công');
   }
 
@@ -223,8 +263,35 @@ export class BookingsService {
       data: { status: 'CONFIRMED' },
     });
 
-    // Gửi email cho chủ nhà (Owner) báo đã duyệt đặt phòng
-    this.sendApprovalEmailToOwner(updated, apartment).catch(console.error);
+    // Publish event BOOKING_CONFIRMED to SQS
+    const tenant = await this.getUser(updated.tenantId).catch(() => null);
+    const owner = apartment?.ownerId ? await this.getUser(apartment.ownerId).catch(() => null) : null;
+    const start = new Date(updated.startDate);
+    const end = new Date(updated.endDate);
+    const msDiff = end.getTime() - start.getTime();
+    const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
+
+    this.sqsProducer.publishNotification({
+      eventType: NotificationEventType.BOOKING_CONFIRMED,
+      timestamp: new Date().toISOString(),
+      payload: {
+        bookingId: updated.id,
+        apartmentId: updated.apartmentId,
+        apartmentTitle: apartment?.title || 'Căn hộ',
+        tenantId: updated.tenantId,
+        tenantEmail: tenant?.email,
+        tenantName: tenant?.fullName || tenant?.username,
+        ownerId: apartment?.ownerId,
+        ownerEmail: owner?.email,
+        ownerName: owner?.fullName || owner?.username,
+        startDate: updated.startDate.toISOString(),
+        endDate: updated.endDate.toISOString(),
+        nights,
+        totalPrice: Number(updated.totalPrice),
+        bookingStatus: updated.status,
+        paymentStatus: updated.paymentStatus,
+      },
+    }).catch(err => console.error('SQS publish error (BOOKING_CONFIRMED):', err));
 
     return new ApiResponse({ ...updated, apartment }, 'Xác nhận đặt phòng thành công');
   }
@@ -250,6 +317,36 @@ export class BookingsService {
       where: { id },
       data: { status: 'COMPLETED' },
     });
+
+    // Publish event BOOKING_COMPLETED to SQS
+    const tenant = await this.getUser(updated.tenantId).catch(() => null);
+    const owner = apartment?.ownerId ? await this.getUser(apartment.ownerId).catch(() => null) : null;
+    const start = new Date(updated.startDate);
+    const end = new Date(updated.endDate);
+    const msDiff = end.getTime() - start.getTime();
+    const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
+
+    this.sqsProducer.publishNotification({
+      eventType: NotificationEventType.BOOKING_COMPLETED,
+      timestamp: new Date().toISOString(),
+      payload: {
+        bookingId: updated.id,
+        apartmentId: updated.apartmentId,
+        apartmentTitle: apartment?.title || 'Căn hộ',
+        tenantId: updated.tenantId,
+        tenantEmail: tenant?.email,
+        tenantName: tenant?.fullName || tenant?.username,
+        ownerId: apartment?.ownerId,
+        ownerEmail: owner?.email,
+        ownerName: owner?.fullName || owner?.username,
+        startDate: updated.startDate.toISOString(),
+        endDate: updated.endDate.toISOString(),
+        nights,
+        totalPrice: Number(updated.totalPrice),
+        bookingStatus: updated.status,
+        paymentStatus: updated.paymentStatus,
+      },
+    }).catch(err => console.error('SQS publish error (BOOKING_COMPLETED):', err));
 
     return new ApiResponse({ ...updated, apartment }, 'Hoàn thành đặt phòng thành công');
   }
@@ -373,36 +470,5 @@ export class BookingsService {
       console.error(`Error fetching user ${userId} from auth-service:`, err.message);
       return null;
     }
-  }
-
-  private async sendApprovalEmailToOwner(booking: any, apartment: any) {
-    if (!apartment?.ownerId) return;
-    const owner = await this.getUser(apartment.ownerId);
-    if (!owner?.email) return;
-
-    const start = new Date(booking.startDate);
-    const end = new Date(booking.endDate);
-    const msDiff = end.getTime() - start.getTime();
-    const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
-
-    const htmlBody = `
-      <h3>Thông báo: Duyệt đặt phòng thành công!</h3>
-      <p>Xin chào ${owner.fullName || 'chủ nhà'},</p>
-      <p>Căn hộ <strong>${apartment.title}</strong> của bạn đã được duyệt thành công một đơn đặt phòng mới.</p>
-      <p>Thông tin chi tiết đơn đặt phòng:</p>
-      <ul>
-        <li><strong>Mã đơn đặt phòng:</strong> ${booking.id}</li>
-        <li><strong>Thời gian thuê:</strong> Từ ${start.toLocaleDateString('vi-VN')} đến ${end.toLocaleDateString('vi-VN')} (${nights} đêm)</li>
-        <li><strong>Tổng doanh thu:</strong> ${Number(booking.totalPrice).toLocaleString('vi-VN')} ₫</li>
-      </ul>
-      <p>Trạng thái đơn hàng: <strong>Đã duyệt (CONFIRMED)</strong></p>
-      <p>Trạng thái thanh toán: <strong>${booking.paymentStatus === 'PAID' ? 'Đã thanh toán thành công' : 'Chưa thanh toán'}</strong></p>
-      <p>Vui lòng kiểm tra thông tin trên hệ thống quản lý chủ nhà của bạn.</p>
-    `;
-    await this.mailService.sendEmail(
-      owner.email,
-      `[Domin Tactic] Duyệt thành công đặt phòng căn hộ ${apartment.title}`,
-      htmlBody
-    );
   }
 }

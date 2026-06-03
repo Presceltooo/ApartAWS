@@ -9,7 +9,8 @@ import { firstValueFrom } from 'rxjs';
 import { PrismaService } from '../common/prisma/prisma.service';
 import { VnpayService } from './vnpay.service';
 import { ApiResponse } from '../common/dto/response.dto';
-import { MailService } from '../common/mail/mail.service';
+import { SqsProducerService } from '../common/sqs/sqs-producer.service';
+import { NotificationEventType } from '../common/sqs/notification-event.interface';
 
 @Injectable()
 export class PaymentService {
@@ -19,7 +20,7 @@ export class PaymentService {
     private readonly prisma: PrismaService,
     private readonly vnpayService: VnpayService,
     private readonly httpService: HttpService,
-    private readonly mailService: MailService,
+    private readonly sqsProducer: SqsProducerService,
   ) {}
 
   // ──────────────────────────────────────────────────────────────────────────────
@@ -83,46 +84,40 @@ export class PaymentService {
 
     this.logger.log(`Booking ${booking.id} đã được cập nhật PAID, txn=${transactionId}`);
 
-    // Gửi email báo cho Owner biết Tenant đã thanh toán thành công
+    // Gửi email báo cho Owner qua SQS (bất đồng bộ, fat event)
     try {
-      const apartment = await this.getApartment(updatedBooking.apartmentId);
-      if (apartment?.ownerId) {
-        const owner = await this.getUser(apartment.ownerId);
-        if (owner?.email) {
-          const start = new Date(updatedBooking.startDate);
-          const end = new Date(updatedBooking.endDate);
-          const msDiff = end.getTime() - start.getTime();
-          const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
+      const apartment = await this.getApartment(updatedBooking.apartmentId).catch(() => null);
+      const tenant = await this.getUser(updatedBooking.tenantId).catch(() => null);
+      const owner = apartment?.ownerId ? await this.getUser(apartment.ownerId).catch(() => null) : null;
+      const start = new Date(updatedBooking.startDate);
+      const end = new Date(updatedBooking.endDate);
+      const msDiff = end.getTime() - start.getTime();
+      const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
 
-          const htmlBody = `
-            <h3>Thông báo: Khách thuê đã thanh toán thành công đặt phòng!</h3>
-            <p>Xin chào ${owner.fullName || 'chủ nhà'},</p>
-            <p>Khách thuê đã thực hiện thanh toán thành công cho đơn đặt phòng tại căn hộ <strong>${apartment.title}</strong> của bạn.</p>
-            <p>Thông tin thanh toán chi tiết:</p>
-            <ul>
-              <li><strong>Mã đơn đặt phòng:</strong> ${updatedBooking.id}</li>
-              <li><strong>Thời gian thuê:</strong> Từ ${start.toLocaleDateString('vi-VN')} đến ${end.toLocaleDateString('vi-VN')} (${nights} đêm)</li>
-              <li><strong>Số tiền thanh toán:</strong> ${Number(updatedBooking.totalPrice).toLocaleString('vi-VN')} ₫</li>
-              <li><strong>Mã giao dịch VNPay:</strong> ${transactionId}</li>
-              <li><strong>Thời gian giao dịch:</strong> ${new Date().toLocaleString('vi-VN')}</li>
-            </ul>
-            <p>Trạng thái đặt phòng hiện tại: <strong>${updatedBooking.status === 'CONFIRMED' ? 'Đã duyệt' : 'Đang chờ duyệt'}</strong></p>
-            <p>Vui lòng kiểm tra thông tin trên hệ thống quản lý chủ nhà của bạn.</p>
-          `;
-          await this.mailService.sendEmail(
-            owner.email,
-            `[Domin Tactic] Khách thuê thanh toán thành công đặt phòng căn hộ ${apartment.title}`,
-            htmlBody
-          );
-          this.logger.log(`Đã gửi email thông báo thanh toán thành công cho Owner ${owner.email}`);
-        } else {
-          this.logger.warn(`Không tìm thấy email của Owner ${apartment.ownerId}`);
-        }
-      } else {
-        this.logger.warn(`Không tìm thấy thông tin căn hộ hoặc owner cho booking ${updatedBooking.id}`);
-      }
-    } catch (emailError: any) {
-      this.logger.error(`Lỗi gửi mail thông báo thanh toán cho Owner: ${emailError.message}`);
+      this.sqsProducer.publishNotification({
+        eventType: NotificationEventType.PAYMENT_SUCCESS,
+        timestamp: new Date().toISOString(),
+        payload: {
+          bookingId: updatedBooking.id,
+          apartmentId: updatedBooking.apartmentId,
+          apartmentTitle: apartment?.title || 'Căn hộ',
+          tenantId: updatedBooking.tenantId,
+          tenantEmail: tenant?.email,
+          tenantName: tenant?.fullName || tenant?.username,
+          ownerId: apartment?.ownerId,
+          ownerEmail: owner?.email,
+          ownerName: owner?.fullName || owner?.username,
+          startDate: updatedBooking.startDate.toISOString(),
+          endDate: updatedBooking.endDate.toISOString(),
+          nights,
+          totalPrice: Number(updatedBooking.totalPrice),
+          bookingStatus: updatedBooking.status,
+          paymentStatus: updatedBooking.paymentStatus,
+          transactionId: transactionId,
+        },
+      }).catch(err => this.logger.error(`Lỗi gửi SQS PAYMENT_SUCCESS: ${err.message}`));
+    } catch (err: any) {
+      this.logger.error(`Lỗi publish SQS payment success event: ${err.message}`);
     }
   }
 
@@ -140,10 +135,46 @@ export class PaymentService {
 
     if (!booking || booking.paymentStatus === 'PAID') return;
 
-    await this.prisma.booking.update({
+    const updatedBooking = await this.prisma.booking.update({
       where: { id: booking.id },
       data: { paymentStatus: 'FAILED' },
     });
+
+    // Publish event PAYMENT_FAILED to SQS
+    try {
+      const apartment = await this.getApartment(updatedBooking.apartmentId).catch(() => null);
+      const tenant = await this.getUser(updatedBooking.tenantId).catch(() => null);
+      const owner = apartment?.ownerId ? await this.getUser(apartment.ownerId).catch(() => null) : null;
+      const start = new Date(updatedBooking.startDate);
+      const end = new Date(updatedBooking.endDate);
+      const msDiff = end.getTime() - start.getTime();
+      const nights = Math.max(1, Math.round(msDiff / (1000 * 60 * 60 * 24)));
+
+      this.sqsProducer.publishNotification({
+        eventType: NotificationEventType.PAYMENT_FAILED,
+        timestamp: new Date().toISOString(),
+        payload: {
+          bookingId: updatedBooking.id,
+          apartmentId: updatedBooking.apartmentId,
+          apartmentTitle: apartment?.title || 'Căn hộ',
+          tenantId: updatedBooking.tenantId,
+          tenantEmail: tenant?.email,
+          tenantName: tenant?.fullName || tenant?.username,
+          ownerId: apartment?.ownerId,
+          ownerEmail: owner?.email,
+          ownerName: owner?.fullName || owner?.username,
+          startDate: updatedBooking.startDate.toISOString(),
+          endDate: updatedBooking.endDate.toISOString(),
+          nights,
+          totalPrice: Number(updatedBooking.totalPrice),
+          bookingStatus: updatedBooking.status,
+          paymentStatus: updatedBooking.paymentStatus,
+          failureReason: 'Giao dịch VNPay thất bại hoặc bị hủy',
+        },
+      }).catch(err => this.logger.error(`Lỗi gửi SQS PAYMENT_FAILED: ${err.message}`));
+    } catch (err: any) {
+      this.logger.error(`Lỗi publish SQS payment failed event: ${err.message}`);
+    }
   }
 
   // ──────────────────────────────────────────────────────────────────────────────

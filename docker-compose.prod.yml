@@ -96,11 +96,30 @@ services:
       VNP_HASH_SECRET: ${VNP_HASH_SECRET}
       VNP_RETURN_URL: ${VNP_RETURN_URL}
       VNP_URL: ${VNP_URL}
+      SQS_NOTIFICATION_QUEUE_URL: ${SQS_NOTIFICATION_QUEUE_URL}
     depends_on:
       database:
         condition: service_healthy
       apartment-service:
         condition: service_started
+    networks:
+      - apart-network
+
+  # ── Notification Service ──────────────────────────────
+  notification-service:
+    image: ${ECR_REGISTRY}/notification-service:${IMAGE_TAG:-latest}
+    container_name: apart-notification
+    command: node dist/main
+    restart: unless-stopped
+    ports:
+      - "3004:3004"
+    environment:
+      PORT: 3004
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      MAIL_FROM: ${MAIL_FROM}
+      SQS_NOTIFICATION_QUEUE_URL: ${SQS_NOTIFICATION_QUEUE_URL}
     networks:
       - apart-network
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import { MailModule } from '../common/mail/mail.module';
+import { SqsProducerModule } from '../common/sqs/sqs-producer.module';
 import { VnpayService } from './vnpay.service';
 import { PaymentService } from './payment.service';
 import { PaymentController } from './payment.controller';
@@ -11,7 +11,7 @@ import { PaymentController } from './payment.controller';
       timeout: 5000,
       maxRedirects: 3,
     }),
-    MailModule,
+    SqsProducerModule,
   ],
   controllers: [PaymentController],
   providers: [VnpayService, PaymentService],
