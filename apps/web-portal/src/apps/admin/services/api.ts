@@ -101,6 +101,14 @@ export const toggleApartmentStatus = (id: string, isActive: boolean): Promise<IR
   return axiosClient.patch(`apartments/${id}/status`, { isActive });
 };
 
+export const getSystemAutoApprove = (): Promise<IResponse<{ isAutoApprove: boolean }>> => {
+  return axiosClient.get('apartments/system/auto-approve');
+};
+
+export const updateSystemAutoApprove = (isAutoApprove: boolean): Promise<IResponse<{ isAutoApprove: boolean }>> => {
+  return axiosClient.patch('apartments/system/auto-approve', { isAutoApprove });
+};
+
 export const getSystemBookings = (params?: IBookingQuery): Promise<IResponsePagination<IBooking>> => {
   return axiosClient.get('bookings/system/all', { params });
 };

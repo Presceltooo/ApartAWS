@@ -66,10 +66,16 @@ export class ApartmentsService {
 
   // Tạo căn hộ mới
   async create(createApartmentDto: CreateApartmentDto, ownerId: string) {
+    const autoApproveSetting = await this.prisma.systemSetting.findUnique({
+      where: { key: 'auto_approve_apartments' },
+    });
+    const isActive = autoApproveSetting?.value === 'true';
+
     const apartment = await this.prisma.apartment.create({
       data: {
         ...createApartmentDto,
         ownerId,
+        isActive,
       },
     });
     return new ApiResponse(apartment, 'Tạo căn hộ thành công');
@@ -218,6 +224,22 @@ export class ApartmentsService {
     });
 
     return new ApiResponse(updated, isActive ? 'Đã phê duyệt (Active) căn hộ' : 'Đã ẩn (Inactive) căn hộ');
+  }
+
+  async getAutoApproveSetting() {
+    const setting = await this.prisma.systemSetting.findUnique({
+      where: { key: 'auto_approve_apartments' },
+    });
+    return new ApiResponse({ isAutoApprove: setting?.value === 'true' }, 'Lấy cấu hình tự động duyệt thành công');
+  }
+
+  async updateAutoApproveSetting(isAutoApprove: boolean) {
+    const setting = await this.prisma.systemSetting.upsert({
+      where: { key: 'auto_approve_apartments' },
+      update: { value: isAutoApprove ? 'true' : 'false' },
+      create: { key: 'auto_approve_apartments', value: isAutoApprove ? 'true' : 'false' },
+    });
+    return new ApiResponse({ isAutoApprove: setting.value === 'true' }, 'Cập nhật cấu hình tự động duyệt thành công');
   }
 
   async toggleAutoApproveStatus(id: string, isAutoApprove: boolean, userId: string) {

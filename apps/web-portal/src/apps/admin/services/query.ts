@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
-import { getMyApartments, getOwnerBookings, getAuthStats, getApartmentStats, getBookingStats, getSystemUsers, getSystemApartments, getSystemBookings } from './api';
+import { getMyApartments, getOwnerBookings, getAuthStats, getApartmentStats, getBookingStats, getSystemUsers, getSystemApartments, getSystemBookings, getSystemAutoApprove } from './api';
 import type { IResponsePagination } from '@/shared/types/response.type';
 import type { IApartment, IApartmentQuery, IBooking, IBookingQuery } from './types';
 
@@ -67,6 +67,14 @@ export const useSystemBookings = (params?: IBookingQuery, options?: Partial<UseQ
   return useQuery({
     queryKey: ['admin', 'system-bookings', params],
     queryFn: () => getSystemBookings(params),
+    ...options,
+  });
+};
+
+export const useSystemAutoApprove = (options?: Partial<UseQueryOptions<any>>) => {
+  return useQuery({
+    queryKey: ['admin', 'system-auto-approve'],
+    queryFn: () => getSystemAutoApprove(),
     ...options,
   });
 };

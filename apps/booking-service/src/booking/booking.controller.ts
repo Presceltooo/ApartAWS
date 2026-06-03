@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -86,18 +87,6 @@ export class BookingsController {
     return this.bookingsService.checkAvailability(apartmentId, startDate, endDate);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Xem chi tiết một đơn đặt phòng' })
-  @ApiResponse({ status: 200, description: 'Chi tiết đơn đặt phòng' })
-  @ApiResponse({ status: 404, description: 'Không tìm thấy đơn đặt phòng' })
-  @ApiParam({ name: 'id', type: String })
-  @ApiHeader({ name: 'x-user-id', required: true })
-  async findById(@Param('id') id: string, @CurrentUser('userId') userId: string) {
-    const booking = await this.bookingsService.findById(id, userId);
-    if (!booking) throw new NotFoundException(`Booking with id "${id}" not found`);
-    return booking;
-  }
-
   @Patch(':id/cancel')
   @ApiOperation({ summary: 'Hủy đơn đặt phòng' })
   @ApiResponse({ status: 200, description: 'Đã hủy thành công' })
@@ -132,7 +121,10 @@ export class BookingsController {
   @Get('system/stats')
   @ApiOperation({ summary: 'Lấy thống kê hệ thống (Admin)' })
   @ApiResponse({ status: 200, description: 'Trả về thống kê' })
-  getStats() {
+  getStats(@CurrentUser('role') role: string) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
     return this.bookingsService.getStats();
   }
 
@@ -142,17 +134,40 @@ export class BookingsController {
   @ApiQuery({ name: 'Page', required: false, type: Number })
   @ApiQuery({ name: 'PageSize', required: false, type: Number })
   findAllSystem(
+    @CurrentUser('role') role: string,
     @Query('Keyword') keyword?: string,
     @Query('Page') page?: string,
     @Query('PageSize') pageSize?: string,
   ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
     return this.bookingsService.findAllSystem(keyword, page ? +page : 1, pageSize ? +pageSize : 10);
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Xem chi tiết một đơn đặt phòng' })
+  @ApiResponse({ status: 200, description: 'Chi tiết đơn đặt phòng' })
+  @ApiResponse({ status: 404, description: 'Không tìm thấy đơn đặt phòng' })
+  @ApiParam({ name: 'id', type: String })
+  @ApiHeader({ name: 'x-user-id', required: true })
+  async findById(@Param('id') id: string, @CurrentUser('userId') userId: string) {
+    const booking = await this.bookingsService.findById(id, userId);
+    if (!booking) throw new NotFoundException(`Booking with id "${id}" not found`);
+    return booking;
   }
 
   @Patch('system/:id/status')
   @ApiOperation({ summary: 'Cập nhật trạng thái đơn đặt phòng (Admin)' })
   @ApiParam({ name: 'id', type: String })
-  updateBookingStatusSystem(@Param('id') id: string, @Body() body: { status: string }) {
+  updateBookingStatusSystem(
+    @Param('id') id: string,
+    @Body() body: { status: string },
+    @CurrentUser('role') role: string,
+  ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
     return this.bookingsService.updateBookingStatusSystem(id, body.status as any);
   }
 }

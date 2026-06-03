@@ -11,21 +11,6 @@ export class ProxyModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      // Exclude routes that don't need token verification
-      .exclude(
-        { path: 'api/Auth/login', method: RequestMethod.POST },
-        { path: 'api/Auth/register', method: RequestMethod.POST },
-        { path: 'api/Auth/refresh', method: RequestMethod.POST },
-        { path: 'api/Auth/logout', method: RequestMethod.POST },
-        { path: 'api/Auth/forgot-password', method: RequestMethod.POST },
-        { path: 'api/Auth/reset-password', method: RequestMethod.POST },
-        { path: 'api/Apartments/listing', method: RequestMethod.GET },
-        { path: 'api/Apartments/:id', method: RequestMethod.GET },
-        { path: 'api/Bookings/check-availability', method: RequestMethod.GET },
-        // VNPay callbacks — không có JWT token (server-to-server hoặc redirect từ VNPay)
-        { path: 'api/Bookings/payments/vnpay-ipn', method: RequestMethod.GET },
-        { path: 'api/Bookings/payments/vnpay-return', method: RequestMethod.GET },
-      )
       .forRoutes('*');
   }
 }

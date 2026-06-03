@@ -124,3 +124,12 @@ model Booking {
   @@map("Bookings")
   @@schema("booking")
 }
+
+model SystemSetting {
+  id    String @id @default(uuid())
+  key   String @unique
+  value String
+
+  @@map("SystemSettings")
+  @@schema("apartment")
+}

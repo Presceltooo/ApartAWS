@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { createApartment, updateApartment, deleteApartment, toggleAutoApproveStatus, confirmBooking, completeBooking, cancelBooking, toggleUserStatus, toggleApartmentStatus, updateSystemBookingStatus } from './api';
+import { createApartment, updateApartment, deleteApartment, toggleAutoApproveStatus, confirmBooking, completeBooking, cancelBooking, toggleUserStatus, toggleApartmentStatus, updateSystemBookingStatus, updateSystemAutoApprove } from './api';
 import type { ICreateApartmentPayload, IUpdateApartmentPayload } from './types';
 import { notification } from 'antd';
 
@@ -184,3 +184,21 @@ export const useToggleAutoApproveStatus = () => {
     },
   });
 };
+
+export const useUpdateSystemAutoApprove = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (isAutoApprove: boolean) => updateSystemAutoApprove(isAutoApprove),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', 'system-auto-approve'] });
+      notification.success({ message: 'Cập nhật cấu hình tự động duyệt hệ thống thành công' });
+    },
+    onError: (error: any) => {
+      notification.error({
+        message: 'Lỗi cập nhật cấu hình tự động duyệt hệ thống',
+        description: error.response?.data?.message || error.message,
+      });
+    },
+  });
+};
+

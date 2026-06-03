@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, HttpCode, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, HttpCode, Patch, ForbiddenException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiSecurity } from '@nestjs/swagger';
 import { ApartmentsService } from './apartment.service';
 import { CreateApartmentDto, UpdateApartmentDto, CreateReviewDto } from './dto';
@@ -62,12 +62,12 @@ export class ApartmentsController {
     );
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Lấy chi tiết căn hộ' })
-  @ApiResponse({ status: 200, description: 'Trả về thông tin chi tiết căn hộ' })
-  findById(@Param('id') id: string) {
-    return this.apartmentsService.findById(id);
-  }
+  // @Get(':id')
+  // @ApiOperation({ summary: 'Lấy chi tiết căn hộ' })
+  // @ApiResponse({ status: 200, description: 'Trả về thông tin chi tiết căn hộ' })
+  // findById(@Param('id') id: string) {
+  //   return this.apartmentsService.findById(id);
+  // }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -106,7 +106,10 @@ export class ApartmentsController {
   @Get('stats')
   @ApiOperation({ summary: 'Lấy thống kê hệ thống (Admin)' })
   @ApiResponse({ status: 200, description: 'Trả về thống kê' })
-  getStats() {
+  getStats(@CurrentUser('role') role: string) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
     return this.apartmentsService.getStats();
   }
 
@@ -116,17 +119,56 @@ export class ApartmentsController {
   @ApiQuery({ name: 'Page', required: false, type: String })
   @ApiQuery({ name: 'PageSize', required: false, type: String })
   findAllSystem(
+    @CurrentUser('role') role: string,
     @Query('Keyword') keyword?: string,
     @Query('Page') page?: string,
     @Query('PageSize') pageSize?: string,
   ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
     return this.apartmentsService.findAllSystem(keyword, page ? +page : 1, pageSize ? +pageSize : 10);
+  }
+
+  @Get('system/auto-approve')
+  @ApiOperation({ summary: 'Lấy cấu hình tự động duyệt căn hộ của hệ thống (Admin)' })
+  getAutoApproveSetting(@CurrentUser('role') role: string) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
+    return this.apartmentsService.getAutoApproveSetting();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Lấy chi tiết căn hộ' })
+  @ApiResponse({ status: 200, description: 'Trả về thông tin chi tiết căn hộ' })
+  findById(@Param('id') id: string) {
+    return this.apartmentsService.findById(id);
+  }
+
+  @Patch('system/auto-approve')
+  @ApiOperation({ summary: 'Cập nhật cấu hình tự động duyệt căn hộ của hệ thống (Admin)' })
+  updateAutoApproveSetting(
+    @Body() body: { isAutoApprove: boolean },
+    @CurrentUser('role') role: string,
+  ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
+    return this.apartmentsService.updateAutoApproveSetting(body.isAutoApprove);
   }
 
   @Patch(':id/status')
   @ApiOperation({ summary: 'Duyệt / Ẩn căn hộ (Admin)' })
   @ApiResponse({ status: 200, description: 'Cập nhật trạng thái thành công' })
-  toggleApartmentStatus(@Param('id') id: string, @Body() body: { isActive: boolean }) {
+  toggleApartmentStatus(
+    @Param('id') id: string,
+    @Body() body: { isActive: boolean },
+    @CurrentUser('role') role: string,
+  ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
     return this.apartmentsService.toggleApartmentStatus(id, body.isActive);
   }
 
