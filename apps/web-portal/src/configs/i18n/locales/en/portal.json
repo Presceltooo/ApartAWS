@@ -69,7 +69,10 @@
       "secure_booking_desc": "You won't be charged yet.",
       "proceed_btn": "Proceed to Booking",
       "unavailable_btn": "Currently Unavailable"
-    }
+    },
+    "new_rating": "New",
+    "reviews": "Tenant Reviews",
+    "no_reviews": "This apartment has no reviews yet."
   },
   "status_tags": {
     "rare": "Rare find",
@@ -163,6 +166,18 @@
       "paid": "Paid",
       "failed": "Payment Failed",
       "refunded": "Refunded"
+    },
+    "review": {
+      "section_title": "Review your trip",
+      "stars": "stars",
+      "prompt": "Share your thoughts about the apartment to help the traveler community.",
+      "rating_label": "Rating score",
+      "comment_label": "Detailed review",
+      "comment_placeholder": "Enter your review about the space, amenities, location...",
+      "submit_btn": "Submit review",
+      "success_title": "Thank you for your review!",
+      "success_desc": "Your review has been successfully submitted and is publicly visible.",
+      "rating_required": "Please select a star rating."
     }
   },
   "profile": {

@@ -69,7 +69,10 @@
       "secure_booking_desc": "この段階では料金は請求されません。",
       "proceed_btn": "予約手続きへ進む",
       "unavailable_btn": "現在利用不可"
-    }
+    },
+    "new_rating": "新規",
+    "reviews": "ゲストのレビュー",
+    "no_reviews": "このアパートにはまだレビューがありません。"
   },
   "status_tags": {
     "rare": "希少な物件",
@@ -162,6 +165,18 @@
       "paid": "支払い済み",
       "failed": "決済失敗",
       "refunded": "返金済み"
+    },
+    "review": {
+      "section_title": "旅行を評価する",
+      "stars": "星",
+      "prompt": "旅行コミュニティを助けるために、アパートに関する感想を共有してください。",
+      "rating_label": "評価点数",
+      "comment_label": "詳細なレビュー",
+      "comment_placeholder": "空間、アメニティ、ロケーションに関するレビューを入力してください...",
+      "submit_btn": "レビューを送信",
+      "success_title": "レビューをご送信いただきありがとうございます！",
+      "success_desc": "レビューが正常に送信され、公開されました。",
+      "rating_required": "評価の星を選択してください。"
     }
   },
   "profile": {

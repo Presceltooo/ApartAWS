@@ -14,12 +14,14 @@ import {
   CreditCardOutlined,
   SyncOutlined,
   ExclamationCircleOutlined,
+  SmileOutlined,
 } from '@ant-design/icons';
-import { Tag, Popconfirm, notification, Skeleton, Descriptions, Divider } from 'antd';
+import { Tag, Popconfirm, notification, Skeleton, Descriptions, Divider, Rate, Input } from 'antd';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 import { portalTheme } from '../../styled';
 import { useBookingDetail } from '@apps/portal/services/query';
-import { useCancelBooking } from '@apps/portal/services/mutation';
+import { useCancelBooking, useCreateReview } from '@apps/portal/services/mutation';
 import { getVnpayUrl } from '@apps/portal/services/api';
 import type { BookingStatus, PaymentStatus } from '@apps/portal/services/types';
 
@@ -197,6 +199,117 @@ const SecondaryActionButton = styled(BaseActionButton)`
   }
 `;
 
+const ReviewSection = styled(Card)`
+  background: linear-gradient(135deg, #fcf9f4 0%, #f6f3ee 100%);
+  border: 1px solid rgba(216, 90, 48, 0.15);
+  box-shadow: 0 8px 30px rgba(216, 90, 48, 0.05);
+`;
+
+const RatingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  
+  .ant-rate {
+    font-size: 2.8rem;
+    color: #D85A30;
+  }
+`;
+
+const RatingLabel = styled.div`
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: ${portalTheme.colors.onSurfaceVariant};
+`;
+
+const ReviewTextArea = styled(Input.TextArea)`
+  margin-bottom: 2rem;
+  display: block;
+  width: 100%;
+  min-height: 120px !important;
+
+  &.ant-input-textarea {
+    min-height: 120px !important;
+  }
+
+  textarea.ant-input {
+    border: 1px solid ${portalTheme.colors.outlineVariant} !important;
+    border-radius: 0.8rem !important;
+    padding: 1.2rem !important;
+    font-size: 1.45rem !important;
+    color: ${portalTheme.colors.onSurface} !important;
+    background-color: white !important;
+    transition: all 0.2s !important;
+    font-family: inherit !important;
+    height: 100% !important;
+    min-height: 120px !important; /* Make it longer/taller */
+    resize: vertical !important;
+    
+    &:hover, &:focus {
+      border-color: ${portalTheme.colors.primary} !important;
+      box-shadow: 0 0 0 2px rgba(216, 90, 48, 0.1) !important;
+    }
+  }
+`;
+
+const SubmitReviewBtn = styled(BaseActionButton)`
+  background: linear-gradient(135deg, #D85A30 0%, #993C1D 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(216, 90, 48, 0.15);
+  margin-top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  align-self: flex-end; /* Push button to the right */
+  
+  &:hover {
+    box-shadow: 0 6px 16px rgba(216, 90, 48, 0.25);
+    opacity: 0.95;
+  }
+`;
+
+const ReviewDisplayCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(216, 90, 48, 0.02);
+  border-radius: 0.8rem;
+  border-left: 4px solid #D85A30;
+`;
+
+const ReviewFormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
+  width: 100%;
+`;
+
+const ReviewHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .rating-score {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #4A1B0C;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+`;
+
+const ReviewComment = styled.p`
+  font-size: 1.45rem;
+  color: ${portalTheme.colors.onSurfaceVariant};
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+`;
+
 // ─── Status configs (keys only, labels resolved dynamically) ──────────────────
 
 const statusConfig: Record<
@@ -231,11 +344,34 @@ const BookingDetail: React.FC = () => {
   const { id } = useParams({ strict: false }) as { id: string };
   const navigate = useNavigate();
   const [isRedirectingToVnpay, setIsRedirectingToVnpay] = useState(false);
+  const [rating, setRating] = useState<number>(5);
+  const [comment, setComment] = useState<string>('');
 
   const { data: response, isLoading, isError } = useBookingDetail(id ?? '');
   const { mutate: cancelBooking, isPending: isCancelling } = useCancelBooking();
+  const { mutate: submitReview, isPending: isSubmitting } = useCreateReview(response?.data?.apartmentId ?? '');
 
   const booking = response?.data ?? null;
+
+  const handleReviewSubmit = () => {
+    if (!booking) return;
+    if (!rating) {
+      notification.error({ message: t('booking_detail.review.rating_required', 'Vui lòng chọn số sao đánh giá.') });
+      return;
+    }
+    
+    submitReview(
+      { bookingId: booking.id, rating, comment },
+      {
+        onSuccess: () => {
+          notification.success({
+            message: t('booking_detail.review.success_title', 'Cảm ơn đánh giá của bạn!'),
+            description: t('booking_detail.review.success_desc', 'Đánh giá đã được gửi thành công và hiển thị công khai.'),
+          });
+        },
+      }
+    );
+  };
   const status = booking?.status ?? 'PENDING';
   const paymentStatus = booking?.paymentStatus ?? 'UNPAID';
   const statusInfo = statusConfig[status];
@@ -296,12 +432,8 @@ const BookingDetail: React.FC = () => {
   }
 
   const apt = booking.apartment;
-  const startDate = new Date(booking.startDate).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US', {
-    day: 'numeric', month: 'long', year: 'numeric',
-  });
-  const endDate = new Date(booking.endDate).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US', {
-    day: 'numeric', month: 'long', year: 'numeric',
-  });
+  const startDate = dayjs(booking.startDate).format('DD/MM/YYYY');
+  const endDate = dayjs(booking.endDate).format('DD/MM/YYYY');
   const nights = Math.max(
     0,
     Math.round(
@@ -443,6 +575,66 @@ const BookingDetail: React.FC = () => {
           );
         })()}
       </Card>
+
+      {/* Review Section */}
+      {status === 'COMPLETED' && (
+        <ReviewSection>
+          <CardTitle>
+            <SmileOutlined style={{ color: '#D85A30' }} />
+            {t('booking_detail.review.section_title', 'Đánh giá chuyến đi')}
+          </CardTitle>
+          
+          {(() => {
+            const alreadyReviewed = booking.apartment?.reviews?.find(
+              (r: any) => r.bookingId === booking.id
+            );
+
+            return alreadyReviewed ? (
+              <ReviewDisplayCard>
+                <ReviewHeader>
+                  <div className="rating-score">
+                    <Rate disabled defaultValue={alreadyReviewed.rating} style={{ color: '#D85A30', fontSize: '1.8rem' }} />
+                    <span>({alreadyReviewed.rating} {t('booking_detail.review.stars', 'sao')})</span>
+                  </div>
+                  <span style={{ fontSize: '1.25rem', color: portalTheme.colors.outline }}>
+                    {dayjs(alreadyReviewed.createdAt).format('DD/MM/YYYY')}
+                  </span>
+                </ReviewHeader>
+                {alreadyReviewed.comment && (
+                  <ReviewComment>"{alreadyReviewed.comment}"</ReviewComment>
+                )}
+              </ReviewDisplayCard>
+            ) : (
+              <ReviewFormContainer>
+                <p style={{ fontSize: '1.4rem', color: portalTheme.colors.onSurfaceVariant, margin: 0 }}>
+                  {t('booking_detail.review.prompt', 'Chia sẻ cảm nhận của bạn về căn hộ để giúp đỡ cộng đồng du khách.')}
+                </p>
+                
+                <RatingWrapper style={{ marginBottom: 0 }}>
+                  <RatingLabel>{t('booking_detail.review.rating_label', 'Điểm đánh giá')}</RatingLabel>
+                  <Rate value={rating} onChange={setRating} />
+                </RatingWrapper>
+                
+                <div style={{ width: '100%' }}>
+                  <RatingLabel style={{ marginBottom: '0.8rem' }}>{t('booking_detail.review.comment_label', 'Nhận xét chi tiết')}</RatingLabel>
+                  <ReviewTextArea
+                    rows={4}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder={t('booking_detail.review.comment_placeholder', 'Nhập nhận xét của bạn về không gian, tiện nghi, vị trí...')}
+                    maxLength={500}
+                    showCount
+                  />
+                </div>
+                
+                <SubmitReviewBtn onClick={handleReviewSubmit} disabled={isSubmitting}>
+                  {t('booking_detail.review.submit_btn', 'Gửi đánh giá')}
+                </SubmitReviewBtn>
+              </ReviewFormContainer>
+            );
+          })()}
+        </ReviewSection>
+      )}
 
       {/* Actions */}
       <StyledActionRow>

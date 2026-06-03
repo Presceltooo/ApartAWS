@@ -18,14 +18,7 @@ export const useData = (params?: UseDataProps) => {
 
   const apartments: IApartment[] = response?.data ?? [];
 
-  // Helper to generate a deterministic rating based on ID string
-  const getRating = (id: string) => {
-    let sum = 0;
-    for (let i = 0; i < id.length; i++) {
-      sum += id.charCodeAt(i);
-    }
-    return 4.5 + (sum % 5) / 10;
-  };
+
 
   // Helper to generate a status based on active state and array index
   const getStatus = (isActive: boolean, index: number) => {
@@ -39,7 +32,7 @@ export const useData = (params?: UseDataProps) => {
     id: apt.id,
     title: apt.title,
     price: apt.pricePerNight,
-    rating: getRating(apt.id),
+    rating: apt.averageRating ?? null,
     desc: apt.description || 'Không có mô tả cho căn hộ này.',
     status: getStatus(apt.isActive, idx),
     img: apt.images?.[0] || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80',

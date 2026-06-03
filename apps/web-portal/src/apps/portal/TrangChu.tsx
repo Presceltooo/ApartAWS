@@ -193,8 +193,16 @@ const TrangChu: React.FC = () => {
                 <CardImgWrapper>
                   <CardImg src={item.img} alt={item.title} />
                   <RatingBadge>
-                    <StarFilled className="star" />
-                    {item.rating.toFixed(2)}
+                    {item.rating !== null && item.rating !== undefined ? (
+                      <>
+                        <StarFilled className="star" />
+                        {Number(item.rating).toFixed(1)}
+                      </>
+                    ) : (
+                      <span style={{ fontSize: '1.2rem', fontWeight: 600, color: '#D85A30' }}>
+                        {t('details.new_rating', 'Mới')}
+                      </span>
+                    )}
                   </RatingBadge>
                 </CardImgWrapper>
                 

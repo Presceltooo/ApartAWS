@@ -21,6 +21,9 @@ export interface IApartment {
   ownerId?: string;
   createdAt: string;
   updatedAt: string;
+  reviews?: IReview[];
+  reviewCount?: number;
+  averageRating?: number;
 }
 
 export interface IApartmentQuery {
@@ -78,4 +81,24 @@ export interface IBookingQuery {
   Page?: number;
   PageSize?: number;
   Status?: BookingStatus;
+}
+
+// ─── Reviews ──────────────────────────────────────────────────────────────────
+
+export interface IReview {
+  id: string;
+  apartmentId: string;
+  tenantId: string;
+  bookingId: string;
+  rating: number;
+  comment?: string;
+  tenantName: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ICreateReviewPayload {
+  bookingId: string;
+  rating: number;
+  comment?: string;
 }

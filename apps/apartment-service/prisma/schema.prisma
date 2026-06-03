@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  schemas  = ["apartment", "booking"]
+  schemas  = ["apartment", "booking", "auth"]
 }
 
 model Apartment {
@@ -25,12 +25,67 @@ model Apartment {
   isActive      Boolean   @default(true)
   isAutoApprove Boolean   @default(false)
   ownerId       String?   // Chỉ lưu ID, không có FK relation sang User
+  reviews       Review[]
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   @@map("Apartments")
   @@schema("apartment")
+}
+
+model Review {
+  id            String    @id @default(uuid())
+  apartmentId   String
+  tenantId      String
+  bookingId     String    @unique
+  rating        Int
+  comment       String?   @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  apartment     Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+
+  @@map("Reviews")
+  @@schema("apartment")
+}
+
+enum Role {
+  ADMIN
+  OWNER
+  TENANT
+  @@schema("auth")
+}
+
+model User {
+  id                 String         @id @default(uuid())
+  email              String         @unique
+  password           String
+  phone              String?        @unique
+  address            String?
+  fullName           String?
+  role               Role           @default(TENANT)
+  createdAt          DateTime       @default(now())
+  isActive           Boolean        @default(true)
+  resetToken         String?
+  resetTokenExpires  DateTime?
+  refreshTokens      RefreshToken[]
+
+  @@map("Users")
+  @@schema("auth")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  isRevoked Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("RefreshTokens")
+  @@schema("auth")
 }
 
 enum BookingStatus {
@@ -57,7 +112,7 @@ model Booking {
   tenantId          String
   startDate         DateTime      @db.Date
   endDate           DateTime      @db.Date
-  totalPrice        Decimal       @db.Decimal(14, 2)
+  totalPrice        Decimal       @db.Decimal(12, 0)
   status            BookingStatus @default(PENDING)
   paymentStatus     PaymentStatus @default(UNPAID)
   vnpTransactionId  String?
@@ -65,8 +120,6 @@ model Booking {
 
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
-
-  // Không có FK sang apartment (cross-schema không dùng FK)
 
   @@map("Bookings")
   @@schema("booking")

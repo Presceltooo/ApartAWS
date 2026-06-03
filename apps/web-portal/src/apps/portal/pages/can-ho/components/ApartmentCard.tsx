@@ -90,8 +90,19 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onView }) => {
 
         <CardFooter>
           <RatingInfo>
-            <StarFilled className="ant-star" />
-            <span>4.85</span>
+            {apartment.averageRating !== undefined && apartment.averageRating !== null ? (
+              <>
+                <StarFilled className="ant-star" style={{ marginRight: '4px' }} />
+                <span>
+                  {Number(apartment.averageRating).toFixed(1)}
+                  {apartment.reviewCount ? ` (${apartment.reviewCount})` : ''}
+                </span>
+              </>
+            ) : (
+              <span style={{ fontWeight: 500, color: '#e0a96d' }}>
+                {t('details.new_rating', 'Mới')}
+              </span>
+            )}
           </RatingInfo>
           <ViewBtn
             id={`view-apartment-${apartment.id}`}

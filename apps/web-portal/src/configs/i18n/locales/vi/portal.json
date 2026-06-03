@@ -69,7 +69,10 @@
       "secure_booking_desc": "Không thu phí cho đến khi được xác nhận.",
       "proceed_btn": "Tiến hành đặt phòng",
       "unavailable_btn": "Hiện không khả dụng"
-    }
+    },
+    "new_rating": "Mới",
+    "reviews": "Đánh giá từ khách thuê",
+    "no_reviews": "Căn hộ này chưa có đánh giá nào."
   },
   "status_tags": {
     "rare": "Lựa chọn hiếm",
@@ -162,6 +165,18 @@
       "paid": "Đã thanh toán",
       "failed": "Thanh toán thất bại",
       "refunded": "Đã hoàn tiền"
+    },
+    "review": {
+      "section_title": "Đánh giá chuyến đi",
+      "stars": "sao",
+      "prompt": "Chia sẻ cảm nhận của bạn về căn hộ để giúp đỡ cộng đồng du khách.",
+      "rating_label": "Điểm đánh giá",
+      "comment_label": "Nhận xét chi tiết",
+      "comment_placeholder": "Nhập nhận xét của bạn về không gian, tiện nghi, vị trí...",
+      "submit_btn": "Gửi đánh giá",
+      "success_title": "Cảm ơn đánh giá của bạn!",
+      "success_desc": "Đánh giá đã được gửi thành công và hiển thị công khai.",
+      "rating_required": "Vui lòng chọn số sao đánh giá."
     }
   },
   "profile": {

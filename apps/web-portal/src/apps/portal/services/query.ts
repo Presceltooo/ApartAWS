@@ -6,6 +6,7 @@ import {
   getMyBookings,
   getBookingById,
   checkAvailability,
+  getReviews,
 } from './api';
 import type { IResponse, IResponsePagination } from '@/shared/types/response.type';
 import type {
@@ -15,6 +16,7 @@ import type {
   IBookingQuery,
   ICheckAvailabilityQuery,
   ICheckAvailabilityResponse,
+  IReview,
 } from './types';
 
 // ─── Apartment Queries ─────────────────────────────────────────────────────────
@@ -78,6 +80,18 @@ export const useCheckAvailability = (
     queryKey: ['bookings', 'availability', params],
     queryFn: () => checkAvailability(params),
     enabled: !!(params.apartmentId && params.startDate && params.endDate),
+    ...options,
+  });
+};
+
+export const useReviews = (
+  apartmentId: string,
+  options?: Partial<UseQueryOptions<IResponse<IReview[]>>>,
+): UseQueryResult<IResponse<IReview[]>> => {
+  return useQuery<IResponse<IReview[]>>({
+    queryKey: ['apartments', apartmentId, 'reviews'],
+    queryFn: () => getReviews(apartmentId),
+    enabled: !!apartmentId,
     ...options,
   });
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 import BookingModal from './modals/BookingModal';
 import {
   ArrowLeftOutlined,
@@ -174,6 +175,49 @@ const ApartmentDetails: React.FC = () => {
               <MapDisclaimer>
                 {apartment.location} — {t('details.location_disclaimer', 'Địa chỉ chính xác sẽ được cung cấp sau khi đặt phòng.')}
               </MapDisclaimer>
+            </div>
+
+            {/* Reviews Section */}
+            <div style={{ marginTop: '2.5rem' }}>
+              <SectionTitle style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                {t('details.reviews', 'Đánh giá từ khách thuê')}
+                <span style={{ fontSize: '1.5rem', fontWeight: 700, color: '#D85A30', background: 'rgba(216,90,48,0.08)', padding: '2px 8px', borderRadius: '4px' }}>
+                  {apartment.averageRating !== undefined && apartment.averageRating !== null ? (
+                    <>★ {Number(apartment.averageRating).toFixed(1)} ({apartment.reviewCount ?? 0})</>
+                  ) : (
+                    t('details.new_rating', 'Mới')
+                  )}
+                </span>
+              </SectionTitle>
+              
+              {apartment.reviews && apartment.reviews.length > 0 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '1.5rem' }}>
+                  {apartment.reviews.map((rev: any) => (
+                    <div key={rev.id} style={{ background: '#fcf9f4', border: '1px solid rgba(224, 192, 182, 0.15)', borderRadius: '8px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(74, 27, 12, 0.02)' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
+                        <span style={{ fontWeight: 700, fontSize: '1.45rem', color: '#4A1B0C' }}>{rev.tenantName}</span>
+                        <span style={{ fontSize: '1.2rem', color: '#888' }}>
+                          {dayjs(rev.createdAt).format('DD/MM/YYYY')}
+                        </span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '0.8rem' }}>
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <StarFilled key={i} style={{ color: i < rev.rating ? '#D85A30' : '#e0e0e0', fontSize: '1.3rem' }} />
+                        ))}
+                      </div>
+                      {rev.comment && (
+                        <p style={{ margin: 0, fontSize: '1.35rem', color: '#6B3020', lineHeight: 1.5, fontStyle: 'italic' }}>
+                          "{rev.comment}"
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p style={{ color: '#888', fontSize: '1.35rem', fontStyle: 'italic', marginTop: '1rem' }}>
+                  {t('details.no_reviews', 'Căn hộ này chưa có đánh giá nào.')}
+                </p>
+              )}
             </div>
           </LeftColumn>
  

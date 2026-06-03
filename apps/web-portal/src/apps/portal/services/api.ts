@@ -8,6 +8,8 @@ import type {
   ICreateBookingPayload,
   ICheckAvailabilityQuery,
   ICheckAvailabilityResponse,
+  IReview,
+  ICreateReviewPayload,
 } from './types';
 
 // ─── Apartment APIs ────────────────────────────────────────────────────────────
@@ -94,4 +96,25 @@ export const getVnpayUrl = (
   bookingId: string,
 ): Promise<IResponse<{ paymentUrl: string }>> => {
   return axiosClient.get(`bookings/payments/vnpay-url/${bookingId}`);
+};
+
+// ─── Review APIs ──────────────────────────────────────────────────────────────
+
+/**
+ * POST /apartments/:apartmentId/reviews — Gửi đánh giá căn hộ
+ */
+export const createReview = (
+  apartmentId: string,
+  payload: ICreateReviewPayload,
+): Promise<IResponse<IReview>> => {
+  return axiosClient.post(`apartments/${apartmentId}/reviews`, payload);
+};
+
+/**
+ * GET /apartments/:apartmentId/reviews — Lấy danh sách đánh giá căn hộ
+ */
+export const getReviews = (
+  apartmentId: string,
+): Promise<IResponse<IReview[]>> => {
+  return axiosClient.get(`apartments/${apartmentId}/reviews`);
 };

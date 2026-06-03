@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createBooking, cancelBooking, confirmBooking, completeBooking } from './api';
+import { createBooking, cancelBooking, confirmBooking, completeBooking, createReview } from './api';
+import type { ICreateReviewPayload } from './types';
 
 // ─── Booking Mutations ─────────────────────────────────────────────────────────
 
@@ -56,6 +57,24 @@ export const useCompleteBooking = () => {
     mutationFn: (id: string) => completeBooking(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['bookings'] });
+    },
+  });
+};
+
+/**
+ * Hook gửi đánh giá căn hộ (Tenant)
+ */
+export const useCreateReview = (apartmentId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: ICreateReviewPayload) => createReview(apartmentId, payload),
+    onSuccess: (_data, payload) => {
+      // Invalidate details of this apartment
+      queryClient.invalidateQueries({ queryKey: ['apartments', apartmentId] });
+      // Invalidate reviews of this apartment
+      queryClient.invalidateQueries({ queryKey: ['apartments', apartmentId, 'reviews'] });
+      // Invalidate detail of this booking
+      queryClient.invalidateQueries({ queryKey: ['bookings', payload.bookingId] });
     },
   });
 };

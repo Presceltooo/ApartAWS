@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, Query, HttpStatus, HttpCode, Patch } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiSecurity } from '@nestjs/swagger';
 import { ApartmentsService } from './apartment.service';
-import { CreateApartmentDto, UpdateApartmentDto } from './dto';
+import { CreateApartmentDto, UpdateApartmentDto, CreateReviewDto } from './dto';
 import { S3Service } from '../common/s3/s3.service';
 import { CurrentUser } from '../common/decorators/user.decorator';
 
@@ -139,5 +139,23 @@ export class ApartmentsController {
     @CurrentUser('userId') userId: string,
   ) {
     return this.apartmentsService.toggleAutoApproveStatus(id, body.isAutoApprove, userId);
+  }
+
+  @Post(':id/reviews')
+  @ApiOperation({ summary: 'Đánh giá căn hộ (Tenant)' })
+  @ApiResponse({ status: 201, description: 'Đánh giá đã được tạo thành công' })
+  createReview(
+    @Param('id') id: string,
+    @Body() dto: CreateReviewDto,
+    @CurrentUser('userId') userId: string,
+  ) {
+    return this.apartmentsService.createReview(id, dto, userId);
+  }
+
+  @Get(':id/reviews')
+  @ApiOperation({ summary: 'Lấy danh sách đánh giá của căn hộ' })
+  @ApiResponse({ status: 200, description: 'Trả về mảng các đánh giá' })
+  findReviewsByApartment(@Param('id') id: string) {
+    return this.apartmentsService.findReviewsByApartment(id);
   }
 }
