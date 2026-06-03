@@ -16,6 +16,7 @@ import {
   SmileOutlined,
 } from '@ant-design/icons';
 import { Skeleton, Tag } from 'antd';
+import { LocationMap } from '@/shared/components/map';
 import {
   DetailSection,
   TopBarWrapper,
@@ -165,13 +166,21 @@ const ApartmentDetails: React.FC = () => {
             {/* Location */}
             <div>
               <SectionTitle>{t('details.location', 'Vị trí')}</SectionTitle>
-              <MapWrapper>
-                <div className="pin-wrapper">
-                  <div className="pin-circle">
-                    <HomeOutlined />
+              {apartment.latitude && apartment.longitude ? (
+                <LocationMap
+                  latitude={apartment.latitude}
+                  longitude={apartment.longitude}
+                  height="300px"
+                />
+              ) : (
+                <MapWrapper>
+                  <div className="pin-wrapper">
+                    <div className="pin-circle">
+                      <HomeOutlined />
+                    </div>
                   </div>
-                </div>
-              </MapWrapper>
+                </MapWrapper>
+              )}
               <MapDisclaimer>
                 {apartment.location} — {t('details.location_disclaimer', 'Địa chỉ chính xác sẽ được cung cấp sau khi đặt phòng.')}
               </MapDisclaimer>

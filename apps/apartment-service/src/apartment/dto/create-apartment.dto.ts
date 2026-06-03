@@ -22,6 +22,12 @@ export class CreateApartmentDto {
   @ApiProperty({ description: 'Vị trí căn hộ', example: 'Quận 1, TP.HCM' })
   location: string;
 
+  @ApiPropertyOptional({ description: 'Vĩ độ GPS (Latitude)', example: 21.0285 })
+  latitude?: number;
+
+  @ApiPropertyOptional({ description: 'Kinh độ GPS (Longitude)', example: 105.8542 })
+  longitude?: number;
+
   @ApiProperty({ description: 'Tiện ích căn hộ', example: ['Wifi', 'TV', 'Bếp'] })
   amenities: string[];
 

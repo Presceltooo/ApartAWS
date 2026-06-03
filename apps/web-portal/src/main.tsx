@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import 'antd/dist/reset.css';
 import 'dayjs/locale/vi';
+import 'leaflet/dist/leaflet.css';
 import App from './App.tsx'
 import './configs/i18n';
 

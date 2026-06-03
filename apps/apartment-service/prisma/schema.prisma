@@ -20,6 +20,8 @@ model Apartment {
   serviceFee    Decimal   @default(0.0) @db.Decimal(10, 2)
   maxGuests     Int       @default(2)
   location      String
+  latitude      Float?
+  longitude     Float?
   amenities     String[]
   images        String[]
   isActive      Boolean   @default(true)

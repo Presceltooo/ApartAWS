@@ -6,6 +6,8 @@ export interface ICreateApartmentPayload {
   serviceFee?: number;
   maxGuests?: number;
   location: string;
+  latitude?: number;
+  longitude?: number;
   amenities: string[];
   images: string[];
   isActive?: boolean;

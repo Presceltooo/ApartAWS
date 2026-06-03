@@ -7,6 +7,7 @@ import { useCreateApartment, useUpdateApartment } from '../../../services/mutati
 import { useS3Upload } from '../../../hooks/useS3Upload';
 import { useApartmentDetail } from '../../../../portal/services/query';
 import { useTranslation } from 'react-i18next';
+import { LocationPicker } from '@/shared/components/map';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -53,6 +54,8 @@ const ApartmentForm: React.FC = () => {
         serviceFee: apt.serviceFee,
         maxGuests: apt.maxGuests,
         location: apt.location,
+        latitude: apt.latitude,
+        longitude: apt.longitude,
         amenities: apt.amenities,
         isActive: apt.isActive,
         isAutoApprove: apt.isAutoApprove,
@@ -99,6 +102,8 @@ const ApartmentForm: React.FC = () => {
         serviceFee: values.serviceFee,
         maxGuests: values.maxGuests,
         location: values.location,
+        latitude: values.latitude,
+        longitude: values.longitude,
         amenities: values.amenities || [],
         images: allImages,
         isActive: values.isActive,
@@ -165,6 +170,32 @@ const ApartmentForm: React.FC = () => {
               rules={[{ required: true, message: t('owner.form.location_required', 'Please enter the location') }]}
             >
               <Input placeholder={t('owner.form.location_placeholder', 'E.g., Carmel Valley, California')} size="large" style={{ width: '100%' }} />
+            </Form.Item>
+
+            <Form.Item name="latitude" noStyle>
+              <input type="hidden" />
+            </Form.Item>
+            <Form.Item name="longitude" noStyle>
+              <input type="hidden" />
+            </Form.Item>
+
+            <Form.Item
+              label={t('owner.form.gps_label', 'Bản đồ vị trí (GPS)')}
+            >
+              <Form.Item noStyle dependencies={['latitude', 'longitude']}>
+                {() => {
+                  const lat = form.getFieldValue('latitude');
+                  const lng = form.getFieldValue('longitude');
+                  return (
+                    <LocationPicker
+                      value={{ latitude: lat, longitude: lng }}
+                      onChange={({ latitude, longitude }) => {
+                        form.setFieldsValue({ latitude, longitude });
+                      }}
+                    />
+                  );
+                }}
+              </Form.Item>
             </Form.Item>
 
             <Form.Item name="description" label={t('owner.form.description_label', 'Description')}>
