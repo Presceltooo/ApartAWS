@@ -46,6 +46,11 @@ jobs:
             dockerfile: ./apps/web-portal/Dockerfile
             ecr_repo: web-portal
 
+          - name: notification-service
+            context: ./apps/notification-service
+            dockerfile: ./apps/notification-service/Dockerfile
+            ecr_repo: notification-service
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
