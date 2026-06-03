@@ -112,9 +112,9 @@ const AdminDashboard: React.FC = () => {
         <Col xs={24} sm={12} md={8} lg={6}>
           <Card bordered={false} style={{ height: '100%' }}>
             <Statistic
-              title="Tổng Doanh thu ($)"
+              title="Tổng Doanh thu (VND)"
               value={stats?.booking?.totalRevenue || 0}
-              precision={2}
+              precision={0}
               prefix={<DollarOutlined style={{ color: '#f5222d' }} />}
             />
           </Card>

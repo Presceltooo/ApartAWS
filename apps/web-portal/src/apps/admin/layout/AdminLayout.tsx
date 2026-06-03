@@ -9,7 +9,10 @@ import {
   TeamOutlined,
   BuildOutlined,
   CalendarOutlined,
-  ScheduleOutlined
+  ScheduleOutlined,
+  UserOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +20,7 @@ import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
 import { useLogout } from '@apps/auth/services/mutation';
 import { useGetMe } from '@apps/auth/services/query';
 import tokenManager from '@shared/utils/tokenManager';
+import { useQueryClient } from '@tanstack/react-query';
 
 const { Header, Sider, Content } = Layout;
 
@@ -61,14 +65,18 @@ const StyledSider = styled(Sider)`
   -webkit-backdrop-filter: blur(16px);
   border-right: none;
   box-shadow: 4px 0 20px rgba(88, 66, 59, 0.03);
+  transition: all 0.2s !important;
   
   .ant-layout-sider-children {
     background: transparent !important;
+    display: flex;
+    flex-direction: column;
   }
 
   .ant-menu {
     background: transparent !important;
     border-right: none !important;
+    flex: 1;
   }
 
   .ant-menu-item {
@@ -108,11 +116,68 @@ const StyledSider = styled(Sider)`
   }
 `;
 
+const SiderHeader = styled.div<{ $collapsed: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: ${props => props.$collapsed ? 'center' : 'space-between'};
+  padding: 16px;
+  border-bottom: 1px solid rgba(224, 192, 182, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  background: rgba(216, 90, 48, 0.02);
+  height: 56px;
+
+  &:hover {
+    background: rgba(216, 90, 48, 0.05);
+  }
+`;
+
+const RoleBadge = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #a5360d;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: rgba(165, 54, 13, 0.08);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(165, 54, 13, 0.15);
+  white-space: nowrap;
+`;
+
+const CollapseIcon = styled.div`
+  color: #D85A30;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
 const AdminLayout: React.FC = () => {
   const { t } = useTranslation('admin');
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [collapsed, setCollapsed] = React.useState(false);
+
+  const { data: userData, isLoading: isUserLoading } = useGetMe();
+
+  const getPortalTitle = () => {
+    if (userData?.data?.role === 'ADMIN') {
+      return t('header.admin_title', 'Domin Tactic Admin Portal');
+    }
+    return t('header.owner_title', 'Domin Tactic Owner Portal');
+  };
 
   const menuItems: any[] = [
     {
@@ -133,7 +198,6 @@ const AdminLayout: React.FC = () => {
   ];
 
   // If user is ADMIN, prepend the Dashboard menu item
-  const { data: userData, isLoading: isUserLoading } = useGetMe();
   if (userData?.data?.role === 'ADMIN') {
     menuItems.unshift(
       {
@@ -188,6 +252,7 @@ const AdminLayout: React.FC = () => {
     }
     tokenManager.removeAccessToken();
     tokenManager.removeRefreshToken();
+    queryClient.clear();
     navigate({ to: '/' });
   };
 
@@ -196,7 +261,7 @@ const AdminLayout: React.FC = () => {
       <StyledHeader>
         <HeaderTitle>
           <HomeOutlined />
-          {t('header.title', 'ApartAWS Owner Portal')}
+          {getPortalTitle()}
         </HeaderTitle>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
           <LanguageSwitcher />
@@ -209,7 +274,24 @@ const AdminLayout: React.FC = () => {
         </div>
       </StyledHeader>
       <Layout>
-        <StyledSider width={260}>
+        <StyledSider width={260} collapsible collapsed={collapsed} trigger={null}>
+          <SiderHeader $collapsed={collapsed} onClick={() => setCollapsed(!collapsed)}>
+            {!collapsed ? (
+              <>
+                <RoleBadge>
+                  <UserOutlined />
+                  {userData?.data?.role || 'OWNER'}
+                </RoleBadge>
+                <CollapseIcon>
+                  <MenuFoldOutlined />
+                </CollapseIcon>
+              </>
+            ) : (
+              <CollapseIcon>
+                <MenuUnfoldOutlined />
+              </CollapseIcon>
+            )}
+          </SiderHeader>
           <Menu
             mode="inline"
             selectedKeys={[getActiveKey()]}

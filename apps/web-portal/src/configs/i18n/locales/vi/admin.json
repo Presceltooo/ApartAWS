@@ -9,7 +9,9 @@
     "my_bookings": "Quản lý đặt phòng"
   },
   "header": {
-    "title": "ApartAWS Owner Portal",
+    "title": "Domin Tactic Owner Portal",
+    "admin_title": "Domin Tactic Admin Portal",
+    "owner_title": "Domin Tactic Owner Portal",
     "view_site": "Xem trang chủ",
     "logout": "Đăng xuất"
   },

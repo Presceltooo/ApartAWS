@@ -9,7 +9,9 @@
     "my_bookings": "Manage Bookings"
   },
   "header": {
-    "title": "ApartAWS Owner Portal",
+    "title": "Domin Tactic Owner Portal",
+    "admin_title": "Domin Tactic Admin Portal",
+    "owner_title": "Domin Tactic Owner Portal",
     "view_site": "View Public Site",
     "logout": "Logout"
   },

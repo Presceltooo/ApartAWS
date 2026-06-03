@@ -9,7 +9,9 @@
     "my_bookings": "予約管理"
   },
   "header": {
-    "title": "ApartAWS オーナーポータル",
+    "title": "Domin Tactic オーナーポータル",
+    "admin_title": "Domin Tactic 管理者ポータル",
+    "owner_title": "Domin Tactic オーナーポータル",
     "view_site": "公開サイトを表示",
     "logout": "ログアウト"
   },

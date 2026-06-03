@@ -32,9 +32,11 @@ import {
   PortalFooterCopyright,
 } from '../styled';
 import { useGetMe } from '@apps/auth/services/query';
+import { useQueryClient } from '@tanstack/react-query';
 
 const PortalLayout: React.FC = () => {
   const { t } = useTranslation('common');
+  const queryClient = useQueryClient();
   const accessToken = tokenManager.getAccessToken();
   const { data: userData } = useGetMe({ enabled: !!accessToken });
   const routerState = useRouterState();
@@ -101,6 +103,7 @@ const PortalLayout: React.FC = () => {
                         if (refreshToken) logoutMutate({ refreshToken });
                         tokenManager.removeAccessToken();
                         tokenManager.removeRefreshToken();
+                        queryClient.clear();
                         navigate({ to: '/' });
                       },
                     },
