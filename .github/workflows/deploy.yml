@@ -127,6 +127,9 @@ jobs:
             docker-compose -f docker-compose.prod.yml up -d --remove-orphans
 
             echo "=== Xóa images cũ để giải phóng dung lượng ==="
-            docker image prune -af
+            # Chờ 20 giây để các service khởi động ổn định trước khi dọn dẹp
+            sleep 20
+            # Giới hạn thời gian prune tối đa 90 giây để tránh treo toàn bộ tiến trình deploy
+            timeout 90s docker image prune -af || echo "⚠️ Cảnh báo: Lệnh prune bị timeout hoặc gặp lỗi, bỏ qua để hoàn tất deploy."
 
             echo "✅ Deploy hoàn tất!"
