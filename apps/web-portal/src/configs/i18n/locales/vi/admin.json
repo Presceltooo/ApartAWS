@@ -131,5 +131,18 @@
       "toggle_auto_approve_success": "Cập nhật cấu hình tự động duyệt thành công",
       "toggle_auto_approve_error": "Lỗi cập nhật cấu hình tự động duyệt"
     }
+  },
+  "admin_dashboard": {
+    "title": "Tổng quan hệ thống",
+    "subtitle": "Báo cáo hiệu suất và hoạt động toàn hệ thống",
+    "total_users": "Tổng số người dùng",
+    "total_owners": "Tổng số Chủ nhà (Owners)",
+    "total_tenants": "Tổng số Khách (Tenants)",
+    "total_apartments": "Tổng số Căn hộ",
+    "active_apartments": "Căn hộ đang hoạt động",
+    "total_bookings": "Tổng số Đặt phòng",
+    "pending_bookings": "Booking đang chờ xử lý",
+    "total_revenue": "Tổng doanh thu",
+    "recent_bookings": "Đơn đặt phòng hệ thống gần đây"
   }
 }

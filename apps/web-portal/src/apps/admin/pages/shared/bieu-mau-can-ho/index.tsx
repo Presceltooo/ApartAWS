@@ -215,6 +215,8 @@ const ApartmentForm: React.FC = () => {
                 size="large"
                 addonAfter="đ"
                 placeholder={t('owner.form.price_placeholder', '0')}
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                parser={(value) => (value ? value.replace(/\./g, '') : '') as any}
               />
             </Form.Item>
 
@@ -230,6 +232,8 @@ const ApartmentForm: React.FC = () => {
                 size="large"
                 addonAfter="đ"
                 placeholder={t('owner.form.cleaning_fee_placeholder', '0')}
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                parser={(value) => (value ? value.replace(/\./g, '') : '') as any}
               />
             </Form.Item>
 
@@ -245,6 +249,8 @@ const ApartmentForm: React.FC = () => {
                 size="large"
                 addonAfter="đ"
                 placeholder={t('owner.form.service_fee_placeholder', '0')}
+                formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                parser={(value) => (value ? value.replace(/\./g, '') : '') as any}
               />
             </Form.Item>
 

@@ -40,14 +40,17 @@ export const useOwnerStats = (
   });
 };
 
-export const useSystemStats = (options?: Partial<UseQueryOptions<any>>) => {
+export const useSystemStats = (
+  params?: { year?: number; month?: number },
+  options?: Partial<UseQueryOptions<any>>,
+) => {
   return useQuery({
-    queryKey: ['admin', 'system-stats'],
+    queryKey: ['admin', 'system-stats', params],
     queryFn: async () => {
       const [auth, apt, booking] = await Promise.all([
         getAuthStats(),
         getApartmentStats(),
-        getBookingStats(),
+        getBookingStats(params),
       ]);
       return {
         auth: auth.data,

@@ -141,11 +141,19 @@ export class BookingsController {
   @Get('system/stats')
   @ApiOperation({ summary: 'Lấy thống kê hệ thống (Admin)' })
   @ApiResponse({ status: 200, description: 'Trả về thống kê' })
-  getStats(@CurrentUser('role') role: string) {
+  @ApiQuery({ name: 'year', required: false, type: Number })
+  @ApiQuery({ name: 'month', required: false, type: Number })
+  getStats(
+    @CurrentUser('role') role: string,
+    @Query('year') year?: string,
+    @Query('month') month?: string,
+  ) {
     if (role !== 'ADMIN') {
       throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
     }
-    return this.bookingsService.getStats();
+    const targetYear = year ? +year : undefined;
+    const targetMonth = month ? +month : undefined;
+    return this.bookingsService.getStats(targetYear, targetMonth);
   }
 
   @Get('system/all')

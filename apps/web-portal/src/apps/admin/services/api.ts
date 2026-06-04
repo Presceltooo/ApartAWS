@@ -85,8 +85,8 @@ export const getApartmentStats = (): Promise<IResponse<any>> => {
   return axiosClient.get('apartments/stats');
 };
 
-export const getBookingStats = (): Promise<IResponse<any>> => {
-  return axiosClient.get('bookings/system/stats');
+export const getBookingStats = (params?: { year?: number; month?: number }): Promise<IResponse<any>> => {
+  return axiosClient.get('bookings/system/stats', { params });
 };
 
 // ─── System Management APIs (Admin only) ─────────────────────────────────────

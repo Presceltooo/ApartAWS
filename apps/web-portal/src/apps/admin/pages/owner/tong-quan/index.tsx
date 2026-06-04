@@ -86,15 +86,28 @@ const OwnerDashboard: React.FC = () => {
       },
     },
     tooltip: {
-      formatter: (datum: any) => {
-        return {
+      title: 'label',
+      items: [
+        {
+          channel: 'y',
           name: chartType === 'revenue' 
             ? t('owner.dashboard.chart_revenue', 'Doanh thu') 
             : t('owner.dashboard.chart_bookings', 'Lượt đặt'),
-          value: chartType === 'revenue' 
-            ? formatCurrency(datum.revenue) 
-            : `${datum.bookings} ${t('owner.dashboard.chart_bookings', 'lượt')}`,
-        };
+          valueFormatter: (val: any) => 
+            chartType === 'revenue' 
+              ? formatCurrency(Number(val)) 
+              : `${val} ${t('owner.dashboard.chart_bookings', 'lượt')}`,
+        },
+      ],
+    },
+    axis: {
+      y: {
+        labelFormatter: (val: any) => {
+          if (chartType === 'revenue') {
+            return new Intl.NumberFormat('vi-VN').format(Number(val)) + ' VNĐ';
+          }
+          return val;
+        },
       },
     },
   };

@@ -131,5 +131,18 @@
       "toggle_auto_approve_success": "自動承認の設定を更新しました",
       "toggle_auto_approve_error": "自動承認の設定更新に失敗しました"
     }
+  },
+  "admin_dashboard": {
+    "title": "システム概要",
+    "subtitle": "グローバルシステムのアクティビティとパフォーマンスレポート",
+    "total_users": "総ユーザー数",
+    "total_owners": "総オーナー数",
+    "total_tenants": "総テナント数",
+    "total_apartments": "総アパートメント数",
+    "active_apartments": "稼働中のアパートメント",
+    "total_bookings": "総予約数",
+    "pending_bookings": "保留中の予約",
+    "total_revenue": "総売上",
+    "recent_bookings": "システム全体の最近の予約"
   }
 }

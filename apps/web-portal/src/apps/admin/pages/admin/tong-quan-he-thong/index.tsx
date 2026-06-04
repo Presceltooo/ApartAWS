@@ -1,125 +1,380 @@
-import React from 'react';
-import { Card, Col, Row, Statistic, Typography, Spin, Alert } from 'antd';
+import React, { useState } from 'react';
+import { Card, Col, Row, Statistic, Typography, Spin, Alert, Select, Space, Radio, Tag } from 'antd';
 import {
   UserOutlined,
   HomeOutlined,
   CalendarOutlined,
   DollarOutlined,
   TeamOutlined,
+  ClockCircleOutlined,
 } from '@ant-design/icons';
-import { useSystemStats } from '../../../services/query';
+import { Line } from '@ant-design/plots';
+import { useSystemStats, useSystemBookings } from '../../../services/query';
+import dayjs from 'dayjs';
+import TableWithPagination from '@/shared/components/tables/table-with-pagination';
+import { useTranslation } from 'react-i18next';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const AdminDashboard: React.FC = () => {
-  const { data: stats, isLoading, isError } = useSystemStats();
+  const { t } = useTranslation('admin');
+  const currentYear = new Date().getFullYear();
+  const [year, setYear] = useState<number>(currentYear);
+  const [month, setMonth] = useState<number | undefined>(undefined);
+  const [chartType, setChartType] = useState<'revenue' | 'bookings'>('revenue');
 
-  if (isLoading) {
+  // Fetch system wide stats with date filters
+  const { data: stats, isLoading: isStatsLoading, isError: isStatsError } = useSystemStats({
+    year,
+    month,
+  });
+
+  // Fetch recent system-wide bookings for the dashboard table
+  const { data: systemBookings, isLoading: isBookingsLoading } = useSystemBookings({
+    Page: 1,
+    PageSize: 5,
+  });
+
+  const handleYearChange = (val: number) => {
+    setYear(val);
+  };
+
+  const handleMonthChange = (val: number | 'all') => {
+    setMonth(val === 'all' ? undefined : val);
+  };
+
+  if (isStatsLoading) {
     return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
-        <Spin size="large" />
+      <div style={{ textAlign: 'center', padding: '100px 0' }}>
+        <Spin size="large" tip={t('owner.dashboard.loading_stats', 'Đang tải dữ liệu báo cáo...')} />
       </div>
     );
   }
 
-  if (isError) {
+  if (isStatsError) {
     return (
       <Alert
-        message="Lỗi"
-        description="Không thể tải dữ liệu thống kê. Bạn có thể không có quyền truy cập."
+        message={t('owner.dashboard.load_error', 'Lỗi tải dữ liệu')}
+        description={t('owner.dashboard.load_error_desc', 'Không thể tải dữ liệu thống kê. Vui lòng kiểm tra kết nối hoặc thử lại sau.')}
         type="error"
         showIcon
       />
     );
   }
 
+  // Format currency helper
+  const formatCurrency = (val: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(val);
+  };
+
+  // Line Chart configurations
+  const chartConfig = {
+    data: stats?.booking?.chartData || [],
+    xField: 'label',
+    yField: chartType === 'revenue' ? 'revenue' : 'bookings',
+    style: {
+      stroke: '#a5360d',
+      lineWidth: 3,
+    },
+    point: {
+      size: 4,
+      style: {
+        fill: '#fff',
+        stroke: '#a5360d',
+        lineWidth: 2,
+      },
+    },
+    tooltip: {
+      title: 'label',
+      items: [
+        {
+          channel: 'y',
+          name: chartType === 'revenue' 
+            ? t('owner.dashboard.chart_revenue', 'Doanh thu') 
+            : t('owner.dashboard.chart_bookings', 'Lượt đặt'),
+          valueFormatter: (val: any) => 
+            chartType === 'revenue' 
+              ? formatCurrency(Number(val)) 
+              : `${val} ${t('owner.dashboard.chart_bookings', 'lượt')}`,
+        },
+      ],
+    },
+    axis: {
+      y: {
+        labelFormatter: (val: any) => {
+          if (chartType === 'revenue') {
+            return new Intl.NumberFormat('vi-VN').format(Number(val)) + ' VNĐ';
+          }
+          return val;
+        },
+      },
+    },
+  };
+
+  // Table Columns for recent system bookings
+  const tableColumns = [
+    {
+      title: t('owner.dashboard.booking_id', 'Mã đặt phòng'),
+      dataIndex: 'id',
+      key: 'id',
+      render: (text: string) => <Text copyable={{ text }}>{text.slice(0, 8)}...</Text>,
+    },
+    {
+      title: t('owner.dashboard.apartment', 'Căn hộ'),
+      dataIndex: ['apartment', 'title'],
+      key: 'apartmentTitle',
+      render: (text: string) => <span style={{ fontWeight: 600 }}>{text || 'Căn hộ đã bị xóa'}</span>,
+    },
+    {
+      title: t('owner.dashboard.check_in', 'Ngày nhận'),
+      dataIndex: 'startDate',
+      key: 'startDate',
+      render: (date: string) => dayjs(date).format('DD/MM/YYYY'),
+    },
+    {
+      title: t('owner.dashboard.check_out', 'Ngày trả'),
+      dataIndex: 'endDate',
+      key: 'endDate',
+      render: (date: string) => dayjs(date).format('DD/MM/YYYY'),
+    },
+    {
+      title: t('owner.dashboard.total_price', 'Tổng tiền'),
+      dataIndex: 'totalPrice',
+      key: 'totalPrice',
+      align: 'right' as const,
+      render: (price: number) => (
+        <span style={{ color: '#a5360d', fontWeight: 'bold' }}>{formatCurrency(price)}</span>
+      ),
+    },
+    {
+      title: t('owner.dashboard.status', 'Trạng thái'),
+      dataIndex: 'status',
+      key: 'status',
+      align: 'center' as const,
+      render: (status: string) => {
+        let color = 'default';
+        let label = status;
+        if (status === 'PENDING') {
+          color = 'warning';
+          label = t('owner.dashboard.status_pending', 'Chờ xác nhận');
+        } else if (status === 'CONFIRMED') {
+          color = 'processing';
+          label = t('owner.dashboard.status_confirmed', 'Đã xác nhận');
+        } else if (status === 'COMPLETED') {
+          color = 'success';
+          label = t('owner.dashboard.status_completed', 'Hoàn thành');
+        } else if (status === 'CANCELLED') {
+          color = 'error';
+          label = t('owner.dashboard.status_cancelled', 'Đã hủy');
+        }
+        return <Tag color={color}>{label}</Tag>;
+      },
+    },
+  ];
+
+  // Year options
+  const yearOptions = [
+    { value: currentYear, label: t('owner.dashboard.year', { year: currentYear }) },
+    { value: currentYear - 1, label: t('owner.dashboard.year', { year: currentYear - 1 }) },
+    { value: currentYear - 2, label: t('owner.dashboard.year', { year: currentYear - 2 }) },
+  ];
+
+  // Month options
+  const monthOptions = [
+    { value: 'all', label: t('owner.dashboard.all_months', 'Tất cả các tháng') },
+    ...Array.from({ length: 12 }, (_, i) => ({
+      value: i + 1,
+      label: t('owner.dashboard.month', { month: i + 1 }),
+    })),
+  ];
+
   return (
-    <div>
-      <Title level={2} style={{ marginBottom: 24 }}>System Admin Dashboard</Title>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      {/* Header with filters */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+        <div>
+          <Title level={2} style={{ margin: 0, color: '#a5360d' }}>
+            {t('admin_dashboard.title', 'Tổng quan hệ thống')}
+          </Title>
+          <Text type="secondary">
+            {t('admin_dashboard.subtitle', 'Báo cáo hiệu suất và hoạt động toàn hệ thống')}
+          </Text>
+        </div>
 
+        <Space size="middle">
+          <Select
+            options={yearOptions}
+            value={year}
+            onChange={handleYearChange}
+            style={{ width: 140 }}
+          />
+          <Select
+            options={monthOptions}
+            value={month || 'all'}
+            onChange={handleMonthChange}
+            style={{ width: 160 }}
+          />
+        </Space>
+      </div>
+
+      {/* User Statistics */}
+      <Title level={4} style={{ margin: '16px 0 8px 0', color: '#a5360d' }}>
+        {t('sidebar.users', 'Quản lý người dùng')}
+      </Title>
       <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <Card bordered={false} style={{ height: '100%' }}>
+        <Col xs={24} sm={12} md={8}>
+          <Card bordered={false} style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <Statistic
-              title="Tổng số người dùng"
+              title={t('admin_dashboard.total_users', 'Tổng số người dùng')}
               value={stats?.auth?.totalUsers || 0}
-              prefix={<UserOutlined style={{ color: '#1890ff' }} />}
+              valueStyle={{ color: '#1890ff', fontWeight: 'bold' }}
+              prefix={<UserOutlined style={{ color: '#1890ff', marginRight: '8px' }} />}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <Card bordered={false} style={{ height: '100%' }}>
+        
+        <Col xs={24} sm={12} md={8}>
+          <Card bordered={false} style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <Statistic
-              title="Tổng số Chủ nhà (Owners)"
+              title={t('admin_dashboard.total_owners', 'Tổng số Chủ nhà (Owners)')}
               value={stats?.auth?.totalOwners || 0}
-              prefix={<TeamOutlined style={{ color: '#52c41a' }} />}
+              valueStyle={{ color: '#52c41a', fontWeight: 'bold' }}
+              prefix={<TeamOutlined style={{ color: '#52c41a', marginRight: '8px' }} />}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <Card bordered={false} style={{ height: '100%' }}>
+
+        <Col xs={24} sm={12} md={8}>
+          <Card bordered={false} style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <Statistic
-              title="Tổng số Khách (Tenants)"
+              title={t('admin_dashboard.total_tenants', 'Tổng số Khách (Tenants)')}
               value={stats?.auth?.totalTenants || 0}
-              prefix={<TeamOutlined style={{ color: '#faad14' }} />}
+              valueStyle={{ color: '#faad14', fontWeight: 'bold' }}
+              prefix={<TeamOutlined style={{ color: '#faad14', marginRight: '8px' }} />}
             />
           </Card>
         </Col>
       </Row>
 
-      <Title level={4} style={{ marginTop: 32, marginBottom: 16 }}>Thống kê Căn hộ</Title>
+      {/* Apartment Statistics */}
+      <Title level={4} style={{ margin: '16px 0 8px 0', color: '#a5360d' }}>
+        {t('owner.form.status_label', 'Trạng thái')}
+      </Title>
       <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <Card bordered={false} style={{ height: '100%' }}>
+        <Col xs={24} sm={12}>
+          <Card bordered={false} style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <Statistic
-              title="Tổng số Căn hộ"
+              title={t('admin_dashboard.total_apartments', 'Tổng số Căn hộ')}
               value={stats?.apartment?.totalApartments || 0}
-              prefix={<HomeOutlined style={{ color: '#722ed1' }} />}
+              valueStyle={{ color: '#722ed1', fontWeight: 'bold' }}
+              prefix={<HomeOutlined style={{ color: '#722ed1', marginRight: '8px' }} />}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <Card bordered={false} style={{ height: '100%' }}>
+
+        <Col xs={24} sm={12}>
+          <Card bordered={false} style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <Statistic
-              title="Căn hộ đang hoạt động (Active)"
+              title={t('admin_dashboard.active_apartments', 'Căn hộ đang hoạt động')}
               value={stats?.apartment?.activeApartments || 0}
-              prefix={<HomeOutlined style={{ color: '#52c41a' }} />}
+              valueStyle={{ color: '#52c41a', fontWeight: 'bold' }}
+              prefix={<HomeOutlined style={{ color: '#52c41a', marginRight: '8px' }} />}
             />
           </Card>
         </Col>
       </Row>
 
-      <Title level={4} style={{ marginTop: 32, marginBottom: 16 }}>Thống kê Đặt phòng & Doanh thu</Title>
+      {/* Booking Statistics & Revenue */}
+      <Title level={4} style={{ margin: '16px 0 8px 0', color: '#a5360d' }}>
+        {t('owner.bookings_title', 'Đặt phòng')} & {t('owner.form.price_label', 'Giá')}
+      </Title>
       <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <Card bordered={false} style={{ height: '100%' }}>
+        <Col xs={24} sm={12} md={8}>
+          <Card bordered={false} style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <Statistic
-              title="Tổng số Đặt phòng"
+              title={t('admin_dashboard.total_bookings', 'Tổng số Đặt phòng')}
               value={stats?.booking?.totalBookings || 0}
-              prefix={<CalendarOutlined style={{ color: '#eb2f96' }} />}
+              valueStyle={{ color: '#eb2f96', fontWeight: 'bold' }}
+              prefix={<CalendarOutlined style={{ color: '#eb2f96', marginRight: '8px' }} />}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <Card bordered={false} style={{ height: '100%' }}>
+
+        <Col xs={24} sm={12} md={8}>
+          <Card bordered={false} style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <Statistic
-              title="Booking đang chờ xử lý"
+              title={t('admin_dashboard.pending_bookings', 'Booking đang chờ xử lý')}
               value={stats?.booking?.pendingBookings || 0}
-              prefix={<CalendarOutlined style={{ color: '#faad14' }} />}
+              valueStyle={{ color: '#faad14', fontWeight: 'bold' }}
+              prefix={<ClockCircleOutlined style={{ color: '#faad14', marginRight: '8px' }} />}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <Card bordered={false} style={{ height: '100%' }}>
+
+        <Col xs={24} sm={12} md={8}>
+          <Card bordered={false} style={{ background: '#ffffff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
             <Statistic
-              title="Tổng Doanh thu (VND)"
+              title={t('admin_dashboard.total_revenue', 'Tổng doanh thu')}
               value={stats?.booking?.totalRevenue || 0}
-              precision={0}
-              prefix={<DollarOutlined style={{ color: '#f5222d' }} />}
+              formatter={(value) => (
+                <span style={{ color: '#a5360d', fontWeight: 'bold' }}>
+                  {formatCurrency(Number(value))}
+                </span>
+              )}
+              prefix={<DollarOutlined style={{ color: '#a5360d', marginRight: '8px' }} />}
             />
           </Card>
         </Col>
       </Row>
+
+      {/* Chart Section */}
+      <Card
+        bordered={false}
+        title={
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <span>{t('owner.dashboard.trend_chart', 'Biểu đồ xu hướng')}</span>
+            <Radio.Group
+              value={chartType}
+              onChange={(e) => setChartType(e.target.value)}
+              buttonStyle="solid"
+              size="small"
+            >
+              <Radio.Button value="revenue">{t('owner.dashboard.chart_revenue', 'Doanh thu')}</Radio.Button>
+              <Radio.Button value="bookings">{t('owner.dashboard.chart_bookings', 'Lượt đặt phòng')}</Radio.Button>
+            </Radio.Group>
+          </div>
+        }
+        style={{ borderRadius: '16px', boxShadow: '0 4px 20px rgba(88, 66, 59, 0.03)' }}
+      >
+        {stats?.booking?.chartData && stats.booking.chartData.length > 0 ? (
+          <div style={{ height: 350 }}>
+            <Line {...chartConfig} />
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '50px 0', color: '#8c8c8c' }}>
+            {t('owner.dashboard.no_data', 'Không có dữ liệu trong khoảng thời gian được chọn')}
+          </div>
+        )}
+      </Card>
+
+      {/* Recent Bookings Table */}
+      <Card
+        bordered={false}
+        title={t('admin_dashboard.recent_bookings', 'Đơn đặt phòng hệ thống gần đây')}
+        style={{ borderRadius: '16px', boxShadow: '0 4px 20px rgba(88, 66, 59, 0.03)' }}
+      >
+        <TableWithPagination
+          dataSource={systemBookings?.data || []}
+          columns={tableColumns}
+          rowKey="id"
+          pagination={false}
+          loading={isBookingsLoading}
+          locale={{ emptyText: t('owner.dashboard.empty_bookings', 'Chưa có đơn đặt phòng nào') }}
+        />
+      </Card>
     </div>
   );
 };

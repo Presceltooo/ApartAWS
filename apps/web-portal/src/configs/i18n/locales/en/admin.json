@@ -131,5 +131,18 @@
       "toggle_auto_approve_success": "Auto approve configuration updated successfully",
       "toggle_auto_approve_error": "Failed to update auto approve configuration"
     }
+  },
+  "admin_dashboard": {
+    "title": "System Overview",
+    "subtitle": "Performance report and global system activity dashboard",
+    "total_users": "Total Users",
+    "total_owners": "Total Owners",
+    "total_tenants": "Total Tenants",
+    "total_apartments": "Total Apartments",
+    "active_apartments": "Active Apartments",
+    "total_bookings": "Total Bookings",
+    "pending_bookings": "Pending Bookings",
+    "total_revenue": "Total Revenue",
+    "recent_bookings": "Recent System Bookings"
   }
 }
