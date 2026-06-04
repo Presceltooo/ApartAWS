@@ -25,4 +25,13 @@ export class CreateBookingDto {
   @IsNumber()
   @IsPositive()
   totalPrice?: number;
+
+  @ApiPropertyOptional({
+    description: 'Số lượng khách',
+    example: 2,
+  })
+  @IsOptional()
+  @IsNumber()
+  @IsPositive()
+  guests?: number;
 }

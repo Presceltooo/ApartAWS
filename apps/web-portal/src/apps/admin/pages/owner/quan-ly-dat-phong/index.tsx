@@ -74,6 +74,12 @@ const OwnerBookings: React.FC = () => {
       render: (date: string) => dayjs(date).format('MMM DD, YYYY'),
     },
     {
+      title: t('owner.bookings_table.guests', 'Guests'),
+      dataIndex: 'guests',
+      key: 'guests',
+      render: (guests: number) => guests || 1,
+    },
+    {
       title: t('owner.bookings_table.total_price', 'Total Price'),
       dataIndex: 'totalPrice',
       key: 'totalPrice',

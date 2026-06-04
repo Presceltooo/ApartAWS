@@ -23,6 +23,7 @@ export interface NotificationEvent {
     startDate: string;
     endDate: string;
     nights: number;
+    guests?: number;
     totalPrice: number;
     bookingStatus: string;
     paymentStatus?: string;

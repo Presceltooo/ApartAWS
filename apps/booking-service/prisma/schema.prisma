@@ -40,6 +40,7 @@ model Booking {
   paymentDate      DateTime?     // Thời điểm thanh toán thành công
   tenantId         String        // Chỉ lưu ID, không FK sang User
   apartmentId      String        // Chỉ lưu ID, không FK sang Apartment
+  guests           Int           @default(1) // Số lượng khách
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 

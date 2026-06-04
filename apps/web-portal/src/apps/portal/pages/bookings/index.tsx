@@ -77,7 +77,7 @@ const Bookings: React.FC = () => {
     status: statusToTab(b.status),
     checkIn: new Date(b.startDate).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
     checkOut: new Date(b.endDate).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : i18n.language === 'ja' ? 'ja-JP' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
-    guests: 1,
+    guests: b.guests || 1,
     totalPrice: b.totalPrice,
     imageUrl: b.apartment?.images?.[0] ?? 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80',
     rawStatus: b.status,

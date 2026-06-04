@@ -58,6 +58,10 @@ export function getBookingCreatedTenantEmail(payload: any): string {
                 <span class="details-value">${payload.nights} đêm</span>
               </div>
               <div class="details-row">
+                <span class="details-label">Số khách:</span>
+                <span class="details-value">${payload.guests || 1} khách</span>
+              </div>
+              <div class="details-row">
                 <span class="details-label">Tổng chi phí:</span>
                 <span class="details-value" style="font-weight: bold; color: #2B6CB0;">${Number(payload.totalPrice).toLocaleString('vi-VN')} ₫</span>
               </div>
@@ -126,6 +130,10 @@ export function getBookingCreatedOwnerEmail(payload: any): string {
                 <span class="details-value">${payload.nights} đêm</span>
               </div>
               <div class="details-row">
+                <span class="details-label">Số khách:</span>
+                <span class="details-value">${payload.guests || 1} khách</span>
+              </div>
+              <div class="details-row">
                 <span class="details-label">Thu nhập dự kiến:</span>
                 <span class="details-value" style="font-weight: bold; color: #805AD5;">${Number(payload.totalPrice).toLocaleString('vi-VN')} ₫</span>
               </div>
@@ -188,6 +196,10 @@ export function getBookingConfirmedEmail(payload: any): string {
               <div class="details-row">
                 <span class="details-label">Trả phòng:</span>
                 <span class="details-value">${new Date(payload.endDate).toLocaleDateString('vi-VN')}</span>
+              </div>
+              <div class="details-row">
+                <span class="details-label">Số khách:</span>
+                <span class="details-value">${payload.guests || 1} khách</span>
               </div>
               <div class="details-row">
                 <span class="details-label">Tổng tiền:</span>
@@ -291,6 +303,10 @@ export function getBookingCompletedEmail(payload: any): string {
                 <span class="details-value">${new Date(payload.startDate).toLocaleDateString('vi-VN')} - ${new Date(payload.endDate).toLocaleDateString('vi-VN')}</span>
               </div>
               <div class="details-row">
+                <span class="details-label">Số khách:</span>
+                <span class="details-value">${payload.guests || 1} khách</span>
+              </div>
+              <div class="details-row">
                 <span class="details-label">Tổng chi phí:</span>
                 <span class="details-value" style="font-weight: bold;">${Number(payload.totalPrice).toLocaleString('vi-VN')} ₫</span>
               </div>
@@ -344,6 +360,10 @@ export function getPaymentSuccessEmail(payload: any, role: 'tenant' | 'owner'): 
               <div class="details-row">
                 <span class="details-label">Mã giao dịch VNPay:</span>
                 <span class="details-value"><code>${payload.transactionId || 'N/A'}</code></span>
+              </div>
+              <div class="details-row">
+                <span class="details-label">Số khách:</span>
+                <span class="details-value">${payload.guests || 1} khách</span>
               </div>
               <div class="details-row">
                 <span class="details-label font-weight-bold">Số tiền:</span>

@@ -51,6 +51,7 @@ export interface IBooking {
   startDate: string;
   endDate: string;
   totalPrice: number;
+  guests: number;
   status: BookingStatus;
   paymentStatus: PaymentStatus;
   vnpTransactionId?: string;
@@ -65,6 +66,7 @@ export interface ICreateBookingPayload {
   startDate: string; // ISO 8601
   endDate: string;   // ISO 8601
   totalPrice: number;
+  guests?: number;
 }
 
 export interface ICheckAvailabilityQuery {

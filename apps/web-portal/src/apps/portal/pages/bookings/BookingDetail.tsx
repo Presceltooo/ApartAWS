@@ -518,7 +518,10 @@ const BookingDetail: React.FC = () => {
         <Descriptions column={2} size="middle" bordered>
           <Descriptions.Item label={t('booking_detail.check_in', 'Check-in')}>{startDate}</Descriptions.Item>
           <Descriptions.Item label={t('booking_detail.check_out', 'Check-out')}>{endDate}</Descriptions.Item>
-          <Descriptions.Item label={t('booking_detail.duration', 'Thời gian')} span={2}>
+          <Descriptions.Item label={t('booking_detail.guests', 'Số khách')}>
+            {t('booking_detail.guests_count', { count: booking.guests || 1, defaultValue: `${booking.guests || 1} Khách` })}
+          </Descriptions.Item>
+          <Descriptions.Item label={t('booking_detail.duration', 'Thời gian')}>
             {t('booking_detail.duration_nights', { count: nights, defaultValue: `${nights} đêm` })}
           </Descriptions.Item>
         </Descriptions>

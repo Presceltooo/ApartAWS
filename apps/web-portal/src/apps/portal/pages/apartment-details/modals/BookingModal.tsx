@@ -137,6 +137,7 @@ const BookingModal: React.FC<IBookingModalProps> = ({
         startDate: start.toISOString(),
         endDate: end.toISOString(),
         totalPrice: total,
+        guests,
       },
       {
         onSuccess: (res) => {
@@ -240,8 +241,8 @@ const BookingModal: React.FC<IBookingModalProps> = ({
           <Form.Item label={t('booking_modal.label_guests', 'Số khách')}>
             <GuestCounterWrapper>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <TeamOutlined style={{ marginRight: '12px', fontSize: '1.25rem' }} />
-                <span style={{ fontSize: '1.05rem', fontWeight: 500 }}>
+                <TeamOutlined style={{ marginRight: '12px', fontSize: '1.6rem' }} />
+                <span style={{ fontSize: '1.5rem', fontWeight: 500 }}>
                   {t('booking_modal.guests_count', { count: guests, defaultValue: `${guests} Khách` })}
                 </span>
               </div>
