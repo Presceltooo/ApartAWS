@@ -414,6 +414,128 @@ export class BookingsService {
   }
 
   // ===========================================================================
+  // Thống kê dành cho Chủ nhà (Owner)
+  // ===========================================================================
+  async getOwnerStats(ownerId: string, year?: number, month?: number) {
+    const apartments = await this.getApartmentsByOwner(ownerId);
+    const apartmentIds = apartments.map((a: any) => a.id);
+
+    if (apartmentIds.length === 0) {
+      return new ApiResponse({
+        totalBookings: 0,
+        pendingBookings: 0,
+        confirmedBookings: 0,
+        completedBookings: 0,
+        cancelledBookings: 0,
+        totalRevenue: 0,
+        chartData: [],
+      }, 'Thống kê trống (chưa có căn hộ)');
+    }
+
+    const where: any = {
+      apartmentId: { in: apartmentIds },
+    };
+
+    if (year) {
+      if (month) {
+        const startOfMonth = new Date(Date.UTC(year, month - 1, 1, 0, 0, 0, 0));
+        const endOfMonth = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
+        where.startDate = {
+          gte: startOfMonth,
+          lte: endOfMonth,
+        };
+      } else {
+        const startOfYear = new Date(Date.UTC(year, 0, 1, 0, 0, 0, 0));
+        const endOfYear = new Date(Date.UTC(year, 11, 31, 23, 59, 59, 999));
+        where.startDate = {
+          gte: startOfYear,
+          lte: endOfYear,
+        };
+      }
+    }
+
+    const bookings = await this.prisma.booking.findMany({
+      where,
+    });
+
+    const totalBookings = bookings.length;
+    const pendingBookings = bookings.filter(b => b.status === 'PENDING').length;
+    const confirmedBookings = bookings.filter(b => b.status === 'CONFIRMED').length;
+    const completedBookings = bookings.filter(b => b.status === 'COMPLETED').length;
+    const cancelledBookings = bookings.filter(b => b.status === 'CANCELLED').length;
+
+    const revenueBookings = bookings.filter(b => b.status === 'CONFIRMED' || b.status === 'COMPLETED');
+    const totalRevenue = revenueBookings.reduce((sum, b) => sum + Number(b.totalPrice), 0);
+
+    const chartData: { label: string; revenue: number; bookings: number }[] = [];
+
+    if (year && month) {
+      const daysInMonth = new Date(year, month, 0).getDate();
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayRevBookings = revenueBookings.filter(b => {
+          const d = new Date(b.startDate);
+          return d.getUTCFullYear() === year && (d.getUTCMonth() + 1) === month && d.getUTCDate() === day;
+        });
+        const dayAllBookings = bookings.filter(b => {
+          const d = new Date(b.startDate);
+          return d.getUTCFullYear() === year && (d.getUTCMonth() + 1) === month && d.getUTCDate() === day;
+        });
+        const rev = dayRevBookings.reduce((sum, b) => sum + Number(b.totalPrice), 0);
+        chartData.push({
+          label: `${day}/${month}`,
+          revenue: rev,
+          bookings: dayAllBookings.length,
+        });
+      }
+    } else if (year) {
+      for (let m = 1; m <= 12; m++) {
+        const monthRevBookings = revenueBookings.filter(b => {
+          const d = new Date(b.startDate);
+          return d.getUTCFullYear() === year && (d.getUTCMonth() + 1) === m;
+        });
+        const monthAllBookings = bookings.filter(b => {
+          const d = new Date(b.startDate);
+          return d.getUTCFullYear() === year && (d.getUTCMonth() + 1) === m;
+        });
+        const rev = monthRevBookings.reduce((sum, b) => sum + Number(b.totalPrice), 0);
+        chartData.push({
+          label: `Tháng ${m}`,
+          revenue: rev,
+          bookings: monthAllBookings.length,
+        });
+      }
+    } else {
+      const currentYear = new Date().getFullYear();
+      for (let y = currentYear - 4; y <= currentYear; y++) {
+        const yearRevBookings = revenueBookings.filter(b => {
+          const d = new Date(b.startDate);
+          return d.getUTCFullYear() === y;
+        });
+        const yearAllBookings = bookings.filter(b => {
+          const d = new Date(b.startDate);
+          return d.getUTCFullYear() === y;
+        });
+        const rev = yearRevBookings.reduce((sum, b) => sum + Number(b.totalPrice), 0);
+        chartData.push({
+          label: `Năm ${y}`,
+          revenue: rev,
+          bookings: yearAllBookings.length,
+        });
+      }
+    }
+
+    return new ApiResponse({
+      totalBookings,
+      pendingBookings,
+      confirmedBookings,
+      completedBookings,
+      cancelledBookings,
+      totalRevenue,
+      chartData,
+    }, 'Thống kê chủ nhà thành công');
+  }
+
+  // ===========================================================================
   // Thống kê dành cho Admin
   // ===========================================================================
   async getStats() {

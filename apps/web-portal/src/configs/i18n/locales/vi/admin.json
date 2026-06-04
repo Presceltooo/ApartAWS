@@ -1,6 +1,7 @@
 {
   "sidebar": {
     "dashboard": "Tổng quan hệ thống",
+    "owner_dashboard": "Tổng quan",
     "users": "Quản lý người dùng",
     "all_apartments": "Quản lý tất cả căn hộ",
     "all_bookings": "Quản lý tất cả đặt phòng",
@@ -16,6 +17,36 @@
     "logout": "Đăng xuất"
   },
   "owner": {
+    "dashboard": {
+      "title": "Tổng quan doanh thu & đặt phòng",
+      "subtitle": "Báo cáo chi tiết hiệu suất kinh doanh căn hộ của bạn",
+      "all_months": "Tất cả các tháng",
+      "month": "Tháng {{month}}",
+      "year": "Năm {{year}}",
+      "total_revenue": "Tổng doanh thu",
+      "total_bookings": "Tổng lượt đặt phòng",
+      "successful_bookings": "Đơn thành công",
+      "pending_bookings": "Đang chờ duyệt",
+      "trend_chart": "Biểu đồ xu hướng",
+      "chart_revenue": "Doanh thu",
+      "chart_bookings": "Lượt đặt phòng",
+      "no_data": "Không có dữ liệu trong khoảng thời gian được chọn",
+      "recent_bookings": "Đơn đặt phòng gần đây",
+      "booking_id": "Mã đặt phòng",
+      "apartment": "Căn hộ",
+      "check_in": "Ngày nhận",
+      "check_out": "Ngày trả",
+      "total_price": "Tổng tiền",
+      "status": "Trạng thái",
+      "empty_bookings": "Chưa có đơn đặt phòng nào",
+      "loading_stats": "Đang tải dữ liệu báo cáo...",
+      "load_error": "Lỗi tải dữ liệu",
+      "load_error_desc": "Không thể tải dữ liệu thống kê doanh thu cho chủ nhà. Vui lòng kiểm tra kết nối hoặc thử lại sau.",
+      "status_pending": "Chờ xác nhận",
+      "status_confirmed": "Đã xác nhận",
+      "status_completed": "Hoàn thành",
+      "status_cancelled": "Đã hủy"
+    },
     "my_apartments_title": "Căn hộ của tôi",
     "add_apartment_btn": "Thêm căn hộ mới",
     "table": {

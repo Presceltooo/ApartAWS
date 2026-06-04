@@ -47,6 +47,12 @@ export const getOwnerBookings = (
   return axiosClient.get('bookings/owner', { params });
 };
 
+export const getOwnerStats = (
+  params?: { year?: number; month?: number },
+): Promise<IResponse<any>> => {
+  return axiosClient.get('bookings/owner/stats', { params });
+};
+
 export const confirmBooking = (id: string): Promise<IResponse<IBooking>> => {
   return axiosClient.patch(`bookings/${id}/confirm`);
 };

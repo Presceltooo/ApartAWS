@@ -1,6 +1,7 @@
 {
   "sidebar": {
     "dashboard": "System Overview",
+    "owner_dashboard": "Overview",
     "users": "User Management",
     "all_apartments": "Manage All Apartments",
     "all_bookings": "Manage All Bookings",
@@ -16,6 +17,36 @@
     "logout": "Logout"
   },
   "owner": {
+    "dashboard": {
+      "title": "Revenue & Bookings Overview",
+      "subtitle": "Detailed report of your apartment business performance",
+      "all_months": "All months",
+      "month": "Month {{month}}",
+      "year": "Year {{year}}",
+      "total_revenue": "Total Revenue",
+      "total_bookings": "Total Bookings",
+      "successful_bookings": "Successful Bookings",
+      "pending_bookings": "Pending Bookings",
+      "trend_chart": "Trend Chart",
+      "chart_revenue": "Revenue",
+      "chart_bookings": "Bookings",
+      "no_data": "No data available for the selected period",
+      "recent_bookings": "Recent Bookings",
+      "booking_id": "Booking ID",
+      "apartment": "Property",
+      "check_in": "Check In",
+      "check_out": "Check Out",
+      "total_price": "Total Price",
+      "status": "Status",
+      "empty_bookings": "No bookings found",
+      "loading_stats": "Loading report data...",
+      "load_error": "Failed to load data",
+      "load_error_desc": "Unable to load owner revenue statistics. Please check your connection or try again later.",
+      "status_pending": "Pending",
+      "status_confirmed": "Confirmed",
+      "status_completed": "Completed",
+      "status_cancelled": "Cancelled"
+    },
     "my_apartments_title": "My Apartments",
     "add_apartment_btn": "Add New Apartment",
     "table": {

@@ -74,6 +74,26 @@ export class BookingsController {
     return this.bookingsService.findByOwner(userId, keyword, page ? +page : 1, pageSize ? +pageSize : 10);
   }
 
+  @Get('owner/stats')
+  @ApiOperation({ summary: 'Chủ nhà xem thống kê doanh thu và đặt phòng' })
+  @ApiResponse({ status: 200, description: 'Trả về thống kê doanh thu và đặt phòng theo tháng/năm' })
+  @ApiQuery({ name: 'year', required: false, type: Number })
+  @ApiQuery({ name: 'month', required: false, type: Number })
+  @ApiHeader({ name: 'x-user-id', required: true })
+  getOwnerStats(
+    @CurrentUser('userId') userId: string,
+    @CurrentUser('role') role: string,
+    @Query('year') year?: string,
+    @Query('month') month?: string,
+  ) {
+    if (role !== 'OWNER' && role !== 'ADMIN') {
+      throw new ForbiddenException('Chỉ chủ nhà hoặc quản trị viên mới có quyền xem thống kê này');
+    }
+    const targetYear = year ? +year : undefined;
+    const targetMonth = month ? +month : undefined;
+    return this.bookingsService.getOwnerStats(userId, targetYear, targetMonth);
+  }
+
   @Get('check-availability')
   @ApiOperation({ summary: 'Kiểm tra căn hộ có trống trong khoảng ngày hay không (public)' })
   @ApiQuery({ name: 'apartmentId', required: true, type: String })

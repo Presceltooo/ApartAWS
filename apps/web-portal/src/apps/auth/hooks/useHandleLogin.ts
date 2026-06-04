@@ -53,7 +53,7 @@ export const useHandleLogin = () => {
         if (role === 'ADMIN') {
           router.navigate({ to: '/quan-ly/tong-quan-he-thong' });
         } else if (role === 'OWNER') {
-          router.navigate({ to: '/quan-ly/danh-sach-can-ho' });
+          router.navigate({ to: '/quan-ly/tong-quan' });
         } else {
           router.navigate({ to: '/' });
         }

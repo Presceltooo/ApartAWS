@@ -6,6 +6,7 @@ import { ADMIN_LOGIN_ROUTE } from '@apps/auth/constants';
 import myApartmentsRoute from './pages/owner/danh-sach-can-ho/Route';
 import { apartmentFormCreateRoute, apartmentFormEditRoute } from './pages/shared/bieu-mau-can-ho/Route';
 import ownerBookingsRoute from './pages/owner/quan-ly-dat-phong/Route';
+import ownerDashboardRoute from './pages/owner/tong-quan/Route';
 import dashboardRoute from './pages/admin/tong-quan-he-thong/Route';
 import systemUsersRoute from './pages/admin/quan-ly-nguoi-dung/Route';
 import systemApartmentsRoute from './pages/admin/quan-ly-tat-ca-can-ho/Route';
@@ -26,6 +27,7 @@ export const adminRoute = createRoute({
 });
 
 adminRoute.addChildren([
+  ownerDashboardRoute,
   myApartmentsRoute,
   apartmentFormCreateRoute,
   apartmentFormEditRoute,

@@ -179,27 +179,9 @@ const AdminLayout: React.FC = () => {
     return t('header.owner_title', 'Domin Tactic Owner Portal');
   };
 
-  const menuItems: any[] = [
-    {
-      key: '/quan-ly/danh-sach-can-ho',
-      icon: <HomeOutlined />,
-      label: <Link to="/quan-ly/danh-sach-can-ho">{t('sidebar.my_apartments', 'Danh sách căn hộ')}</Link>,
-    },
-    {
-      key: '/quan-ly/bieu-mau-can-ho/tao-moi',
-      icon: <PlusCircleOutlined />,
-      label: <Link to="/quan-ly/bieu-mau-can-ho/tao-moi">{t('sidebar.add_apartment', 'Thêm căn hộ mới')}</Link>,
-    },
-    {
-      key: '/quan-ly/quan-ly-dat-phong',
-      icon: <CalendarOutlined />,
-      label: <Link to="/quan-ly/quan-ly-dat-phong">{t('sidebar.my_bookings', 'Quản lý đặt phòng')}</Link>,
-    },
-  ];
-
-  // If user is ADMIN, prepend the Dashboard menu item
+  const menuItems: any[] = [];
   if (userData?.data?.role === 'ADMIN') {
-    menuItems.unshift(
+    menuItems.push(
       {
         key: '/quan-ly/tong-quan-he-thong',
         icon: <DashboardOutlined />,
@@ -221,6 +203,29 @@ const AdminLayout: React.FC = () => {
         label: <Link to="/quan-ly/quan-ly-tat-ca-dat-phong">{t('sidebar.all_bookings', 'Quản lý tất cả đặt phòng')}</Link>,
       }
     );
+  } else {
+    menuItems.push(
+      {
+        key: '/quan-ly/tong-quan',
+        icon: <DashboardOutlined />,
+        label: <Link to="/quan-ly/tong-quan">{t('sidebar.owner_dashboard', 'Tổng quan')}</Link>,
+      },
+      {
+        key: '/quan-ly/danh-sach-can-ho',
+        icon: <HomeOutlined />,
+        label: <Link to="/quan-ly/danh-sach-can-ho">{t('sidebar.my_apartments', 'Danh sách căn hộ')}</Link>,
+      },
+      {
+        key: '/quan-ly/bieu-mau-can-ho/tao-moi',
+        icon: <PlusCircleOutlined />,
+        label: <Link to="/quan-ly/bieu-mau-can-ho/tao-moi">{t('sidebar.add_apartment', 'Thêm căn hộ mới')}</Link>,
+      },
+      {
+        key: '/quan-ly/quan-ly-dat-phong',
+        icon: <CalendarOutlined />,
+        label: <Link to="/quan-ly/quan-ly-dat-phong">{t('sidebar.my_bookings', 'Quản lý đặt phòng')}</Link>,
+      }
+    );
   }
 
   // Tự động redirect khi vào /quan-ly
@@ -233,6 +238,7 @@ const AdminLayout: React.FC = () => {
   // Determine active menu key based on current path
   const getActiveKey = () => {
     if (currentPath.startsWith('/quan-ly/tong-quan-he-thong')) return '/quan-ly/tong-quan-he-thong';
+    if (currentPath.startsWith('/quan-ly/tong-quan')) return '/quan-ly/tong-quan';
     if (currentPath.startsWith('/quan-ly/quan-ly-nguoi-dung')) return '/quan-ly/quan-ly-nguoi-dung';
     if (currentPath.startsWith('/quan-ly/quan-ly-tat-ca-can-ho')) return '/quan-ly/quan-ly-tat-ca-can-ho';
     if (currentPath.startsWith('/quan-ly/quan-ly-tat-ca-dat-phong')) return '/quan-ly/quan-ly-tat-ca-dat-phong';

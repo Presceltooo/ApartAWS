@@ -1,6 +1,7 @@
 {
   "sidebar": {
     "dashboard": "システム概要",
+    "owner_dashboard": "概要",
     "users": "ユーザー管理",
     "all_apartments": "全アパートメント管理",
     "all_bookings": "全予約管理",
@@ -16,6 +17,36 @@
     "logout": "ログアウト"
   },
   "owner": {
+    "dashboard": {
+      "title": "売上・予約概要",
+      "subtitle": "アパートメントビジネス業績の概要レポート",
+      "all_months": "すべての月",
+      "month": "{{month}}月",
+      "year": "{{year}}年",
+      "total_revenue": "総売上",
+      "total_bookings": "総予約数",
+      "successful_bookings": "成約済み予約",
+      "pending_bookings": "承認待ち",
+      "trend_chart": "推移グラフ",
+      "chart_revenue": "売上",
+      "chart_bookings": "予約数",
+      "no_data": "選択された期間のデータはありません",
+      "recent_bookings": "最近の予約",
+      "booking_id": "予約ID",
+      "apartment": "アパート名",
+      "check_in": "チェックイン",
+      "check_out": "チェックアウト",
+      "total_price": "合計金額",
+      "status": "ステータス",
+      "empty_bookings": "予約が見つかりません",
+      "loading_stats": "レポートデータをロード中...",
+      "load_error": "データ取得エラー",
+      "load_error_desc": "売上統計の取得に失敗しました。接続を確認するか、しばらくしてからもう一度お試しください。",
+      "status_pending": "承認待ち",
+      "status_confirmed": "承認済み",
+      "status_completed": "完了",
+      "status_cancelled": "キャンセル済み"
+    },
     "my_apartments_title": "マイ・アパートメント",
     "add_apartment_btn": "新規アパートメント追加",
     "table": {
