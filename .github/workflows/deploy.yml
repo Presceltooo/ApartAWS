@@ -105,6 +105,21 @@ jobs:
           script: |
             set -e
 
+            echo "=== [Chuẩn bị] Kiểm tra Docker daemon ==="
+            # Nếu Docker daemon không phản hồi trong 10 giây, tự động khởi động lại service
+            if ! timeout 10s docker info >/dev/null 2>&1; then
+              echo "⚠️ Docker daemon bị treo! Đang tự động khởi động lại Docker..."
+              sudo systemctl restart docker || sudo service docker restart || true
+              sleep 5
+            fi
+
+            echo "=== [Chuẩn bị] Kiểm tra dung lượng ổ đĩa ==="
+            df -h
+            docker system df || true
+
+            echo "=== [Chuẩn bị] Dọn dẹp tài nguyên dư thừa trước khi pull ==="
+            docker system prune -f || true
+
             echo "=== [1/5] Đăng nhập vào ECR ==="
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
               | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
