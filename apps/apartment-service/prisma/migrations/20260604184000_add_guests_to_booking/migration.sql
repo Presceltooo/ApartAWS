@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "booking"."Bookings" ADD COLUMN IF NOT EXISTS "guests" INTEGER NOT NULL DEFAULT 1;

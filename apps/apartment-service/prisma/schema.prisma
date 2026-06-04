@@ -119,6 +119,7 @@ model Booking {
   paymentStatus     PaymentStatus @default(UNPAID)
   vnpTransactionId  String?
   paymentDate       DateTime?
+  guests            Int           @default(1) // Số lượng khách
 
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt

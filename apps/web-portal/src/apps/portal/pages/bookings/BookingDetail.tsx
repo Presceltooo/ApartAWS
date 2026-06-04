@@ -384,6 +384,17 @@ const BookingDetail: React.FC = () => {
   const [isRedirectingToVnpay, setIsRedirectingToVnpay] = useState(false);
   const [rating, setRating] = useState<number>(5);
   const [comment, setComment] = useState<string>('');
+  const [columnCount, setColumnCount] = useState(1);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setColumnCount(window.innerWidth < 576 ? 1 : 2);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
 
   const { data: response, isLoading, isError } = useBookingDetail(id ?? '');
   const { mutate: cancelBooking, isPending: isCancelling } = useCancelBooking();
@@ -553,7 +564,7 @@ const BookingDetail: React.FC = () => {
           <CalendarOutlined />
           {t('booking_detail.booking_info', 'Thông tin đặt chỗ')}
         </CardTitle>
-        <Descriptions column={{ xs: 1, sm: 2, md: 2 }} size="middle" bordered>
+        <Descriptions column={columnCount} size="middle" bordered>
           <Descriptions.Item label={t('booking_detail.guests', 'Số khách')}>
             {t('booking_detail.guests_count', { count: booking.guests || 1 })}
           </Descriptions.Item>
