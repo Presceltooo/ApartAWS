@@ -1,10 +1,45 @@
 import styled from 'styled-components';
 import { portalTheme } from '../../../styled';
+import { Link } from '@tanstack/react-router';
 
 export const PageWrapper = styled.div`
   max-width: 140rem;
   margin: 0 auto;
   padding: 3rem 4rem 4rem;
+`;
+
+export const BackLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: ${portalTheme.colors.onSurfaceVariant};
+  background-color: ${portalTheme.colors.surfaceContainerLowest};
+  border: 1px solid ${portalTheme.colors.outlineVariant};
+  cursor: pointer;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 8px rgba(74, 27, 12, 0.03);
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 2rem;
+
+  &:hover {
+    border-color: ${portalTheme.colors.primary};
+    color: ${portalTheme.colors.primary};
+    background-color: rgba(216, 90, 48, 0.04);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(216, 90, 48, 0.08);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  .anticon {
+    font-size: 1.3rem;
+  }
 `;
 
 export const PageHeader = styled.div`

@@ -1,0 +1,135 @@
+{
+  "sidebar": {
+    "dashboard": "시스템 개요",
+    "owner_dashboard": "대시보드",
+    "users": "사용자 관리",
+    "all_apartments": "전체 아파트 관리",
+    "all_bookings": "전체 예약 관리",
+    "my_apartments": "아파트 목록",
+    "add_apartment": "새 아파트 등록",
+    "my_bookings": "예약 관리"
+  },
+  "header": {
+    "title": "Domin Tactic 오너 포털",
+    "admin_title": "Domin Tactic 관리자 포털",
+    "owner_title": "Domin Tactic 오너 포털",
+    "view_site": "홈페이지 보기",
+    "logout": "로그아웃"
+  },
+  "owner": {
+    "dashboard": {
+      "title": "매출 및 예약 개요",
+      "subtitle": "아파트 비즈니스 실적에 대한 상세 보고서",
+      "all_months": "모든 월",
+      "month": "{{month}}월",
+      "year": "{{year}}년",
+      "total_revenue": "총 매출",
+      "total_bookings": "총 예약 건수",
+      "successful_bookings": "예약 완료",
+      "pending_bookings": "승인 대기",
+      "trend_chart": "추이 차트",
+      "chart_revenue": "매출",
+      "chart_bookings": "예약 건수",
+      "no_data": "선택한 기간 동안 데이터가 없습니다",
+      "recent_bookings": "최근 예약",
+      "booking_id": "예약 ID",
+      "apartment": "아파트",
+      "check_in": "체크인",
+      "check_out": "체크아웃",
+      "total_price": "총 금액",
+      "status": "상태",
+      "empty_bookings": "예약 건이 없습니다",
+      "loading_stats": "통계 데이터 로딩 중...",
+      "load_error": "데이터 로딩 오류",
+      "load_error_desc": "통계 데이터를 불러올 수 없습니다. 인터넷 연결을 확인하거나 나중에 다시 시도해 주세요.",
+      "status_pending": "대기 중",
+      "status_confirmed": "확정됨",
+      "status_completed": "완료됨",
+      "status_cancelled": "취소됨"
+    },
+    "my_apartments_title": "내 아파트 목록",
+    "add_apartment_btn": "새 아파트 등록",
+    "table": {
+      "title": "아파트 이름",
+      "location": "위치",
+      "price_per_night": "1박 요금",
+      "status": "상태",
+      "auto_approve": "자동 승인",
+      "actions": "관리"
+    },
+    "actions": {
+      "edit": "수정",
+      "delete": "삭제"
+    },
+    "delete_confirm": {
+      "title": "아파트를 삭제하시겠습니까?",
+      "desc": "이 아파트를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+      "ok": "삭제 확인",
+      "cancel": "취소"
+    },
+    "errors": {
+      "load_apartments": "아파트 목록을 불러올 수 없습니다. 다시 시도해 주세요.",
+      "load_bookings": "예약 목록을 불러올 수 없습니다. 다시 시도해 주세요.",
+      "upload_failed": "이미지 업로드에 실패했습니다.",
+      "submit_failed": "데이터 전송 중 오류가 발생했습니다."
+    },
+    "bookings_title": "내 예약 현황",
+    "bookings_table": {
+      "booking_id": "예약 ID",
+      "property": "아파트",
+      "tenant_id": "임차인 ID",
+      "check_in": "체크인",
+      "check_out": "체크아웃",
+      "total_price": "총 금액",
+      "status": "상태",
+      "action": "관리"
+    },
+    "booking_actions": {
+      "confirm": "승인",
+      "reject": "거절",
+      "complete": "완료"
+    },
+    "booking_messages": {
+      "confirm_success": "예약이 성공적으로 승인되었습니다",
+      "confirm_error": "예약 승인에 실패했습니다",
+      "complete_success": "예약이 성공적으로 완료 처리되었습니다",
+      "complete_error": "예약 완료 처리에 실패했습니다",
+      "cancel_success": "예약이 성공적으로 취소되었습니다",
+      "cancel_error": "예약 취소에 실패했습니다"
+    },
+    "form": {
+      "back": "돌아가기",
+      "edit_title": "아파트 정보 수정",
+      "add_title": "새 아파트 추가",
+      "property_title_label": "아파트 이름",
+      "property_title_required": "아파트 이름을 입력해 주세요",
+      "property_title_placeholder": "예: 헤리티지 복층 아파트",
+      "location_label": "위치",
+      "location_required": "위치를 입력해 주세요",
+      "location_placeholder": "예: 캘리포니아 카멜 밸리",
+      "price_label": "1박 요금 (KRW)",
+      "price_required": "요금을 입력해 주세요",
+      "price_placeholder": "0",
+      "description_label": "상세 설명",
+      "description_placeholder": "아파트에 대한 상세한 설명을 적어주세요...",
+      "amenities_label": "편의 시설",
+      "amenities_placeholder": "편의 시설 선택",
+      "images_label": "이미지",
+      "images_tooltip": "최소 1장 이상의 이미지를 업로드하세요",
+      "images_upload_btn": "업로드",
+      "status_label": "상태",
+      "status_active": "운영 중",
+      "status_draft": "임시 저장",
+      "auto_approve_label": "예약 자동 승인",
+      "status_enabled": "활성화",
+      "status_disabled": "비활성화",
+      "save_btn": "변경사항 저장",
+      "publish_btn": "아파트 등록",
+      "loading_detail": "아파트 정보 불러오는 중..."
+    },
+    "toast": {
+      "toggle_auto_approve_success": "자동 승인 구성이 업데이트되었습니다",
+      "toggle_auto_approve_error": "자동 승인 구성 업데이트 실패"
+    }
+  }
+}

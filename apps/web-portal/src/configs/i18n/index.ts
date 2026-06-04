@@ -17,6 +17,16 @@ import jaAuth from "./locales/ja/auth.json";
 import jaPortal from "./locales/ja/portal.json";
 import jaAdmin from "./locales/ja/admin.json";
 
+import koCommon from "./locales/ko/common.json";
+import koAuth from "./locales/ko/auth.json";
+import koPortal from "./locales/ko/portal.json";
+import koAdmin from "./locales/ko/admin.json";
+
+import zhCommon from "./locales/zh/common.json";
+import zhAuth from "./locales/zh/auth.json";
+import zhPortal from "./locales/zh/portal.json";
+import zhAdmin from "./locales/zh/admin.json";
+
 const resources = {
   vi: {
     common: viCommon,
@@ -35,6 +45,18 @@ const resources = {
     auth: jaAuth,
     portal: jaPortal,
     admin: jaAdmin,
+  },
+  ko: {
+    common: koCommon,
+    auth: koAuth,
+    portal: koPortal,
+    admin: koAdmin,
+  },
+  zh: {
+    common: zhCommon,
+    auth: zhAuth,
+    portal: zhPortal,
+    admin: zhAdmin,
   },
 };
 

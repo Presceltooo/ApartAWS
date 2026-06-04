@@ -1,0 +1,135 @@
+{
+  "sidebar": {
+    "dashboard": "系统概览",
+    "owner_dashboard": "控制台",
+    "users": "用户管理",
+    "all_apartments": "全局房源管理",
+    "all_bookings": "全局订单管理",
+    "my_apartments": "房源列表",
+    "add_apartment": "添加新房源",
+    "my_bookings": "订单管理"
+  },
+  "header": {
+    "title": "Domin Tactic 业主门户",
+    "admin_title": "Domin Tactic 管理员门户",
+    "owner_title": "Domin Tactic 业主门户",
+    "view_site": "查看主站",
+    "logout": "安全退出"
+  },
+  "owner": {
+    "dashboard": {
+      "title": "收入与预订概览",
+      "subtitle": "您的房源业务表现的详细报表",
+      "all_months": "全部月份",
+      "month": "{{month}}月",
+      "year": "{{year}}年",
+      "total_revenue": "总收入",
+      "total_bookings": "总预订数",
+      "successful_bookings": "已完成订单",
+      "pending_bookings": "待确认订单",
+      "trend_chart": "趋势图表",
+      "chart_revenue": "营业额",
+      "chart_bookings": "预订数",
+      "no_data": "所选时间段内暂无数据",
+      "recent_bookings": "近期预订",
+      "booking_id": "订单 ID",
+      "apartment": "公寓房源",
+      "check_in": "入住日期",
+      "check_out": "退房日期",
+      "total_price": "总金额",
+      "status": "状态",
+      "empty_bookings": "暂无预订订单",
+      "loading_stats": "正在加载报表数据...",
+      "load_error": "数据加载出错",
+      "load_error_desc": "无法加载业主统计信息。请检查网络连接或稍后重试。",
+      "status_pending": "待确认",
+      "status_confirmed": "已确认",
+      "status_completed": "已完成",
+      "status_cancelled": "已取消"
+    },
+    "my_apartments_title": "我的房源",
+    "add_apartment_btn": "添加新房源",
+    "table": {
+      "title": "房源名称",
+      "location": "位置",
+      "price_per_night": "价格 / 晚",
+      "status": "状态",
+      "auto_approve": "自动审批",
+      "actions": "操作"
+    },
+    "actions": {
+      "edit": "编辑",
+      "delete": "删除"
+    },
+    "delete_confirm": {
+      "title": "确定要删除该房源吗？",
+      "desc": "您确定要删除该公寓房源吗？此操作无法撤销。",
+      "ok": "确定删除",
+      "cancel": "取消"
+    },
+    "errors": {
+      "load_apartments": "无法加载房源列表。请重试。",
+      "load_bookings": "无法加载预订列表。请重试。",
+      "upload_failed": "图片上传失败。",
+      "submit_failed": "保存数据时发生错误。"
+    },
+    "bookings_title": "我的预订订单",
+    "bookings_table": {
+      "booking_id": "订单 ID",
+      "property": "公寓",
+      "tenant_id": "租客 ID",
+      "check_in": "入住日期",
+      "check_out": "退房日期",
+      "total_price": "总金额",
+      "status": "状态",
+      "action": "操作"
+    },
+    "booking_actions": {
+      "confirm": "确认",
+      "reject": "拒绝",
+      "complete": "完成"
+    },
+    "booking_messages": {
+      "confirm_success": "成功确认预订订单",
+      "confirm_error": "确认预订订单失败",
+      "complete_success": "订单已处理为完成状态",
+      "complete_error": "处理订单完成失败",
+      "cancel_success": "成功取消订单",
+      "cancel_error": "取消订单失败"
+    },
+    "form": {
+      "back": "返回",
+      "edit_title": "编辑房源信息",
+      "add_title": "添加新房源",
+      "property_title_label": "房源名称",
+      "property_title_required": "请输入房源名称",
+      "property_title_placeholder": "例如：Heritage 复式公寓",
+      "location_label": "位置",
+      "location_required": "请输入位置",
+      "location_placeholder": "例如：加利福尼亚州卡梅尔谷",
+      "price_label": "单晚价格 (CNY)",
+      "price_required": "请输入单晚价格",
+      "price_placeholder": "0",
+      "description_label": "房源描述",
+      "description_placeholder": "请描述您的房源特点...",
+      "amenities_label": "配套设施",
+      "amenities_placeholder": "请选择配套设施",
+      "images_label": "图片展示",
+      "images_tooltip": "请至少上传一张房源图片",
+      "images_upload_btn": "点击上传",
+      "status_label": "房源状态",
+      "status_active": "运营中",
+      "status_draft": "草稿箱",
+      "auto_approve_label": "自动审批订单",
+      "status_enabled": "启用",
+      "status_disabled": "禁用",
+      "save_btn": "保存更改",
+      "publish_btn": "发布房源",
+      "loading_detail": "正在加载房源详情..."
+    },
+    "toast": {
+      "toggle_auto_approve_success": "自动审批配置更新成功",
+      "toggle_auto_approve_error": "自动审批配置更新失败"
+    }
+  }
+}

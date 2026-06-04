@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { CalendarOutlined } from '@ant-design/icons';
+import { CalendarOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Skeleton } from 'antd';
 import { useTranslation } from 'react-i18next';
 import useCheckLogin from '../../../../shared/hooks/useCheckLogin';
 import useNotification from '../../../../shared/hooks/useNotification';
 import {
   BookingsPageWrapper,
+  BackLink,
   PageHeader,
   PageTitle,
   PageSubtitle,
@@ -53,6 +54,10 @@ const Bookings: React.FC = () => {
   if (!isLogin) {
     return (
       <BookingsPageWrapper>
+        <BackLink to="/">
+          <ArrowLeftOutlined />
+          {t('bookings.back_to_home', 'Quay lại trang chủ')}
+        </BackLink>
         <PageHeader>
           <PageTitle>{t('bookings.title', 'Đặt phòng của tôi')}</PageTitle>
           <PageSubtitle>{t('bookings.subtitle', 'Quản lý các chuyến đi sắp tới và xem lại lịch sử đặt phòng của bạn.')}</PageSubtitle>
@@ -108,6 +113,10 @@ const Bookings: React.FC = () => {
 
   return (
     <BookingsPageWrapper>
+      <BackLink to="/">
+        <ArrowLeftOutlined />
+        {t('bookings.back_to_home', 'Quay lại trang chủ')}
+      </BackLink>
       <PageHeader>
         <PageTitle>{t('bookings.title', 'Đặt phòng của tôi')}</PageTitle>
         <PageSubtitle>{t('bookings.subtitle', 'Quản lý các chuyến đi sắp tới và xem lại lịch sử đặt phòng của bạn.')}</PageSubtitle>

@@ -1,0 +1,278 @@
+{
+  "home": {
+    "hero_title": "럭셔리한 공간에서, ",
+    "hero_title_highlight": "스타일리시한 삶을 만나보세요.",
+    "load_error": "아파트 목록을 불러올 수 없습니다. 다시 시도해 주세요.",
+    "empty_residences": "검색 조건에 맞는 아파트가 없습니다.",
+    "search": {
+      "location": "위치",
+      "location_placeholder": "어디로 여행하시나요?",
+      "check_in": "체크인",
+      "check_in_placeholder": "날짜 추가",
+      "check_out": "체크아웃",
+      "check_out_placeholder": "날짜 추가",
+      "btn": "검색"
+    },
+    "featured": {
+      "title": "추천 아파트",
+      "subtitle": "뛰어난 편의 시설과 독특한 건축미를 자랑하는 엄선된 고급 아파트입니다.",
+      "view_more": "아파트 더 보기"
+    },
+    "promo": {
+      "rewards_title": "장기 투숙객을 위한 특별 혜택.",
+      "rewards_desc": "30일 이상 예약하고 Domin Concierge 서비스 및 프리미엄 라운지 이용 권한을 누려보세요.",
+      "learn_more": "더 알아보기",
+      "verified_title": "Domin 인증",
+      "verified_desc": "모든 아파트는 저희 건축 디자인 팀이 직접 방문하여 품질과 디자인 기준을 검증합니다.",
+      "trust_label": "100% 신뢰 보장."
+    }
+  },
+  "list": {
+    "back_to_home": "홈으로 돌아가기",
+    "title": "아파트 목록",
+    "subtitle": "프리미엄 아파트 컬렉션을 만나보세요.",
+    "filters": {
+      "keyword": "키워드...",
+      "location": "위치...",
+      "min_price": "최저 가격",
+      "max_price": "최고 가격",
+      "search_btn": "검색"
+    },
+    "results": {
+      "showing": "총 {{total}}개 중 {{count}}개 표시",
+      "empty": "검색된 아파트가 없습니다",
+      "error": "데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      "no_match": "검색 조건과 일치하는 아파트가 없습니다."
+    }
+  },
+  "details": {
+    "load_error": "아파트 상세 정보를 불러올 수 없습니다.",
+    "view_list": "아파트 목록 보기",
+    "back_to_list": "목록으로 돌아가기",
+    "view_details": "상세 보기",
+    "verified": "Domin 인증",
+    "price_per_night": "1박 요금",
+    "status": "상태",
+    "available": "예약 가능",
+    "unavailable": "예약 불가",
+    "category": "카테고리",
+    "apartment": "아파트",
+    "architecture_space": "건축 및 공간",
+    "featured_amenities": "주요 편의 시설",
+    "location": "위치",
+    "location_disclaimer": "상세 주소는 예약 완료 후 제공됩니다.",
+    "book_widget": {
+      "title": "예약하기",
+      "price_per_night": "1박 요금",
+      "cleaning_fee": "청소비",
+      "service_fee": "서비스 수수료",
+      "total_from": "예상 총액",
+      "secure_booking": "안전한 예약",
+      "secure_booking_desc": "지금은 요금이 청구되지 않습니다.",
+      "proceed_btn": "예약 진행하기",
+      "unavailable_btn": "현재 이용 불가"
+    },
+    "new_rating": "신규",
+    "reviews": "게스트 후기",
+    "no_reviews": "이 아파트에 대한 후기가 아직 없습니다."
+  },
+  "status_tags": {
+    "rare": "전석 매진 임박",
+    "popular": "인기",
+    "available": "예약 가능",
+    "verified": "인증됨",
+    "new": "신규"
+  },
+  "bookings": {
+    "back_to_home": "홈으로 돌아가기",
+    "title": "내 예약 목록",
+    "subtitle": "예정된 여행을 관리하고 지난 예약 내역을 확인하세요.",
+    "login_required": "예약 정보를 확인하려면 로그인해 주세요.",
+    "login_required_title": "로그인 필요",
+    "login_required_desc": "예약 내역을 관리하고 확인하려면 로그인해야 합니다.",
+    "login_btn": "지금 로그인",
+    "tabs": {
+      "upcoming": "예정된 예약",
+      "completed": "이용 완료",
+      "cancelled": "취소됨"
+    },
+    "card": {
+      "check_in": "체크인",
+      "check_out": "체크아웃",
+      "guests": "인원",
+      "guests_count": "게스트 {{count}}명",
+      "total_price": "총 금액",
+      "view_details": "상세 보기",
+      "contact_concierge": "컨시어지 연락",
+      "book_again": "다시 예약하기"
+    },
+    "status": {
+      "pending": "대기 중",
+      "confirmed": "확정됨",
+      "completed": "완료됨",
+      "cancelled": "취소됨"
+    },
+    "empty": {
+      "title": "예약 없음",
+      "desc": "이 항목에 해당하는 예약 내역이 없습니다. 저희의 훌륭한 아파트들을 살펴보세요.",
+      "explore_btn": "지금 둘러보기",
+      "load_error_title": "예약 내역 불러오기 실패",
+      "load_error_desc": "연결 상태를 확인하고 다시 시도해 주세요."
+    }
+  },
+  "booking_detail": {
+    "back_to_list": "목록으로 돌아가기",
+    "title": "예약 상세 정보",
+    "status_card_title": "예약 상태",
+    "payment_card_title": "결제 상태",
+    "payment_date": "결제 일시: {{date}}",
+    "apartment_info": "아파트 정보",
+    "apartment_name": "아파트 이름",
+    "address": "주소",
+    "price_per_night": "요금/1박",
+    "booking_info": "예약 정보",
+    "check_in": "체크인",
+    "check_out": "체크아웃",
+    "guests": "인원수",
+    "guests_count": "게스트 {{count}}명",
+    "duration": "기간",
+    "duration_nights": "{{count}}박",
+    "total_price": "총 요금",
+    "btn_all_bookings": "전체 예약 목록",
+    "btn_pay_vnpay": "VNPay로 결제",
+    "btn_cancel_booking": "예약 취소",
+    "btn_view_apartment": "아파트 보기",
+    "price_summary": "요금 세부 내역",
+    "nights": "박",
+    "cleaning_fee": "청소비",
+    "service_fee": "서비스 수수료",
+    "cancel_confirm": {
+      "title": "예약을 취소하시겠습니까?",
+      "desc": "이 작업은 되돌릴 수 없습니다.",
+      "ok": "취소 확인",
+      "cancel": "예약 유지"
+    },
+    "notifications": {
+      "cancel_success": "예약이 취소되었습니다",
+      "cancel_success_desc": "예약이 성공적으로 취소되었습니다.",
+      "pay_error": "결제 링크를 생성할 수 없습니다. 다시 시도해 주세요.",
+      "pay_conn_error": "연결 오류가 발생했습니다. 나중에 다시 시도해 주세요."
+    },
+    "load_error": "예약 정보를 불러올 수 없습니다. 돌아가기",
+    "status": {
+      "pending": "승인 대기 중",
+      "confirmed": "확정됨",
+      "completed": "이용 완료",
+      "cancelled": "취소됨"
+    },
+    "payment_status": {
+      "unpaid": "미결제",
+      "paid": "결제 완료",
+      "failed": "결제 실패",
+      "refunded": "환불 완료"
+    },
+    "review": {
+      "section_title": "여행 후기 작성",
+      "stars": "성",
+      "prompt": "다음 여행자들을 위해 아파트에 대한 소중한 후기를 남겨주세요.",
+      "rating_label": "평점",
+      "comment_label": "상세 후기",
+      "comment_placeholder": "공간, 시설, 위치 등에 대해 느낀 점을 자유롭게 입력해 주세요...",
+      "submit_btn": "후기 등록",
+      "success_title": "후기가 등록되었습니다!",
+      "success_desc": "후기가 성공적으로 등록되어 공개되었습니다. 감사합니다!",
+      "rating_required": "평점을 선택해 주세요."
+    }
+  },
+  "profile": {
+    "title": "프로필 정보",
+    "subtitle": "Domin Tactic 계정 정보를 관리하고 업데이트하세요.",
+    "section_personal": "개인 정보",
+    "section_security": "비밀번호 및 보안",
+    "fullName": "이름",
+    "fullName_placeholder": "이름을 입력하세요",
+    "phone": "전화번호",
+    "phone_placeholder": "전화번호를 입력하세요 (예: 01012345678)",
+    "address": "주소",
+    "address_placeholder": "주소를 입력하세요",
+    "email": "이메일 주소",
+    "role": "회원 유형",
+    "role_tenant": "임차인 (Tenant)",
+    "role_owner": "임대인/소유주 (Owner)",
+    "role_admin": "관리자 (Admin)",
+    "btn_update": "프로필 업데이트",
+    "btn_change_password": "비밀번호 변경",
+    "oldPassword": "현재 비밀번호",
+    "oldPassword_placeholder": "현재 비밀번호 입력",
+    "newPassword": "새 비밀번호",
+    "newPassword_placeholder": "새 비밀번호 입력",
+    "confirmPassword": "새 비밀번호 확인",
+    "confirmPassword_placeholder": "새 비밀번호 다시 입력",
+    "msg_update_success": "프로필이 성공적으로 업데이트되었습니다",
+    "msg_update_error": "프로필 업데이트 중 오류가 발생했습니다",
+    "msg_password_success": "비밀번호가 성공적으로 변경되었습니다",
+    "msg_password_error": "비밀번호 변경 중 오류가 발생했습니다",
+    "validation": {
+      "required_fullName": "이름을 입력해 주세요!",
+      "required_phone": "전화번호를 입력해 주세요!",
+      "invalid_phone": "유효하지 않은 전화번호 형식입니다!",
+      "required_oldPassword": "현재 비밀번호를 입력해 주세요!",
+      "required_newPassword": "새 비밀번호를 입력해 주세요!",
+      "required_confirmPassword": "새 비밀번호 확인을 입력해 주세요!",
+      "password_mismatch": "비밀번호가 일치하지 않습니다!"
+    }
+  },
+  "redirect_payment_modal": {
+    "title": "예약 완료!",
+    "desc": "예약 요청이 접수되었습니다. 예약을 완료하기 위해 지금 결제 페이지로 이동하시겠습니까?",
+    "btn_later": "나중에 결제",
+    "btn_pay_now": "지금 결제하기"
+  },
+  "booking_modal": {
+    "title": "예약 확인",
+    "sub_title": "아파트 예약",
+    "error_title": "예약 실패",
+    "error_desc_fallback": "다시 시도해 주세요.",
+    "section_details": "예약 세부 정보",
+    "label_dates": "선택한 날짜",
+    "validation_dates": "날짜를 선택해 주세요",
+    "label_guests": "게스트 인원",
+    "guests_count": "게스트 {{count}}명",
+    "section_price": "요금 세부 정보",
+    "price_per_night": "{{price}} ₫ × {{count}}박",
+    "cleaning_fee": "청소비",
+    "service_fee": "서비스 수수료",
+    "total": "합계",
+    "btn_confirm": "예약 확정",
+    "footer_note": "지금 당장은 결제가 진행되지 않습니다.",
+    "success_title": "예약 성공!",
+    "success_desc": "{{name}} 예약이 성공적으로 완료되었습니다."
+  },
+  "payment_result": {
+    "success_title": "결제 성공!",
+    "success_desc": "결제 처리가 성공적으로 완료되었습니다.",
+    "btn_my_bookings": "내 예약 확인하기",
+    "btn_home": "홈으로 이동",
+    "vnpay_tx_id": "VNPay 거래 번호",
+    "order_code": "주문 코드",
+    "amount": "결제 금액",
+    "fail_title": "결제 실패",
+    "btn_back_bookings": "예약으로 돌아가기",
+    "err_unknown": "결제 진행 중 알 수 없는 오류가 발생했습니다.",
+    "err_failed_code": "거래에 실패했습니다 (오류 코드: {{code}}).",
+    "error_map": {
+      "07": "결제는 성공했으나, 의심스러운 거래로 감지되었습니다.",
+      "09": "거래 실패: 인터넷 뱅킹 서비스에 등록되지 않은 카드/계좌입니다.",
+      "10": "거래 실패: 카드/계좌 인증을 3회 이상 초과했습니다.",
+      "11": "거래 실패: 결제 대기 시간이 만료되었습니다.",
+      "12": "거래 실패: 잠긴 카드/계좌입니다.",
+      "13": "거래 실패: OTP 비밀번호가 틀렸습니다.",
+      "24": "거래가 취소되었습니다.",
+      "51": "계좌 잔액이 부족합니다.",
+      "65": "일일 거래 한도를 초과했습니다.",
+      "75": "해당 결제 은행이 점검 중입니다.",
+      "79": "결제 비밀번호 입력 횟수를 초과했습니다.",
+      "99": "알 수 없는 시스템 오류입니다."
+    }
+  }
+}

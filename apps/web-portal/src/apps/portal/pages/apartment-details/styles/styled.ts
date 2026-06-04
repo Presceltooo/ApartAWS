@@ -7,6 +7,10 @@ export const DetailSection = styled.section`
   margin-left: auto;
   margin-right: auto;
   padding: 0 4rem;
+
+  &:first-of-type {
+    padding-top: 2.5rem;
+  }
 `;
 
 export const TopBarWrapper = styled.div`
@@ -17,25 +21,34 @@ export const TopBarWrapper = styled.div`
 `;
 
 export const BackLink = styled.button`
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 600;
   color: ${portalTheme.colors.onSurfaceVariant};
-  background: transparent;
-  border: none;
+  background-color: ${portalTheme.colors.surfaceContainerLowest};
+  border: 1px solid ${portalTheme.colors.outlineVariant};
   cursor: pointer;
-  padding: 0;
-  transition: color 0.2s;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 8px rgba(74, 27, 12, 0.03);
+  transition: all 0.2s ease-in-out;
 
   &:hover {
+    border-color: ${portalTheme.colors.primary};
     color: ${portalTheme.colors.primary};
+    background-color: rgba(216, 90, 48, 0.04);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(216, 90, 48, 0.08);
   }
 
-  .material-symbols-outlined {
-    font-size: 1.125rem;
+  &:active {
+    transform: translateY(0);
+  }
+
+  .anticon {
+    font-size: 1.3rem;
   }
 `;
 

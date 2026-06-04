@@ -240,5 +240,23 @@ export const PortalFooterCopyright = styled.div`
   color: ${theme.colors.outline};
 `;
 
+export const DesktopOnlyActions = styled.div`
+  display: none;
+  gap: 0.75rem;
+
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+export const MobileMenuButton = styled(PortalIconButton)`
+  display: flex;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
 // Exporting theme colors for components to reuse
 export const portalTheme = theme;

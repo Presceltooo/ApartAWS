@@ -1,9 +1,10 @@
 import React from 'react';
 import { Input, Pagination, Empty, Skeleton, InputNumber, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import {
   PageWrapper,
+  BackLink,
   PageHeader,
   PageTitle,
   PageSubtitle,
@@ -50,6 +51,10 @@ const ApartmentList: React.FC = () => {
 
   return (
     <PageWrapper>
+      <BackLink to="/">
+        <ArrowLeftOutlined />
+        {t('list.back_to_home', 'Quay lại trang chủ')}
+      </BackLink>
       <PageHeader>
         <PageTitle>{t('list.title', 'Danh sách căn hộ')}</PageTitle>
         <PageSubtitle>{t('list.subtitle', 'Khám phá bộ sưu tập các căn hộ cao cấp của chúng tôi.')}</PageSubtitle>
@@ -92,7 +97,7 @@ const ApartmentList: React.FC = () => {
           onPressEnter={handleSearch}
           style={{ flex: '1 1 140px' }}
         />
-        <Button type="primary" size="large" onClick={handleSearch} icon={<SearchOutlined />} style={{ flex: '0 0 auto' }}>
+        <Button type="primary" size="large" onClick={handleSearch} icon={<SearchOutlined />} style={{ flex: '1 1 140px' }}>
           {t('list.filters.search_btn', 'Tìm kiếm')}
         </Button>
       </SearchRow>

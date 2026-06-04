@@ -41,18 +41,31 @@ const TopBar = styled.div`
 `;
 
 const BackBtn = styled.button`
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: none;
+  gap: 0.8rem;
+  background-color: ${portalTheme.colors.surfaceContainerLowest};
+  border: 1px solid ${portalTheme.colors.outlineVariant};
   color: ${portalTheme.colors.onSurfaceVariant};
   font-size: 1.4rem;
   font-weight: 600;
   cursor: pointer;
-  padding: 0;
-  transition: color 0.2s;
-  &:hover { color: ${portalTheme.colors.primary}; }
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 8px rgba(74, 27, 12, 0.03);
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    border-color: ${portalTheme.colors.primary};
+    color: ${portalTheme.colors.primary};
+    background-color: rgba(216, 90, 48, 0.04);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(216, 90, 48, 0.08);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 `;
 
 const PageTitle = styled.h1`
@@ -108,11 +121,26 @@ const StyledActionRow = styled.div`
   margin-top: 3rem;
   flex-wrap: wrap;
   width: 100%;
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const LeftActions = styled.div`
   display: flex;
   gap: 1.5rem;
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+
+    button, a {
+      width: 100%;
+    }
+  }
 `;
 
 const RightActions = styled.div`
@@ -120,6 +148,16 @@ const RightActions = styled.div`
   gap: 1.25rem;
   flex-wrap: wrap;
   align-items: center;
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+
+    button, a, & > span, & > div {
+      width: 100%;
+    }
+  }
 `;
 
 const BaseActionButton = styled.button`
@@ -515,15 +553,15 @@ const BookingDetail: React.FC = () => {
           <CalendarOutlined />
           {t('booking_detail.booking_info', 'Thông tin đặt chỗ')}
         </CardTitle>
-        <Descriptions column={2} size="middle" bordered>
-          <Descriptions.Item label={t('booking_detail.check_in', 'Check-in')}>{startDate}</Descriptions.Item>
-          <Descriptions.Item label={t('booking_detail.check_out', 'Check-out')}>{endDate}</Descriptions.Item>
+        <Descriptions column={{ xs: 1, sm: 2, md: 2 }} size="middle" bordered>
           <Descriptions.Item label={t('booking_detail.guests', 'Số khách')}>
-            {t('booking_detail.guests_count', { count: booking.guests || 1, defaultValue: `${booking.guests || 1} Khách` })}
+            {t('booking_detail.guests_count', { count: booking.guests || 1 })}
           </Descriptions.Item>
           <Descriptions.Item label={t('booking_detail.duration', 'Thời gian')}>
-            {t('booking_detail.duration_nights', { count: nights, defaultValue: `${nights} đêm` })}
+            {t('booking_detail.duration_nights', { count: nights })}
           </Descriptions.Item>
+          <Descriptions.Item label={t('booking_detail.check_in', 'Check-in')}>{startDate}</Descriptions.Item>
+          <Descriptions.Item label={t('booking_detail.check_out', 'Check-out')}>{endDate}</Descriptions.Item>
         </Descriptions>
 
         {/* Price breakdown — same logic as BookingModal */}

@@ -22,7 +22,9 @@
   "lang": {
     "vi": "Tiếng Việt",
     "en": "English",
-    "ja": "日本語"
+    "ja": "日本語",
+    "ko": "韓国語",
+    "zh": "中国語"
   },
   "total_items": "{{total}}中 {{from}}-{{to}}",
   "items_per_page": "/ ページ",

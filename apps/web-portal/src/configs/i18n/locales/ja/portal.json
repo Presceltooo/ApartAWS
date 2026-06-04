@@ -28,6 +28,7 @@
     }
   },
   "list": {
+    "back_to_home": "ホームへ戻る",
     "title": "アパートメント一覧",
     "subtitle": "厳選されたアパートメントのコレクションをご覧ください。",
     "filters": {
@@ -48,6 +49,7 @@
     "load_error": "アパートメントの詳細を読み込めませんでした。",
     "view_list": "一覧に戻る",
     "back_to_list": "一覧へ戻る",
+    "view_details": "詳細を見る",
     "verified": "Domin認定",
     "price_per_night": "1泊あたりの料金",
     "status": "ステータス",
@@ -82,6 +84,7 @@
     "new": "新規"
   },
   "bookings": {
+    "back_to_home": "ホームへ戻る",
     "title": "ご予約一覧",
     "subtitle": "今後のご旅行の管理や、過去の予約履歴の確認ができます。",
     "login_required": "予約情報を確認するにはログインしてください。",
@@ -130,6 +133,8 @@
     "booking_info": "予約詳細",
     "check_in": "チェックイン",
     "check_out": "チェックアウト",
+    "guests": "ゲスト数",
+    "guests_count": "ゲスト {{count}}名",
     "duration": "宿泊日数",
     "duration_nights": "{{count}} 泊",
     "total_price": "合計料金",

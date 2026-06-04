@@ -7,7 +7,7 @@ type UseI18nOptions = {
   prefix?: string;
 };
 
-type Lang = "vi" | "en" | "cn" | "jp" | "kr";
+type Lang = "vi" | "en" | "ja" | "ko" | "zh" | "cn" | "jp" | "kr";
 
 export function useI18n(options?: UseI18nOptions) {
   const { ns = "common", prefix } = options || {};

@@ -28,6 +28,7 @@
     }
   },
   "list": {
+    "back_to_home": "Quay lại trang chủ",
     "title": "Danh sách căn hộ",
     "subtitle": "Khám phá bộ sưu tập các căn hộ cao cấp của chúng tôi.",
     "filters": {
@@ -48,6 +49,7 @@
     "load_error": "Không thể tải thông tin căn hộ.",
     "view_list": "Xem danh sách căn hộ",
     "back_to_list": "Quay lại danh sách",
+    "view_details": "Xem chi tiết",
     "verified": "Xác thực Domin",
     "price_per_night": "Giá mỗi đêm",
     "status": "Trạng thái",
@@ -82,6 +84,7 @@
     "new": "Mới"
   },
   "bookings": {
+    "back_to_home": "Quay lại trang chủ",
     "title": "Đặt phòng của tôi",
     "subtitle": "Quản lý các chuyến đi sắp tới và xem lại lịch sử đặt phòng của bạn.",
     "login_required": "Vui lòng đăng nhập để xem thông tin đặt phòng của bạn.",
@@ -130,6 +133,8 @@
     "booking_info": "Thông tin đặt chỗ",
     "check_in": "Check-in",
     "check_out": "Check-out",
+    "guests": "Số khách",
+    "guests_count": "{{count}} Khách",
     "duration": "Thời gian",
     "duration_nights": "{{count}} đêm",
     "total_price": "Tổng cộng",

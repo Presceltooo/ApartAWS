@@ -29,6 +29,8 @@ const LanguageSwitcher: React.FC = () => {
     { key: 'vi', label: '🇻🇳 Tiếng Việt' },
     { key: 'en', label: '🇺🇸 English' },
     { key: 'ja', label: '🇯🇵 日本語' },
+    { key: 'ko', label: '🇰🇷 한국어' },
+    { key: 'zh', label: '🇨🇳 中文' },
   ];
 
   const currentLangLabel = langItems.find(item => item.key === i18n.language)?.label || '🇻🇳 Tiếng Việt';
