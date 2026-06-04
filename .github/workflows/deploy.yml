@@ -4,92 +4,284 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # cho phép chạy thủ công từ GitHub UI
+  workflow_dispatch: # Khi chạy thủ công → build & deploy toàn bộ
 
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }} # VD: 123456789.dkr.ecr.ap-southeast-1.amazonaws.com
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
 
 jobs:
-  # ─────────────────────────────────────────────────────
-  # JOB 1: Build & Push tất cả images lên ECR
-  # ─────────────────────────────────────────────────────
-  build-and-push:
-    name: Build & Push to ECR
+  # ─────────────────────────────────────────────────────────────────────────
+  # JOB 1: Phát hiện service nào có thay đổi code
+  # ─────────────────────────────────────────────────────────────────────────
+  detect-changes:
+    name: Detect Changes
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        service:
-          - name: api-gateway
-            context: ./apps/api-gateway
-            dockerfile: ./apps/api-gateway/Dockerfile
-            ecr_repo: api-gateway
-
-          - name: auth-service
-            context: ./apps/auth-service
-            dockerfile: ./apps/auth-service/Dockerfile
-            ecr_repo: auth-service
-
-          - name: apartment-service
-            context: ./apps/apartment-service
-            dockerfile: ./apps/apartment-service/Dockerfile
-            ecr_repo: apartment-service
-
-          - name: booking-service
-            context: ./apps/booking-service
-            dockerfile: ./apps/booking-service/Dockerfile
-            ecr_repo: booking-service
-
-          - name: web-portal
-            context: ./apps/web-portal
-            dockerfile: ./apps/web-portal/Dockerfile
-            ecr_repo: web-portal
-
-          - name: notification-service
-            context: ./apps/notification-service
-            dockerfile: ./apps/notification-service/Dockerfile
-            ecr_repo: notification-service
+    outputs:
+      api-gateway:        ${{ steps.filter.outputs.api-gateway }}
+      auth-service:       ${{ steps.filter.outputs.auth-service }}
+      apartment-service:  ${{ steps.filter.outputs.apartment-service }}
+      booking-service:    ${{ steps.filter.outputs.booking-service }}
+      web-portal:         ${{ steps.filter.outputs.web-portal }}
+      notification-service: ${{ steps.filter.outputs.notification-service }}
+      # Flag đặc biệt: khi thay đổi infra → build lại tất cả
+      infra:              ${{ steps.filter.outputs.infra }}
+      # Khi chạy thủ công (workflow_dispatch) → luôn build tất cả
+      is-manual:          ${{ steps.manual.outputs.is-manual }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Check if manual trigger
+        id: manual
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "is-manual=true" >> $GITHUB_OUTPUT
+          else
+            echo "is-manual=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            api-gateway:
+              - 'apps/api-gateway/**'
+            auth-service:
+              - 'apps/auth-service/**'
+            apartment-service:
+              - 'apps/apartment-service/**'
+            booking-service:
+              - 'apps/booking-service/**'
+            web-portal:
+              - 'apps/web-portal/**'
+            notification-service:
+              - 'apps/notification-service/**'
+            infra:
+              - 'docker-compose.prod.yml'
+              - 'docker-compose.yml'
+              - 'nginx.conf'
+              - '.github/workflows/**'
+              - 'init-schemas.sql'
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # JOB 2: Build & Push — Mỗi service là 1 job độc lập có điều kiện riêng
+  # ─────────────────────────────────────────────────────────────────────────
+
+  build-api-gateway:
+    name: Build → api-gateway
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    # Chạy nếu: thay đổi infra, thay đổi code service, hoặc chạy thủ công
+    if: |
+      needs.detect-changes.outputs.api-gateway == 'true' ||
+      needs.detect-changes.outputs.infra == 'true' ||
+      needs.detect-changes.outputs.is-manual == 'true'
+    outputs:
+      built: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
+      - uses: aws-actions/amazon-ecr-login@v2
       - name: Set image tag
         id: tag
         run: echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
-
-      - name: Build Docker image — ${{ matrix.service.name }}
+      - name: Build & Push
         run: |
           docker build \
-            -f ${{ matrix.service.dockerfile }} \
-            -t ${{ env.ECR_REGISTRY }}/${{ matrix.service.ecr_repo }}:${{ steps.tag.outputs.IMAGE_TAG }} \
-            -t ${{ env.ECR_REGISTRY }}/${{ matrix.service.ecr_repo }}:latest \
-            ${{ matrix.service.context }}
+            -f ./apps/api-gateway/Dockerfile \
+            -t ${{ env.ECR_REGISTRY }}/api-gateway:${{ steps.tag.outputs.IMAGE_TAG }} \
+            -t ${{ env.ECR_REGISTRY }}/api-gateway:latest \
+            ./apps/api-gateway
+          docker push ${{ env.ECR_REGISTRY }}/api-gateway:${{ steps.tag.outputs.IMAGE_TAG }}
+          docker push ${{ env.ECR_REGISTRY }}/api-gateway:latest
 
-      - name: Push to ECR — ${{ matrix.service.name }}
+  build-auth-service:
+    name: Build → auth-service
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.auth-service == 'true' ||
+      needs.detect-changes.outputs.infra == 'true' ||
+      needs.detect-changes.outputs.is-manual == 'true'
+    outputs:
+      built: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - name: Set image tag
+        id: tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+      - name: Build & Push
         run: |
-          docker push ${{ env.ECR_REGISTRY }}/${{ matrix.service.ecr_repo }}:${{ steps.tag.outputs.IMAGE_TAG }}
-          docker push ${{ env.ECR_REGISTRY }}/${{ matrix.service.ecr_repo }}:latest
+          docker build \
+            -f ./apps/auth-service/Dockerfile \
+            -t ${{ env.ECR_REGISTRY }}/auth-service:${{ steps.tag.outputs.IMAGE_TAG }} \
+            -t ${{ env.ECR_REGISTRY }}/auth-service:latest \
+            ./apps/auth-service
+          docker push ${{ env.ECR_REGISTRY }}/auth-service:${{ steps.tag.outputs.IMAGE_TAG }}
+          docker push ${{ env.ECR_REGISTRY }}/auth-service:latest
 
-  # ─────────────────────────────────────────────────────
-  # JOB 2: Deploy lên EC2 (chỉ chạy sau khi build xong)
-  # ─────────────────────────────────────────────────────
+  build-apartment-service:
+    name: Build → apartment-service
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.apartment-service == 'true' ||
+      needs.detect-changes.outputs.infra == 'true' ||
+      needs.detect-changes.outputs.is-manual == 'true'
+    outputs:
+      built: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - name: Set image tag
+        id: tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+      - name: Build & Push
+        run: |
+          docker build \
+            -f ./apps/apartment-service/Dockerfile \
+            -t ${{ env.ECR_REGISTRY }}/apartment-service:${{ steps.tag.outputs.IMAGE_TAG }} \
+            -t ${{ env.ECR_REGISTRY }}/apartment-service:latest \
+            ./apps/apartment-service
+          docker push ${{ env.ECR_REGISTRY }}/apartment-service:${{ steps.tag.outputs.IMAGE_TAG }}
+          docker push ${{ env.ECR_REGISTRY }}/apartment-service:latest
+
+  build-booking-service:
+    name: Build → booking-service
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.booking-service == 'true' ||
+      needs.detect-changes.outputs.infra == 'true' ||
+      needs.detect-changes.outputs.is-manual == 'true'
+    outputs:
+      built: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - name: Set image tag
+        id: tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+      - name: Build & Push
+        run: |
+          docker build \
+            -f ./apps/booking-service/Dockerfile \
+            -t ${{ env.ECR_REGISTRY }}/booking-service:${{ steps.tag.outputs.IMAGE_TAG }} \
+            -t ${{ env.ECR_REGISTRY }}/booking-service:latest \
+            ./apps/booking-service
+          docker push ${{ env.ECR_REGISTRY }}/booking-service:${{ steps.tag.outputs.IMAGE_TAG }}
+          docker push ${{ env.ECR_REGISTRY }}/booking-service:latest
+
+  build-web-portal:
+    name: Build → web-portal
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.web-portal == 'true' ||
+      needs.detect-changes.outputs.infra == 'true' ||
+      needs.detect-changes.outputs.is-manual == 'true'
+    outputs:
+      built: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - name: Set image tag
+        id: tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+      - name: Build & Push
+        run: |
+          docker build \
+            -f ./apps/web-portal/Dockerfile \
+            -t ${{ env.ECR_REGISTRY }}/web-portal:${{ steps.tag.outputs.IMAGE_TAG }} \
+            -t ${{ env.ECR_REGISTRY }}/web-portal:latest \
+            ./apps/web-portal
+          docker push ${{ env.ECR_REGISTRY }}/web-portal:${{ steps.tag.outputs.IMAGE_TAG }}
+          docker push ${{ env.ECR_REGISTRY }}/web-portal:latest
+
+  build-notification-service:
+    name: Build → notification-service
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.notification-service == 'true' ||
+      needs.detect-changes.outputs.infra == 'true' ||
+      needs.detect-changes.outputs.is-manual == 'true'
+    outputs:
+      built: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - name: Set image tag
+        id: tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+      - name: Build & Push
+        run: |
+          docker build \
+            -f ./apps/notification-service/Dockerfile \
+            -t ${{ env.ECR_REGISTRY }}/notification-service:${{ steps.tag.outputs.IMAGE_TAG }} \
+            -t ${{ env.ECR_REGISTRY }}/notification-service:latest \
+            ./apps/notification-service
+          docker push ${{ env.ECR_REGISTRY }}/notification-service:${{ steps.tag.outputs.IMAGE_TAG }}
+          docker push ${{ env.ECR_REGISTRY }}/notification-service:latest
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # JOB 3: Deploy lên EC2 — Chỉ restart service đã thay đổi
+  # ─────────────────────────────────────────────────────────────────────────
   deploy:
     name: Deploy to EC2
     runs-on: ubuntu-latest
-    needs: build-and-push  # đợi job build hoàn thành
+    # Đợi tất cả build jobs hoàn thành (kể cả job bị skip)
+    needs:
+      - detect-changes
+      - build-api-gateway
+      - build-auth-service
+      - build-apartment-service
+      - build-booking-service
+      - build-web-portal
+      - build-notification-service
+    # Chỉ chạy nếu ít nhất 1 trong 6 build jobs không bị skip và thành công
+    if: |
+      always() && (
+        needs.build-api-gateway.result == 'success' ||
+        needs.build-auth-service.result == 'success' ||
+        needs.build-apartment-service.result == 'success' ||
+        needs.build-booking-service.result == 'success' ||
+        needs.build-web-portal.result == 'success' ||
+        needs.build-notification-service.result == 'success'
+      )
 
     steps:
       - name: Checkout code
@@ -107,9 +299,8 @@ jobs:
             set -e
 
             echo "=== [Chuẩn bị] Kiểm tra Docker daemon ==="
-            # Nếu Docker daemon không phản hồi trong 10 giây, tự động khởi động lại service
             if ! timeout 10s docker info >/dev/null 2>&1; then
-              echo "⚠️ Docker daemon bị treo! Đang tự động khởi động lại Docker..."
+              echo "⚠️ Docker daemon bị treo! Đang tự động khởi động lại..."
               sudo systemctl restart docker || sudo service docker restart || true
               sleep 5
             fi
@@ -118,34 +309,50 @@ jobs:
             df -h
             docker system df || true
 
-            echo "=== [Chuẩn bị] Dọn dẹp tài nguyên dư thừa trước khi pull ==="
+            echo "=== [Chuẩn bị] Dọn dẹp tài nguyên trước khi pull ==="
             docker system prune -f || true
 
-            echo "=== [1/5] Đăng nhập vào ECR ==="
+            echo "=== [1/4] Đăng nhập vào ECR ==="
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
               | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
-            echo "=== [2/5] Vào thư mục project ==="
-            cd ${{ secrets.EC2_APP_DIR }}   # VD: /home/ec2-user/apartaws
+            echo "=== [2/4] Vào thư mục project ==="
+            cd ${{ secrets.EC2_APP_DIR }}
 
-            echo "=== [3/5] Pull code mới nhất ==="
+            echo "=== [3/4] Pull code mới nhất ==="
             git pull origin main
 
-            echo "=== [4/5] Ghi IMAGE_TAG vào .env ==="
+            echo "=== [4/4] Cập nhật IMAGE_TAG và restart các service thay đổi ==="
             IMAGE_TAG="${{ github.sha }}"
             IMAGE_TAG="${IMAGE_TAG:0:8}"
             sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${IMAGE_TAG}/" .env || echo "IMAGE_TAG=${IMAGE_TAG}" >> .env
-
-            echo "=== [5/5] Restart services với image mới ==="
             export ECR_REGISTRY="${{ secrets.ECR_REGISTRY }}"
             export IMAGE_TAG="${IMAGE_TAG}"
-            docker-compose -f docker-compose.prod.yml pull
-            docker-compose -f docker-compose.prod.yml up -d --remove-orphans
+
+            # ── Xác định service nào cần restart ──────────────────────────
+            NEED_API_GW="${{ needs.build-api-gateway.result }}"
+            NEED_AUTH="${{ needs.build-auth-service.result }}"
+            NEED_APARTMENT="${{ needs.build-apartment-service.result }}"
+            NEED_BOOKING="${{ needs.build-booking-service.result }}"
+            NEED_WEB="${{ needs.build-web-portal.result }}"
+            NEED_NOTIF="${{ needs.build-notification-service.result }}"
+
+            deploy_service() {
+              local SERVICE_NAME=$1
+              echo "  → Pulling & restarting: $SERVICE_NAME"
+              docker-compose -f docker-compose.prod.yml pull "$SERVICE_NAME"
+              docker-compose -f docker-compose.prod.yml up -d --no-deps "$SERVICE_NAME"
+            }
+
+            [ "$NEED_API_GW"   = "success" ] && deploy_service "api-gateway"
+            [ "$NEED_AUTH"     = "success" ] && deploy_service "auth-service"
+            [ "$NEED_APARTMENT"= "success" ] && deploy_service "apartment-service"
+            [ "$NEED_BOOKING"  = "success" ] && deploy_service "booking-service"
+            [ "$NEED_WEB"      = "success" ] && deploy_service "web-portal"
+            [ "$NEED_NOTIF"    = "success" ] && deploy_service "notification-service"
 
             echo "=== Xóa images cũ để giải phóng dung lượng ==="
-            # Chờ 20 giây để các service khởi động ổn định trước khi dọn dẹp
             sleep 20
-            # Giới hạn thời gian prune tối đa 90 giây để tránh treo toàn bộ tiến trình deploy
-            timeout 90s docker image prune -af || echo "⚠️ Cảnh báo: Lệnh prune bị timeout hoặc gặp lỗi, bỏ qua để hoàn tất deploy."
+            timeout 90s docker image prune -af || echo "⚠️ Prune timeout, bỏ qua."
 
             echo "✅ Deploy hoàn tất!"
