@@ -325,7 +325,15 @@ const AdminLayout: React.FC = () => {
           />
         </StyledSider>
         <Layout style={{ padding: '32px', backgroundColor: '#f6f3ee', overflowY: 'auto' }}>
-          <Content style={{ background: '#fcf9f4', padding: '32px 40px', margin: 0, minHeight: 280, borderRadius: '16px', boxShadow: '0 4px 20px rgba(88, 66, 59, 0.04)' }}>
+          <Content style={{ 
+            background: '#fcf9f4', 
+            padding: '32px 40px', 
+            margin: 0, 
+            minHeight: '100%', 
+            borderRadius: '16px', 
+            boxShadow: '0 4px 20px rgba(88, 66, 59, 0.04)',
+            flexShrink: 0
+          }}>
             <Outlet />
           </Content>
         </Layout>
