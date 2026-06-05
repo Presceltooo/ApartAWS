@@ -9,6 +9,7 @@ import apartmentListRoute from './pages/can-ho/Route';
 import profileRoute from './pages/profile/Route';
 import paymentResultRoute from './pages/payment-result/Route';
 import aboutRoute from './pages/about/Route';
+import conciergeRoute from './pages/concierge/Route';
 
 import TrangChu from './TrangChu';
 
@@ -34,6 +35,7 @@ portalRoute.addChildren([
   profileRoute,
   paymentResultRoute,
   aboutRoute,
+  conciergeRoute,
 ]);
 
 export default portalRoute;
