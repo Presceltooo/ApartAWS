@@ -183,6 +183,116 @@ export class ApartmentsController {
     return this.apartmentsService.toggleAutoApproveStatus(id, body.isAutoApprove, userId);
   }
 
+  @Get('system/reviews')
+  @ApiOperation({ summary: 'Lấy tất cả nhận xét trên hệ thống (Admin)' })
+  @ApiQuery({ name: 'Page', required: false, type: Number })
+  @ApiQuery({ name: 'PageSize', required: false, type: Number })
+  @ApiQuery({ name: 'ApartmentId', required: false, type: String })
+  @ApiQuery({ name: 'Status', required: false, type: String })
+  @ApiQuery({ name: 'Rating', required: false, type: Number })
+  findAllReviewsSystem(
+    @CurrentUser('role') role: string,
+    @Query('Page') page?: string,
+    @Query('PageSize') pageSize?: string,
+    @Query('ApartmentId') apartmentId?: string,
+    @Query('Status') status?: string,
+    @Query('Rating') rating?: string,
+  ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
+    return this.apartmentsService.findAllReviewsSystem(
+      page ? +page : 1,
+      pageSize ? +pageSize : 10,
+      apartmentId,
+      status,
+      rating ? +rating : undefined,
+    );
+  }
+
+  @Patch('system/reviews/:reviewId/status')
+  @ApiOperation({ summary: 'Duyệt / Ẩn nhận xét (Admin)' })
+  updateReviewStatus(
+    @Param('reviewId') reviewId: string,
+    @Body() body: { status: string },
+    @CurrentUser('role') role: string,
+  ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
+    return this.apartmentsService.updateReviewStatus(reviewId, body.status);
+  }
+
+  @Post('system/reviews/:reviewId/reply')
+  @ApiOperation({ summary: 'Admin phản hồi hoặc chỉnh sửa phản hồi nhận xét' })
+  adminReplyToReview(
+    @Param('reviewId') reviewId: string,
+    @Body() body: { reply: string },
+    @CurrentUser('role') role: string,
+  ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
+    return this.apartmentsService.adminReplyToReview(reviewId, body.reply);
+  }
+
+  @Delete('system/reviews/:reviewId')
+  @ApiOperation({ summary: 'Xóa nhận xét (Admin)' })
+  deleteReview(
+    @Param('reviewId') reviewId: string,
+    @CurrentUser('role') role: string,
+  ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
+    return this.apartmentsService.deleteReview(reviewId);
+  }
+
+  @Get('owner/reviews')
+  @ApiOperation({ summary: 'Lấy nhận xét thuộc các căn hộ của Owner hiện tại' })
+  @ApiQuery({ name: 'Page', required: false, type: Number })
+  @ApiQuery({ name: 'PageSize', required: false, type: Number })
+  @ApiQuery({ name: 'ApartmentId', required: false, type: String })
+  @ApiQuery({ name: 'Rating', required: false, type: Number })
+  findAllReviewsOwner(
+    @CurrentUser('userId') userId: string,
+    @Query('Page') page?: string,
+    @Query('PageSize') pageSize?: string,
+    @Query('ApartmentId') apartmentId?: string,
+    @Query('Rating') rating?: string,
+  ) {
+    return this.apartmentsService.findAllReviewsOwner(
+      userId,
+      page ? +page : 1,
+      pageSize ? +pageSize : 10,
+      apartmentId,
+      rating ? +rating : undefined,
+    );
+  }
+
+  @Post('owner/reviews/:reviewId/reply')
+  @ApiOperation({ summary: 'Phản hồi nhận xét (Owner)' })
+  replyToReview(
+    @Param('reviewId') reviewId: string,
+    @Body() body: { reply: string },
+    @CurrentUser('userId') userId: string,
+  ) {
+    return this.apartmentsService.replyToReview(reviewId, body.reply, userId);
+  }
+
+  @Patch(':id/review-auto-approve')
+  @ApiOperation({ summary: 'Bật / Tắt tự động duyệt nhận xét cho từng căn hộ (Admin)' })
+  toggleApartmentReviewAutoApprove(
+    @Param('id') id: string,
+    @Body() body: { isAutoApproveReview: boolean },
+    @CurrentUser('role') role: string,
+  ) {
+    if (role !== 'ADMIN') {
+      throw new ForbiddenException('Bạn không có quyền thực hiện chức năng này');
+    }
+    return this.apartmentsService.toggleApartmentReviewAutoApprove(id, body.isAutoApproveReview);
+  }
+
   @Post(':id/reviews')
   @ApiOperation({ summary: 'Đánh giá căn hộ (Tenant)' })
   @ApiResponse({ status: 201, description: 'Đánh giá đã được tạo thành công' })
@@ -201,3 +311,5 @@ export class ApartmentsController {
     return this.apartmentsService.findReviewsByApartment(id);
   }
 }
+
+

@@ -11,6 +11,10 @@ import dashboardRoute from './pages/admin/tong-quan-he-thong/Route';
 import systemUsersRoute from './pages/admin/quan-ly-nguoi-dung/Route';
 import systemApartmentsRoute from './pages/admin/quan-ly-tat-ca-can-ho/Route';
 import systemBookingsRoute from './pages/admin/quan-ly-tat-ca-dat-phong/Route';
+import { systemReviewsRoute } from './pages/admin/quan-ly-danh-gia/Route';
+import { ownerReviewsRoute } from './pages/owner/quan-ly-danh-gia/Route';
+import { systemReviewsDetailRoute } from './pages/admin/quan-ly-danh-gia/danh-sach-cac-danh-gia/Route';
+import { ownerReviewsDetailRoute } from './pages/owner/quan-ly-danh-gia/danh-sach-cac-danh-gia/Route';
 
 export const adminRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -36,6 +40,11 @@ adminRoute.addChildren([
   systemUsersRoute,
   systemApartmentsRoute,
   systemBookingsRoute,
+  systemReviewsRoute,
+  ownerReviewsRoute,
+  systemReviewsDetailRoute,
+  ownerReviewsDetailRoute,
 ]);
 
 export default adminRoute;
+

@@ -219,6 +219,29 @@ const ApartmentDetails: React.FC = () => {
                           "{rev.comment}"
                         </p>
                       )}
+                      {rev.reply && (
+                        <div
+                          style={{
+                            marginTop: '1rem',
+                            padding: '1rem',
+                            backgroundColor: '#f6f3ee',
+                            borderRadius: '6px',
+                            borderLeft: '4px solid #a5360d',
+                          }}
+                        >
+                          <div style={{ fontWeight: 600, fontSize: '1.25rem', color: '#a5360d', marginBottom: '4px' }}>
+                            {t('booking_detail.review.owner_reply', 'Chủ nhà phản hồi')}:
+                          </div>
+                          <div style={{ color: '#595959', fontSize: '1.25rem', lineHeight: 1.4 }}>
+                            {rev.reply}
+                          </div>
+                          {rev.repliedAt && (
+                            <div style={{ fontSize: '1.1rem', color: '#8c8c8c', marginTop: '4px' }}>
+                              {dayjs(rev.repliedAt).format('DD/MM/YYYY HH:mm')}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

@@ -181,7 +181,8 @@
       "submit_btn": "Gửi đánh giá",
       "success_title": "Cảm ơn đánh giá của bạn!",
       "success_desc": "Đánh giá đã được gửi thành công và hiển thị công khai.",
-      "rating_required": "Vui lòng chọn số sao đánh giá."
+      "rating_required": "Vui lòng chọn số sao đánh giá.",
+      "owner_reply": "Phản hồi của chủ phòng"
     }
   },
   "profile": {

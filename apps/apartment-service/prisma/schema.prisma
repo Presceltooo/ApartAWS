@@ -26,6 +26,7 @@ model Apartment {
   images        String[]
   isActive      Boolean   @default(true)
   isAutoApprove Boolean   @default(false)
+  isAutoApproveReview Boolean @default(false)
   ownerId       String?   // Chỉ lưu ID, không có FK relation sang User
   reviews       Review[]
 
@@ -37,18 +38,29 @@ model Apartment {
 }
 
 model Review {
-  id            String    @id @default(uuid())
+  id            String       @id @default(uuid())
   apartmentId   String
   tenantId      String
-  bookingId     String    @unique
+  bookingId     String       @unique
   rating        Int
-  comment       String?   @db.Text
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  comment       String?      @db.Text
+  status        ReviewStatus @default(PENDING)
+  reply         String?      @db.Text
+  repliedAt     DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
-  apartment     Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+  apartment     Apartment    @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
 
   @@map("Reviews")
+  @@schema("apartment")
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  HIDDEN
+
   @@schema("apartment")
 }
 

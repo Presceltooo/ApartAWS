@@ -3,6 +3,7 @@ import { PrismaService } from '../common/prisma/prisma.service';
 import { ApiResponse } from '../common/dto/response.dto';
 import { CreateApartmentDto, UpdateApartmentDto, CreateReviewDto } from './dto';
 import { paginate } from '../common/utils/prisma-paginator';
+import { ReviewStatus } from '@prisma/client';
 
 @Injectable()
 export class ApartmentsService {
@@ -30,6 +31,7 @@ export class ApartmentsService {
       where: { id },
       include: {
         reviews: {
+          where: { status: 'APPROVED' },
           orderBy: { createdAt: 'desc' },
         },
       },
@@ -167,6 +169,7 @@ export class ApartmentsService {
       orderBy: { createdAt: 'desc' },
       include: {
         reviews: {
+          where: { status: 'APPROVED' },
           select: { rating: true },
         },
       },
@@ -286,6 +289,12 @@ export class ApartmentsService {
       throw new BadRequestException('Lượt đặt phòng này đã được đánh giá trước đó');
     }
 
+    const currentApt = await this.prisma.apartment.findUnique({
+      where: { id: apartmentId },
+      select: { isAutoApproveReview: true },
+    });
+    const status = currentApt?.isAutoApproveReview ? 'APPROVED' : 'PENDING';
+
     const review = await this.prisma.review.create({
       data: {
         apartmentId,
@@ -293,6 +302,7 @@ export class ApartmentsService {
         bookingId: dto.bookingId,
         rating: dto.rating,
         comment: dto.comment,
+        status: status as any,
       },
     });
 
@@ -301,7 +311,7 @@ export class ApartmentsService {
 
   async findReviewsByApartment(apartmentId: string) {
     const reviews = await this.prisma.review.findMany({
-      where: { apartmentId },
+      where: { apartmentId, status: 'APPROVED' },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -320,4 +330,178 @@ export class ApartmentsService {
 
     return new ApiResponse(result, 'Lấy danh sách đánh giá thành công');
   }
+
+
+  // Lấy tất cả đánh giá của hệ thống (Admin)
+  async findAllReviewsSystem(page: number = 1, pageSize: number = 10, apartmentId?: string, status?: string, rating?: number) {
+    const where: any = {};
+    if (apartmentId) {
+      where.apartmentId = apartmentId;
+    }
+    if (status) {
+      where.status = status as any;
+    }
+    if (rating !== undefined) {
+      where.rating = rating;
+    }
+    
+    const result = await paginate(this.prisma.review, { page, pageSize }, {
+      where,
+      include: {
+        apartment: {
+          select: { id: true, title: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const tenantIds = result.data.map((r: any) => r.tenantId);
+    const users = await this.prisma.user.findMany({
+      where: { id: { in: tenantIds } },
+      select: { id: true, fullName: true, email: true }
+    });
+    const userMap = new Map(users.map((u) => [u.id, u.fullName || u.email]));
+
+    const dataWithNames = result.data.map((r: any) => ({
+      ...r,
+      tenantName: userMap.get(r.tenantId) || 'Khách hàng'
+    }));
+
+    return new ApiResponse(dataWithNames, 'Lấy danh sách đánh giá hệ thống thành công', 0, result.metaData);
+  }
+
+  // Admin cập nhật trạng thái của đánh giá (Phê duyệt / Ẩn)
+  async updateReviewStatus(reviewId: string, status: string) {
+    const review = await this.prisma.review.findUnique({ where: { id: reviewId } });
+    if (!review) throw new NotFoundException('Không tìm thấy đánh giá');
+
+    const updated = await this.prisma.review.update({
+      where: { id: reviewId },
+      data: { status: status as any }
+    });
+
+    return new ApiResponse(updated, 'Cập nhật trạng thái đánh giá thành công');
+  }
+
+  // Lấy tất cả đánh giá các căn hộ thuộc Owner
+  async findAllReviewsOwner(ownerId: string, page: number = 1, pageSize: number = 10, apartmentId?: string, rating?: number) {
+    const apartments = await this.prisma.apartment.findMany({
+      where: { ownerId },
+      select: { id: true, title: true }
+    });
+    const apartmentIds = apartments.map((a) => a.id);
+
+    const where: any = {
+      apartmentId: { in: apartmentIds }
+    };
+    if (apartmentId) {
+      if (apartmentIds.includes(apartmentId)) {
+        where.apartmentId = apartmentId;
+      } else {
+        return new ApiResponse([], 'Lấy danh sách đánh giá thành công', 0, { page, pageSize, total: 0, totalPage: 0 });
+      }
+    }
+    if (rating !== undefined) {
+      where.rating = rating;
+    }
+
+    const result = await paginate(this.prisma.review, { page, pageSize }, {
+      where,
+      include: {
+        apartment: {
+          select: { id: true, title: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const tenantIds = result.data.map((r: any) => r.tenantId);
+    const users = await this.prisma.user.findMany({
+      where: { id: { in: tenantIds } },
+      select: { id: true, fullName: true, email: true }
+    });
+    const userMap = new Map(users.map((u) => [u.id, u.fullName || u.email]));
+
+    const dataWithNames = result.data.map((r: any) => ({
+      ...r,
+      tenantName: userMap.get(r.tenantId) || 'Khách hàng'
+    }));
+
+    return new ApiResponse(dataWithNames, 'Lấy danh sách đánh giá của chủ nhà thành công', 0, result.metaData);
+  }
+
+  // Owner phản hồi đánh giá
+  async replyToReview(reviewId: string, reply: string, ownerId: string) {
+    const review = await this.prisma.review.findUnique({
+      where: { id: reviewId },
+      include: {
+        apartment: {
+          select: { ownerId: true }
+        }
+      }
+    });
+
+    if (!review) throw new NotFoundException('Không tìm thấy đánh giá');
+    if (review.apartment?.ownerId !== ownerId) {
+      throw new ForbiddenException('Bạn không có quyền phản hồi đánh giá này');
+    }
+
+    const updated = await this.prisma.review.update({
+      where: { id: reviewId },
+      data: {
+        reply,
+        repliedAt: new Date()
+      }
+    });
+
+    return new ApiResponse(updated, 'Phản hồi đánh giá thành công');
+  }
+
+  // Bật / Tắt tự động duyệt nhận xét cho từng căn hộ (Admin)
+  async toggleApartmentReviewAutoApprove(id: string, isAutoApproveReview: boolean) {
+    const apartment = await this.prisma.apartment.findUnique({ where: { id } });
+    if (!apartment) throw new NotFoundException('Không tìm thấy căn hộ');
+
+    const updated = await this.prisma.apartment.update({
+      where: { id },
+      data: { isAutoApproveReview },
+    });
+
+    return new ApiResponse(updated, isAutoApproveReview ? 'Đã bật tự động duyệt đánh giá cho căn hộ' : 'Đã tắt tự động duyệt đánh giá cho căn hộ');
+  }
+
+  // Admin phản hồi hoặc sửa phản hồi đánh giá
+  async adminReplyToReview(reviewId: string, reply: string) {
+    const review = await this.prisma.review.findUnique({
+      where: { id: reviewId },
+    });
+
+    if (!review) throw new NotFoundException('Không tìm thấy đánh giá');
+
+    const updated = await this.prisma.review.update({
+      where: { id: reviewId },
+      data: {
+        reply,
+        repliedAt: new Date()
+      }
+    });
+
+    return new ApiResponse(updated, 'Admin phản hồi đánh giá thành công');
+  }
+
+  // Xóa đánh giá (Admin)
+  async deleteReview(reviewId: string) {
+    const review = await this.prisma.review.findUnique({
+      where: { id: reviewId },
+    });
+
+    if (!review) throw new NotFoundException('Không tìm thấy đánh giá');
+
+    await this.prisma.review.delete({
+      where: { id: reviewId }
+    });
+
+    return new ApiResponse(null, 'Xóa đánh giá thành công');
+  }
 }
+

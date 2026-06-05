@@ -181,7 +181,8 @@
       "submit_btn": "후기 등록",
       "success_title": "후기가 등록되었습니다!",
       "success_desc": "후기가 성공적으로 등록되어 공개되었습니다. 감사합니다!",
-      "rating_required": "평점을 선택해 주세요."
+      "rating_required": "평점을 선택해 주세요.",
+      "owner_reply": "호스트의 답글"
     }
   },
   "profile": {

@@ -12,7 +12,8 @@ import {
   ScheduleOutlined,
   UserOutlined,
   MenuFoldOutlined,
-  MenuUnfoldOutlined
+  MenuUnfoldOutlined,
+  MessageOutlined
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -206,6 +207,11 @@ const AdminLayout: React.FC = () => {
         key: '/quan-ly/quan-ly-tat-ca-dat-phong',
         icon: <ScheduleOutlined />,
         label: <Link to="/quan-ly/quan-ly-tat-ca-dat-phong">{t('sidebar.all_bookings', 'Quản lý tất cả đặt phòng')}</Link>,
+      },
+      {
+        key: '/quan-ly/quan-ly-tat-ca-danh-gia',
+        icon: <MessageOutlined />,
+        label: <Link to="/quan-ly/quan-ly-tat-ca-danh-gia">{t('sidebar.all_reviews', 'Quản lý đánh giá')}</Link>,
       }
     );
   } else {
@@ -229,6 +235,11 @@ const AdminLayout: React.FC = () => {
         key: '/quan-ly/quan-ly-dat-phong',
         icon: <CalendarOutlined />,
         label: <Link to="/quan-ly/quan-ly-dat-phong">{t('sidebar.my_bookings', 'Quản lý đặt phòng')}</Link>,
+      },
+      {
+        key: '/quan-ly/quan-ly-danh-gia',
+        icon: <MessageOutlined />,
+        label: <Link to="/quan-ly/quan-ly-danh-gia">{t('sidebar.my_reviews', 'Quản lý đánh giá')}</Link>,
       }
     );
   }
@@ -247,10 +258,12 @@ const AdminLayout: React.FC = () => {
     if (currentPath.startsWith('/quan-ly/quan-ly-nguoi-dung')) return '/quan-ly/quan-ly-nguoi-dung';
     if (currentPath.startsWith('/quan-ly/quan-ly-tat-ca-can-ho')) return '/quan-ly/quan-ly-tat-ca-can-ho';
     if (currentPath.startsWith('/quan-ly/quan-ly-tat-ca-dat-phong')) return '/quan-ly/quan-ly-tat-ca-dat-phong';
+    if (currentPath.startsWith('/quan-ly/quan-ly-tat-ca-danh-gia')) return '/quan-ly/quan-ly-tat-ca-danh-gia';
     if (currentPath.startsWith('/quan-ly/bieu-mau-can-ho/tao-moi')) return '/quan-ly/bieu-mau-can-ho/tao-moi';
     if (currentPath.startsWith('/quan-ly/bieu-mau-can-ho/sua')) return '/quan-ly/danh-sach-can-ho';
     if (currentPath.startsWith('/quan-ly/danh-sach-can-ho')) return '/quan-ly/danh-sach-can-ho';
     if (currentPath.startsWith('/quan-ly/quan-ly-dat-phong')) return '/quan-ly/quan-ly-dat-phong';
+    if (currentPath.startsWith('/quan-ly/quan-ly-danh-gia')) return '/quan-ly/quan-ly-danh-gia';
     return '/quan-ly/danh-sach-can-ho';
   };
 

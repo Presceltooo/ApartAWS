@@ -22,4 +22,4 @@ export interface IPresignedUrlResponse {
 }
 
 // Re-export IApartment and IBooking from portal for reuse
-export type { IApartment, IApartmentQuery, IBooking, IBookingQuery } from '../../portal/services/types';
+export type { IApartment, IApartmentQuery, IBooking, IBookingQuery, IReview } from '../../portal/services/types';

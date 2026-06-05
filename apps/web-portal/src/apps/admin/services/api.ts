@@ -8,6 +8,7 @@ import type {
   ICreateApartmentPayload,
   IUpdateApartmentPayload,
   IPresignedUrlResponse,
+  IReview,
 } from './types';
 
 // ─── Owner Apartment APIs ────────────────────────────────────────────────────────
@@ -137,3 +138,47 @@ export const uploadToS3 = async (presignedUrl: string, file: File): Promise<void
     throw new Error(`S3 upload failed: ${response.status} ${response.statusText} - ${errorText}`);
   }
 };
+
+// ─── Review Management APIs (Admin & Owner) ───────────────────────────────────
+
+
+
+export const getSystemReviews = (params?: {
+  Page?: number;
+  PageSize?: number;
+  ApartmentId?: string;
+  Status?: string;
+  Rating?: number;
+}): Promise<IResponsePagination<IReview>> => {
+  return axiosClient.get('apartments/system/reviews', { params });
+};
+
+export const updateReviewStatus = (reviewId: string, status: string): Promise<IResponse<IReview>> => {
+  return axiosClient.patch(`apartments/system/reviews/${reviewId}/status`, { status });
+};
+
+export const getOwnerReviews = (params?: {
+  Page?: number;
+  PageSize?: number;
+  ApartmentId?: string;
+  Rating?: number;
+}): Promise<IResponsePagination<IReview>> => {
+  return axiosClient.get('apartments/owner/reviews', { params });
+};
+
+export const replyToReview = (reviewId: string, reply: string): Promise<IResponse<IReview>> => {
+  return axiosClient.post(`apartments/owner/reviews/${reviewId}/reply`, { reply });
+};
+
+export const toggleApartmentReviewAutoApprove = (id: string, isAutoApproveReview: boolean): Promise<IResponse<IApartment>> => {
+  return axiosClient.patch(`apartments/${id}/review-auto-approve`, { isAutoApproveReview });
+};
+
+export const adminReplyToReview = (reviewId: string, reply: string): Promise<IResponse<IReview>> => {
+  return axiosClient.post(`apartments/system/reviews/${reviewId}/reply`, { reply });
+};
+
+export const deleteReview = (reviewId: string): Promise<IResponse<any>> => {
+  return axiosClient.delete(`apartments/system/reviews/${reviewId}`);
+};
+

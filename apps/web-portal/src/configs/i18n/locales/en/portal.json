@@ -183,7 +183,8 @@
       "submit_btn": "Submit review",
       "success_title": "Thank you for your review!",
       "success_desc": "Your review has been successfully submitted and is publicly visible.",
-      "rating_required": "Please select a star rating."
+      "rating_required": "Please select a star rating.",
+      "owner_reply": "Host's response"
     }
   },
   "profile": {

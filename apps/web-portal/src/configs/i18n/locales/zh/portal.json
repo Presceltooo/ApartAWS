@@ -181,7 +181,8 @@
       "submit_btn": "提交评价",
       "success_title": "感谢您的评价！",
       "success_desc": "您的评价已成功提交并公开展示。",
-      "rating_required": "请选择评分星级。"
+      "rating_required": "请选择评分星级。",
+      "owner_reply": "房东的回应"
     }
   },
   "profile": {

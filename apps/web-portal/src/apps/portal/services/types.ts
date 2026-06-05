@@ -20,6 +20,7 @@ export interface IApartment {
   images: string[];
   isActive: boolean;
   isAutoApprove?: boolean;
+  isAutoApproveReview?: boolean;
   ownerId?: string;
   createdAt: string;
   updatedAt: string;
@@ -96,9 +97,13 @@ export interface IReview {
   bookingId: string;
   rating: number;
   comment?: string;
+  status: 'PENDING' | 'APPROVED' | 'HIDDEN';
+  reply?: string;
+  repliedAt?: string;
   tenantName: string;
   createdAt: string;
   updatedAt: string;
+  apartment?: { id: string; title: string };
 }
 
 export interface ICreateReviewPayload {

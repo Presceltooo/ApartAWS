@@ -348,6 +348,39 @@ const ReviewComment = styled.p`
   font-style: italic;
 `;
 
+const ReplyDisplayCard = styled.div`
+  margin-top: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background-color: rgba(216, 90, 48, 0.04);
+  border-left: 3px solid #D85A30;
+  border-radius: 0.6rem;
+`;
+
+const ReplyHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+`;
+
+const ReplyTitle = styled.span`
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #D85A30;
+`;
+
+const ReplyTime = styled.span`
+  font-size: 1.15rem;
+  color: ${portalTheme.colors.outline};
+`;
+
+const ReplyContent = styled.p`
+  font-size: 1.35rem;
+  color: ${portalTheme.colors.onSurfaceVariant};
+  line-height: 1.5;
+  margin: 0;
+`;
+
 // ─── Status configs (keys only, labels resolved dynamically) ──────────────────
 
 const statusConfig: Record<
@@ -654,6 +687,21 @@ const BookingDetail: React.FC = () => {
                 </ReviewHeader>
                 {alreadyReviewed.comment && (
                   <ReviewComment>"{alreadyReviewed.comment}"</ReviewComment>
+                )}
+                {alreadyReviewed.reply && (
+                  <ReplyDisplayCard>
+                    <ReplyHeader>
+                      <ReplyTitle>
+                        {t('booking_detail.review.owner_reply', 'Phản hồi của chủ phòng')}
+                      </ReplyTitle>
+                      {alreadyReviewed.repliedAt && (
+                        <ReplyTime>
+                          {dayjs(alreadyReviewed.repliedAt).format('DD/MM/YYYY HH:mm')}
+                        </ReplyTime>
+                      )}
+                    </ReplyHeader>
+                    <ReplyContent>{alreadyReviewed.reply}</ReplyContent>
+                  </ReplyDisplayCard>
                 )}
               </ReviewDisplayCard>
             ) : (

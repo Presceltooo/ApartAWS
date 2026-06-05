@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query';
-import { getMyApartments, getOwnerBookings, getOwnerStats, getAuthStats, getApartmentStats, getBookingStats, getSystemUsers, getSystemApartments, getSystemBookings, getSystemAutoApprove } from './api';
+import { getMyApartments, getOwnerBookings, getOwnerStats, getAuthStats, getApartmentStats, getBookingStats, getSystemUsers, getSystemApartments, getSystemBookings, getSystemAutoApprove, getSystemReviews, getOwnerReviews } from './api';
 import type { IResponsePagination } from '@/shared/types/response.type';
-import type { IApartment, IApartmentQuery, IBooking, IBookingQuery } from './types';
+import type { IApartment, IApartmentQuery, IBooking, IBookingQuery, IReview } from './types';
 
 export const useMyApartments = (
   params?: IApartmentQuery,
@@ -90,6 +90,22 @@ export const useSystemAutoApprove = (options?: Partial<UseQueryOptions<any>>) =>
   return useQuery({
     queryKey: ['admin', 'system-auto-approve'],
     queryFn: () => getSystemAutoApprove(),
+    ...options,
+  });
+};
+
+export const useSystemReviews = (params?: { Page?: number; PageSize?: number; ApartmentId?: string; Status?: string; Rating?: number }, options?: Partial<UseQueryOptions<IResponsePagination<IReview>>>) => {
+  return useQuery({
+    queryKey: ['admin', 'system-reviews', params],
+    queryFn: () => getSystemReviews(params),
+    ...options,
+  });
+};
+
+export const useOwnerReviews = (params?: { Page?: number; PageSize?: number; ApartmentId?: string; Rating?: number }, options?: Partial<UseQueryOptions<IResponsePagination<IReview>>>) => {
+  return useQuery({
+    queryKey: ['admin', 'owner-reviews', params],
+    queryFn: () => getOwnerReviews(params),
     ...options,
   });
 };

@@ -181,7 +181,8 @@
       "submit_btn": "レビューを送信",
       "success_title": "レビューをご送信いただきありがとうございます！",
       "success_desc": "レビューが正常に送信され、公開されました。",
-      "rating_required": "評価の星を選択してください。"
+      "rating_required": "評価の星を選択してください。",
+      "owner_reply": "ホストの返信"
     }
   },
   "profile": {
