@@ -62,7 +62,7 @@ const About: React.FC = () => {
       <EditorialSection>
         <ImageContainer>
           <img 
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" 
+            src="/assets/about-hero.jpg" 
             alt="Domin Tactic Premium Architecture" 
           />
         </ImageContainer>
