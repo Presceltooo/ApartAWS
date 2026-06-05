@@ -7,6 +7,7 @@ import { useConfirmBooking, useCompleteBooking, useCancelBooking } from '../../.
 import type { IBooking } from '../../../services/types';
 import dayjs from 'dayjs';
 import useNotification from '@/shared/hooks/useNotification';
+import ChiTietDatPhongModal from '../modal/ChiTietDatPhongModal';
 
 const { Title } = Typography;
 
@@ -18,7 +19,15 @@ const OwnerBookings: React.FC = () => {
   const { mutate: completeBooking, isPending: isCompleting } = useCompleteBooking();
   const { mutate: cancelBooking, isPending: isCanceling } = useCancelBooking();
 
+  const [selectedBooking, setSelectedBooking] = React.useState<IBooking | null>(null);
+  const [detailModalOpen, setDetailModalOpen] = React.useState(false);
+
   const bookings = response?.data ?? [];
+
+  const handleViewDetails = (booking: IBooking) => {
+    setSelectedBooking(booking);
+    setDetailModalOpen(true);
+  };
 
   const handleConfirm = (id: string) => {
     confirmBooking(id, {
@@ -46,7 +55,11 @@ const OwnerBookings: React.FC = () => {
       title: t('owner.bookings_table.booking_id', 'Booking ID'),
       dataIndex: 'id',
       key: 'id',
-      render: (id: string) => <span style={{ fontFamily: 'monospace' }}>{id.slice(0, 8).toUpperCase()}</span>,
+      render: (id: string, record: IBooking) => (
+        <Button type="link" onClick={() => handleViewDetails(record)} style={{ padding: 0, fontFamily: 'monospace', fontWeight: 'bold' }}>
+          {id.slice(0, 8).toUpperCase()}
+        </Button>
+      ),
     },
     {
       title: t('owner.bookings_table.property', 'Property'),
@@ -103,6 +116,9 @@ const OwnerBookings: React.FC = () => {
       key: 'action',
       render: (_: any, record: IBooking) => (
         <Space size="middle">
+          <Button size="small" onClick={() => handleViewDetails(record)}>
+            {t('owner.booking_actions.view_details', 'Chi tiết')}
+          </Button>
           {record.status === 'PENDING' && (
             <>
               <Button type="primary" size="small" onClick={() => handleConfirm(record.id)} loading={isConfirming}>
@@ -139,6 +155,12 @@ const OwnerBookings: React.FC = () => {
         rowKey="id"
         loading={isLoading}
         pagination={{ pageSize: 10 }}
+      />
+
+      <ChiTietDatPhongModal
+        open={detailModalOpen}
+        onClose={() => setDetailModalOpen(false)}
+        booking={selectedBooking}
       />
     </div>
   );

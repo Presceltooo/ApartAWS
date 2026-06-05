@@ -87,7 +87,8 @@
     "booking_actions": {
       "confirm": "승인",
       "reject": "거절",
-      "complete": "완료"
+      "complete": "완료",
+      "view_details": "상세 정보"
     },
     "booking_messages": {
       "confirm_success": "예약이 성공적으로 승인되었습니다",
@@ -130,6 +131,31 @@
     "toast": {
       "toggle_auto_approve_success": "자동 승인 구성이 업데이트되었습니다",
       "toggle_auto_approve_error": "자동 승인 구성 업데이트 실패"
+    },
+    "booking_detail": {
+      "title": "예약 상세 정보",
+      "close": "닫기",
+      "summary": "기본 정보",
+      "booking_id": "예약 ID",
+      "property": "숙소 명칭",
+      "tenant_id": "예약자 ID",
+      "check_in": "체크인 날짜",
+      "check_out": "체크아웃 날짜",
+      "guests": "게스트 수",
+      "guests_unit": "명",
+      "nights": "숙박 일수",
+      "nights_unit": "박",
+      "images": "숙소 사진",
+      "payment_info": "결제 및 상태 세부 정보",
+      "status": "예약 상태",
+      "payment_status": "결제 상태",
+      "price_per_night": "1박 요금",
+      "cleaning_fee": "청소비",
+      "service_fee": "서비스 수수료",
+      "total_price": "총액",
+      "transaction_info": "거래 정보",
+      "vnpay_id": "VNPay 거래 ID",
+      "payment_date": "결제 일시"
     }
   }
 }

@@ -87,7 +87,8 @@
     "booking_actions": {
       "confirm": "Confirm",
       "reject": "Reject",
-      "complete": "Complete"
+      "complete": "Complete",
+      "view_details": "Details"
     },
     "booking_messages": {
       "confirm_success": "Booking confirmed successfully",
@@ -130,6 +131,31 @@
     "toast": {
       "toggle_auto_approve_success": "Auto approve configuration updated successfully",
       "toggle_auto_approve_error": "Failed to update auto approve configuration"
+    },
+    "booking_detail": {
+      "title": "Booking Details",
+      "close": "Close",
+      "summary": "General Information",
+      "booking_id": "Booking ID",
+      "property": "Property",
+      "tenant_id": "Tenant",
+      "check_in": "Check-in Date",
+      "check_out": "Check-out Date",
+      "guests": "Guests",
+      "guests_unit": "guest(s)",
+      "nights": "Nights",
+      "nights_unit": "night(s)",
+      "images": "Property Images",
+      "payment_info": "Payment Details & Status",
+      "status": "Booking Status",
+      "payment_status": "Payment Status",
+      "price_per_night": "Price per Night",
+      "cleaning_fee": "Cleaning Fee",
+      "service_fee": "Service Fee",
+      "total_price": "Total",
+      "transaction_info": "Transaction Details",
+      "vnpay_id": "VNPay Transaction ID",
+      "payment_date": "Payment Date"
     }
   },
   "admin_dashboard": {

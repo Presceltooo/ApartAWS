@@ -87,7 +87,8 @@
     "booking_actions": {
       "confirm": "承認",
       "reject": "却下",
-      "complete": "完了"
+      "complete": "完了",
+      "view_details": "詳細"
     },
     "booking_messages": {
       "confirm_success": "予約を承認しました",
@@ -130,6 +131,31 @@
     "toast": {
       "toggle_auto_approve_success": "自動承認の設定を更新しました",
       "toggle_auto_approve_error": "自動承認の設定更新に失敗しました"
+    },
+    "booking_detail": {
+      "title": "予約詳細",
+      "close": "閉じる",
+      "summary": "基本情報",
+      "booking_id": "予約ID",
+      "property": "物件・部屋名",
+      "tenant_id": "宿泊者名/ID",
+      "check_in": "チェックイン日",
+      "check_out": "チェックアウト日",
+      "guests": "宿泊人数",
+      "guests_unit": "名",
+      "nights": "宿泊数",
+      "nights_unit": "泊",
+      "images": "物件画像",
+      "payment_info": "お支払い情報とステータス",
+      "status": "予約ステータス",
+      "payment_status": "お支払い状況",
+      "price_per_night": "一泊料金",
+      "cleaning_fee": "清掃料金",
+      "service_fee": "サービス手数料",
+      "total_price": "合計金額",
+      "transaction_info": "取引詳細",
+      "vnpay_id": "VNPay取引ID",
+      "payment_date": "お支払い日時"
     }
   },
   "admin_dashboard": {

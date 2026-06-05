@@ -87,7 +87,8 @@
     "booking_actions": {
       "confirm": "Xác nhận",
       "reject": "Từ chối",
-      "complete": "Hoàn thành"
+      "complete": "Hoàn thành",
+      "view_details": "Chi tiết"
     },
     "booking_messages": {
       "confirm_success": "Xác nhận đơn đặt phòng thành công",
@@ -130,6 +131,31 @@
     "toast": {
       "toggle_auto_approve_success": "Cập nhật cấu hình tự động duyệt thành công",
       "toggle_auto_approve_error": "Lỗi cập nhật cấu hình tự động duyệt"
+    },
+    "booking_detail": {
+      "title": "Chi tiết đặt phòng",
+      "close": "Đóng",
+      "summary": "Thông tin chung",
+      "booking_id": "Mã đặt phòng",
+      "property": "Căn hộ",
+      "tenant_id": "Khách thuê",
+      "check_in": "Ngày nhận phòng",
+      "check_out": "Ngày trả phòng",
+      "guests": "Số lượng khách",
+      "guests_unit": "khách",
+      "nights": "Số đêm lưu trú",
+      "nights_unit": "đêm",
+      "images": "Hình ảnh căn hộ",
+      "payment_info": "Chi tiết thanh toán & Trạng thái",
+      "status": "Trạng thái đặt",
+      "payment_status": "Thanh toán",
+      "price_per_night": "Giá mỗi đêm",
+      "cleaning_fee": "Phí vệ sinh",
+      "service_fee": "Phí dịch vụ",
+      "total_price": "Tổng cộng",
+      "transaction_info": "Thông tin giao dịch",
+      "vnpay_id": "Mã giao dịch VNPay",
+      "payment_date": "Thời gian thanh toán"
     }
   },
   "admin_dashboard": {

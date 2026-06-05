@@ -87,7 +87,8 @@
     "booking_actions": {
       "confirm": "确认",
       "reject": "拒绝",
-      "complete": "完成"
+      "complete": "完成",
+      "view_details": "详情"
     },
     "booking_messages": {
       "confirm_success": "成功确认预订订单",
@@ -128,8 +129,33 @@
       "loading_detail": "正在加载房源详情..."
     },
     "toast": {
-      "toggle_auto_approve_success": "自动审批配置更新成功",
-      "toggle_auto_approve_error": "自动审批配置更新失败"
+      "toggle_auto_approve_success": "更新自动批准配置成功",
+      "toggle_auto_approve_error": "更新自动批准配置失败"
+    },
+    "booking_detail": {
+      "title": "预订详情",
+      "close": "关闭",
+      "summary": "基本信息",
+      "booking_id": "预订 ID",
+      "property": "房源/公寓",
+      "tenant_id": "房客 ID",
+      "check_in": "入住日期",
+      "check_out": "退房日期",
+      "guests": "住客人数",
+      "guests_unit": "人",
+      "nights": "住宿晚数",
+      "nights_unit": "晚",
+      "images": "房源照片",
+      "payment_info": "支付详情与状态",
+      "status": "预订状态",
+      "payment_status": "支付状态",
+      "price_per_night": "每晚价格",
+      "cleaning_fee": "清洁费",
+      "service_fee": "服务费",
+      "total_price": "总计",
+      "transaction_info": "交易信息",
+      "vnpay_id": "VNPay 交易 ID",
+      "payment_date": "付款时间"
     }
   }
 }
