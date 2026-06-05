@@ -274,5 +274,33 @@
       "79": "Nhập sai mật khẩu thanh toán quá số lần quy định.",
       "99": "Lỗi không xác định."
     }
+  },
+  "about": {
+    "hero_title": "Kiến tạo không gian, nâng tầm ",
+    "hero_title_highlight": "trải nghiệm sống.",
+    "story_title": "Câu chuyện của chúng tôi",
+    "story_subtitle": "Đồng hành cùng bạn trên hành trình tìm kiếm những không gian sống đầy cảm hứng.",
+    "story_text_1": "Khởi đầu từ khát vọng định nghĩa lại tiêu chuẩn lưu trú cao cấp, Domin Tactic không chỉ cung cấp những căn hộ tiện nghi mà còn kiến tạo một hệ sinh thái sống thượng lưu, nơi mỗi chi tiết nhỏ nhất đều được chăm chút kỹ lưỡng bởi đội ngũ kiến trúc sư hàng đầu.",
+    "story_text_2": "Chúng tôi tin rằng một không gian sống hoàn hảo phải là sự kết hợp hài hòa giữa thiết kế tinh tế, công nghệ hiện đại và dịch vụ tận tâm. Domin Tactic tự hào đồng hành cùng hàng ngàn khách thuê và chủ căn hộ trong việc xây dựng những tổ ấm đích thực.",
+    "values_title": "Giá trị cốt lõi",
+    "values_subtitle": "Những nguyên tắc dẫn lối cho mọi hoạt động và thiết kế của Domin Tactic.",
+    "value_1_title": "Uy tín hàng đầu",
+    "value_1_desc": "Mọi thông tin căn hộ, trạng thái đặt phòng đều được minh bạch và xác thực 100% bởi đội ngũ Domin.",
+    "value_2_title": "Thiết kế tinh tế",
+    "value_2_desc": "Loại bỏ những chi tiết rườm rà, tập trung vào sự tối giản, tối ưu không gian và ánh sáng tự nhiên.",
+    "value_3_title": "Dịch vụ tận tâm",
+    "value_3_desc": "Đội ngũ quản gia Domin Concierge luôn sẵn sàng hỗ trợ bạn 24/7 với tinh thần phục vụ chuyên nghiệp nhất.",
+    "value_4_title": "Cá nhân hóa",
+    "value_4_desc": "Mỗi không gian sống đều được tùy chỉnh linh hoạt nhằm mang lại sự thoải mái và phù hợp nhất cho bạn.",
+    "stats_title": "Những con số ấn tượng",
+    "stat_1_val": "50+",
+    "stat_1_label": "Căn hộ cao cấp",
+    "stat_2_val": "1.200+",
+    "stat_2_label": "Chuyến đi trọn vẹn",
+    "stat_3_val": "4.9/5",
+    "stat_3_label": "Đánh giá hài lòng",
+    "philosophy_title": "Triết lý kiến trúc \"Clean White\"",
+    "philosophy_badge": "Triết lý",
+    "philosophy_desc": "Chúng tôi áp dụng quy tắc nghiêm ngặt 'Không đường kẻ' trong thiết kế giao diện và không gian thực tế. Sự phân chia ranh giới được tạo nên bởi sự chuyển dịch của sắc độ màu sắc và ánh sáng, mang lại cảm giác dễ chịu, liền mạch và sang trọng vượt thời gian."
   }
 }

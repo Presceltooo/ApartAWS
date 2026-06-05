@@ -276,5 +276,33 @@
       "79": "Payment password entered incorrectly too many times.",
       "99": "Unknown error."
     }
+  },
+  "about": {
+    "hero_title": "Shaping spaces, elevating ",
+    "hero_title_highlight": "living experiences.",
+    "story_title": "Our Story",
+    "story_subtitle": "Accompanying you on the journey to find inspiring living spaces.",
+    "story_text_1": "Originating from the aspiration to redefine the standard of luxury accommodation, Domin Tactic not only provides comfortable apartments but also creates an elite living ecosystem, where every single detail is meticulously curated by leading architects.",
+    "story_text_2": "We believe that a perfect living space must be a harmonious combination of sophisticated design, modern technology, and dedicated service. Domin Tactic is proud to accompany thousands of tenants and homeowners in building authentic sanctuaries.",
+    "values_title": "Core Values",
+    "values_subtitle": "The principles that guide all actions and designs at Domin Tactic.",
+    "value_1_title": "Trust & Integrity",
+    "value_1_desc": "All apartment information and booking statuses are 100% transparent and verified by the Domin team.",
+    "value_2_title": "Refined Design",
+    "value_2_desc": "Eliminating redundant details, focusing on minimalism, optimal space utilization, and natural light.",
+    "value_3_title": "Dedicated Service",
+    "value_3_desc": "The Domin Concierge butler team is always ready to support you 24/7 with the highest professional spirit.",
+    "value_4_title": "Personalization",
+    "value_4_desc": "Each living space is flexibly customized to bring the maximum comfort and suitability to your lifestyle.",
+    "stats_title": "Our Metrics",
+    "stat_1_val": "50+",
+    "stat_1_label": "Premium Residences",
+    "stat_2_val": "1,200+",
+    "stat_2_label": "Perfect Stays",
+    "stat_3_val": "4.9/5",
+    "stat_3_label": "Satisfaction Rating",
+    "philosophy_title": "The \"Clean White\" Architectural Ethos",
+    "philosophy_badge": "Philosophy",
+    "philosophy_desc": "We apply the strict 'No-Line' rule in both interface design and physical spaces. Boundaries are established through subtle transitions in color tones and natural light, delivering a peaceful, seamless, and timelessly luxurious experience."
   }
 }

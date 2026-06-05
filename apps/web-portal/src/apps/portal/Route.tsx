@@ -8,6 +8,7 @@ import apartmentDetailsRoute from './pages/apartment-details/Route';
 import apartmentListRoute from './pages/can-ho/Route';
 import profileRoute from './pages/profile/Route';
 import paymentResultRoute from './pages/payment-result/Route';
+import aboutRoute from './pages/about/Route';
 
 import TrangChu from './TrangChu';
 
@@ -32,6 +33,7 @@ portalRoute.addChildren([
   apartmentListRoute,
   profileRoute,
   paymentResultRoute,
+  aboutRoute,
 ]);
 
 export default portalRoute;

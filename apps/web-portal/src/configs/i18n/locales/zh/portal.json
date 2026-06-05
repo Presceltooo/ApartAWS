@@ -274,5 +274,33 @@
       "79": "支付密码错误次数超限。",
       "99": "系统未知错误。"
     }
+  },
+  "about": {
+    "hero_title": "筑造空间，升华",
+    "hero_title_highlight": "生活体验。",
+    "story_title": "我们的故事",
+    "story_subtitle": "在寻找充满灵感的生活空间的旅程中，与您同行。",
+    "story_text_1": "Domin Tactic 始于重新定义高端住宿标准的愿望，不仅提供舒适的公寓，更创造了一个精英阶层的生活生态系统。这里的每一个微小细节都由顶尖的建筑设计团队倾心打造。",
+    "story_text_2": "我们深信，完美的居住空间应当是精致设计、现代科技与贴心服务的和谐结合。Domin Tactic 非常自豪能够陪伴成千上万的房客和业主，共同筑造真正的心灵居所。",
+    "values_title": "核心价值",
+    "values_subtitle": "指引 Domin Tactic 一切活动与设计的核心原则。",
+    "value_1_title": "至臻信赖",
+    "value_1_desc": "所有的公寓房源及预订状态信息皆公开透明，并由 Domin 团队进行 100% 实地验证。",
+    "value_2_title": "极致设计",
+    "value_2_desc": "摒弃冗余的繁杂装饰，专注于极简主义、空间优化与自然采光的完美呈现。",
+    "value_3_title": "管家式服务",
+    "value_3_desc": "Domin Concierge 专属管家团队 24/7 全天候在线，以最专业的职业精神为您服务。",
+    "value_4_title": "个性化定制",
+    "value_4_desc": "每一处生活空间均可灵活定制，以契合您独特的品味并带来极致的舒适感。",
+    "stats_title": "数据见证",
+    "stat_1_val": "50+",
+    "stat_1_label": "高端公寓房源",
+    "stat_2_val": "1.200+",
+    "stat_2_label": "完美入住体验",
+    "stat_3_val": "4.9/5",
+    "stat_3_label": "好评满意度",
+    "philosophy_title": "\"Clean White\" 建筑设计哲学",
+    "philosophy_badge": "哲学",
+    "philosophy_desc": "无论是线上界面还是线下物理空间，我们都严格遵循 '无边框 (No-Line)' 的设计法则。边界仅通过色彩明暗与光影的变化来自然过渡，为您带来宁静、流畅且永恒奢华的感官享受。"
   }
 }
