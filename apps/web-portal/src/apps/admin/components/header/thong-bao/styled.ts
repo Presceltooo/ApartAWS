@@ -27,6 +27,32 @@ export const PopoverGlobalStyle = createGlobalStyle`
     max-height: none !important;
     padding: 0 !important;
   }
+
+  /* ── Mobile: full-width popup ── */
+  @media (max-width: 600px) {
+    html body div.ant-popover.admin-thong-bao-popover {
+      position: fixed !important;
+      top: 56px !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      padding: 0 !important;
+      inset-inline-start: 0 !important;
+    }
+
+    html body div.ant-popover.admin-thong-bao-popover .ant-popover-inner {
+      width: 100vw !important;
+      max-width: 100vw !important;
+      border-radius: 0 0 16px 16px !important;
+      margin: 0 !important;
+      box-shadow: 0 8px 32px rgba(88,66,59,.18) !important;
+    }
+
+    html body div.ant-popover.admin-thong-bao-popover .ant-popover-arrow {
+      display: none !important;
+    }
+  }
 `;
 
 export const PopoverWrapper = styled.div<{ $expanded: boolean }>`
@@ -40,6 +66,17 @@ export const PopoverWrapper = styled.div<{ $expanded: boolean }>`
   animation: ${fadeIn} 0.2s ease;
   box-shadow: 0 10px 40px rgba(88,66,59,.12), 0 4px 12px rgba(88,66,59,.08);
   border: 1px solid ${BORDER};
+
+  @media (max-width: 600px) {
+    width: 100vw;
+    max-width: 100vw;
+    max-height: min(480px, 60vh);
+    border-radius: 0 0 16px 16px;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    box-shadow: none;
+  }
 `;
 
 // ─── Header ──────────────────────────────────────────────────────────────────
@@ -163,6 +200,11 @@ export const NotificationListWrapper = styled.div<{ $isExpanded: boolean }>`
     display: none !important; /* Dành cho Chrome, Safari, Opera */
     width: 0px !important;
     background: transparent !important;
+  }
+
+  @media (max-width: 600px) {
+    max-height: none;
+    padding: 4px 12px;
   }
 `;
 

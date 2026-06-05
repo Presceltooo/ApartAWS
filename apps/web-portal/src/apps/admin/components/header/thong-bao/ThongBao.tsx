@@ -113,6 +113,8 @@ const ThongBao: React.FC = () => {
     </PopoverWrapper>
   );
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
+
   return (
     <>
       <PopoverGlobalStyle />
@@ -123,9 +125,13 @@ const ThongBao: React.FC = () => {
         trigger="click"
         open={open}
         onOpenChange={handleOpenChange}
-        placement="bottomRight"
-        align={{ offset: [0, 0] }}
-        overlayInnerStyle={{ padding: 0, overflow: 'hidden', borderRadius: 12 }}
+        placement={isMobile ? 'bottom' : 'bottomRight'}
+        align={isMobile ? { offset: [0, 0] } : { offset: [0, 0] }}
+        overlayInnerStyle={{
+          padding: 0,
+          overflow: 'hidden',
+          borderRadius: isMobile ? '0 0 16px 16px' : 12,
+        }}
       >
         <Badge count={unreadCount} size="small" overflowCount={99}>
           <BellButton>

@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
-import { notification } from 'antd';
 import tokenManager from '@utils/tokenManager';
+import useNotification from '@hooks/useNotification';
 import { useGetNotifications, useGetUnreadCount } from '../services/query';
 import { useMarkAsRead, useMarkAllAsRead } from '../services/mutation';
 import { useSSE } from './useSSE';
@@ -11,6 +11,7 @@ export const useNotifications = (
   activeTab: 'all' | 'unread' = 'all',
 ) => {
   const isLoggedIn = !!tokenManager.getAccessToken();
+  const { showInfoNotify } = useNotification();
 
   const filterParams = useMemo(
     () => (activeTab === 'unread' ? { daXem: false } : undefined),
@@ -26,14 +27,9 @@ export const useNotifications = (
         return;
       }
 
-      notification.info({
-        message: data.notification.tieuDe,
-        description: data.notification.noiDung,
-        placement: 'topRight',
-        duration: 4.5,
-      });
+      showInfoNotify(data.notification.tieuDe, data.notification.noiDung);
     }
-  }, []);
+  }, [showInfoNotify]);
 
   // Connect to SSE stream (always enabled for authenticated users to get background real-time updates)
   useSSE({
