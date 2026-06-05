@@ -1,0 +1,19 @@
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+
+export interface GatewayUser {
+  userId: string;
+  role: string;
+  email: string;
+}
+
+export const CurrentUser = createParamDecorator(
+  (field: keyof GatewayUser | undefined, ctx: ExecutionContext): GatewayUser | string => {
+    const request = ctx.switchToHttp().getRequest();
+    const user: GatewayUser = {
+      userId: request.headers['x-user-id'] as string,
+      role: request.headers['x-user-role'] as string,
+      email: request.headers['x-user-email'] as string,
+    };
+    return field ? user[field] : user;
+  },
+);

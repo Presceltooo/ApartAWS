@@ -1,0 +1,36 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["notification"]
+}
+
+enum NotificationType {
+  BOOKING
+  PAYMENT
+  SYSTEM
+
+  @@schema("notification")
+}
+
+model Notification {
+  id                 Int              @id @default(autoincrement())
+  tieuDe             String
+  noiDung            String
+  daXem              Boolean          @default(false)
+  loai               NotificationType @default(SYSTEM)
+  nghiepVu           String?
+  ngayTao            DateTime         @default(now())
+  nguoiNhanId        String
+  nguoiNhanType      String?
+  idDoiTuongLienQuan String?
+  urlDieuHuong       String?
+
+  @@map("Notifications")
+  @@schema("notification")
+  @@index([nguoiNhanId, daXem])
+  @@index([ngayTao])
+}

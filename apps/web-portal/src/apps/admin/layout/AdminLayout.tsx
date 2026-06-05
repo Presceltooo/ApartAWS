@@ -17,6 +17,7 @@ import {
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
+import ThongBao from '@apps/admin/components/header/thong-bao/ThongBao';
 import { useLogout } from '@apps/auth/services/mutation';
 import { useGetMe } from '@apps/auth/services/query';
 import tokenManager from '@shared/utils/tokenManager';
@@ -270,6 +271,7 @@ const AdminLayout: React.FC = () => {
           {getPortalTitle()}
         </HeaderTitle>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <ThongBao />
           <LanguageSwitcher />
           <Button type="text" onClick={() => navigate({ to: '/' })} style={{ fontSize: '15px' }}>
             {t('header.view_site', 'View Public Site')}

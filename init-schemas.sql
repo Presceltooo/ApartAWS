@@ -4,6 +4,7 @@
 CREATE SCHEMA IF NOT EXISTS auth;
 CREATE SCHEMA IF NOT EXISTS apartment;
 CREATE SCHEMA IF NOT EXISTS booking;
+CREATE SCHEMA IF NOT EXISTS notification;
 
 -- Phân quyền cho user (hoặc sử dụng role mặc định nếu chỉ có 1 user)
 -- GRANT ALL ON SCHEMA auth TO user;

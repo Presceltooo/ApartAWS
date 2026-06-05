@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useRouterState } from '@tanstack/react-router';
 import { 
-  SearchOutlined, 
   UserOutlined, 
   MenuOutlined,
   LogoutOutlined 
@@ -10,6 +9,7 @@ import { Dropdown, Drawer, Button } from 'antd';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '@/shared/components/LanguageSwitcher';
+import ThongBao from '@apps/admin/components/header/thong-bao/ThongBao';
 import { useLogout } from '@apps/auth/services/mutation';
 import tokenManager from '@shared/utils/tokenManager';
 import {
@@ -20,7 +20,7 @@ import {
   PortalNavLinks,
   PortalNavLink,
   PortalHeaderActions,
-  PortalIconButton,
+  // PortalIconButton,
   PortalProfileBtn,
   PortalAuthBtn,
   PortalRegisterBtn,
@@ -75,9 +75,7 @@ const PortalLayout: React.FC = () => {
             </Link>
           </PortalNavLinks>
           <PortalHeaderActions>
-            <PortalIconButton>
-              <SearchOutlined />
-            </PortalIconButton>
+            <ThongBao />
             
             <LanguageSwitcher />
             
