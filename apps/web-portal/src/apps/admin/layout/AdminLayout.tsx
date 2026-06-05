@@ -26,7 +26,8 @@ import { useQueryClient } from '@tanstack/react-query';
 const { Header, Sider, Content } = Layout;
 
 const StyledLayout = styled(Layout)`
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background-color: #f6f3ee;
 `;
 
@@ -67,11 +68,14 @@ const StyledSider = styled(Sider)`
   border-right: none;
   box-shadow: 4px 0 20px rgba(88, 66, 59, 0.03);
   transition: all 0.2s !important;
+  height: 100%;
+  overflow-y: auto;
   
   .ant-layout-sider-children {
     background: transparent !important;
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   .ant-menu {
@@ -281,7 +285,7 @@ const AdminLayout: React.FC = () => {
           </Button>
         </div>
       </StyledHeader>
-      <Layout>
+      <Layout style={{ overflow: 'hidden' }}>
         <StyledSider width={260} collapsible collapsed={collapsed} trigger={null}>
           <SiderHeader $collapsed={collapsed} onClick={() => setCollapsed(!collapsed)}>
             {!collapsed ? (
@@ -307,7 +311,7 @@ const AdminLayout: React.FC = () => {
             items={menuItems}
           />
         </StyledSider>
-        <Layout style={{ padding: '32px', backgroundColor: '#f6f3ee' }}>
+        <Layout style={{ padding: '32px', backgroundColor: '#f6f3ee', overflowY: 'auto' }}>
           <Content style={{ background: '#fcf9f4', padding: '32px 40px', margin: 0, minHeight: 280, borderRadius: '16px', boxShadow: '0 4px 20px rgba(88, 66, 59, 0.04)' }}>
             <Outlet />
           </Content>

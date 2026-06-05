@@ -6,7 +6,15 @@ import {
   CheckCircleOutlined,
   ClockCircleOutlined,
 } from '@ant-design/icons';
-import { Line } from '@ant-design/plots';
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from 'recharts';
 import { useOwnerStats, useOwnerBookings } from '../../../services/query';
 import dayjs from 'dayjs';
 import TableWithPagination from '@/shared/components/tables/table-with-pagination';
@@ -68,48 +76,28 @@ const OwnerDashboard: React.FC = () => {
     }).format(val);
   };
 
-  // Line Chart configurations
-  const chartConfig = {
-    data: stats?.chartData || [],
-    xField: 'label',
-    yField: chartType === 'revenue' ? 'revenue' : 'bookings',
-    style: {
-      stroke: '#a5360d',
-      lineWidth: 3,
-    },
-    point: {
-      size: 4,
-      style: {
-        fill: '#fff',
-        stroke: '#a5360d',
-        lineWidth: 2,
-      },
-    },
-    tooltip: {
-      title: 'label',
-      items: [
-        {
-          channel: 'y',
-          name: chartType === 'revenue' 
-            ? t('owner.dashboard.chart_revenue', 'Doanh thu') 
-            : t('owner.dashboard.chart_bookings', 'Lượt đặt'),
-          valueFormatter: (val: any) => 
-            chartType === 'revenue' 
-              ? formatCurrency(Number(val)) 
-              : `${val} ${t('owner.dashboard.chart_bookings', 'lượt')}`,
-        },
-      ],
-    },
-    axis: {
-      y: {
-        labelFormatter: (val: any) => {
-          if (chartType === 'revenue') {
-            return new Intl.NumberFormat('vi-VN').format(Number(val)) + ' VNĐ';
-          }
-          return val;
-        },
-      },
-    },
+  // Custom Tooltip for Recharts
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          background: '#ffffff',
+          border: '1px solid #e0c0b6',
+          padding: '10px 14px',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(165, 54, 13, 0.08)'
+        }}>
+          <p style={{ margin: 0, fontWeight: 600, color: '#333333' }}>{label}</p>
+          <p style={{ margin: '4px 0 0', color: '#a5360d', fontWeight: 600 }}>
+            {chartType === 'revenue' 
+              ? `${t('owner.dashboard.chart_revenue', 'Doanh thu')}: ${formatCurrency(payload[0].value)}`
+              : `${t('owner.dashboard.chart_bookings', 'Lượt đặt')}: ${payload[0].value} ${t('owner.dashboard.chart_bookings', 'lượt')}`
+            }
+          </p>
+        </div>
+      );
+    }
+    return null;
   };
 
   // Table Columns for recent bookings
@@ -289,8 +277,41 @@ const OwnerDashboard: React.FC = () => {
         style={{ borderRadius: '16px', boxShadow: '0 4px 20px rgba(88, 66, 59, 0.03)' }}
       >
         {stats?.chartData && stats.chartData.length > 0 ? (
-          <div style={{ height: 350 }}>
-            <Line {...chartConfig} />
+          <div style={{ height: 350, width: '100%' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={stats.chartData}
+                margin={{ top: 10, right: 10, left: 10, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis 
+                  dataKey="label" 
+                  stroke="#8c8c8c"
+                  fontSize={12}
+                  tickLine={false}
+                />
+                <YAxis 
+                  stroke="#8c8c8c"
+                  fontSize={12}
+                  tickLine={false}
+                  tickFormatter={(val) => {
+                    if (chartType === 'revenue') {
+                      return new Intl.NumberFormat('vi-VN').format(Number(val)) + ' ₫';
+                    }
+                    return val;
+                  }}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Line
+                  type="monotone"
+                  dataKey={chartType === 'revenue' ? 'revenue' : 'bookings'}
+                  stroke="#a5360d"
+                  strokeWidth={3}
+                  activeDot={{ r: 6, stroke: '#a5360d', strokeWidth: 2, fill: '#fff' }}
+                  dot={{ r: 4, stroke: '#a5360d', strokeWidth: 2, fill: '#fff' }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         ) : (
           <div style={{ textAlign: 'center', padding: '50px 0', color: '#8c8c8c' }}>
