@@ -45,7 +45,11 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     const isPublic = isPublicRoute(req.method, req.originalUrl || req.url);
-    const token = req.headers.authorization?.replace('Bearer ', '');
+    let token = req.headers.authorization?.replace('Bearer ', '');
+
+    if (!token && req.query.token) {
+      token = req.query.token as string;
+    }
 
     if (!token) {
       if (isPublic) {

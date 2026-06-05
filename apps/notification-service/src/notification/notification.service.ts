@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmailService } from '../channels/email/email.service';
 import { NotificationEvent, NotificationEventType } from '../common/interfaces/notification-event.interface';
@@ -11,6 +12,7 @@ export class NotificationService {
   constructor(
     private readonly emailService: EmailService,
     private readonly prisma: PrismaService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async handleEvent(event: NotificationEvent): Promise<void> {
@@ -185,7 +187,7 @@ export class NotificationService {
     idDoiTuongLienQuan?: string;
     urlDieuHuong?: string;
   }) {
-    return this.prisma.notification.create({
+    const notification = await this.prisma.notification.create({
       data: {
         tieuDe: data.tieuDe,
         noiDung: data.noiDung,
@@ -196,6 +198,19 @@ export class NotificationService {
         urlDieuHuong: data.urlDieuHuong,
       },
     });
+
+    try {
+      const unreadCount = await this.countUnread(data.nguoiNhanId);
+      this.eventEmitter.emit('notification.created', {
+        userId: data.nguoiNhanId,
+        notification,
+        unreadCount,
+      });
+    } catch (err) {
+      this.logger.error(`Error emitting notification event: ${err.message}`, err.stack);
+    }
+
+    return notification;
   }
 
   async getNotifications(

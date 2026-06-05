@@ -30,7 +30,9 @@ export const useGetUnreadCount = (options?: { enabled?: boolean }) => {
   return useQuery<number>({
     queryKey: ['unreadCount'],
     queryFn: demSoLuongThongBaoChuaXem,
-    staleTime: 3 * 60 * 1000, // 3 minutes
+    staleTime: 60 * 1000, // 60 seconds (SSE is the primary source)
+    refetchOnWindowFocus: true, // Refetch when the user focuses back on the tab
+    refetchInterval: 60 * 1000, // Backup polling check every 60 seconds
     ...options,
   });
 };
