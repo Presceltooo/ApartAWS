@@ -29,5 +29,15 @@
   "total_items": "{{from}}-{{to}} / {{total}}",
   "items_per_page": "/ trang",
   "not_found": "Xin lỗi, địa chỉ bạn truy cập không tồn tại.",
-  "back_to_home": "Về trang chủ"
+  "back_to_home": "Về trang chủ",
+  "notification": {
+    "title": "Thông báo",
+    "mark_all_read": "Đánh dấu tất cả đã đọc",
+    "filter_all": "Tất cả",
+    "filter_unread": "Chưa đọc",
+    "previous": "Trước đó",
+    "view_all": "Xem tất cả",
+    "empty": "Không có thông báo",
+    "system": "Hệ thống"
+  }
 }

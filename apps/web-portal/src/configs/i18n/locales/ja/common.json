@@ -29,5 +29,15 @@
   "total_items": "{{total}}中 {{from}}-{{to}}",
   "items_per_page": "/ ページ",
   "not_found": "申し訳ありませんが、アクセスされたページは存在しません。",
-  "back_to_home": "ホームへ戻る"
+  "back_to_home": "ホームへ戻る",
+  "notification": {
+    "title": "通知",
+    "mark_all_read": "すべて既読にする",
+    "filter_all": "すべて",
+    "filter_unread": "未読",
+    "previous": "以前",
+    "view_all": "すべて表示",
+    "empty": "通知はありません",
+    "system": "システム"
+  }
 }

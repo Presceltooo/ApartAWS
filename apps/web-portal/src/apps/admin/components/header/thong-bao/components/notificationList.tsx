@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Spin, Empty } from 'antd';
+import { useTranslation } from 'react-i18next';
 import NotificationItem from './notificationItem';
 import { NotificationListWrapper } from '../styled';
 import type { Notification } from '../services/type';
@@ -25,6 +26,7 @@ const NotificationList: React.FC<Props> = ({
   onMarkRead,
   onNavigate,
 }) => {
+  const { t } = useTranslation('common');
   const listRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = useCallback(
@@ -68,7 +70,7 @@ const NotificationList: React.FC<Props> = ({
   if (notifications.length === 0) {
     return (
       <Empty
-        description="Không có thông báo"
+        description={t('notification.empty')}
         style={{ padding: '32px 0' }}
         image={Empty.PRESENTED_IMAGE_SIMPLE}
       />

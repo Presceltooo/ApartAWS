@@ -3,6 +3,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { BellOutlined, CheckOutlined } from '@ant-design/icons';
 import { Badge, Popover, Spin, Tooltip } from 'antd';
 import { useGetMe } from '@apps/auth/services/query';
+import { useTranslation } from 'react-i18next';
 
 import { useNotifications } from './hooks/useNotifications';
 import NotificationList from './components/notificationList';
@@ -18,6 +19,7 @@ import {
 } from './styled';
 
 const ThongBao: React.FC = () => {
+  const { t } = useTranslation('common');
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -66,9 +68,9 @@ const ThongBao: React.FC = () => {
   const renderContent = () => (
     <PopoverWrapper $expanded={true}>
       <NotificationHeader>
-        <div className="title">Thông báo</div>
+        <div className="title">{t('notification.title')}</div>
         <div className="actions">
-          <Tooltip title="Đánh dấu tất cả đã đọc">
+          <Tooltip title={t('notification.mark_all_read')}>
             <div className="action-btn" onClick={() => markAll()}>
               {markingAll ? <Spin size="small" /> : <CheckOutlined />}
             </div>
@@ -81,20 +83,20 @@ const ThongBao: React.FC = () => {
           $active={activeTab === 'all'}
           onClick={() => setActiveTab('all')}
         >
-          Tất cả
+          {t('notification.filter_all')}
         </FilterTab>
         <FilterTab
           $active={activeTab === 'unread'}
           onClick={() => setActiveTab('unread')}
         >
-          Chưa đọc {unreadCount > 0 ? `(${unreadCount})` : ''}
+          {t('notification.filter_unread')} {unreadCount > 0 ? `(${unreadCount})` : ''}
         </FilterTab>
       </FilterTabsWrapper>
 
       <SectionHeaderWrapper>
-        <div className="section-title">Trước đó</div>
+        <div className="section-title">{t('notification.previous')}</div>
         <div className="view-all-link" onClick={handleViewAll}>
-          Xem tất cả
+          {t('notification.view_all')}
         </div>
       </SectionHeaderWrapper>
 

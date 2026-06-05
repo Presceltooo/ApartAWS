@@ -29,5 +29,15 @@
   "total_items": "{{from}}-{{to}} / {{total}}",
   "items_per_page": "/ 页",
   "not_found": "抱歉，您访问的页面不存在。",
-  "back_to_home": "返回首页"
+  "back_to_home": "返回首页",
+  "notification": {
+    "title": "通知",
+    "mark_all_read": "全部标记为已读",
+    "filter_all": "全部",
+    "filter_unread": "未读",
+    "previous": "历史通知",
+    "view_all": "查看全部",
+    "empty": "暂无通知",
+    "system": "系统"
+  }
 }

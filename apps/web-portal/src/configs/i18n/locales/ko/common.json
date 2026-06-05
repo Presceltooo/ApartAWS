@@ -29,5 +29,15 @@
   "total_items": "{{from}}-{{to}} / {{total}}",
   "items_per_page": "/ 페이지",
   "not_found": "죄송합니다. 요청하신 페이지를 찾을 수 없습니다.",
-  "back_to_home": "홈으로 돌아가기"
+  "back_to_home": "홈으로 돌아가기",
+  "notification": {
+    "title": "알림",
+    "mark_all_read": "모두 읽음으로 표시",
+    "filter_all": "전체",
+    "filter_unread": "읽지 않음",
+    "previous": "이전 알림",
+    "view_all": "모두 보기",
+    "empty": "알림이 없습니다",
+    "system": "시스템"
+  }
 }

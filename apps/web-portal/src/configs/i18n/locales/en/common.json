@@ -29,5 +29,15 @@
   "total_items": "{{from}}-{{to}} of {{total}}",
   "items_per_page": "/ page",
   "not_found": "Sorry, the page you accessed does not exist.",
-  "back_to_home": "Back to Home"
+  "back_to_home": "Back to Home",
+  "notification": {
+    "title": "Notifications",
+    "mark_all_read": "Mark all as read",
+    "filter_all": "All",
+    "filter_unread": "Unread",
+    "previous": "Previous",
+    "view_all": "View all",
+    "empty": "No notifications",
+    "system": "System"
+  }
 }

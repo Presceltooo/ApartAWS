@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/vi';
 import { CalendarOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 import { NotificationItemStyled } from '../styled';
 import type { Notification } from '../services/type';
 
@@ -16,6 +17,8 @@ interface Props {
 }
 
 const NotificationItem: React.FC<Props> = ({ item, onMarkRead, onNavigate }) => {
+  const { t } = useTranslation('common');
+
   const handleClick = () => {
     // If text is selected by user, don't trigger click action
     if (typeof window !== 'undefined') {
@@ -59,7 +62,7 @@ const NotificationItem: React.FC<Props> = ({ item, onMarkRead, onNavigate }) => 
             className="nghiep-vu-badge"
             style={{ background: bgColor, color: textColor }}
           >
-            {item.nghiepVu || item.loai || 'HỆ THỐNG'}
+            {item.nghiepVu || item.loai || t('notification.system')}
           </span>
         </div>
         <div className="item-text">{item.noiDung}</div>
