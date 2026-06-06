@@ -161,12 +161,13 @@ services:
   notification-service:
     image: ${ECR_REGISTRY}/notification-service:${IMAGE_TAG:-latest}
     container_name: apart-notification
-    command: node dist/main
+    command: sh -c "npx prisma migrate deploy && node dist/main"
     restart: unless-stopped
     ports:
       - "3004:3004"
     environment:
       PORT: 3004
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=notification
       AWS_REGION: ${AWS_REGION}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
