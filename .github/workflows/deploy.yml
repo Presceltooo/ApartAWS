@@ -24,6 +24,7 @@ jobs:
       booking-service:    ${{ steps.filter.outputs.booking-service }}
       web-portal:         ${{ steps.filter.outputs.web-portal }}
       notification-service: ${{ steps.filter.outputs.notification-service }}
+      payment-service:    ${{ steps.filter.outputs.payment-service }}
       # Flag đặc biệt: khi thay đổi infra → build lại tất cả
       infra:              ${{ steps.filter.outputs.infra }}
       # Khi chạy thủ công (workflow_dispatch) → luôn build tất cả
@@ -59,6 +60,8 @@ jobs:
               - 'apps/web-portal/**'
             notification-service:
               - 'apps/notification-service/**'
+            payment-service:
+              - 'apps/payment-service/**'
             infra:
               - 'docker-compose.prod.yml'
               - 'docker-compose.yml'
@@ -257,6 +260,37 @@ jobs:
           docker push ${{ env.ECR_REGISTRY }}/notification-service:${{ steps.tag.outputs.IMAGE_TAG }}
           docker push ${{ env.ECR_REGISTRY }}/notification-service:latest
 
+  build-payment-service:
+    name: Build → payment-service
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: |
+      needs.detect-changes.outputs.payment-service == 'true' ||
+      needs.detect-changes.outputs.infra == 'true' ||
+      needs.detect-changes.outputs.is-manual == 'true'
+    outputs:
+      built: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v2
+      - name: Set image tag
+        id: tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+      - name: Build & Push
+        run: |
+          docker build \
+            -f ./apps/payment-service/Dockerfile \
+            -t ${{ env.ECR_REGISTRY }}/payment-service:${{ steps.tag.outputs.IMAGE_TAG }} \
+            -t ${{ env.ECR_REGISTRY }}/payment-service:latest \
+            ./apps/payment-service
+          docker push ${{ env.ECR_REGISTRY }}/payment-service:${{ steps.tag.outputs.IMAGE_TAG }}
+          docker push ${{ env.ECR_REGISTRY }}/payment-service:latest
+
   # ─────────────────────────────────────────────────────────────────────────
   # JOB 3: Deploy lên EC2 — Chỉ restart service đã thay đổi
   # ─────────────────────────────────────────────────────────────────────────
@@ -272,7 +306,8 @@ jobs:
       - build-booking-service
       - build-web-portal
       - build-notification-service
-    # Chỉ chạy nếu ít nhất 1 trong 6 build jobs không bị skip và thành công
+      - build-payment-service
+    # Chỉ chạy nếu ít nhất 1 trong các build jobs không bị skip và thành công
     if: |
       always() && (
         needs.build-api-gateway.result == 'success' ||
@@ -280,7 +315,8 @@ jobs:
         needs.build-apartment-service.result == 'success' ||
         needs.build-booking-service.result == 'success' ||
         needs.build-web-portal.result == 'success' ||
-        needs.build-notification-service.result == 'success'
+        needs.build-notification-service.result == 'success' ||
+        needs.build-payment-service.result == 'success'
       )
 
     steps:
@@ -336,6 +372,7 @@ jobs:
             NEED_BOOKING="${{ needs.build-booking-service.result }}"
             NEED_WEB="${{ needs.build-web-portal.result }}"
             NEED_NOTIF="${{ needs.build-notification-service.result }}"
+            NEED_PAYMENT="${{ needs.build-payment-service.result }}"
 
             deploy_service() {
               local SERVICE_NAME=$1
@@ -350,6 +387,7 @@ jobs:
             [ "$NEED_BOOKING"  = "success" ] && deploy_service "booking-service"
             [ "$NEED_WEB"      = "success" ] && deploy_service "web-portal"
             [ "$NEED_NOTIF"    = "success" ] && deploy_service "notification-service"
+            [ "$NEED_PAYMENT"  = "success" ] && deploy_service "payment-service"
 
             echo "=== Xóa images cũ để giải phóng dung lượng ==="
             sleep 20

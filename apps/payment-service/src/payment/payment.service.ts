@@ -183,8 +183,6 @@ export class PaymentService {
   // 16 chars no-dash = xxxxxxxxxxxxxxxx → xxxxxxxx-xxxx-xxxx
   // ──────────────────────────────────────────────────────────────────────────────
   private prefixToUuidStart(prefix: string): string {
-    // prefix = 16 hex chars (no dashes)
-    // UUID parts: 8-4-4-4-12
     const p = prefix; // "aabbccdd11223344"
     return `${p.slice(0, 8)}-${p.slice(8, 12)}-${p.slice(12, 16)}`;
   }

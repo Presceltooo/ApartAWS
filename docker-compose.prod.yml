@@ -109,6 +109,37 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       MAIL_FROM: ${MAIL_FROM}
+      SQS_NOTIFICATION_QUEUE_URL: ${SQS_NOTIFICATION_QUEUE_URL}
+    depends_on:
+      database:
+        condition: service_healthy
+      apartment-service:
+        condition: service_started
+    networks:
+      - apart-network
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+
+  # ── Payment Service ───────────────────────────────────
+  payment-service:
+    image: ${ECR_REGISTRY}/payment-service:${IMAGE_TAG:-latest}
+    container_name: apart-payment
+    command: node dist/main
+    restart: unless-stopped
+    stop_grace_period: 2s
+    ports:
+      - "3005:3005"
+    environment:
+      PORT: 3005
+      FRONTEND_URL: ${FRONTEND_URL}
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=booking
+      APARTMENT_SERVICE_URL: http://apartment-service:3002
+      AUTH_SERVICE_URL: http://auth-service:3001
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       VNP_TMN_CODE: ${VNP_TMN_CODE}
       VNP_HASH_SECRET: ${VNP_HASH_SECRET}
       VNP_RETURN_URL: ${VNP_RETURN_URL}
@@ -124,7 +155,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 200M
+          memory: 150M
 
   # ── Notification Service ──────────────────────────────
   notification-service:
@@ -159,10 +190,14 @@ services:
       AUTH_SERVICE_URL: http://auth-service:3001
       APARTMENT_SERVICE_URL: http://apartment-service:3002
       BOOKING_SERVICE_URL: http://booking-service:3003
+      NOTIFICATION_SERVICE_URL: http://notification-service:3004
+      PAYMENT_SERVICE_URL: http://payment-service:3005
     depends_on:
       - auth-service
       - apartment-service
       - booking-service
+      - notification-service
+      - payment-service
     networks:
       - apart-network
     deploy:

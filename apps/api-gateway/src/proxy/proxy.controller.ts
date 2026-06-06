@@ -6,10 +6,12 @@ import { firstValueFrom } from 'rxjs';
 // Routing map: path prefix → service base URL (env var)
 const SERVICE_MAP: { prefix: string; envKey: string; default: string }[] = [
   { prefix: '/api/auth',          envKey: 'AUTH_SERVICE_URL',          default: 'http://auth-service:3001' },
+  { prefix: '/api/payments',      envKey: 'PAYMENT_SERVICE_URL',       default: 'http://payment-service:3005' },
   { prefix: '/api/bookings',      envKey: 'BOOKING_SERVICE_URL',       default: 'http://booking-service:3003' },
   { prefix: '/api/apartments',    envKey: 'APARTMENT_SERVICE_URL',     default: 'http://apartment-service:3002' },
   { prefix: '/api/notifications', envKey: 'NOTIFICATION_SERVICE_URL',  default: 'http://notification-service:3004' },
   { prefix: '/api/Auth',          envKey: 'AUTH_SERVICE_URL',          default: 'http://auth-service:3001' },
+  { prefix: '/api/Payments',      envKey: 'PAYMENT_SERVICE_URL',       default: 'http://payment-service:3005' },
   { prefix: '/api/Bookings',      envKey: 'BOOKING_SERVICE_URL',       default: 'http://booking-service:3003' },
   { prefix: '/api/Apartments',    envKey: 'APARTMENT_SERVICE_URL',     default: 'http://apartment-service:3002' },
   { prefix: '/api/Notifications', envKey: 'NOTIFICATION_SERVICE_URL',  default: 'http://notification-service:3004' },

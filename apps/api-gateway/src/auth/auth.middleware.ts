@@ -21,8 +21,8 @@ function isPublicRoute(method: string, url: string): boolean {
   if (method === 'GET') {
     if (path === '/api/apartments/listing') return true;
     if (path === '/api/bookings/check-availability') return true;
-    if (path === '/api/bookings/payments/vnpay-ipn') return true;
-    if (path === '/api/bookings/payments/vnpay-return') return true;
+    if (path === '/api/payments/vnpay-ipn') return true;
+    if (path === '/api/payments/vnpay-return') return true;
     
     // GET /api/apartments/:id
     // Must be /api/apartments/<something> where <something> is not stats, system/all, system/auto-approve, etc.

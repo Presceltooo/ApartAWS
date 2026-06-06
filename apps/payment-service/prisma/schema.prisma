@@ -1,0 +1,50 @@
+// Prisma schema for Payment Service
+// Option A: Truy cập trực tiếp bảng Bookings trên schema "booking"
+// Payment-service cần đọc/ghi paymentStatus, vnpTransactionId, paymentDate
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["booking"]
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+
+  @@schema("booking")
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  FAILED
+  REFUNDED
+
+  @@schema("booking")
+}
+
+model Booking {
+  id               String        @id @default(uuid())
+  startDate        DateTime      @db.Date
+  endDate          DateTime      @db.Date
+  totalPrice       Decimal       @db.Decimal(12, 0)
+  status           BookingStatus @default(PENDING)
+  paymentStatus    PaymentStatus @default(UNPAID)
+  vnpTransactionId String?
+  paymentDate      DateTime?
+  tenantId         String
+  apartmentId      String
+  guests           Int           @default(1)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@map("Bookings")
+  @@schema("booking")
+}

@@ -87,15 +87,15 @@ export const completeBooking = (id: string): Promise<IResponse<IBooking>> => {
   return axiosClient.patch(`bookings/${id}/complete`);
 };
 
-// ─── Payment APIs (VNPay) ─────────────────────────────────────────────────────
+// ─── Payment APIs (VNPay) — routed to payment-service ────────────────────────
 
 /**
- * GET /Bookings/payments/vnpay-url/:bookingId — Lấy URL thanh toán VNPay
+ * GET /payments/vnpay-url/:bookingId — Lấy URL thanh toán VNPay (payment-service)
  */
 export const getVnpayUrl = (
   bookingId: string,
 ): Promise<IResponse<{ paymentUrl: string }>> => {
-  return axiosClient.get(`bookings/payments/vnpay-url/${bookingId}`);
+  return axiosClient.get(`payments/vnpay-url/${bookingId}`);
 };
 
 // ─── Review APIs ──────────────────────────────────────────────────────────────

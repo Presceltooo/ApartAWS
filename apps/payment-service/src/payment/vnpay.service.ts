@@ -38,7 +38,7 @@ export class VnpayService {
 
     // Sắp xếp theo thứ tự alphabet
     const sortedParams = this.sortObject(params);
-    
+
     // 1. Tạo query string sử dụng URLSearchParams (sắp xếp và mã hóa dấu cách thành +)
     const queryStr = new URLSearchParams(sortedParams).toString();
 
@@ -64,7 +64,7 @@ export class VnpayService {
     delete params['vnp_SecureHashType'];
 
     const sortedParams = this.sortObject(params);
-    
+
     // Sử dụng URLSearchParams mã hóa đồng nhất để xác thực chữ ký
     const queryStr = new URLSearchParams(sortedParams).toString();
 

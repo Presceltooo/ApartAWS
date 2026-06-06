@@ -17,4 +17,4 @@ import { PaymentController } from './payment.controller';
   providers: [VnpayService, PaymentService],
   exports: [VnpayService, PaymentService],
 })
-export class VnpayModule {}
+export class PaymentModule {}

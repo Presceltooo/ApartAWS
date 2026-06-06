@@ -9,14 +9,14 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
 import { VnpayService } from './vnpay.service';
 import { PaymentService } from './payment.service';
 import { CurrentUser } from '../common/decorators/user.decorator';
 
 @ApiTags('Payments (VNPay)')
-@Controller('bookings/payments')
+@Controller('payments')
 export class PaymentController {
   private readonly logger = new Logger(PaymentController.name);
 
