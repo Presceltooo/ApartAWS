@@ -33,7 +33,14 @@ export class ProxyController {
 
   @All('*')
   async proxy(@Req() req: Request, @Res() res: Response) {
-    const path = req.originalUrl;
+    let path = req.originalUrl;
+    
+    // Rewrite legacy/incorrect VNPay return routes from booking-service to payment-service
+    const lowerPath = path.toLowerCase();
+    if (lowerPath.startsWith('/api/bookings/payments/vnpay-')) {
+      path = path.replace(/^\/api\/bookings\/payments\/vnpay-/i, '/api/payments/vnpay-');
+    }
+
     const targetBaseUrl = resolveTarget(path);
     const targetUrl = `${targetBaseUrl}${path}`;
 
