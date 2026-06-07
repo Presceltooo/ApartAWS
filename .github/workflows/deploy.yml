@@ -383,7 +383,7 @@ jobs:
 
             [ "$NEED_API_GW"   = "success" ] && deploy_service "api-gateway"
             [ "$NEED_AUTH"     = "success" ] && deploy_service "auth-service"
-            [ "$NEED_APARTMENT"= "success" ] && deploy_service "apartment-service"
+            [ "$NEED_APARTMENT" = "success" ] && deploy_service "apartment-service"
             [ "$NEED_BOOKING"  = "success" ] && deploy_service "booking-service"
             [ "$NEED_WEB"      = "success" ] && deploy_service "web-portal"
             [ "$NEED_NOTIF"    = "success" ] && deploy_service "notification-service"
