@@ -21,6 +21,12 @@ export const useSSE = (options: UseSSEOptions = {}) => {
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isUnmountedRef = useRef(false);
 
+  // Store callback in a ref to avoid reconnecting when callback changes
+  const onNewNotificationRef = useRef(onNewNotification);
+  useEffect(() => {
+    onNewNotificationRef.current = onNewNotification;
+  }, [onNewNotification]);
+
   const connect = useCallback(() => {
     if (isUnmountedRef.current) return;
 
@@ -59,8 +65,8 @@ export const useSSE = (options: UseSSEOptions = {}) => {
         queryClient.invalidateQueries({ queryKey: ['notifications'] });
         queryClient.invalidateQueries({ queryKey: ['unreadCount'] });
 
-        if (onNewNotification) {
-          onNewNotification(data);
+        if (onNewNotificationRef.current) {
+          onNewNotificationRef.current(data);
         }
       } catch (err) {
         console.error('[SSE] Error parsing event message data:', err);
@@ -81,7 +87,7 @@ export const useSSE = (options: UseSSEOptions = {}) => {
       console.log(`[SSE] Reconnecting in ${delay / 1000}s (attempt ${retryCountRef.current})...`);
       retryTimerRef.current = setTimeout(connect, delay);
     };
-  }, [queryClient, onNewNotification]);
+  }, [queryClient]);
 
   useEffect(() => {
     isUnmountedRef.current = false;
