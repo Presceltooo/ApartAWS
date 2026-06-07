@@ -66,7 +66,7 @@ services:
   apartment-service:
     image: ${ECR_REGISTRY}/apartment-service:${IMAGE_TAG:-latest}
     container_name: apart-service
-    command: sh -c "npx prisma migrate deploy && node dist/main"
+    command: sh -c "npx prisma db push --accept-data-loss && node dist/main"
     restart: unless-stopped
     stop_grace_period: 2s
     ports:
