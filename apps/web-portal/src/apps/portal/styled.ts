@@ -59,6 +59,24 @@ export const PortalHeaderInner = styled.div`
   width: 100%;
   max-width: 1920px;
   margin: 0 auto;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+
+    & > a {
+      justify-self: start;
+    }
+
+    & > nav {
+      justify-self: center;
+    }
+
+    & > div {
+      justify-self: end;
+    }
+  }
 `;
 
 export const PortalBrandLogo = styled.span`
