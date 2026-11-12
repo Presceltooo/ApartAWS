@@ -167,6 +167,7 @@ services:
       - "3004:3004"
     environment:
       PORT: 3004
+      FRONTEND_URL: ${FRONTEND_URL}
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?schema=notification
       AWS_REGION: ${AWS_REGION}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}

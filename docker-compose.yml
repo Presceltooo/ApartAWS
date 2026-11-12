@@ -1,3 +1,11 @@
+# ==============================================================================
+# LOCAL DEVELOPMENT ONLY
+# File cấu hình này chỉ dùng để chạy và phát triển thử nghiệm cục bộ (Local Dev).
+# Các thông tin tài khoản, mật khẩu cơ sở dữ liệu, JWT Secret bên dưới đều là
+# giá trị mẫu (dummy/mock data), TUYỆT ĐỐI KHÔNG SỬ DỤNG CHO PRODUCTION.
+# Khi triển khai Production, vui lòng sử dụng file docker-compose.prod.yml.
+# ==============================================================================
+
 version: "3.8"
 
 services:
@@ -177,6 +185,7 @@ services:
       - "3004:3004"
     environment:
       PORT: 3004
+      FRONTEND_URL: ${FRONTEND_URL}
       DATABASE_URL: postgresql://user:password@database:5432/apart_booking?schema=notification
       AWS_REGION: ${AWS_REGION}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
