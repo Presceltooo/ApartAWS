@@ -20,6 +20,8 @@ const commonStyle = `
   .text-center { text-align: center; }
 `;
 
+const getFrontendUrl = (): string => (process.env.FRONTEND_URL || 'http://localhost:5174').replace(/\/$/, '');
+
 export function getBookingCreatedTenantEmail(payload: any): string {
   const isAuto = payload.bookingStatus === 'CONFIRMED';
   const statusLabel = isAuto ? 'Đã duyệt thành công (Tự động)' : 'Đang chờ duyệt';
@@ -76,7 +78,7 @@ export function getBookingCreatedTenantEmail(payload: any): string {
             <p>Nếu bạn cần hỗ trợ, vui lòng liên hệ với chúng tôi qua email support@apartaws.com.</p>
             
             <div class="text-center">
-              <a href="https://dtc-prescelto.tech/bookings/${payload.bookingId}" class="button">Chi tiết đơn đặt phòng</a>
+              <a href="${getFrontendUrl()}/bookings/${payload.bookingId}" class="button">Chi tiết đơn đặt phòng</a>
             </div>
           </div>
           <div class="footer">
@@ -146,12 +148,12 @@ export function getBookingCreatedOwnerEmail(payload: any): string {
             ${!isAuto ? `
               <p>Vui lòng đăng nhập vào hệ thống để duyệt hoặc từ chối yêu cầu đặt phòng này sớm nhất có thể.</p>
               <div class="text-center">
-                <a href="https://dtc-prescelto.tech/owner/bookings" class="button" style="background-color: #805AD5;">Xem và duyệt ngay</a>
+                <a href="${getFrontendUrl()}/owner/bookings" class="button" style="background-color: #805AD5;">Xem và duyệt ngay</a>
               </div>
             ` : `
               <p>Đơn hàng đã được duyệt tự động. Khách thuê sẽ tiến hành thanh toán.</p>
               <div class="text-center">
-                <a href="https://dtc-prescelto.tech/owner/bookings" class="button" style="background-color: #805AD5;">Xem đơn hàng</a>
+                <a href="${getFrontendUrl()}/owner/bookings" class="button" style="background-color: #805AD5;">Xem đơn hàng</a>
               </div>
             `}
           </div>
@@ -214,7 +216,7 @@ export function getBookingConfirmedEmail(payload: any): string {
             <p>Bước tiếp theo: Vui lòng tiến hành thanh toán tiền đặt phòng để giữ chỗ căn hộ.</p>
             
             <div class="text-center">
-              <a href="https://dtc-prescelto.tech/bookings/${payload.bookingId}" class="button" style="background-color: #38A169;">Thanh toán ngay</a>
+              <a href="${getFrontendUrl()}/bookings/${payload.bookingId}" class="button" style="background-color: #38A169;">Thanh toán ngay</a>
             </div>
           </div>
           <div class="footer">
@@ -317,7 +319,7 @@ export function getBookingCompletedEmail(payload: any): string {
             </div>
 
             <div class="text-center">
-              <a href="https://dtc-prescelto.tech/apartments/${payload.apartmentId}" class="button" style="background-color: #4A5568;">Đánh giá căn hộ</a>
+              <a href="${getFrontendUrl()}/apartments/${payload.apartmentId}" class="button" style="background-color: #4A5568;">Đánh giá căn hộ</a>
             </div>
           </div>
           <div class="footer">
@@ -425,7 +427,7 @@ export function getPaymentFailedEmail(payload: any): string {
             <p>Vui lòng đăng nhập lại và thực hiện thanh toán lại hoặc chọn phương thức thanh toán khác.</p>
             
             <div class="text-center">
-              <a href="https://dtc-prescelto.tech/bookings/${payload.bookingId}" class="button" style="background-color: #DD6B20;">Thử thanh toán lại</a>
+              <a href="${getFrontendUrl()}/bookings/${payload.bookingId}" class="button" style="background-color: #DD6B20;">Thử thanh toán lại</a>
             </div>
           </div>
           <div class="footer">
