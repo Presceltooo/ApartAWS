@@ -14,6 +14,7 @@ pnpm-debug.log*
 .env.production.local
 # Quan trọng: Không commit các file chứa secret của AWS/DB
 .env.*
+!.env.example
 
 # NestJS specific
 # Thêm dòng này nếu bạn dùng Nest CLI ở chế độ Monorepo
