@@ -22,7 +22,7 @@
     "classnames": "^2.5.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.20",
-    "i18next": "^26.0.4",
+    "i18next": "^26.7.2",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "nprogress": "^0.2.0",
